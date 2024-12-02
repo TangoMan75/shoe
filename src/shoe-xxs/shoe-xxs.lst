@@ -1,0 +1,45 @@
+#/*
+# * This file is part of the TangoMan Shoe Shell Microframework package.
+# *
+# * Copyright (c) 2024 "Matthias Morin" <mat@tangoman.io>
+# *
+# * This source file is subject to the MIT license that is bundled
+# * with this source code in the file LICENSE.
+# */
+
+../common/header.sh
+description.sh
+
+../common/dividers/constants.sh
+../common/demo/constants_sm.sh
+
+../common/dividers/functions.sh
+../common/demo/hello_xs.sh
+
+../common/help/section.sh
+help.sh
+../common/help/_print_commands_min.sh
+
+../common/dividers/private_functions.sh
+../common/demo/_private.sh
+
+../common/hooks/divider.sh
+../common/hooks/_before.sh
+../common/hooks/_after_sm.sh
+
+#--------------------------------------------------
+# Framework
+#--------------------------------------------------
+
+../common/dividers/framework.sh
+
+../common/colors/divider.sh
+../common/colors/colors_min.sh
+
+../common/reflexion/divider.sh
+../common/reflexion/_get_functions_names.sh
+
+../common/main/main_sm.sh
+
+../common/footer.sh
+

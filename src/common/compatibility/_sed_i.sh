@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Return sed -i system flavour
+_sed_i() {
+    if [ "$(uname)" = 'Darwin' ] && [ -n "$(command -v sed)" ] && [ -z "$(sed --version 2>/dev/null)" ]; then
+        echo "sed -i ''"
+
+        return 0
+    fi
+
+    echo 'sed -i'
+}
+
