@@ -13,7 +13,10 @@
 
 ## 🔥 Usage
 
-`sh shoemaker-completion.sh [command] `
+`sh tangoman.io.sh [command] `
 
 ## 🤖 Commands
+
+1. **generate_doc**
+  - Generate Markdown documentation
 

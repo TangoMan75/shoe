@@ -181,7 +181,10 @@ alert_dark()      { printf '\033[0m\n\033[1;40;37m%64s\033[0m\n\033[1;40;37m %-6
 #--------------------------------------------------
 
 _get_functions_names() {
-    # Synopsis: _get_functions_names [script_path] (get_private default=false)
+    # Synopsis: _get_functions_names <SCRIPT_PATH> [GET_PRIVATE]
+    #   SCRIPT_PATH: The path to the input script.
+    #   GET_PRIVATE: (Optional) If set to 'true', retrieves private functions as well. (default=false)
+
     if [ -z "$1" ]; then echo_danger 'error: _get_functions_names: some mandatory parameter is missing\n'; exit 1; fi
     if [ ${#} -gt 2 ]; then echo_danger "error: _get_functions_names: too many arguments (${#})\n"; exit 1; fi
     set -- "$(realpath "$1")" "$2"
@@ -197,6 +200,22 @@ _get_functions_names() {
             if (substr(PREV,1,3) == "## " && substr($0,1,1) != "_") print FUNCTION
         }
     } { PREV = $0 }' "$1"
+}
+
+#--------------------------------------------------
+# Sytem
+#--------------------------------------------------
+
+# Return current project directory path, or "pwd" when installed globally
+_pwd() {
+    # Synopsis: _pwd
+
+    if [ "$(dirname "$(realpath "$0")")" = '/usr/local/bin' ]; then
+        pwd
+        return 0
+    fi
+
+    echo "$(dirname "$(realpath "$0")")"
 }
 
 #--------------------------------------------------

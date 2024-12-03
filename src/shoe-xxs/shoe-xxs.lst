@@ -39,6 +39,9 @@ help.sh
 ../common/reflexion/divider.sh
 ../common/reflexion/_get_functions_names.sh
 
+../common/system/divider.sh
+../common/system/_pwd.sh
+
 ../common/main/main_sm.sh
 
 ../common/footer.sh

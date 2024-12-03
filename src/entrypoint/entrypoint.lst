@@ -11,7 +11,7 @@
 description.sh
 
 ../common/dividers/functions.sh
-git_hooks.sh
+../common/git/git_hooks.sh
 bash_unit.sh
 lint.sh
 tests.sh

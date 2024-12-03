@@ -1,7 +1,10 @@
 #!/bin/sh
 
 _get_functions_names() {
-    # Synopsis: _get_functions_names [script_path] (get_private default=false)
+    # Synopsis: _get_functions_names <SCRIPT_PATH> [GET_PRIVATE]
+    #   SCRIPT_PATH: The path to the input script.
+    #   GET_PRIVATE: (Optional) If set to 'true', retrieves private functions as well. (default=false)
+
     if [ -z "$1" ]; then echo_danger 'error: _get_functions_names: some mandatory parameter is missing\n'; exit 1; fi
     if [ ${#} -gt 2 ]; then echo_danger "error: _get_functions_names: too many arguments (${#})\n"; exit 1; fi
     set -- "$(realpath "$1")" "$2"

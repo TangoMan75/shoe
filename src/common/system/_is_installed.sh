@@ -3,7 +3,7 @@
 # Check app is installed
 _is_installed() {
     # Synopsis: _is_installed <COMMAND>
-    #   COMMAND:  A string containing input command.
+    #   COMMAND:  A string containing command name.
 
     if [ ${#} -lt 1 ]; then echo_danger 'error: _is_installed: some mandatory parameter is missing\n'; exit 1; fi
     if [ ${#} -gt 3 ]; then echo_danger "error: _is_installed: too many arguments (${#})\n"; exit 1; fi
