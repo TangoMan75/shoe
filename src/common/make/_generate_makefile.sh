@@ -1,0 +1,160 @@
+#!/bin/sh
+
+# Generate Makefile for provided shoe script
+_generate_makefile() {
+    # Synopsis: _generate_makefile <FILE_PATH> [DESTINATION] [FILE_NAME]
+    #   FILE_PATH:    The path to the input file.
+    #   DESTINATION:  (optional) The path to the destination folder. Defaults to file parent.
+    #   FILE_NAME:    (optional) The name for the generated Makefile. Defaults to "<BASENAME>.makefile".
+
+    if [ -z "$1" ]; then echo_danger 'error: _generate_makefile: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 3 ]; then echo_danger "error: _generate_makefile: too many arguments (${#})\n"; return 1; fi
+
+    # set default values
+    set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).makefile"}"
+    if [ ! -f "$1" ]; then echo_danger "error: _generate_makefile: \"$1\" file not found\n"; return 1; fi
+    if [ ! -d "$2" ]; then echo_danger "error: _generate_makefile: \"$2\" folder not found\n"; return 1; fi
+
+    alert_primary "Generating $3"
+
+    cat > "$2/$3" <<EOT
+#/**
+# * $(_get_docbloc_title "$1")
+# *
+# * $(_get_docbloc_description "$1")
+# *
+# * @version $(_get_docbloc "$1" version)
+# * @author  $(_get_docbloc "$1" author)
+# * @license $(_get_docbloc "$1" license)
+# * @link    $(_get_docbloc "$1" link)
+# */
+
+EOT
+    # generate .PHONY
+    # shellcheck disable=SC2129
+    awk 'BEGIN {printf ".PHONY: help"}
+        /^(function *)?[a-zA-Z0-9_]+ *\(\) *\{/ {
+        sub("^function ",""); gsub("[ ()]","");
+        FUNCTION = substr($0, 1, index($0, "{"));
+        sub("{$","",FUNCTION);
+        if (substr(PREV,1,3) == "## " && substr($0,1,1) != "_" && FUNCTION != "help")
+        printf " %s", FUNCTION
+    } { PREV = $0 }' "$1" >> "$2/$3"
+
+    echo . >> "$2/$3"
+
+    cat >> "$2/$3" <<EOT
+##################################################
+# Colors
+##################################################
+
+PRIMARY   = ${PRIMARY}
+SECONDARY = ${SECONDARY}
+SUCCESS   = ${SUCCESS}
+DANGER    = ${DANGER}
+WARNING   = ${WARNING}
+INFO      = ${INFO}
+LIGHT     = ${LIGHT}
+DARK      = ${DARK}
+DEFAULT   = ${DEFAULT}
+EOL       = ${EOL}
+
+ALERT_PRIMARY   = ${ALERT_PRIMARY}
+ALERT_SECONDARY = ${ALERT_SECONDARY}
+ALERT_SUCCESS   = ${ALERT_SUCCESS}
+ALERT_DANGER    = ${ALERT_DANGER}
+ALERT_WARNING   = ${ALERT_WARNING}
+ALERT_INFO      = ${ALERT_INFO}
+ALERT_LIGHT     = ${ALERT_LIGHT}
+ALERT_DARK      = ${ALERT_DARK}
+
+##################################################
+# Color Functions
+##################################################
+
+define echo_primary
+	@printf "\${PRIMARY}%b\${EOL}" \$(1)
+endef
+define echo_secondary
+	@printf "\${SECONDARY}%b\${EOL}" \$(1)
+endef
+define echo_success
+	@printf "\${SUCCESS}%b\${EOL}" \$(1)
+endef
+define echo_danger
+	@printf "\${DANGER}%b\${EOL}" \$(1)
+endef
+define echo_warning
+	@printf "\${WARNING}%b\${EOL}" \$(1)
+endef
+define echo_info
+	@printf "\${INFO}%b\${EOL}" \$(1)
+endef
+define echo_light
+	@printf "\${LIGHT}%b\${EOL}" \$(1)
+endef
+define echo_dark
+	@printf "\${DARK}%b\${EOL}" \$(1)
+endef
+
+define alert_primary
+	@printf "\${EOL}\${ALERT_PRIMARY}%64s\${EOL}\${ALERT_PRIMARY} %-63s\${EOL}\${ALERT_PRIMARY}%64s\${EOL}\n" "" \$(1) ""
+endef
+define alert_secondary
+	@printf "\${EOL}\${ALERT_SECONDARY}%64s\${EOL}\${ALERT_SECONDARY} %-63s\${EOL}\${ALERT_SECONDARY}%64s\${EOL}\n" "" \$(1) ""
+endef
+define alert_success
+	@printf "\${EOL}\${ALERT_SUCCESS}%64s\${EOL}\${ALERT_SUCCESS} %-63s\${EOL}\${ALERT_SUCCESS}%64s\${EOL}\n" "" \$(1) ""
+endef
+define alert_danger
+	@printf "\${EOL}\${ALERT_DANGER}%64s\${EOL}\${ALERT_DANGER} %-63s\${EOL}\${ALERT_DANGER}%64s\${EOL}\n" "" \$(1) ""
+endef
+define alert_warning
+	@printf "\${EOL}\${ALERT_WARNING}%64s\${EOL}\${ALERT_WARNING} %-63s\${EOL}\${ALERT_WARNING}%64s\${EOL}\n" "" \$(1) ""
+endef
+define alert_info
+	@printf "\${EOL}\${ALERT_INFO}%64s\${EOL}\${ALERT_INFO} %-63s\${EOL}\${ALERT_INFO}%64s\${EOL}\n" "" \$(1) ""
+endef
+define alert_light
+	@printf "\${EOL}\${ALERT_LIGHT}%64s\${EOL}\${ALERT_LIGHT} %-63s\${EOL}\${ALERT_LIGHT}%64s\${EOL}\n" "" \$(1) ""
+endef
+define alert_dark
+	@printf "\${EOL}\${ALERT_DARK}%64s\${EOL}\${ALERT_DARK} %-63s\${EOL}\${ALERT_DARK}%64s\${EOL}\n" "" \$(1) ""
+endef
+
+##################################################
+# Help
+##################################################
+
+## Print this help
+help:
+	\$(call alert_primary, "$(_get_docbloc_title "$1")")
+
+	@printf "\${WARNING}Description:\${EOL}"
+	@printf "\${PRIMARY}  $(_get_docbloc_description "$1")\${EOL}\n"
+
+	@printf "\${WARNING}Usage:\${EOL}"
+	@printf "\${PRIMARY}  make [command]\${EOL}\n"
+
+	@printf "\${WARNING}Commands:\${EOL}"
+	@awk '/^### /{printf"\n\${WARNING}%s\${EOL}",substr(\$\$0,5)} \
+	/^[a-zA-Z0-9_-]+:/{HELP="";if( match(PREV,/^## /))HELP=substr(PREV,4); \
+		printf "\${SUCCESS}  %-12s  \${PRIMARY}%s\${EOL}",substr(\$\$1,0,index(\$\$1,":")-1),HELP \
+	}{PREV=\$\$0}' \${MAKEFILE_LIST}
+
+EOT
+
+    # generate rules
+    awk -v SHELL_SCRIPT="$(basename "$1")" 'BEGIN {HR="##################################################\n"}
+        /^### /{SECTION=substr($0,5); if (tolower(SECTION) != "help") printf"%s### %s\n%s\n",HR,SECTION,HR}
+        /^(function *)?[a-zA-Z0-9_]+ *\(\) *\{/ {
+        sub("^function ",""); gsub("[ ()]","");
+        FUNCTION = substr($0,1,index($0,"{"));
+        sub("{$","",FUNCTION);
+        if (substr(PREV,1,3) == "## " && substr($0,1,1) != "_" && FUNCTION != "help")
+        printf "## %s\n%s:\n\t@printf \"${INFO}sh %s %s${EOL}\"\n\t@sh %s %s\n\n",substr(PREV,4),FUNCTION,SHELL_SCRIPT,FUNCTION,SHELL_SCRIPT,FUNCTION,FUNCTION
+    } { PREV = $0 }' "$1" >> "$2/$3"
+
+    printf '\n' >> "$2/$3"
+}
+

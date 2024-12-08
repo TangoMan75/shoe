@@ -1,0 +1,68 @@
+#/*
+# * This file is part of the TangoMan Shoe Shell Microframework package.
+# *
+# * Copyright (c) 2024 "Matthias Morin" <mat@tangoman.io>
+# *
+# * This source file is subject to the MIT license that is bundled
+# * with this source code in the file LICENSE.
+# */
+
+../common/header.sh
+description.sh
+
+../common/dividers/constants.sh
+constants.sh
+
+../common/dividers/functions.sh
+hello.sh
+
+../common/dividers/private_functions.sh
+_private.sh
+
+../common/help/section.sh
+../common/help/help_light.sh
+
+../common/hooks/divider.sh
+../common/hooks/_default.sh
+../common/hooks/_before.sh
+../common/hooks/_after_sm.sh
+
+#--------------------------------------------------
+# Framework
+#--------------------------------------------------
+
+../common/dividers/framework.sh
+
+../common/colors/divider.sh
+../common/colors/constants_echo_colors.sh
+../common/colors/constants_alert_colors.sh
+../common/colors/colors.sh
+
+../common/docbloc/divider.sh
+../common/docbloc/_get_docbloc.sh
+../common/docbloc/_get_docbloc_description.sh
+../common/docbloc/_get_docbloc_title.sh
+
+../common/help/divider.sh
+../common/help/_help_light.sh
+../common/help/_print_commands.sh
+../common/help/_print_constants.sh
+../common/help/_print_description.sh
+../common/help/_print_infos.sh
+../common/help/_print_usage.sh
+
+../common/reflexion/divider.sh
+../common/reflexion/_get_constants.sh
+../common/reflexion/_get_functions_names.sh
+../common/reflexion/_get_padding.sh
+
+../common/system/divider.sh
+../common/system/_check_installed.sh
+../common/system/_is_installed.sh
+../common/system/_pwd.sh
+
+../common/main/divider.sh
+../common/main/main_light.sh
+
+../common/footer.sh
+

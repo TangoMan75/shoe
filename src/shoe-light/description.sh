@@ -1,0 +1,35 @@
+#!/bin/sh
+
+#/**
+# * TangoMan Shoe Light
+# *
+# * Simplify your shell scripting workflow with self-documenting
+# * shell scripts with robust argument validation. Just prefix a
+# * comment with two pound signs (##) on the line above any
+# * function or variable to generate helpful documentation using
+# * the "help" command.
+# *
+# * Light version is optimized for performance,
+# * does not handle flags, options, validation or docbloc parsing.
+# *
+# * Features:
+# *   - [X] colors
+# *   - [X] commands
+# *   - [X] private functions
+# *   - [X] help
+# *   - [X] docbloc
+# *   - [ ] options + validation
+# *   - [ ] flags
+# *   - [ ] install + autocomplete + update
+# *   - [ ] compatibility
+# *   - [ ] documentation
+# *   - [ ] makefile
+# *
+# * Warning: Functions names should not contain dashes.
+# *
+# * @author  "Matthias Morin" <mat@tangoman.io>
+# * @version 1.0.0-light
+# * @licence MIT
+# * @link    https://github.com/TangoMan75/shoe
+# */
+
