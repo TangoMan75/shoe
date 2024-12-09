@@ -1,0 +1,212 @@
+#/*
+# * This file is part of the TangoMan Shoe Shell Microframework package.
+# *
+# * Copyright (c) 2024 "Matthias Morin" <mat@tangoman.io>
+# *
+# * This source file is subject to the MIT license that is bundled
+# * with this source code in the file LICENSE.
+# */
+
+../common/header.sh
+description.sh
+
+../common/dividers/constants.sh
+constants.sh
+
+../common/dividers/options.sh
+options.sh
+
+../common/dividers/flags.sh
+flags.sh
+
+../common/dividers/private_constants.sh
+private_constants.sh
+
+../common/dividers/global_variables.sh
+global_variables.sh
+
+../common/dividers/functions.sh
+hello.sh
+flag_test.sh
+
+../common/dividers/private_functions.sh
+_private.sh
+
+../common/install/section.sh
+../common/install/self_install.sh
+../common/install/self_uninstall.sh
+../common/install/self_update.sh
+
+../common/documentation/section.sh
+../common/documentation/generate_doc.sh
+
+../common/make/section.sh
+../common/make/generate_makefile.sh
+
+../common/help/section.sh
+../common/help/help.sh
+
+../common/hooks/divider.sh
+../common/hooks/_default.sh
+../common/hooks/_before.sh
+../common/hooks/_after.sh
+
+#--------------------------------------------------
+# Framework
+#--------------------------------------------------
+
+../common/dividers/framework.sh
+
+#--------------------------------------------------
+# Colors
+#--------------------------------------------------
+
+../common/colors/divider.sh
+../common/colors/constants_echo_colors.sh
+../common/colors/constants_alert_colors.sh
+../common/colors/colors.sh
+
+#--------------------------------------------------
+# Compatibility
+#--------------------------------------------------
+
+../common/compatibility/divider.sh
+../common/compatibility/_open.sh
+../common/compatibility/_sed_i.sh
+
+#--------------------------------------------------
+# Docbloc
+#--------------------------------------------------
+
+../common/docbloc/divider.sh
+../common/docbloc/_get_docbloc.sh
+../common/docbloc/_get_docbloc_description.sh
+../common/docbloc/_get_docbloc_title.sh
+
+#--------------------------------------------------
+# Docker
+#--------------------------------------------------
+
+../common/docker/divider.sh
+../common/docker/_docker_compose_start.sh
+../common/docker/_docker_compose_stop.sh
+../common/docker/_docker_container_is_running.sh
+../common/docker/_docker_kill_all.sh
+../common/docker/_docker_load_sql.sh
+../common/docker/_docker_psql.sh
+../common/docker/_docker_status.sh
+../common/docker/_docker_wait_for_postgres.sh
+../common/docker/_docker_wait_for_rabbit.sh
+
+#--------------------------------------------------
+# Documentation
+#--------------------------------------------------
+
+../common/documentation/divider.sh
+../common/documentation/_generate_doc.sh
+
+#--------------------------------------------------
+# Git
+#--------------------------------------------------
+
+../common/git/divider.sh
+../common/git/_git_hooks.sh
+
+#--------------------------------------------------
+# Help
+#--------------------------------------------------
+
+../common/help/divider.sh
+../common/help/_help.sh
+../common/help/_print_commands.sh
+../common/help/_print_constants.sh
+../common/help/_print_description.sh
+../common/help/_print_flags.sh
+../common/help/_print_infos.sh
+../common/help/_print_options.sh
+../common/help/_print_usage.sh
+
+#--------------------------------------------------
+# Install
+#--------------------------------------------------
+
+../common/install/divider.sh
+../common/install/_copy_install.sh
+../common/install/_generate_autocomplete.sh
+../common/install/_generate_global_autocomplete.sh
+../common/install/_get_comspec.sh
+../common/install/_install.sh
+../common/install/_remove_completion_autoload.sh
+../common/install/_set_completion_autoload.sh
+../common/install/_symlink_install.sh
+../common/install/_uninstall.sh
+../common/install/_update.sh
+
+#--------------------------------------------------
+# Make
+#--------------------------------------------------
+
+../common/make/divider.sh
+../common/make/_generate_makefile.sh
+
+#--------------------------------------------------
+# Network
+#--------------------------------------------------
+
+../common/network/divider.sh
+../common/network/_gcloud_init.sh
+../common/network/_remove_host.sh
+../common/network/_set_host.sh
+
+#--------------------------------------------------
+# Reflexion
+#--------------------------------------------------
+
+../common/reflexion/divider.sh
+../common/reflexion/_get_constants.sh
+../common/reflexion/_get_constraint.sh
+../common/reflexion/_get_flags.sh
+../common/reflexion/_get_function.sh
+../common/reflexion/_get_functions_names.sh
+../common/reflexion/_get_options.sh
+../common/reflexion/_get_padding.sh
+../common/reflexion/_get_parameter.sh
+../common/reflexion/_set_parameter.sh
+
+#--------------------------------------------------
+# Strings
+#--------------------------------------------------
+
+../common/strings/divider.sh
+../common/strings/_collapse_blank_lines.sh
+../common/strings/_generate_key.sh
+
+#--------------------------------------------------
+# System
+#--------------------------------------------------
+
+../common/system/divider.sh
+../common/system/_check_installed.sh
+../common/system/_is_checksum_valid.sh
+../common/system/_is_installed.sh
+../common/system/_is_root.sh
+../common/system/_pwd.sh
+../common/system/_require.sh
+../common/system/_user_exists.sh
+
+#--------------------------------------------------
+# Validation
+#--------------------------------------------------
+
+../common/validation/divider.sh
+../common/validation/_is_valid.sh
+../common/validation/_validate.sh
+
+#--------------------------------------------------
+# Kernel
+#--------------------------------------------------
+
+../common/kernel/divider.sh
+../common/kernel/kernel.sh
+../common/footer.sh
+
