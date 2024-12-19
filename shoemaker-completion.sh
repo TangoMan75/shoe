@@ -1,0 +1,2 @@
+#!/bin/bash
+complete -f -d -W "dump list build build_all generate_doc generate_doc_all generate_makefile generate_makefile_all self_install self_uninstall self_update help --file --destination --type --private " "shoemaker"
