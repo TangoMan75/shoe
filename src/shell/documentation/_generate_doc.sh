@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Generate Markdown documentation for provided shoe script
 _generate_doc() {
     # Synopsis: _generate_doc <INPUT_FILE_PATH> [DESTINATION] [OUTPUT_FILE_NAME] [GET_PRIVATE]

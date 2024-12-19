@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Adds an autoload line for completion script to a shell configuration file
 _set_completion_autoload() {
     # Synopsis: _set_completion_autoload <SHELL_CONFIG_FILE_PATH> <SCRIPT_FILE_PATH> [ALIAS]

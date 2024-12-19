@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Set value for given parameter into provided file ".env" or ".sh" file
 _set_parameter() {
     # Synopsys : _set_parameter <FILE_PATH> <KEY> <VALUE>

@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Guess padding length from longest constant, option, flag or command of the provided shoe script
 _get_padding() {
     # Synopsis: _get_padding <FILE_PATH>

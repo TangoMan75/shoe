@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Validate a file checksum
 _is_checksum_valid() {
     # Synopsis: _is_checksum_valid <SHA256SUM> <FILE_PATH>

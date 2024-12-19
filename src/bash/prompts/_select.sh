@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Present user with a list of choices and prompt them to select one
 _select() {
     # Synopsis: _select <CHOICES>

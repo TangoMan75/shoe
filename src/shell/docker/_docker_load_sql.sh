@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Load local sql script
 _docker_load_sql() {
     # Synopsis: _docker_load_sql <CONTAINER_NAME> <FILE_PATH>

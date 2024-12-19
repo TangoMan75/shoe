@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Parse docbloc at the top the provided shoe script file
 _get_docbloc() {
     # Synopsis: _get_docbloc <FILE_PATH> <TAG_NAME>

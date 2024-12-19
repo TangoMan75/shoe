@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Creates a system-wide autocomplete script for the provided file
 _generate_global_autocomplete() {
     # Synopsis: _generate_global_autocomplete <FILE_PATH> [ALIAS]

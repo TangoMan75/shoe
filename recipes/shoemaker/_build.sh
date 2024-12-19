@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
 # Build from given "build.lst" file
 _build() {
     # Synopsis: _build <FILE_PATH> <DESTINATION> [TYPE]
@@ -32,7 +39,7 @@ _build() {
         printf '%s\n' "$(cat "${__source_file__}")" >> "${__output__}"
     done
 
-    # Remove all "#!/bin/bash" or "#!/bin/sh" from result file
+    # Remove all "#!/bin/bash" or "#!/bin/sh from result file
     echo_info "$(_sed_i) -r 's/^#!\/bin\/(bash|sh)$//g' \"${__output__}\"\n"
     $(_sed_i) -r 's/^#!\/bin\/(bash|sh)$//g' "${__output__}"
 
