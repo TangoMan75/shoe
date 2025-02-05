@@ -1,0 +1,133 @@
+# This file is part of the TangoMan package.
+#
+# (c) "Matthias Morin" <mat@tangoman.io>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
+../../src/shell/header.sh
+description.sh
+
+../../src/shell/dividers/constants.sh
+
+../../src/shell/dividers/options.sh
+options.sh
+
+../../src/shell/dividers/flags.sh
+
+../../src/shell/dividers/private_constants.sh
+
+../../src/shell/dividers/global_variables.sh
+
+../../src/shell/dividers/functions.sh
+lint.sh
+tests.sh
+git_hooks.sh
+bash_unit.sh
+alpine.sh
+busybox.sh
+ubuntu.sh
+
+#--------------------------------------------------
+# Help
+#--------------------------------------------------
+
+../../src/shell/help/section.sh
+../../src/shell/help/help.sh
+
+#--------------------------------------------------
+# Hooks
+#--------------------------------------------------
+
+../../src/shell/hooks/divider.sh
+../../src/shell/hooks/_default.sh
+../../src/shell/hooks/_before.sh
+../../src/shell/hooks/_after.sh
+
+#--------------------------------------------------
+# Framework
+#--------------------------------------------------
+
+../../src/shell/dividers/framework.sh
+
+#--------------------------------------------------
+# Bashdoc
+#--------------------------------------------------
+
+../../src/shell/shoedoc/divider.sh
+../../src/shell/shoedoc/_get_shoedoc_description.sh
+../../src/shell/shoedoc/_get_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc_tag.sh
+../../src/shell/shoedoc/_get_shoedoc_title.sh
+../../src/shell/shoedoc/_get_script_shoedoc.sh
+
+#--------------------------------------------------
+# Colors
+#--------------------------------------------------
+
+../../src/shell/colors/divider.sh
+../../src/shell/colors/constants_echo_colors.sh
+../../src/shell/colors/constants_alert_colors.sh
+../../src/shell/colors/colors.sh
+
+#--------------------------------------------------
+# Git
+#--------------------------------------------------
+
+../../src/shell/git/divider.sh
+../../src/shell/git/_git_hooks.sh
+
+#--------------------------------------------------
+# Help
+#--------------------------------------------------
+
+../../src/shell/help/divider.sh
+../../src/shell/help/_help.sh
+../../src/shell/help/_print_commands.sh
+../../src/shell/help/_print_constants.sh
+../../src/shell/help/_print_description.sh
+../../src/shell/help/_print_flags.sh
+../../src/shell/help/_print_infos.sh
+../../src/shell/help/_print_options.sh
+../../src/shell/help/_print_usage.sh
+
+#--------------------------------------------------
+# Reflexion
+#--------------------------------------------------
+
+../../src/shell/reflexion/divider.sh
+../../src/shell/reflexion/_get_constants.sh
+../../src/shell/reflexion/_get_constraint.sh
+../../src/shell/reflexion/_get_flags.sh
+../../src/shell/reflexion/_get_function.sh
+../../src/shell/reflexion/_get_functions_names.sh
+../../src/shell/reflexion/_get_options.sh
+../../src/shell/reflexion/_get_padding.sh
+../../src/shell/reflexion/_get_parameter.sh
+../../src/shell/reflexion/_set_parameter.sh
+
+#--------------------------------------------------
+# System
+#--------------------------------------------------
+
+../../src/shell/system/divider.sh
+../../src/shell/system/_check_installed.sh
+../../src/shell/system/_is_installed.sh
+../../src/shell/system/_pwd.sh
+
+#--------------------------------------------------
+# Validation
+#--------------------------------------------------
+
+../../src/shell/validation/divider.sh
+../../src/shell/validation/_is_valid.sh
+../../src/shell/validation/_validate.sh
+
+#--------------------------------------------------
+# Kernel
+#--------------------------------------------------
+
+../../src/shell/kernel/divider.sh
+../../src/shell/kernel/kernel.sh
+../../src/shell/footer.sh
+
