@@ -2,33 +2,31 @@
 
 set -e
 
-#/*
-# * This script is based on TangoMan Shoe Shell Microframework
-# *
-# * This file is distributed under to the MIT license.
-# *
-# * Copyright (c) 2025 "Matthias Morin" <mat@tangoman.io>
-# *
-# * Permission is hereby granted, free of charge, to any person obtaining a copy
-# * of this software and associated documentation files (the "Software"), to deal
-# * in the Software without restriction, including without limitation the rights
-# * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# * copies of the Software, and to permit persons to whom the Software is
-# * furnished to do so, subject to the following conditions:
-# *
-# * The above copyright notice and this permission notice shall be included in all
-# * copies or substantial portions of the Software.
-# *
-# * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# * SOFTWARE.
-# *
-# * Source code is available here: https://github.com/TangoMan75/shoe
-# */
+# This script is based on TangoMan Shoe Shell Microframework
+#
+# This file is distributed under to the MIT license.
+#
+# Copyright (c) 2025 "Matthias Morin" <mat@tangoman.io>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+# Source code is available here: https://github.com/TangoMan75/shoe
 
 ## TangoMan Shoe
 ##
@@ -157,7 +155,7 @@ generate_doc() {
 }
 
 ##################################################
-### Makefile
+### Make
 ##################################################
 
 ## Generate Makefile for current shoe script
@@ -977,7 +975,7 @@ alert_dark()      {
 }
 
 #--------------------------------------------------
-#_ System compatibility
+#_ Compatibility
 #--------------------------------------------------
 
 # Open with default system handler
@@ -1749,7 +1747,7 @@ _print_usage() {
 }
 
 #--------------------------------------------------
-#_ Self Install
+#_ Install
 #--------------------------------------------------
 
 # Install script via copy
@@ -2010,7 +2008,7 @@ _update() {
 }
 
 #--------------------------------------------------
-#_ Makefile
+#_ Make
 #--------------------------------------------------
 
 # Generate Makefile for provided shoe script
@@ -2589,7 +2587,7 @@ _set_parameter() {
 }
 
 #--------------------------------------------------
-# Strings
+#_ Strings
 #--------------------------------------------------
 
 # Collapse blank lines with "sed"
@@ -2602,7 +2600,7 @@ _collapse_blank_lines() {
     if [ ! -f "$1" ]; then echo_danger "error: _collapse_blank_lines: \"$1\" file not found\n"; return 1; fi
     set -- "$(realpath "$1")"
 
-    # The N command reads the next line into the pattern space (the line being processed).
+    # The N command reads the next line into the pattern space.
     # The remaining expression checks if the pattern space now consists of two empty lines (^\n$).
     echo_info "$(_sed_i) '/^$/{N;s/^\\\n$//;}' \"$1\"\n"
     $(_sed_i) '/^$/{N;s/^\n$//;}' "$1"
@@ -2619,7 +2617,7 @@ _generate_key() {
 }
 
 #--------------------------------------------------
-#_ Sytem
+#_ System
 #--------------------------------------------------
 
 # Print error message if provided command is missing
@@ -3004,7 +3002,7 @@ _validate() {
 }
 
 #--------------------------------------------------
-#_ kernel
+#_ Kernel
 #--------------------------------------------------
 
 # Shoe Kernel
@@ -3092,3 +3090,4 @@ _kernel() {
 }
 
 _kernel "$@"
+

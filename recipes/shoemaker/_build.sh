@@ -17,20 +17,26 @@ _build() {
 
     alert_primary "Building $(basename "$1" .lst).sh"
 
-    echo_info "rm \"${__output__}\" || true\n"
-    rm "${__output__}" || true
+    echo_info "rm -f \"${__output__}\"\n"
+    rm -f "${__output__}"
 
-    # get all pathes from build.lst file ignoring comments and empty lines
     # shellcheck disable=SC2094
-    < "$1" grep -Pv '^(#|\s*$)' | while read -r file_path;
-    do
-        # shellcheck disable=SC2094
-        __source_file__="$(dirname "$1")/${file_path}"
+    while read -r __current_line__; do
+        if [ "$(printf '%s' "${__current_line__}" | cut -c 1)" = "#" ] || [ -z "${__current_line__}" ]; then
+            printf '%s\n' "${__current_line__}" >> "${__output__}"
+            continue
+        fi
+
+        __source_file__="$(dirname "$1")/${__current_line__}"
+        if [ ! -f "${__source_file__}" ]; then
+            echo_danger "error: \"${__source_file__}\": file not found\n"
+
+            return 1
+        fi
         echo_info "${__source_file__}\n"
 
-        # append file content to "script" build
         printf '%s\n' "$(cat "${__source_file__}")" >> "${__output__}"
-    done
+    done < "$1"
 
     # Remove all "#!/bin/bash" or "#!/bin/sh" from result file
     echo_info "$(_sed_i) -r 's/^#!\/bin\/(bash|sh)$//g' \"${__output__}\"\n"

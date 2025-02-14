@@ -1,79 +1,95 @@
-# This file is part of the TangoMan package.
-#
-# (c) "Matthias Morin" <mat@tangoman.io>
-#
-# This source file is subject to the MIT license that is bundled
-# with this source code in the file LICENSE.
-
 ../../src/shell/header.sh
-description.sh
 
-../../src/shell/dividers/constants.sh
-
-../../src/shell/dividers/options.sh
-options.sh
-
-../../src/shell/dividers/flags.sh
-flags.sh
-
-../../src/shell/dividers/private_constants.sh
-
-../../src/shell/dividers/global_variables.sh
-
-../../src/shell/dividers/functions.sh
-dump.sh
-list.sh
-
-build.sh
-build_all.sh
-
-../../src/shell/documentation/section.sh
-generate_doc.sh
-generate_doc_all.sh
-
-../../src/shell/make/section.sh
-generate_makefile.sh
-generate_makefile_all.sh
-
-../../src/shell/dividers/private_functions.sh
-_build.sh
+## TangoMan Shoemaker
+##
+## A versatile developement tool to split a script file into its components,
+## build a script from a build.lst file, generate Makefile or Markdown
+## documentation from a shoe script.
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 1.0.0
+## @license MIT
+## @link    https://github.com/TangoMan75/shoe
+## @update  https://raw.githubusercontent.com/TangoMan75/shoe/refs/heads/main/shoemaker.sh
 
 #--------------------------------------------------
-# Install
+# Place your constants after this line
 #--------------------------------------------------
 
-../../src/shell/install/section.sh
+#--------------------------------------------------
+# Place your options after this line
+#--------------------------------------------------
+./options.sh
+
+#--------------------------------------------------
+# Place your flags after this line
+#--------------------------------------------------
+./flags.sh
+
+#--------------------------------------------------
+# Place your private constants after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your global variables after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+./dump.sh
+./list.sh
+./build.sh
+./build_all.sh
+
+##################################################
+### Documentation
+##################################################
+./generate_doc.sh
+./generate_doc_all.sh
+
+##################################################
+### Make
+##################################################
+./generate_makefile.sh
+./generate_makefile_all.sh
+
+#--------------------------------------------------
+# Place your private functions after this line
+#--------------------------------------------------
+./_build.sh
+
+##################################################
+### Self Install
+##################################################
 ../../src/shell/install/self_install.sh
 ../../src/shell/install/self_uninstall.sh
 ../../src/shell/install/self_update.sh
 
-#--------------------------------------------------
-# Help
-#--------------------------------------------------
-
-../../src/shell/help/section.sh
+##################################################
+### Help
+##################################################
 ../../src/shell/help/help.sh
 
 #--------------------------------------------------
-# Hooks
+#_ Hooks
 #--------------------------------------------------
-
 ../../src/shell/hooks/divider.sh
 ../../src/shell/hooks/_default.sh
 ../../src/shell/hooks/_before.sh
 ../../src/shell/hooks/_after.sh
 
-#--------------------------------------------------
-# Framework
-#--------------------------------------------------
-
-../../src/shell/dividers/framework.sh
+###################################################
+# TangoMan Shoe Shell Microframework
+###################################################
 
 #--------------------------------------------------
-# Bashdoc
+# Generated code : Do not edit below this line
 #--------------------------------------------------
 
-../../src/shell/shoedoc/divider.sh
+#--------------------------------------------------
+#_ Bashdoc
+#--------------------------------------------------
 ../../src/shell/shoedoc/_get_shoedoc_description.sh
 ../../src/shell/shoedoc/_get_shoedoc.sh
 ../../src/shell/shoedoc/_get_shoedoc_tag.sh
@@ -81,33 +97,25 @@ _build.sh
 ../../src/shell/shoedoc/_get_script_shoedoc.sh
 
 #--------------------------------------------------
-# Colors
+#_ Colors
 #--------------------------------------------------
-
-../../src/shell/colors/divider.sh
 ../../src/shell/colors/constants_echo_colors.sh
 ../../src/shell/colors/constants_alert_colors.sh
 ../../src/shell/colors/colors.sh
 
 #--------------------------------------------------
-# Compatibility
+#_ Compatibility
 #--------------------------------------------------
-
-../../src/shell/compatibility/divider.sh
 ../../src/shell/compatibility/_sed_i.sh
 
 #--------------------------------------------------
-# Documentation
+#_ Documentation
 #--------------------------------------------------
-
-../../src/shell/documentation/divider.sh
 ../../src/shell/documentation/_generate_doc.sh
 
 #--------------------------------------------------
-# Help
+#_ Help
 #--------------------------------------------------
-
-../../src/shell/help/divider.sh
 ../../src/shell/help/_help.sh
 ../../src/shell/help/_print_commands.sh
 ../../src/shell/help/_print_constants.sh
@@ -118,10 +126,8 @@ _build.sh
 ../../src/shell/help/_print_usage.sh
 
 #--------------------------------------------------
-# Self Install
+#_ Install
 #--------------------------------------------------
-
-../../src/shell/install/divider.sh
 ../../src/shell/install/_copy_install.sh
 ../../src/shell/install/_generate_autocomplete.sh
 ../../src/shell/install/_generate_global_autocomplete.sh
@@ -134,17 +140,13 @@ _build.sh
 ../../src/shell/install/_update.sh
 
 #--------------------------------------------------
-# Make
+#_ Make
 #--------------------------------------------------
-
-../../src/shell/make/divider.sh
 ../../src/shell/make/_generate_makefile.sh
 
 #--------------------------------------------------
-# Reflexion
+#_ Reflexion
 #--------------------------------------------------
-
-../../src/shell/reflexion/divider.sh
 ../../src/shell/reflexion/_get_constants.sh
 ../../src/shell/reflexion/_get_constraint.sh
 ../../src/shell/reflexion/_get_flags.sh
@@ -158,35 +160,27 @@ _build.sh
 ../../src/shell/reflexion/_set_parameter.sh
 
 #--------------------------------------------------
-# Strings
+#_ Strings
 #--------------------------------------------------
-
-../../src/shell/strings/divider.sh
 ../../src/shell/strings/_collapse_blank_lines.sh
 
 #--------------------------------------------------
-# System
+#_ System
 #--------------------------------------------------
-
-../../src/shell/system/divider.sh
 ../../src/shell/system/_check_installed.sh
 ../../src/shell/system/_get_package_name.sh
 ../../src/shell/system/_is_installed.sh
 ../../src/shell/system/_pwd.sh
 
 #--------------------------------------------------
-# Validation
+#_ Validation
 #--------------------------------------------------
-
-../../src/shell/validation/divider.sh
 ../../src/shell/validation/_is_valid.sh
 ../../src/shell/validation/_validate.sh
 
 #--------------------------------------------------
-# Kernel
+#_ Kernel
 #--------------------------------------------------
-
-../../src/shell/kernel/divider.sh
 ../../src/shell/kernel/kernel.sh
 ../../src/shell/footer.sh
 

@@ -144,7 +144,7 @@ generate_doc:
 	@sh shoe.sh generate_doc
 
 ##################################################
-### Makefile
+### Make
 ##################################################
 
 ## Generate Makefile for current shoe script

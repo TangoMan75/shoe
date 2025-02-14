@@ -1,85 +1,97 @@
-# This file is part of the TangoMan package.
-#
-# (c) "Matthias Morin" <mat@tangoman.io>
-#
-# This source file is subject to the MIT license that is bundled
-# with this source code in the file LICENSE.
-
 ../../src/shell/header.sh
-description.sh
 
-../../src/shell/dividers/constants.sh
-constants.sh
-
-../../src/shell/dividers/options.sh
-options.sh
-
-../../src/shell/dividers/flags.sh
-flags.sh
-
-../../src/shell/dividers/private_constants.sh
-private_constants.sh
-
-../../src/shell/dividers/global_variables.sh
-global_variables.sh
-
-../../src/shell/dividers/functions.sh
-hello.sh
-flag_test.sh
-
-../../src/shell/dividers/private_functions.sh
-_private.sh
+## TangoMan Shoe
+##
+## Simplify your shell scripting workflow with self-documenting
+## shell scripts with robust argument validation. Just prefix a
+## comment with two pound signs (##) on the line above any
+## function or variable to generate helpful documentation using
+## the "help" command.
+##
+## Warning: Functions and variables names should not contain dashes.
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 1.0.0
+## @license MIT
+## @link    https://github.com/TangoMan75/shoe
+## @update  https://raw.githubusercontent.com/TangoMan75/shoe/refs/heads/main/shoe.sh
 
 #--------------------------------------------------
-# Install
+# Place your constants after this line
 #--------------------------------------------------
+./constants.sh
 
-../../src/shell/install/section.sh
+#--------------------------------------------------
+# Place your options after this line
+#--------------------------------------------------
+./options.sh
+
+#--------------------------------------------------
+# Place your flags after this line
+#--------------------------------------------------
+./flags.sh
+
+#--------------------------------------------------
+# Place your private constants after this line
+#--------------------------------------------------
+./private_constants.sh
+
+#--------------------------------------------------
+# Place your global variables after this line
+#--------------------------------------------------
+./global_variables.sh
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+./hello.sh
+./flag_test.sh
+
+#--------------------------------------------------
+# Place your private functions after this line
+#--------------------------------------------------
+./_private.sh
+
+##################################################
+### Self Install
+##################################################
 ../../src/shell/install/self_install.sh
 ../../src/shell/install/self_uninstall.sh
 ../../src/shell/install/self_update.sh
 
-#--------------------------------------------------
-# Documentation
-#--------------------------------------------------
-
-../../src/shell/documentation/section.sh
+##################################################
+### Documentation
+##################################################
 ../../src/shell/documentation/generate_doc.sh
 
-#--------------------------------------------------
-# Make
-#--------------------------------------------------
-
-../../src/shell/make/section.sh
+##################################################
+### Make
+##################################################
 ../../src/shell/make/generate_makefile.sh
 
-#--------------------------------------------------
-# Help
-#--------------------------------------------------
-
-../../src/shell/help/section.sh
+##################################################
+### Help
+##################################################
 ../../src/shell/help/help.sh
 
 #--------------------------------------------------
-# Hooks
+#_ Hooks
 #--------------------------------------------------
-
-../../src/shell/hooks/divider.sh
 ../../src/shell/hooks/_default.sh
 ../../src/shell/hooks/_before.sh
 ../../src/shell/hooks/_after.sh
 
-#--------------------------------------------------
-# Framework
-#--------------------------------------------------
-
-../../src/shell/dividers/framework.sh
+###################################################
+# TangoMan Shoe Shell Microframework
+###################################################
 
 #--------------------------------------------------
-# Android
+# Generated code : Do not edit below this line
 #--------------------------------------------------
 
-../../src/shell/android/divider.sh
+#--------------------------------------------------
+#_ Android
+#--------------------------------------------------
 ../../src/shell/android/_adb_connect.sh
 ../../src/shell/android/_adb_sideload.sh
 ../../src/shell/android/_adb_start_server.sh
@@ -105,10 +117,8 @@ _private.sh
 ../../src/shell/android/_toggle_active_slot.sh
 
 #--------------------------------------------------
-# Bashdoc
+#_ Bashdoc
 #--------------------------------------------------
-
-../../src/shell/shoedoc/divider.sh
 ../../src/shell/shoedoc/_get_shoedoc_description.sh
 ../../src/shell/shoedoc/_get_shoedoc.sh
 ../../src/shell/shoedoc/_get_shoedoc_tag.sh
@@ -116,27 +126,21 @@ _private.sh
 ../../src/shell/shoedoc/_get_script_shoedoc.sh
 
 #--------------------------------------------------
-# Colors
+#_ Colors
 #--------------------------------------------------
-
-../../src/shell/colors/divider.sh
 ../../src/shell/colors/constants_echo_colors.sh
 ../../src/shell/colors/constants_alert_colors.sh
 ../../src/shell/colors/colors.sh
 
 #--------------------------------------------------
-# Compatibility
+#_ Compatibility
 #--------------------------------------------------
-
-../../src/shell/compatibility/divider.sh
 ../../src/shell/compatibility/_open.sh
 ../../src/shell/compatibility/_sed_i.sh
 
 #--------------------------------------------------
-# Docker
+#_ Docker
 #--------------------------------------------------
-
-../../src/shell/docker/divider.sh
 ../../src/shell/docker/_docker_compose_build.sh
 ../../src/shell/docker/_docker_compose_start.sh
 ../../src/shell/docker/_docker_compose_stop.sh
@@ -157,33 +161,25 @@ _private.sh
 ../../src/shell/docker/_wait_for_rabbit.sh
 
 #--------------------------------------------------
-# Documentation
+#_ Documentation
 #--------------------------------------------------
-
-../../src/shell/documentation/divider.sh
 ../../src/shell/documentation/_generate_doc.sh
 
 #--------------------------------------------------
-# Files
+#_ Files
 #--------------------------------------------------
-
-../../src/shell/files/divider.sh
 ../../src/shell/files/_get_file_extension.sh
 ../../src/shell/files/_move.sh
 
 #--------------------------------------------------
-# Git
+#_ Git
 #--------------------------------------------------
-
-../../src/shell/git/divider.sh
 ../../src/shell/git/_git_hooks.sh
 ../../src/shell/git/_initialise_submodules.sh
 
 #--------------------------------------------------
-# Help
+#_ Help
 #--------------------------------------------------
-
-../../src/shell/help/divider.sh
 ../../src/shell/help/_help.sh
 ../../src/shell/help/_print_commands.sh
 ../../src/shell/help/_print_constants.sh
@@ -194,10 +190,8 @@ _private.sh
 ../../src/shell/help/_print_usage.sh
 
 #--------------------------------------------------
-# Self Install
+#_ Install
 #--------------------------------------------------
-
-../../src/shell/install/divider.sh
 ../../src/shell/install/_copy_install.sh
 ../../src/shell/install/_generate_autocomplete.sh
 ../../src/shell/install/_generate_global_autocomplete.sh
@@ -210,17 +204,13 @@ _private.sh
 ../../src/shell/install/_update.sh
 
 #--------------------------------------------------
-# Make
+#_ Make
 #--------------------------------------------------
-
-../../src/shell/make/divider.sh
 ../../src/shell/make/_generate_makefile.sh
 
 #--------------------------------------------------
-# Network
+#_ Network
 #--------------------------------------------------
-
-../../src/shell/network/divider.sh
 ../../src/shell/network/_open_in_default_browser.sh
 ../../src/shell/network/_php_serve.sh
 ../../src/shell/network/_py_serve.sh
@@ -228,18 +218,14 @@ _private.sh
 ../../src/shell/network/_set_host.sh
 
 #--------------------------------------------------
-# Prompts
+#_ Prompts
 #--------------------------------------------------
-
-../../src/shell/prompts/divider.sh
 ../../src/shell/prompts/_select.sh
 ../../src/shell/prompts/_yes_no.sh
 
 #--------------------------------------------------
-# Reflexion
+#_ Reflexion
 #--------------------------------------------------
-
-../../src/shell/reflexion/divider.sh
 ../../src/shell/reflexion/_get_constants.sh
 ../../src/shell/reflexion/_get_constraint.sh
 ../../src/shell/reflexion/_get_flags.sh
@@ -253,18 +239,14 @@ _private.sh
 ../../src/shell/reflexion/_set_parameter.sh
 
 #--------------------------------------------------
-# Strings
+#_ Strings
 #--------------------------------------------------
-
-../../src/shell/strings/divider.sh
 ../../src/shell/strings/_collapse_blank_lines.sh
 ../../src/shell/strings/_generate_key.sh
 
 #--------------------------------------------------
-# System
+#_ System
 #--------------------------------------------------
-
-../../src/shell/system/divider.sh
 ../../src/shell/system/_check_installed.sh
 ../../src/shell/system/_get_package_manager.sh
 ../../src/shell/system/_get_package_name.sh
@@ -279,18 +261,14 @@ _private.sh
 ../../src/shell/system/_user_exists.sh
 
 #--------------------------------------------------
-# Validation
+#_ Validation
 #--------------------------------------------------
-
-../../src/shell/validation/divider.sh
 ../../src/shell/validation/_is_valid.sh
 ../../src/shell/validation/_validate.sh
 
 #--------------------------------------------------
-# Kernel
+#_ Kernel
 #--------------------------------------------------
-
-../../src/shell/kernel/divider.sh
 ../../src/shell/kernel/kernel.sh
 ../../src/shell/footer.sh
 

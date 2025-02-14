@@ -2,33 +2,31 @@
 
 set -e
 
-#/*
-# * This script is based on TangoMan Shoe Shell Microframework
-# *
-# * This file is distributed under to the MIT license.
-# *
-# * Copyright (c) 2025 "Matthias Morin" <mat@tangoman.io>
-# *
-# * Permission is hereby granted, free of charge, to any person obtaining a copy
-# * of this software and associated documentation files (the "Software"), to deal
-# * in the Software without restriction, including without limitation the rights
-# * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# * copies of the Software, and to permit persons to whom the Software is
-# * furnished to do so, subject to the following conditions:
-# *
-# * The above copyright notice and this permission notice shall be included in all
-# * copies or substantial portions of the Software.
-# *
-# * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# * SOFTWARE.
-# *
-# * Source code is available here: https://github.com/TangoMan75/shoe
-# */
+# This script is based on TangoMan Shoe Shell Microframework
+#
+# This file is distributed under to the MIT license.
+#
+# Copyright (c) 2025 "Matthias Morin" <mat@tangoman.io>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+# Source code is available here: https://github.com/TangoMan75/shoe
 
 ## TangoMan Shoemaker
 ##
@@ -96,9 +94,7 @@ dump() {
 
     echo_success "Dumping functions from \"${file}\" to \"${destination}\"\n"
     for name in $(_get_functions_names "${file}" true); do
-        printf "#!/bin/sh
-
-\n\n" > "${destination}/${name}.sh"
+        printf '#!/bin/sh\n\n' > "${destination}/${name}.sh"
         _get_function "${file}" "${name}" >> "${destination}/${name}.sh"
     done
 }
@@ -183,7 +179,7 @@ generate_doc_all() {
 }
 
 ##################################################
-### Makefile
+### Make
 ##################################################
 
 ## Generate Markdown documentation for provided shoe script
@@ -226,20 +222,26 @@ _build() {
 
     alert_primary "Building $(basename "$1" .lst).sh"
 
-    echo_info "rm \"${__output__}\" || true\n"
-    rm "${__output__}" || true
+    echo_info "rm -f \"${__output__}\"\n"
+    rm -f "${__output__}"
 
-    # get all pathes from build.lst file ignoring comments and empty lines
     # shellcheck disable=SC2094
-    < "$1" grep -Pv '^(#|\s*$)' | while read -r file_path;
-    do
-        # shellcheck disable=SC2094
-        __source_file__="$(dirname "$1")/${file_path}"
+    while read -r __current_line__; do
+        if [ "$(printf '%s' "${__current_line__}" | cut -c 1)" = "#" ] || [ -z "${__current_line__}" ]; then
+            printf '%s\n' "${__current_line__}" >> "${__output__}"
+            continue
+        fi
+
+        __source_file__="$(dirname "$1")/${__current_line__}"
+        if [ ! -f "${__source_file__}" ]; then
+            echo_danger "error: \"${__source_file__}\": file not found\n"
+
+            return 1
+        fi
         echo_info "${__source_file__}\n"
 
-        # append file content to "script" build
         printf '%s\n' "$(cat "${__source_file__}")" >> "${__output__}"
-    done
+    done < "$1"
 
     # Remove all "#!/bin/bash" or "#!/bin/sh" from result file
     echo_info "$(_sed_i) -r 's/^#!\/bin\/(bash|sh)$//g' \"${__output__}\"\n"
@@ -294,6 +296,10 @@ self_update() {
 help() {
     _help "$0"
 }
+
+#--------------------------------------------------
+#_ Hooks
+#--------------------------------------------------
 
 #--------------------------------------------------
 #_ Hooks
@@ -639,7 +645,7 @@ alert_dark()      {
 }
 
 #--------------------------------------------------
-#_ System compatibility
+#_ Compatibility
 #--------------------------------------------------
 
 # Return sed -i system flavour
@@ -990,7 +996,7 @@ _print_usage() {
 }
 
 #--------------------------------------------------
-#_ Self Install
+#_ Install
 #--------------------------------------------------
 
 # Install script via copy
@@ -1251,7 +1257,7 @@ _update() {
 }
 
 #--------------------------------------------------
-#_ Makefile
+#_ Make
 #--------------------------------------------------
 
 # Generate Makefile for provided shoe script
@@ -1696,7 +1702,7 @@ _set_parameter() {
 }
 
 #--------------------------------------------------
-# Strings
+#_ Strings
 #--------------------------------------------------
 
 # Collapse blank lines with "sed"
@@ -1709,14 +1715,14 @@ _collapse_blank_lines() {
     if [ ! -f "$1" ]; then echo_danger "error: _collapse_blank_lines: \"$1\" file not found\n"; return 1; fi
     set -- "$(realpath "$1")"
 
-    # The N command reads the next line into the pattern space (the line being processed).
+    # The N command reads the next line into the pattern space.
     # The remaining expression checks if the pattern space now consists of two empty lines (^\n$).
     echo_info "$(_sed_i) '/^$/{N;s/^\\\n$//;}' \"$1\"\n"
     $(_sed_i) '/^$/{N;s/^\n$//;}' "$1"
 }
 
 #--------------------------------------------------
-#_ Sytem
+#_ System
 #--------------------------------------------------
 
 # Print error message if provided command is missing
@@ -1864,7 +1870,7 @@ _validate() {
 }
 
 #--------------------------------------------------
-#_ kernel
+#_ Kernel
 #--------------------------------------------------
 
 # Shoe Kernel
@@ -1952,3 +1958,4 @@ _kernel() {
 }
 
 _kernel "$@"
+

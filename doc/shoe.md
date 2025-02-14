@@ -171,7 +171,7 @@ Update script from @update
 Generate Markdown documentation for current shoe script
 
 
-### ⚡ Makefile
+### ⚡ Make
 
 #### 1. `generate_makefile`
 
@@ -535,7 +535,7 @@ Print dark alert
 > Synopsis: alert_dark &lt;STRING&gt;<br>
 >   STRING: Text to display.<br>
 
-### ⚡ System compatibility
+### ⚡ Compatibility
 
 #### 1. `_open` (private)
 
@@ -796,7 +796,7 @@ Print usage of the provided shoe script (used by "help" command)
 > Synopsis: _print_usage &lt;FILE_PATH&gt;<br>
 >   FILE_PATH: The path to the input file.<br>
 
-### ⚡ Self Install
+### ⚡ Install
 
 #### 1. `_copy_install` (private)
 
@@ -890,7 +890,7 @@ Updates given script from the provided URL
 >   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided script.<br>
 >   GLOBAL:    (optional) Install globally. Defaults to "false".<br>
 
-### ⚡ Makefile
+### ⚡ Make
 
 #### 1. `_generate_makefile` (private)
 
@@ -1047,20 +1047,22 @@ Set value for given parameter into provided file ".env" or ".sh" file
 >   KEY:       The variable name to set to provided file<br>
 >   VALUE:     The value to be set to provided file<br>
 
-#### 12. `_collapse_blank_lines` (private)
+### ⚡ Strings
+
+#### 1. `_collapse_blank_lines` (private)
 
 Collapse blank lines with "sed"
 
 > Synopsis: _collapse_blank_lines &lt;FILE_PATH&gt;<br>
 >   FILE_PATH: The path to the input file.<br>
 
-#### 13. `_generate_key` (private)
+#### 2. `_generate_key` (private)
 
 Generate random 32 bit string
 
 > Synopsis: _generate_key<br>
 
-### ⚡ Sytem
+### ⚡ System
 
 #### 1. `_check_installed` (private)
 
@@ -1166,7 +1168,7 @@ Find constraints and validates a variable
 > Synopsis: _validate &lt;VARIABLE&gt;<br>
 >   VARIABLE: The variable to validate in the followling format : variable_name=value.<br>
 
-### ⚡ kernel
+### ⚡ Kernel
 
 #### 1. `_kernel` (private)
 

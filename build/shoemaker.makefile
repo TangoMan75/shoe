@@ -140,7 +140,7 @@ generate_doc_all:
 	@sh shoemaker.sh generate_doc_all
 
 ##################################################
-### Makefile
+### Make
 ##################################################
 
 ## Generate Markdown documentation for provided shoe script

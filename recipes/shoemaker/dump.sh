@@ -18,9 +18,7 @@ dump() {
 
     echo_success "Dumping functions from \"${file}\" to \"${destination}\"\n"
     for name in $(_get_functions_names "${file}" true); do
-        printf "#!/bin/sh
-
-\n\n" > "${destination}/${name}.sh"
+        printf '#!/bin/sh\n\n' > "${destination}/${name}.sh"
         _get_function "${file}" "${name}" >> "${destination}/${name}.sh"
     done
 }

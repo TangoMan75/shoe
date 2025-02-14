@@ -10,7 +10,7 @@ _collapse_blank_lines() {
     if [ ! -f "$1" ]; then echo_danger "error: _collapse_blank_lines: \"$1\" file not found\n"; return 1; fi
     set -- "$(realpath "$1")"
 
-    # The N command reads the next line into the pattern space (the line being processed).
+    # The N command reads the next line into the pattern space.
     # The remaining expression checks if the pattern space now consists of two empty lines (^\n$).
     echo_info "$(_sed_i) '/^$/{N;s/^\\\n$//;}' \"$1\"\n"
     $(_sed_i) '/^$/{N;s/^\n$//;}' "$1"
