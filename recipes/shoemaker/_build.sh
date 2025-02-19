@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Build from given "build.lst" file
+# Build from given "build.shoe" file
 _build() {
     # Synopsis: _build <FILE_PATH> <DESTINATION> [TYPE]
     #   FILE_PATH:    The path to the input file.
@@ -13,9 +13,9 @@ _build() {
     if [ ! -d "$2" ]; then echo_danger "error: _build: \"$2\" folder not found\n"; return 1; fi
     set -- "$(realpath "$1")" "$(realpath "$2")" "$3"
 
-    __output__="$2/$(basename "$1" .lst).sh"
+    __output__="$2/$(basename "$1" .shoe).sh"
 
-    alert_primary "Building $(basename "$1" .lst).sh"
+    alert_primary "Building $(basename "$1" .shoe).sh"
 
     echo_info "rm -f \"${__output__}\"\n"
     rm -f "${__output__}"

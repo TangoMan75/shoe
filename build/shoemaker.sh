@@ -99,7 +99,7 @@ dump() {
     done
 }
 
-## Dump "build.lst" file
+## Dump "build.shoe" file
 list() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"
@@ -117,11 +117,11 @@ list() {
         mkdir -p "${destination}"
     fi
 
-    echo_success "Listing functions from \"${file}\" to \"${destination}/$(basename "${file}" .sh).lst\"\n"
-    _get_functions_names "${file}" true | sed 's/$/.sh/g' > "${destination}/$(basename "${file}" .sh).lst"
+    echo_success "Listing functions from \"${file}\" to \"${destination}/$(basename "${file}" .sh).shoe\"\n"
+    _get_functions_names "${file}" true | sed 's/$/.sh/g' > "${destination}/$(basename "${file}" .sh).shoe"
 }
 
-## Build from given "build.lst" file
+## Build from given "build.shoe" file
 build() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"
@@ -149,7 +149,7 @@ build_all() {
         mkdir -p "${build_folder}"
     fi
 
-    find "$(_pwd)/recipes" -type f -name '*.lst' | while read -r file_path
+    find "$(_pwd)/recipes" -type f -name '*.shoe' | while read -r file_path
     do
         _build "${file_path}" "${build_folder}" "${type}"
     done
@@ -205,7 +205,7 @@ generate_makefile_all() {
 # Place your private functions after this line
 #--------------------------------------------------
 
-# Build from given "build.lst" file
+# Build from given "build.shoe" file
 _build() {
     # Synopsis: _build <FILE_PATH> <DESTINATION> [TYPE]
     #   FILE_PATH:    The path to the input file.
@@ -218,9 +218,9 @@ _build() {
     if [ ! -d "$2" ]; then echo_danger "error: _build: \"$2\" folder not found\n"; return 1; fi
     set -- "$(realpath "$1")" "$(realpath "$2")" "$3"
 
-    __output__="$2/$(basename "$1" .lst).sh"
+    __output__="$2/$(basename "$1" .shoe).sh"
 
-    alert_primary "Building $(basename "$1" .lst).sh"
+    alert_primary "Building $(basename "$1" .shoe).sh"
 
     echo_info "rm -f \"${__output__}\"\n"
     rm -f "${__output__}"

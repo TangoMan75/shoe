@@ -8,7 +8,7 @@ build_all() {
         mkdir -p "${build_folder}"
     fi
 
-    find "$(_pwd)/recipes" -type f -name '*.lst' | while read -r file_path
+    find "$(_pwd)/recipes" -type f -name '*.shoe' | while read -r file_path
     do
         _build "${file_path}" "${build_folder}" "${type}"
     done

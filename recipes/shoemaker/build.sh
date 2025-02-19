@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## Build from given "build.lst" file
+## Build from given "build.shoe" file
 build() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"

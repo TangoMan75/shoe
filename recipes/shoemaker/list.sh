@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## Dump "build.lst" file
+## Dump "build.shoe" file
 list() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"
@@ -18,7 +18,7 @@ list() {
         mkdir -p "${destination}"
     fi
 
-    echo_success "Listing functions from \"${file}\" to \"${destination}/$(basename "${file}" .sh).lst\"\n"
-    _get_functions_names "${file}" true | sed 's/$/.sh/g' > "${destination}/$(basename "${file}" .sh).lst"
+    echo_success "Listing functions from \"${file}\" to \"${destination}/$(basename "${file}" .sh).shoe\"\n"
+    _get_functions_names "${file}" true | sed 's/$/.sh/g' > "${destination}/$(basename "${file}" .sh).shoe"
 }
 

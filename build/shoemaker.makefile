@@ -110,12 +110,12 @@ dump:
 	@printf "${INFO}sh shoemaker.sh dump${EOL}"
 	@sh shoemaker.sh dump
 
-## Dump "build.lst" file
+## Dump "build.shoe" file
 list:
 	@printf "${INFO}sh shoemaker.sh list${EOL}"
 	@sh shoemaker.sh list
 
-## Build from given "build.lst" file
+## Build from given "build.shoe" file
 build:
 	@printf "${INFO}sh shoemaker.sh build${EOL}"
 	@sh shoemaker.sh build

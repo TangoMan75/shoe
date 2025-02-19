@@ -49,12 +49,12 @@ Dump functions
 
 #### 2. `list`
 
-Dump "build.lst" file
+Dump "build.shoe" file
 
 
 #### 3. `build`
 
-Build from given "build.lst" file
+Build from given "build.shoe" file
 
 
 #### 4. `build_all`
@@ -88,7 +88,7 @@ Generate Makefile for all scripts
 
 #### 3. `_build` (private)
 
-Build from given "build.lst" file
+Build from given "build.shoe" file
 
 > Synopsis: _build &lt;FILE_PATH&gt; &lt;DESTINATION&gt; [TYPE]<br>
 >   FILE_PATH:    The path to the input file.<br>

@@ -94,7 +94,7 @@ Prefix a comment with three pound signs (`###`) to organize related commands int
 
 18. **⚡ Shoemaker Developement Tool:**
 
-Use `shoemaker.sh` tool to split a script file into its components, build a script from a _"build.lst"_ file, generate _Makefile_ or _Markdown_ documentation from a shoe script.
+Use `shoemaker.sh` tool to split a script file into its components, build a script from a _"build.shoe"_ file, generate _Makefile_ or _Markdown_ documentation from a shoe script.
 
 19. **⚡ Code Snippets:**
 
