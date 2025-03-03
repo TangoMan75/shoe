@@ -1,6 +1,15 @@
 #!/bin/sh
 
 ## Dump functions from given script into individual files
+##
+## {
+##   "depends": [
+##     "_get_function",
+##     "_get_functions_names",
+##     "echo_danger",
+##     "echo_success"
+##   ]
+## }
 dump() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"

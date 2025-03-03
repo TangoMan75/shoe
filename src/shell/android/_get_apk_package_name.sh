@@ -1,6 +1,26 @@
 #!/bin/sh
 
 # Get APK package_name
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "aapt"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_apk_package_name() {
     # Synopsis: _get_apk_package_name <FILE_PATH>
     #   FILE_PATH: The path to the input file.

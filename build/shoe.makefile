@@ -1,5 +1,7 @@
 ## TangoMan Shoe
+##
 ## Simplify your shell scripting workflow with self-documenting shell scripts with robust argument validation. Just prefix a comment with two pound signs (##) on the line above any function or variable to generate helpful documentation using the "help" command.  Warning: Functions and variables names should not contain dashes.  
+##
 ## @version 0.1.0
 ## @author  "Matthias Morin" <mat@tangoman.io>
 ## @license MIT

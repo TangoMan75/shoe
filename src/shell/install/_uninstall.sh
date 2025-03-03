@@ -1,6 +1,30 @@
 #!/bin/sh
 
 # Uninstall script from system
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_remove_completion_autoload",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _uninstall() {
     # Synopsis: _uninstall <FILE_PATH> [ALIAS]
     #   FILE_PATH: The path to the input file.

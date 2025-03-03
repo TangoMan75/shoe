@@ -1,6 +1,25 @@
 #!/bin/sh
 
 # Get shoedoc
+#
+# {
+#   "namespace": "shoedoc",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "TEXT",
+#       "type": "str",
+#       "description": "The input shoedoc annotation bloc.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_shoedoc() {
     # Synopsis: _get_shoedoc <TEXT>
     #   TEXT: The input shoedoc annotation bloc.

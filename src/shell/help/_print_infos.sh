@@ -1,6 +1,27 @@
 #!/bin/sh
 
 # Print infos of the provided shoe script (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "depends": [
+#     "_get_script_shoedoc",
+#     "_get_shoedoc_tag",
+#     "echo_danger",
+#     "echo_primary",
+#     "echo_success",
+#     "echo_warning"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _print_infos() {
     # Synopsis: _print_infos <FILE_PATH>
     #   FILE_PATH: The path to the input file.

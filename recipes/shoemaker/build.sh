@@ -1,6 +1,14 @@
 #!/bin/sh
 
 ## Build from given "build.shoe" file
+##
+## {
+##   "depends": [
+##     "_build",
+##     "_pwd",
+##     "echo_danger"
+##   ]
+## }
 build() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"

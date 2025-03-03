@@ -1,6 +1,34 @@
 #!/bin/sh
 
 # Install APK on connected device
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "adb"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_adb",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FORCE",
+#       "type": "bool",
+#       "description": "Force install.",
+#       "default": false
+#     }
+#   ]
+# }
 _install_apk() {
     # Synopsis: _install_apk <FILE_PATH> [FORCE]
     #   FILE_PATH: The path to the input file.

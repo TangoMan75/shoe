@@ -1,6 +1,13 @@
 #!/bin/sh
 
 ## Build all scripts
+##
+## {
+##   "depends": [
+##     "_build",
+##     "_pwd"
+##   ]
+## }
 build_all() {
     build_folder="$(_pwd)/build"
 

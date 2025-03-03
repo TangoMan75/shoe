@@ -1,6 +1,26 @@
 #!/bin/sh
 
 # Get container name from id
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "CONTAINER_ID",
+#       "type": "str",
+#       "description": "The container id.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_container_name() {
     # Synopsis: _get_container_name <CONTAINER_ID>
     #   CONTAINER_ID: The container id.

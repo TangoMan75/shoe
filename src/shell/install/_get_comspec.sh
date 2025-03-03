@@ -1,6 +1,25 @@
 #!/bin/sh
 
 # Generate comspec string for the provided file
+#
+# {
+#   "namespace": "install",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_comspec() {
     # Synopsis: _get_comspec <FILE_PATH>
     #   FILE_PATH: The path to the input file.

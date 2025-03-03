@@ -1,6 +1,34 @@
 #!/bin/sh
 
 # Copy APK from connected device to local folder
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "adb"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_adb",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "PACKAGE_NAME",
+#       "type": "str",
+#       "description": "The apk package name. eg: \"org.fdroid.fdroid\"",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "DESTINATION",
+#       "type": "folder",
+#       "description": "The path to the destination folder.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _pull_apk() {
     # Synopsis: _pull_apk <PACKAGE_NAME> <DESTINATION>
     #   PACKAGE_NAME: The apk package name. eg: "org.fdroid.fdroid"

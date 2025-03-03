@@ -1,6 +1,18 @@
 #!/bin/sh
 
 # Toggle connected device active slot
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "fastboot"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_fastboot",
+#     "echo_danger",
+#     "echo_info"
+#   ]
+# }
 _toggle_active_slot() {
     # Synopsis: _toggle_active_slot
 

@@ -1,5 +1,7 @@
 ## TangoMan Entrypoint
+##
 ## Execute Development and Continuous Integration tasks.  
+##
 ## @version 0.1.0
 ## @author  "Matthias Morin" <mat@tangoman.io>
 ## @license MIT

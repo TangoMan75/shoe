@@ -1,6 +1,42 @@
 #!/bin/sh
 
 # Set value for given parameter into provided file ".env" or ".sh" file
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "sed"
+#   ],
+#   "depends": [
+#     "_sed_i",
+#     "echo_danger",
+#     "echo_info",
+#     "echo_warning"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "KEY",
+#       "type": "str",
+#       "description": "The variable name to get from provided file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "VALUE",
+#       "type": "str",
+#       "description": "The value to be set to provided file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _set_parameter() {
     # Synopsys : _set_parameter <FILE_PATH> <KEY> <VALUE>
     #   FILE_PATH: The path to the input script.

@@ -1,6 +1,27 @@
 #!/bin/sh
 
 # Find constraints and validates a variable
+#
+# {
+#   "namespace": "validation",
+#   "requires": [
+#     "sed"
+#   ],
+#   "depends": [
+#     "_get_constraint",
+#     "_is_valid",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "VARIABLE",
+#       "type": "str",
+#       "description": "The variable to validate in the followling format : variable_name=value.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _validate() {
     # Synopsis: _validate <VARIABLE>
     #   VARIABLE: The variable to validate in the followling format : variable_name=value.
