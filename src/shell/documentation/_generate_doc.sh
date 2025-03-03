@@ -1,6 +1,50 @@
 #!/bin/sh
 
 # Generate Markdown documentation for provided shoe script
+#
+# {
+#   "namespace": "documentation",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "_get_script_shoedoc",
+#     "_get_shoedoc_description",
+#     "_get_shoedoc_tag",
+#     "_get_shoedoc_title",
+#     "alert_primary",
+#     "echo_danger",
+#     "echo_success"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "DESTINATION",
+#       "type": "folder",
+#       "description": "The path to the destination folder. Defaults to file parent."
+#     },
+#     {
+#       "position": 3,
+#       "name": "OUTPUT_FILE_NAME",
+#       "type": "str",
+#       "description": "The name for the documentation file. Defaults to \"<BASENAME>.md\"."
+#     },
+#     {
+#       "position": 4,
+#       "name": "GET_PRIVATE",
+#       "type": "bool",
+#       "description": "If set to \"true\", documents private constants, options, flags, and commands as well.",
+#       "default": false
+#     }
+#   ]
+# }
 _generate_doc() {
     # Synopsis: _generate_doc <SCRIPT_PATH> [DESTINATION] [OUTPUT_FILE_NAME] [GET_PRIVATE]
     #   SCRIPT_PATH:      The path to the input file.

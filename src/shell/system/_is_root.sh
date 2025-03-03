@@ -1,6 +1,14 @@
 #!/bin/sh
 
 # Check current user is root
+#
+# {
+#   "namespace": "system",
+#   "requires": [
+#     "awk",
+#     "id"
+#   ]
+# }
 _is_root() {
     # Synopsis: _is_root
 

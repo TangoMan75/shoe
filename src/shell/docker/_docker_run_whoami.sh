@@ -1,6 +1,17 @@
 #!/bin/sh
 
 # Run local whoami server
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_info"
+#   ]
+# }
 _docker_run_whoami() {
     # Synopsis: _docker_run_whoami
     #   note: traefik_whoami documentation: https://github.com/traefik/whoami

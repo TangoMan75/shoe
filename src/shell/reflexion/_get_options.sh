@@ -1,6 +1,32 @@
 #!/bin/sh
 
 # List options from provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "GET_PRIVATE_ONLY",
+#       "type": "bool",
+#       "description": "If set to \"true\", retrieves private options only.",
+#       "default": false
+#     }
+#   ]
+# }
 _get_options() {
     # Synopsis: _get_options <SCRIPT_PATH> [GET_PRIVATE_ONLY]
     #   SCRIPT_PATH:      The path to the input script.

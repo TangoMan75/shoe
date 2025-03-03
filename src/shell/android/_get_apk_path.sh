@@ -1,6 +1,26 @@
 #!/bin/sh
 
 # Get installed APK path on connected device from package name
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "adb"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_adb",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "PACKAGE_NAME",
+#       "type": "str",
+#       "description": "The apk package name. eg: \"org.fdroid.fdroid\"",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_apk_path() {
     # Synopsis: _get_apk_path <PACKAGE_NAME>
     #   PACKAGE_NAME: The apk package name. eg: "org.fdroid.fdroid"

@@ -1,6 +1,27 @@
 #!/bin/sh
 
 # Boot connected device with given image temporarily
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "fastboot"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_fastboot",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _reboot_with_img() {
     # Synopsis: _reboot_with_img <FILE_PATH>
     #   FILE_PATH: The path to the input file.
