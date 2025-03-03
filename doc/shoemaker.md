@@ -27,12 +27,12 @@ documentation from a shoe script.
 
 1. **`--file`**
 > Source file 
-  - Constraint: `/~?[a-zA-Z0-9./_-]+/`
+  - Constraint: `/^~?[a-zA-Z0-9./_-]+$/`
   - Default: _''_
 
 2. **`--destination`**
 > Destination directory 
-  - Constraint: `/~?[a-zA-Z0-9/._-]+/`
+  - Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
   - Default: _''_
 
 3. **`--type`**

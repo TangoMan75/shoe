@@ -20,12 +20,12 @@ Execute Development and Continuous Integration tasks.
 
 1. **`--lint_folder`**
 > Lint directory 
-  - Constraint: `/~?[a-zA-Z0-9/._-]+/`
+  - Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
   - Default: _'./build'_
 
 2. **`--test_folder`**
 > Test directory 
-  - Constraint: `/~?[a-zA-Z0-9/._-]+/`
+  - Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
   - Default: _'./tests'_
 
 ## 🤖 Commands
