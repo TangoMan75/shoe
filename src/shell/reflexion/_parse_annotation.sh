@@ -56,7 +56,7 @@ _parse_annotation() {
 
     set -- "$1" "$2" "$3" "$4" "$(printf '%s' "$3" | head -n 1)"
 
-    if [ "${2:0:1}" = "_" ]; then
+    if [ "$(printf '%s' "$2" | cut -c1)" = "_" ]; then
         set -- "$1" "$2" "$3" "$4" "$5" "private"
     else
         set -- "$1" "$2" "$3" "$4" "$5" "public"

@@ -14,7 +14,7 @@
 #       "position": 1,
 #       "name": "FILE_PATH",
 #       "type": "file",
-#       "description": "The path to the compose.yaml file.","
+#       "description": "The path to the compose.yaml file.",
 #       "nullable": false
 #     }
 #   ]

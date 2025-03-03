@@ -134,8 +134,37 @@ _generate_doc() {
                 printf "\n\n"
             } {PREV = $0}' "$1"
         fi
+    ) > "$2/$3"
 
-        printf '## 🤖 Commands\n\n'
+    printf '## 🤖 Commands\n\n' >> "$2/$3"
+
+    if _is_installed jq; then
+        __index__=0
+        for __function_name__ in $(_get_functions_names "$1" true); do
+            echo_info "${__function_name__}\n"
+
+            __json__="$(_parse_annotation "$1" "${__function_name__}")"
+            if [ -z "${__json__}" ]; then
+                echo_danger "error: _generate_doc: no annotation found for function \"${__function_name__}\"\n"
+                continue
+            fi
+
+            (
+                __index__=$((__index__ + 1))
+                # shellcheck disable=SC2016
+                printf '#### %d. `%s`%s\n\n' ${__index__} "${__function_name__}" " ($(printf '%s\n' "${__json__}" | jq -r '.scope'))"
+                printf '%s\n\n' "$(printf '%s\n' "${__json__}" | jq -r '.summary')"
+                # shellcheck disable=SC2016
+                printf '%s\n\n' "$(_print_synopsis "${__json__}" true)"
+            ) >> "$2/$3"
+        done
+
+        echo_success "Documentation generated : \"$2/$3\"\n"
+
+        return 0
+    fi
+
+    (
         awk -v GET_PRIVATE="$4" '/^#+/ {
                 if (summary=="") {
                     summary=$0

@@ -22,7 +22,7 @@
 #       "type": "str",
 #       "description": "A string containing file checksum.",
 #       "nullable": false
-#     },
+#     }
 #   ]
 # }
 _is_checksum_valid() {
