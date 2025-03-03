@@ -71,4 +71,13 @@ Run script in Ubuntu Docker container
 
 Print this help
 
+```json
+{
+  "namespace": "help",
+  "depends": [
+    "_help"
+  ]
+}
+```
+
 
