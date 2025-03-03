@@ -105,7 +105,7 @@ help:
 		printf "${SUCCESS}  %-12s  ${PRIMARY}%s${EOL}",substr($$1,0,index($$1,":")-1),HELP \
 	}{PREV=$$0}' ${MAKEFILE_LIST}
 
-## Dump functions
+## Dump functions from given script into individual files
 dump:
 	@printf "${INFO}sh shoemaker.sh dump${EOL}"
 	@sh shoemaker.sh dump

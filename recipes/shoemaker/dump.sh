@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## Dump functions
+## Dump functions from given script into individual files
 dump() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"

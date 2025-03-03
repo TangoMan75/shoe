@@ -76,7 +76,7 @@ private=false
 # Place your functions after this line
 #--------------------------------------------------
 
-## Dump functions
+## Dump functions from given script into individual files
 dump() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"
@@ -860,8 +860,7 @@ _print_commands() {
         gsub(" +","",function_name);                 # trim whitespaces
         if (annotation!="" && substr($0,1,1) != "_") # ignore private functions
         printf "%s  %-'"$2"'s %s%s\n",SUCCESS,function_name,PRIMARY,annotation;
-        annotation=""
-    }' "$1"
+    } !/^## */{annotation=""}' "$1"
     printf '\n'
 
 }

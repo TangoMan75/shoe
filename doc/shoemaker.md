@@ -44,7 +44,7 @@ documentation from a shoe script.
 
 #### 1. `dump`
 
-Dump functions
+Dump functions from given script into individual files
 
 
 #### 2. `list`
