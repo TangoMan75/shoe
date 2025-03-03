@@ -1,6 +1,26 @@
 #!/bin/sh
 
 # Return json object from annotation
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "sed",
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "ANNOTATION",
+#       "type": "str",
+#       "description": "The input text containing raw annotation.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _parse_annotation() {
     # Synopsis: _parse_annotation <ANNOTATION>
     #   ANNOTATION: The input text containing raw annotation.

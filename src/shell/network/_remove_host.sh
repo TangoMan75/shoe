@@ -1,6 +1,24 @@
 #!/bin/sh
 
 # Remove hostname from /etc/hosts
+#
+# {
+#   "namespace": "network",
+#   "depends": [
+#     "_sed_i",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "HOSTNAME",
+#       "type": "str",
+#       "description": "The hostame to unset locally.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _remove_host() {
     # Synopsis: remove_host <HOSTNAME>
     #   HOSTNAME: The hostame to unset locally.

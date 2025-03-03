@@ -1,6 +1,16 @@
 #!/bin/sh
 
 # Check device is connected with fastboot
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "fastboot"
+#   ],
+#   "depends": [
+#     "_check_installed"
+#   ]
+# }
 _is_device_connected_with_fastboot() {
     # Synopsis: _is_device_connected_with_fastboot
 

@@ -1,6 +1,41 @@
 #!/bin/sh
 
 # Build from given "build.shoe" file
+#
+# {
+#   "requires": [
+#     "adb"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_adb",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "DESTINATION",
+#       "type": "folder",
+#       "description": "The path to the destination folder.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "TYPE",
+#       "type": "str",
+#       "description": "The script type to build (bash or sh).",
+#       "constraint": "/^(bash|sh)$/",
+#       "default": "sh"
+#     }
+#   ]
+# }
 _build() {
     # Synopsis: _build <FILE_PATH> <DESTINATION> [TYPE]
     #   FILE_PATH:    The path to the input file.

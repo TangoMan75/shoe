@@ -1,6 +1,33 @@
 #!/bin/sh
 
 # Checks if variable is valid given regex constraint
+#
+# {
+#   "namespace": "validation",
+#   "requires": [
+#     "grep",
+#     "sed"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "VALUE",
+#       "type": "str",
+#       "description": "The string to be compared to regex pattern.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PATTERN",
+#       "type": "str",
+#       "description": "The regex parttern to apply.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _is_valid() {
     # Synopsis: _is_valid <VALUE> <PATTERN>
     #   VALUE:   The string to be compared to regex pattern.

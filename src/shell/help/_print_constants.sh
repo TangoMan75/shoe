@@ -1,6 +1,40 @@
 #!/bin/sh
 
 # List constants of the provided shoe script (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_warning"
+#   ],
+#   "assumes": [
+#     "EOL",
+#     "INFO",
+#     "PRIMARY",
+#     "SUCCESS",
+#     "WARNING"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 12
+#     }
+#   ]
+# }
 _print_constants() {
     # Synopsis: _print_constants <FILE_PATH> [PADDING]
     #   FILE_PATH: The path to the input file.

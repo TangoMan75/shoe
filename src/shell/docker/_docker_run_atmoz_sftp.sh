@@ -1,6 +1,47 @@
 #!/bin/sh
 
 # Run local atmoz_sftp server
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "USERNAME",
+#       "type": "str",
+#       "description": "The name of the container to run.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PASSWORD",
+#       "type": "str",
+#       "description": "The password for the sftp server access.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "NETWORK_MODE",
+#       "type": "str",
+#       "description": "The user name.",
+#       "constraint": "/^(bridge|host)$/"
+#     },
+#     {
+#       "position": 4,
+#       "name": "FOLDER_PATH",
+#       "type": "folder",
+#       "description": "The path to the volume folder."
+#     }
+#   ]
+# }
 _docker_run_atmoz_sftp() {
     # Synopsis: _docker_run_atmoz_sftp <USERNAME> <PASSWORD> [NETWORK_MODE] [FOLDER_PATH]
     #   USERNAME:     The username for the sftp server access.

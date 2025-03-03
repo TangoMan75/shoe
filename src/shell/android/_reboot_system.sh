@@ -1,6 +1,20 @@
 #!/bin/sh
 
 # Reboot connected device to system
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "adb",
+#     "fastboot"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_adb",
+#     "_is_device_connected_with_fastboot",
+#     "echo_danger",
+#     "echo_info"
+#   ]
+# }
 _reboot_system() {
     # Synopsis: _reboot_system
 

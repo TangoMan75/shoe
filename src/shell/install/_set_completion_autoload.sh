@@ -1,6 +1,38 @@
 #!/bin/sh
 
 # Adds an autoload line for completion script to a shell configuration file
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_collapse_blank_lines",
+#     "_sed_i",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SHELL_CONFIG_FILE",
+#       "type": "file",
+#       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "SCRIPT_FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _set_completion_autoload() {
     # Synopsis: _set_completion_autoload <SHELL_CONFIG_FILE_PATH> <SCRIPT_FILE_PATH> [ALIAS]
     #   SHELL_CONFIG_FILE_PATH: The path to the shell configuration file to be modified (e.g., ~/.bashrc, ~/.zshrc).

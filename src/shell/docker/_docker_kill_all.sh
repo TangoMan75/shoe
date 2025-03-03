@@ -1,6 +1,17 @@
 #!/bin/sh
 
 # Kill all running containers with docker
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_info"
+#   ]
+# }
 _docker_kill_all() {
     # Synopsis: _docker_kill_all
 

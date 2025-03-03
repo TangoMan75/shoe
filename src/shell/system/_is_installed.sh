@@ -1,6 +1,25 @@
 #!/bin/sh
 
 # Check provided command is installed
+#
+# {
+#   "namespace": "system",
+#   "requires": [
+#     "dpkg"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "COMMAND",
+#       "type": "str",
+#       "description": "A string containing the command name to find.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _is_installed() {
     # Synopsis: _is_installed <COMMAND>
     #   COMMAND: A string containing the command name to find.
