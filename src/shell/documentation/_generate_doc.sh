@@ -134,8 +134,39 @@ _generate_doc() {
                 printf "\n\n"
             } {PREV = $0}' "$1"
         fi
+    ) > "$2/$3"
 
-        printf '## 🤖 Commands\n\n'
+    printf '## 🤖 Commands\n\n' >> "$2/$3"
+
+    if _is_installed jq; then
+        for __function_name__ in $(_get_functions_names "$1" true); do
+            echo_info "${__function_name__}\n"
+
+            __annotation__="$(_get_function_annotation "$1" "${__function_name__}")"
+            __json__="$(_parse_annotation "${__annotation__}")"
+            __summary__="$(printf '%s\n' "${__json__}" | jq -r '.summary')"
+
+            # __name__="$(_get_function_annotation "$1" "${__function_name__}")"
+            # __namespace__="$(_get_function_annotation "$1" "${__function_name__}")"
+            # __synopsys__="$(_get_function_annotation "$1" "${__function_name__}")"
+
+            (
+                # shellcheck disable=SC2016
+                printf '#### %d. `%s`%s\n\n' 0 "${__function_name__}" " (private)"
+                printf '%s\n\n' "${__summary__}"
+                # shellcheck disable=SC2016
+                printf '```\n%s\n```\n\n' "${__annotation__}"
+                # shellcheck disable=SC2016
+                printf '```json\n%s\n```\n\n' "${__json__}"
+            ) >> "$2/$3"
+        done
+
+        echo_success "Documentation generated : \"$2/$3\"\n"
+
+        return 0
+    fi
+
+    (
         awk -v GET_PRIVATE="$4" '/^#+/ {
                 if (summary=="") {
                     summary=$0
