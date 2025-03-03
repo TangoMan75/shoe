@@ -1,6 +1,16 @@
 #!/bin/sh
 
 ## Run script in Alpine Docker container
+##
+## {
+##   "requires": [
+##     "docker"
+##   ],
+##   "depends": [
+##     "_check_installed",
+##     "echo_info"
+##   ]
+## }
 alpine() {
     _check_installed docker
 

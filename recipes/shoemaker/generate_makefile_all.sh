@@ -1,6 +1,13 @@
 #!/bin/sh
 
 ## Generate Makefile for all scripts
+##
+## {
+##   "depends": [
+##     "_generate_makefile",
+##     "_pwd"
+##   ]
+## }
 generate_makefile_all() {
     build_folder="$(_pwd)/build"
 

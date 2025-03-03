@@ -1,6 +1,26 @@
 #!/bin/sh
 
 # Update .git/hooks folder
+#
+# {
+#   "namespace": "git",
+#   "requires": [
+#     "git"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SOURCE",
+#       "type": "folder",
+#       "description": "The source directory.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _git_hooks() {
     # Synopsis: _git_hooks <SOURCE>
     #   SOURCE: The source directory.

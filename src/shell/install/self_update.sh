@@ -1,6 +1,19 @@
 #!/bin/sh
 
 ## Update script from @update
+##
+## {
+##   "namespace": "install",
+##   "depends": [
+##     "_get_annotation_tags",
+##     "_get_script_shoedoc",
+##     "_update"
+##   ],
+##   "assumes": [
+##     "ALIAS",
+##     "global"
+##   ]
+## }
 self_update() {
     _annotations="$(_get_script_shoedoc "$0")"
     _update_link="$(_get_annotation_tags "${_annotations}" 'update')"

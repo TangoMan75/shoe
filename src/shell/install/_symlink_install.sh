@@ -1,6 +1,29 @@
 #!/bin/sh
 
 # Install script via symlink
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _symlink_install(){
     # Synopsis: _symlink_install <FILE_PATH> [ALIAS]
     #   FILE_PATH: The path to the input file.

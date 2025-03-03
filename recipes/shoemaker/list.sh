@@ -1,6 +1,15 @@
 #!/bin/sh
 
 ## Dump "build.shoe" file
+##
+## {
+##   "depends": [
+##     "_get_functions_names",
+##     "_pwd",
+##     "echo_danger",
+##     "echo_success"
+##   ]
+## }
 list() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"

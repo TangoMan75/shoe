@@ -1,6 +1,41 @@
 #!/bin/sh
 
 # Flash img file to connected device provided partition
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "fastboot"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_fastboot",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PARTITION",
+#       "type": "str",
+#       "description": "The name of the target partition.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "FORCE",
+#       "type": "bool",
+#       "description": "Force install.",
+#       "default": false
+#     }
+#   ]
+# }
 _flash_img() {
     # Synopsis: _flash_img <FILE_PATH> <PARTITION> [FORCE]
     #   FILE_PATH: The path to the image file.

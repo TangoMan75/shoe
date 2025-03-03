@@ -1,5 +1,7 @@
 ## TangoMan Shoemaker
+##
 ## A versatile developement tool to split a script file into its components, build a script from a build.lst file, generate Makefile or Markdown documentation from a shoe script.  
+##
 ## @version 0.1.0
 ## @author  "Matthias Morin" <mat@tangoman.io>
 ## @license MIT

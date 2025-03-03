@@ -4,7 +4,7 @@ TangoMan Shoemaker
 ## ℹ️ Infos
 
 - author:  "Matthias Morin" <mat@tangoman.io>
-- version: 1.0.0
+- version: 0.1.0
 - link:    https://github.com/TangoMan75/shoe
 
 
@@ -27,628 +27,832 @@ documentation from a shoe script.
 
 1. **`--file`**
 > Source file 
-  - Constraint: `/^~?[a-zA-Z0-9./_-]+$/`
-  - Default: _''_
+  - 🧩 Constraint: `/^~?[a-zA-Z0-9./_-]+$/`
+  - 🚩 Default: _''_
 
 2. **`--destination`**
 > Destination directory 
-  - Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
-  - Default: _''_
+  - 🧩 Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
+  - 🚩 Default: _''_
 
 3. **`--type`**
 > Script type 
-  - Constraint: `/(shell|bash)/`
-  - Default: _shell_
+  - 🧩 Constraint: `/(shell|bash)/`
+  - 🚩 Default: _shell_
 
 ## 🤖 Commands
 
-#### 1. `dump`
+#### ⌨️ 1. `dump` (public)
 
 Dump functions from given script into individual files
 
+> Synopsis:
+> dump
 
-#### 2. `list`
+- 🔗 Depends: `_get_function`, `_get_functions_names`, `echo_danger`, `echo_success`
+
+#### ⌨️ 2. `list` (public)
 
 Dump "build.shoe" file
 
+> Synopsis:
+> list
 
-#### 3. `build`
+- 🔗 Depends: `_get_functions_names`, `_pwd`, `echo_danger`, `echo_success`
+
+#### ⌨️ 3. `build` (public)
 
 Build from given "build.shoe" file
 
+> Synopsis:
+> build
 
-#### 4. `build_all`
+- 🔗 Depends: `_build`, `_pwd`, `echo_danger`
+
+#### ⌨️ 4. `build_all` (public)
 
 Build all scripts
 
+> Synopsis:
+> build_all
 
-### ⚡ Documentation
+- 🔗 Depends: `_build`, `_pwd`
 
-#### 1. `generate_doc`
+#### ⌨️ 5. `remove_json_annotations` (public)
+
+Remove json annotations from file
+
+> Synopsis:
+> remove_json_annotations
+
+- ⚠️ Requires: `sed`
+- 🔗 Depends: `echo_danger`, `echo_info`, `sed_i`
+
+#### ⌨️ 6. `generate_doc` (public)
 
 Generate Markdown documentation for provided shoe script
 
+> Synopsis:
+> generate_doc
 
-#### 2. `generate_doc_all`
+- 🔗 Depends: `_generate_doc`
+
+#### ⌨️ 7. `generate_doc_all` (public)
 
 Generate Markdown documentation for all scripts
 
+> Synopsis:
+> generate_doc_all
 
-### ⚡ Make
+- 🔗 Depends: `_generate_doc`, `_pwd`
 
-#### 1. `generate_makefile`
+#### ⌨️ 8. `generate_makefile` (public)
 
 Generate Markdown documentation for provided shoe script
 
+> Synopsis:
+> generate_makefile
 
-#### 2. `generate_makefile_all`
+- 🔗 Depends: `_generate_makefile`
+
+#### ⌨️ 9. `generate_makefile_all` (public)
 
 Generate Makefile for all scripts
 
+> Synopsis:
+> generate_makefile_all
 
-#### 3. `_build` (private)
+- 🔗 Depends: `_generate_makefile`, `_pwd`
+
+#### ⌨️ 10. `_build` (private)
 
 Build from given "build.shoe" file
 
-> Synopsis: _build &lt;FILE_PATH&gt; &lt;DESTINATION&gt; [TYPE]<br>
->   FILE_PATH:    The path to the input file.<br>
->   DESTINATION:  The path to the destination folder.<br>
->   TYPE:         (optional) The script type to build (bash or sh). Will default to "sh".<br>
+> Synopsis:
+> _build &lt;FILE_PATH&gt; &lt;DESTINATION&gt; [TYPE]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `DESTINATION`: _(type: "folder")_ The path to the destination folder.
+- `TYPE`: _(type: "str")_ (optional) The script type to build (bash or sh). _Defaults to "sh"._
 
-### ⚡ Self Install
+- 🔗 Depends: `_collapse_blank_lines`, `_sed_i`, `alert_primary`, `echo_danger`, `echo_info`
 
-#### 1. `self_install`
+#### ⌨️ 11. `self_install` (public)
 
 Install script and enable completion
 
+> Synopsis:
+> self_install
 
-#### 2. `self_uninstall`
+- 🔗 Depends: `_install`
+
+#### ⌨️ 12. `self_uninstall` (public)
 
 Uninstall script from system
 
+> Synopsis:
+> self_uninstall
 
-#### 3. `self_update`
+- 🔗 Depends: `_uninstall`
+
+#### ⌨️ 13. `self_update` (public)
 
 Update script from @update
 
+> Synopsis:
+> self_update
 
-### ⚡ Help
+- 🔗 Depends: `_get_annotation_tags`, `_get_script_shoedoc`, `_update`
 
-#### 1. `help`
+#### ⌨️ 14. `help` (public)
 
 Print this help
 
+> Synopsis:
+> help
 
-### ⚡ Hooks
+- 🔗 Depends: `_help`
 
-#### 1. `_default` (private)
+#### ⌨️ 15. `_default` (private)
 
 Place here commands you need executed by default (optional)
 
+> Synopsis:
+> _default
 
-#### 2. `_before` (private)
+#### ⌨️ 16. `_before` (private)
 
 Place here commands you need executed first every time (optional)
 
+> Synopsis:
+> _before
 
-#### 3. `_after` (private)
+#### ⌨️ 17. `_after` (private)
 
 Place here commands you need executed last every time (optional)
 
+> Synopsis:
+> _after
 
-### ⚡ Bashdoc
-
-#### 1. `_get_shoedoc_description` (private)
+#### ⌨️ 18. `_get_shoedoc_description` (private)
 
 Get shoedoc description
 
-> Synopsis: _get_shoedoc_description &lt;TEXT&gt;<br>
->   TEXT: The input shoedoc annotation bloc.<br>
+> Synopsis:
+> _get_shoedoc_description &lt;TEXT&gt;
+- `TEXT`: _(type: "str")_ The input shoedoc annotation bloc.
 
-#### 2. `_get_shoedoc` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 19. `_get_shoedoc` (private)
 
 Get shoedoc
 
-> Synopsis: _get_shoedoc &lt;TEXT&gt;<br>
->   TEXT: The input shoedoc annotation bloc.<br>
->   note: Remove every line that does not start with a pound character or contains a tag<br>
->         Returns string without leading pound characters<br>
+> Synopsis:
+> _get_shoedoc &lt;TEXT&gt;
+- `TEXT`: _(type: "str")_ The input shoedoc annotation bloc.
 
-#### 3. `_get_shoedoc_tag` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 20. `_get_shoedoc_tag` (private)
 
 Return given tag values from shoedoc bloc
 
-> Synopsis: _get_shoedoc_tag &lt;TEXT&gt; &lt;TAG_NAME&gt;<br>
->   TEXT:     The input shoedoc annotation bloc.<br>
->   TAG_NAME: The name of tag to return.<br>
+> Synopsis:
+> _get_shoedoc_tag &lt;TEXT&gt; &lt;TAG_NAME&gt;
+- `TEXT`: _(type: "str")_ The input shoedoc annotation bloc.
+- `TAG_NAME`: _(type: "str")_ The name of tag to return.
 
-#### 4. `_get_shoedoc_title` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 21. `_get_shoedoc_title` (private)
 
 Get shoedoc title
 
-> Synopsis: _get_shoedoc_title &lt;TEXT&gt;<br>
->   TEXT: The input shoedoc annotation bloc.<br>
->   note: Returns the first line that does not contain a tag<br>
+> Synopsis:
+> _get_shoedoc_title &lt;TEXT&gt;
+- `TEXT`: _(type: "str")_ The input shoedoc annotation bloc.
 
-#### 5. `_get_script_shoedoc` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 22. `_get_script_shoedoc` (private)
 
 Get shoedoc bloc at the top the provided shoe script file
 
-> Synopsis: _get_script_shoedoc &lt;SCRIPT_PATH&gt;<br>
->   SCRIPT_PATH: The path to the input script.<br>
->   note:        Each shoedoc should strictly start with two pound signs (##)<br>
->                Returns the first valid docbloc found in the provided file<br>
+> Synopsis:
+> _get_script_shoedoc &lt;SCRIPT_PATH&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
 
-### ⚡ Colors
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
 
-#### 1. `echo_primary` (private)
+#### ⌨️ 23. `echo_primary` (public)
 
 Print primary text with optional indentation and padding
 
-> Synopsis: echo_primary &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:      Text to display.<br>
->  INDENTATION: Indentation level (default: 0).<br>
->  PADDING:     Padding length (default: 0).<br>
->  note:        Older versions of printf supports a more limited set of format specifiers (eg: "%-*b"),<br>
->               this is why we're calculating the PADDING length on each execution.<br>
+> Synopsis:
+> echo_primary &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### 2. `echo_secondary` (private)
+#### ⌨️ 24. `echo_secondary` (public)
 
 Print secondary text with optional indentation and padding
 
-> Synopsis: echo_secondary &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
+> Synopsis:
+> echo_secondary &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### 3. `echo_success` (private)
+#### ⌨️ 25. `echo_success` (public)
 
 Print success text with optional indentation and padding
 
-> Synopsis: echo_success &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
+> Synopsis:
+> echo_success &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### 4. `echo_danger` (private)
+#### ⌨️ 26. `echo_danger` (public)
 
 Print danger text with optional indentation and padding
 
-> Synopsis: echo_danger &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
+> Synopsis:
+> echo_danger &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### 5. `echo_warning` (private)
+#### ⌨️ 27. `echo_warning` (public)
 
 Print warning text with optional indentation and padding
 
-> Synopsis: echo_warning &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
+> Synopsis:
+> echo_warning &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### 6. `echo_info` (private)
+#### ⌨️ 28. `echo_info` (public)
 
 Print info text with optional indentation and padding
 
-> Synopsis: echo_info &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
+> Synopsis:
+> echo_info &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### 7. `echo_light` (private)
+#### ⌨️ 29. `echo_light` (public)
 
 Print light text with optional indentation and padding
 
-> Synopsis: echo_light &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
+> Synopsis:
+> echo_light &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### 8. `echo_dark` (private)
+#### ⌨️ 30. `echo_dark` (public)
 
 Print dark text with optional indentation and padding
 
-> Synopsis: echo_dark &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
+> Synopsis:
+> echo_dark &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### 9. `alert_primary` (private)
+#### ⌨️ 31. `alert_primary` (public)
 
 Print primary alert
 
-> Synopsis: alert_primary &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
+> Synopsis:
+> alert_primary &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-#### 10. `alert_secondary` (private)
+#### ⌨️ 32. `alert_secondary` (public)
 
 Print secondary alert
 
-> Synopsis: alert_secondary &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
+> Synopsis:
+> alert_secondary &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-#### 11. `alert_success` (private)
+#### ⌨️ 33. `alert_success` (public)
 
 Print success alert
 
-> Synopsis: alert_success &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
+> Synopsis:
+> alert_success &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-#### 12. `alert_danger` (private)
+#### ⌨️ 34. `alert_danger` (public)
 
 Print danger alert
 
-> Synopsis: alert_danger &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
+> Synopsis:
+> alert_danger &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-#### 13. `alert_warning` (private)
+#### ⌨️ 35. `alert_warning` (public)
 
 Print warning alert
 
-> Synopsis: alert_warning &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
+> Synopsis:
+> alert_warning &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-#### 14. `alert_info` (private)
+#### ⌨️ 36. `alert_info` (public)
 
 Print info alert
 
-> Synopsis: alert_info &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
+> Synopsis:
+> alert_info &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-#### 15. `alert_light` (private)
+#### ⌨️ 37. `alert_light` (public)
 
 Print light alert
 
-> Synopsis: alert_light &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
+> Synopsis:
+> alert_light &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-#### 16. `alert_dark` (private)
+#### ⌨️ 38. `alert_dark` (public)
 
 Print dark alert
 
-> Synopsis: alert_dark &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
+> Synopsis:
+> alert_dark &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-### ⚡ Compatibility
-
-#### 1. `_sed_i` (private)
+#### ⌨️ 39. `_sed_i` (private)
 
 Return sed -i system flavour
 
-> Synopsis: _sed_i<br>
+> Synopsis:
+> _sed_i
 
-### ⚡ Documentation
+- ⚠️ Requires: `command`, `sed`, `uname`
 
-#### 1. `_generate_doc` (private)
+#### ⌨️ 40. `_generate_doc` (private)
 
 Generate Markdown documentation for provided shoe script
 
-> Synopsis: _generate_doc &lt;SCRIPT_PATH&gt; [DESTINATION] [OUTPUT_FILE_NAME] [GET_PRIVATE]<br>
->   SCRIPT_PATH:      The path to the input file.<br>
->   DESTINATION:      (optional) The path to the destination folder. Defaults to file parent.<br>
->   OUTPUT_FILE_NAME: (optional) The name for the documentation file. Defaults to "&lt;BASENAME&gt;.md".<br>
->   GET_PRIVATE:      (Optional) If set to 'true', documents private constants, options, flags, and commands as well. Defaults to "false".<br>
+> Synopsis:
+> _generate_doc &lt;SCRIPT_PATH&gt; [DESTINATION] [OUTPUT_FILE_NAME] [GET_PRIVATE]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `DESTINATION`: _(type: "folder")_ (optional) The path to the destination folder. Defaults to file parent.
+- `OUTPUT_FILE_NAME`: _(type: "str")_ (optional) The name for the documentation file. Defaults to "<BASENAME>.md".
+- `GET_PRIVATE`: _(type: "bool")_ (optional) If set to "true", documents private constants, options, flags, and commands as well. _Defaults to "false"._
 
-### ⚡ Help
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_tag`, `_get_shoedoc_title`, `_print_synopsis`, `alert_primary`, `echo_danger`, `echo_success`
 
-#### 1. `_help` (private)
+#### ⌨️ 41. `_help` (private)
 
 Print help for provider shoe script
 
-> Synopsis: _help &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
+> Synopsis:
+> _help &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
-#### 2. `_print_commands` (private)
+- 🔗 Depends: `_get_constants`, `_get_flags`, `_get_options`, `_get_padding`, `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_title`, `_print_commands`, `_print_constants`, `_print_description`, `_print_flags`, `_print_infos`, `_print_options`, `_print_usage`, `alert_primary`, `echo_danger`
+
+#### ⌨️ 42. `_print_commands` (private)
 
 List commands of the provided shoe script (used by "help" command)
 
-> Synopsis: _print_commands &lt;FILE_PATH&gt; [PADDING]<br>
->   FILE_PATH: The path to the input file.<br>
->   PADDING:   (optional) Padding length (default: 12)<br>
->   note:      "awk: %*x formats are not supported"<br>
+> Synopsis:
+> _print_commands &lt;FILE_PATH&gt; [PADDING]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "12"._
 
-#### 3. `_print_constants` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`, `echo_warning`
+
+#### ⌨️ 43. `_print_constants` (private)
 
 List constants of the provided shoe script (used by "help" command)
 
-> Synopsis: _print_constants &lt;FILE_PATH&gt; [PADDING]<br>
->   FILE_PATH: The path to the input file.<br>
->   PADDING:   (optional) Padding length (default: 12)<br>
->   note:      "awk: %*x formats are not supported"<br>
+> Synopsis:
+> _print_constants &lt;FILE_PATH&gt; [PADDING]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "12"._
 
-#### 4. `_print_description` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`, `echo_warning`
+
+#### ⌨️ 44. `_print_description` (private)
 
 Print provided text formatted as a description (used by "help" command)
 
-> Synopsis: _print_description &lt;DESCRIPTION&gt;<br>
->   DESCRIPTION: A string containing script description.<br>
+> Synopsis:
+> _print_description &lt;DESCRIPTION&gt;
+- `DESCRIPTION`: _(type: "str")_ A string containing script description.
 
-#### 5. `_print_flags` (private)
+- 🔗 Depends: `echo_primary`, `echo_warning`
+
+#### ⌨️ 45. `_print_flags` (private)
 
 List flags of the provided shoe script (used by "help" command)
 
-> Synopsis: _print_flags &lt;FILE_PATH&gt; [PADDING]<br>
->   FILE_PATH: The path to the input file.<br>
->   PADDING:   (optional) Padding length (default: 12)<br>
->   note:      "awk: %*x formats are not supported"<br>
+> Synopsis:
+> _print_flags &lt;FILE_PATH&gt; [PADDING]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "12"._
 
-#### 6. `_print_infos` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`, `echo_warning`
+
+#### ⌨️ 46. `_print_infos` (private)
 
 Print infos of the provided shoe script (used by "help" command)
 
-> Synopsis: _print_infos &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
+> Synopsis:
+> _print_infos &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
-#### 7. `_print_options` (private)
+- 🔗 Depends: `_get_script_shoedoc`, `_get_shoedoc_tag`, `echo_danger`, `echo_primary`, `echo_success`, `echo_warning`
+
+#### ⌨️ 47. `_print_options` (private)
 
 List options of the provided shoe script (used by "help" command)
 
-> Synopsis: _print_options &lt;FILE_PATH&gt; [PADDING]<br>
->   FILE_PATH: The path to the input file.<br>
->   PADDING:   (optional) Padding length (default: 12)<br>
->   note:      "awk: %*x formats are not supported"<br>
+> Synopsis:
+> _print_options &lt;FILE_PATH&gt; [PADDING]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "12"._
 
-#### 8. `_print_usage` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`, `echo_warning`
+
+#### ⌨️ 48. `_print_usage` (private)
 
 Print usage of the provided shoe script (used by "help" command)
 
-> Synopsis: _print_usage &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
+> Synopsis:
+> _print_usage &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
-### ⚡ Install
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`, `echo_info`, `echo_success`, `echo_warning`
 
-#### 1. `_copy_install` (private)
+#### ⌨️ 49. `_copy_install` (private)
 
 Install script via copy
 
-> Synopsis: _copy_install &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided file<br>
->   note:      Creates a symbolic link in the /usr/local/bin/ directory.<br>
+> Synopsis:
+> _copy_install &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-#### 2. `_generate_autocomplete` (private)
+- 🔗 Depends: `echo_danger`, `echo_info`
+
+#### ⌨️ 50. `_generate_autocomplete` (private)
 
 Generates an autocomplete script for the provided file
 
-> Synopsis: _generate_autocomplete &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to autocomplete. Defaults to the basename of the provided file<br>
->   note:      This function creates a completion script named "&lt;ALIAS&gt;-completion.sh" in the same directory as the script itself.<br>
->              Refer to https://iridakos.com/programming/2018/03/01/bash-programmable-completion-tutorial for details on how to configure shell autocompletions.<br>
->              Or read the official docmentation for "complete" https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html#Programmable-Completion-Builtins<br>
+> Synopsis:
+> _generate_autocomplete &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-#### 3. `_generate_global_autocomplete` (private)
+- 🔗 Depends: `_get_comspec`, `echo_danger`, `echo_info`
+
+#### ⌨️ 51. `_generate_global_autocomplete` (private)
 
 Creates a system-wide autocomplete script for the provided file
 
-> Synopsis: _generate_global_autocomplete &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to autocomplete. Defaults to the basename of the provided file<br>
->   note:      This function creates a completion script named "&lt;ALIAS&gt;" (where "&lt;ALIAS&gt;" is the basename of the provided file)<br>
->              in the /etc/bash_completion.d/ directory, enabling autocompletion for all users on the system.<br>
->              It uses sudo for file creation in a system directory, requiring root privileges.<br>
+> Synopsis:
+> _generate_global_autocomplete &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-#### 4. `_get_comspec` (private)
+- 🔗 Depends: `_get_comspec`, `echo_danger`, `echo_info`
+
+#### ⌨️ 52. `_get_comspec` (private)
 
 Generate comspec string for the provided file
 
-> Synopsis: _get_comspec &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
+> Synopsis:
+> _get_comspec &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
-#### 5. `_install` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 53. `_install` (private)
 
 Install script and enable completion
 
-> Synopsis: _install &lt;FILE_PATH&gt; [ALIAS] [GLOBAL]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided script.<br>
->   GLOBAL:    (optional) Install globally. Defaults to "false".<br>
+> Synopsis:
+> _install &lt;FILE_PATH&gt; [ALIAS] [GLOBAL]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
+- `GLOBAL`: _(type: "bool")_ (optional) Install globally. _Defaults to "false"._
 
-#### 6. `_remove_completion_autoload` (private)
+- 🔗 Depends: `_copy_install`, `_generate_autocomplete`, `_generate_global_autocomplete`, `_is_installed`, `_set_completion_autoload`, `_symlink_install`, `echo_danger`
+
+#### ⌨️ 54. `_remove_completion_autoload` (private)
 
 Remove completion script autoload
 
-> Synopsis: _remove_completion_autoload &lt;SHELL_CONFIG_FILE&gt; [ALIAS]<br>
-> Removes an autoload line for a completion script from a shell configuration file.<br>
->   SHELL_CONFIG_FILE: The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).<br>
->   ALIAS:             (optional) The alias of the script to remove. Defaults to the basename of the provided file<br>
+> Synopsis:
+> _remove_completion_autoload &lt;SHELL_CONFIG_FILE&gt; [ALIAS]
+- `SHELL_CONFIG_FILE`: _(type: "file")_ The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-#### 7. `_set_completion_autoload` (private)
+- 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`
+
+#### ⌨️ 55. `_set_completion_autoload` (private)
 
 Adds an autoload line for completion script to a shell configuration file
 
-> Synopsis: _set_completion_autoload &lt;SHELL_CONFIG_FILE_PATH&gt; &lt;SCRIPT_FILE_PATH&gt; [ALIAS]<br>
->   SHELL_CONFIG_FILE_PATH: The path to the shell configuration file to be modified (e.g., ~/.bashrc, ~/.zshrc).<br>
->   SCRIPT_FILE_PATH:       The path to the input file.<br>
->   ALIAS:                  (optional) The alias of the input script. Defaults to the basename of the provided file<br>
+> Synopsis:
+> _set_completion_autoload &lt;SHELL_CONFIG_FILE&gt; &lt;SCRIPT_FILE_PATH&gt; [ALIAS]
+- `SHELL_CONFIG_FILE`: _(type: "file")_ The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).
+- `SCRIPT_FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-#### 8. `_symlink_install` (private)
+- 🔗 Depends: `_collapse_blank_lines`, `_sed_i`, `echo_danger`, `echo_info`
+
+#### ⌨️ 56. `_symlink_install` (private)
 
 Install script via symlink
 
-> Synopsis: _symlink_install &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided file<br>
->   note:      Creates a symbolic link in the /usr/local/bin/ directory.<br>
+> Synopsis:
+> _symlink_install &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-#### 9. `_uninstall` (private)
+- 🔗 Depends: `echo_danger`, `echo_info`
+
+#### ⌨️ 57. `_uninstall` (private)
 
 Uninstall script from system
 
-> Synopsis: _uninstall &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to uninstall. Defaults to the basename of the provided script.<br>
+> Synopsis:
+> _uninstall &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-#### 10. `_update` (private)
+- 🔗 Depends: `_remove_completion_autoload`, `echo_danger`, `echo_info`
+
+#### ⌨️ 58. `_update` (private)
 
 Updates given script from the provided URL
 
-> Synopsis: _update &lt;FILE_PATH&gt; &lt;URL&gt; [ALIAS] [GLOBAL]<br>
->   FILE_PATH: The path to the input file.<br>
->   URL:       The URL of the script to download and install.<br>
->   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided script.<br>
->   GLOBAL:    (optional) Install globally. Defaults to "false".<br>
+> Synopsis:
+> _update &lt;FILE_PATH&gt; &lt;URL&gt; [ALIAS] [GLOBAL]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `URL`: _(type: "str")_ The URL of the script to download and install.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
+- `GLOBAL`: _(type: "bool")_ (optional) Install globally. _Defaults to "false"._
 
-### ⚡ Make
+- ⚠️ Requires: `curl`, `wget`
+- 🔗 Depends: `_copy_install`, `_generate_autocomplete`, `_generate_global_autocomplete`, `_install`, `_is_installed`, `_set_completion_autoload`, `_symlink_install`, `_uninstall`, `echo_danger`
 
-#### 1. `_generate_makefile` (private)
+#### ⌨️ 59. `_generate_makefile` (private)
 
 Generate Makefile for provided shoe script
 
-> Synopsis: _generate_makefile &lt;SCRIPT_PATH&gt; [DESTINATION] [OUTPUT_FILE_NAME]<br>
->   SCRIPT_PATH:      The path to the input script.<br>
->   DESTINATION:      (optional) The path to the destination folder. Defaults to file parent.<br>
->   OUTPUT_FILE_NAME: (optional) The name for the generated Makefile. Defaults to "&lt;BASENAME&gt;.makefile".<br>
+> Synopsis:
+> _generate_makefile &lt;SCRIPT_PATH&gt; [DESTINATION] [OUTPUT_FILE_NAME]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `DESTINATION`: _(type: "folder")_ (optional) The path to the destination folder. Defaults to file parent.
+- `OUTPUT_FILE_NAME`: _(type: "str")_ (optional) The name for the generated Makefile. Defaults to "<BASENAME>.makefile".
 
-### ⚡ Reflexion
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_tag`, `_get_shoedoc_title`, `alert_primary`, `echo_danger`, `echo_success`
 
-#### 1. `_get_constants` (private)
+#### ⌨️ 60. `_get_constants` (private)
 
 List constants from provided shoe script
 
-> Synopsis: _get_constants &lt;SCRIPT_PATH&gt; [GET_PRIVATE]<br>
->   SCRIPT_PATH: The path to the input script.<br>
->   GET_PRIVATE: (Optional) If set to 'true', retrieves private constants as well. (default=false)<br>
+> Synopsis:
+> _get_constants &lt;SCRIPT_PATH&gt; [GET_PRIVATE]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `GET_PRIVATE`: _(type: "bool")_ (optional) If set to "true", retrieves private constants as well. _Defaults to "false"._
 
-#### 2. `_get_constraint` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 61. `_get_constraint` (private)
 
 Get constaint for given variable from provided shoe script
 
-> Synopsis: _get_constraint &lt;SCRIPT_PATH&gt; &lt;VARIABLE_NAME&gt;<br>
->   SCRIPT_PATH:   The path to the input script.<br>
->   VARIABLE_NAME: The variable to validate.<br>
+> Synopsis:
+> _get_constraint &lt;SCRIPT_PATH&gt; &lt;VARIABLE_NAME&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `VARIABLE_NAME`: _(type: "str")_ The variable to validate.
 
-#### 3. `_get_flags` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 62. `_get_flags` (private)
 
 List flags from provided shoe script
 
-> Synopsis: _get_flags &lt;SCRIPT_PATH&gt;<br>
->   SCRIPT_PATH: The path to the input script.<br>
+> Synopsis:
+> _get_flags &lt;SCRIPT_PATH&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
 
-#### 4. `_get_function` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
 
-Get function by name
-
-> Synopsis: _get_function &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;<br>
->   SCRIPT_PATH:   The path to the input file.<br>
->   FUNCTION_NAME: The name of the function to retrieve.<br>
-
-#### 5. `_get_function_annotation` (private)
+#### ⌨️ 63. `_get_function_annotation` (private)
 
 Get function annotation by name
 
-> Synopsis: _get_function_annotation &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;<br>
->   SCRIPT_PATH:   The path to the input file.<br>
->   FUNCTION_NAME: The name of the function to retrieve.<br>
+> Synopsis:
+> _get_function_annotation &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `FUNCTION_NAME`: _(type: "str")_ The name of the function to retrieve.
 
-#### 6. `_get_functions_names` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 64. `_get_function` (private)
+
+Get function by name
+
+> Synopsis:
+> _get_function &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `FUNCTION_NAME`: _(type: "str")_ The name of the function to retrieve.
+
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 65. `_get_functions_names` (private)
 
 List functions names from provided shoe script
 
-> Synopsis: _get_functions_names &lt;SCRIPT_PATH&gt; [GET_PRIVATE]<br>
->   SCRIPT_PATH: The path to the input script.<br>
->   GET_PRIVATE: (Optional) If set to 'true', retrieves private functions as well. Defaults to "false".<br>
+> Synopsis:
+> _get_functions_names &lt;SCRIPT_PATH&gt; [GET_PRIVATE]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `GET_PRIVATE`: _(type: "bool")_ (optional) If set to "true", retrieves private functions as well. _Defaults to "false"._
 
-#### 7. `_get_options` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 66. `_get_options` (private)
 
 List options from provided shoe script
 
-> Synopsis: _get_options &lt;SCRIPT_PATH&gt; [GET_PRIVATE_ONLY]<br>
->   SCRIPT_PATH:      The path to the input script.<br>
->   GET_PRIVATE_ONLY: (Optional) If set to 'true', retrieves private options only. Defaults to "false".<br>
+> Synopsis:
+> _get_options &lt;SCRIPT_PATH&gt; [GET_PRIVATE_ONLY]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `GET_PRIVATE_ONLY`: _(type: "bool")_ (optional) If set to "true", retrieves private options only. _Defaults to "false"._
 
-#### 8. `_get_padding` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 67. `_get_padding` (private)
 
 Guess padding length from longest constant, option, flag or command of the provided shoe script
 
-> Synopsis: _get_padding &lt;SCRIPT_PATH&gt;<br>
->   SCRIPT_PATH: The path to the input script.<br>
+> Synopsis:
+> _get_padding &lt;SCRIPT_PATH&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
 
-#### 9. `_get_parameter` (private)
+- ⚠️ Requires: `awk`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 68. `_get_parameter` (private)
 
 Get value for given parameter from provided ".env" or ".sh" file
 
-> Synopsys : _get_parameter &lt;FILE_PATH&gt; &lt;KEY&gt;<br>
->   FILE_PATH: The path to the input file.<br>
->   KEY:       The variable name to get from provided file.<br>
+> Synopsis:
+> _get_parameter &lt;FILE_PATH&gt; &lt;KEY&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `KEY`: _(type: "str")_ The variable name to get from provided file.
 
-#### 10. `_parse_annotation` (private)
+- ⚠️ Requires: `sed`
+- 🔗 Depends: `echo_danger`, `echo_info`
 
-Return json object from annotation
+#### ⌨️ 69. `_parse_annotation` (private)
 
-> Synopsis: _parse_annotation &lt;ANNOTATION&gt;<br>
->   ANNOTATION: The input text containing raw annotation.<br>
+Return function annotation as json
 
-#### 11. `_set_parameter` (private)
+> Synopsis:
+> _parse_annotation &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `FUNCTION_NAME`: _(type: "str")_ The name of the function to retrieve.
+
+- ⚠️ Requires: `jq`, `sed`
+- 🔗 Depends: `_get_function_annotation`, `echo_danger`
+
+#### ⌨️ 70. `_print_synopsis` (private)
+
+Print function synopsis from a JSON string.
+
+> Synopsis:
+> _print_synopsis &lt;JSON&gt; [MARKDOWN_FORMAT]
+- `JSON`: _(type: "json")_ The input string containing raw JSON.
+- `MARKDOWN_FORMAT`: _(type: "bool")_ (optional) If set to "true", returns result as markdown. _Defaults to "false"._
+
+- ⚠️ Requires: `jq`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 71. `_set_parameter` (private)
 
 Set value for given parameter into provided file ".env" or ".sh" file
 
-> Synopsys : _set_parameter &lt;FILE_PATH&gt; &lt;KEY&gt; &lt;VALUE&gt;<br>
->   FILE_PATH: The path to the input script.<br>
->   KEY:       The variable name to set to provided file<br>
->   VALUE:     The value to be set to provided file<br>
+> Synopsis:
+> _set_parameter &lt;FILE_PATH&gt; &lt;KEY&gt; &lt;VALUE&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `KEY`: _(type: "str")_ The variable name to get from provided file.
+- `VALUE`: _(type: "str")_ The value to be set to provided file.
 
-### ⚡ Strings
+- ⚠️ Requires: `sed`
+- 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`, `echo_warning`
 
-#### 1. `_collapse_blank_lines` (private)
+#### ⌨️ 72. `_collapse_blank_lines` (private)
 
 Collapse blank lines with "sed"
 
-> Synopsis: _collapse_blank_lines &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
+> Synopsis:
+> _collapse_blank_lines &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
-### ⚡ System
+- 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`
 
-#### 1. `_check_installed` (private)
+#### ⌨️ 73. `_check_installed` (private)
 
 Print error message if provided command is missing
 
-> Synopsis: _check_installed &lt;COMMAND&gt;<br>
->   COMMAND: A string containing the command name to find.<br>
+> Synopsis:
+> _check_installed &lt;COMMAND&gt;
+- `COMMAND`: _(type: "str")_ A string containing the command name to find.
 
-#### 2. `_get_package_name` (private)
+- 🔗 Depends: `_get_package_name`, `_is_installed`, `echo_danger`
+
+#### ⌨️ 74. `_get_package_name` (private)
 
 Find package name for given command
 
-> Synopsis: _get_package_name &lt;COMMAND&gt;<br>
->   COMMAND: A string containing the command name to find.<br>
+> Synopsis:
+> _get_package_name &lt;COMMAND&gt;
+- `COMMAND`: _(type: "str")_ A string containing the command name to find.
 
-#### 3. `_is_installed` (private)
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 75. `_is_installed` (private)
 
 Check provided command is installed
 
-> Synopsis: _is_installed &lt;COMMAND&gt;<br>
->   COMMAND: A string containing the command name to find.<br>
+> Synopsis:
+> _is_installed &lt;COMMAND&gt;
+- `COMMAND`: _(type: "str")_ A string containing the command name to find.
 
-#### 4. `_pwd` (private)
+- ⚠️ Requires: `dpkg`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 76. `_pwd` (private)
 
 Return current project directory realpath, or "pwd" when installed globally
 
-> Synopsis: _pwd<br>
+> Synopsis:
+> _pwd
 
-### ⚡ Validation
-
-#### 1. `_is_valid` (private)
+#### ⌨️ 77. `_is_valid` (private)
 
 Checks if variable is valid given regex constraint
 
-> Synopsis: _is_valid &lt;VALUE&gt; &lt;PATTERN&gt;<br>
->   VALUE:   The string to be compared to regex pattern.<br>
->   PATTERN: The regex parttern to apply.<br>
+> Synopsis:
+> _is_valid &lt;VALUE&gt; &lt;PATTERN&gt;
+- `VALUE`: _(type: "str")_ The string to be compared to regex pattern.
+- `PATTERN`: _(type: "str")_ The regex parttern to apply.
 
-#### 2. `_validate` (private)
+- ⚠️ Requires: `grep`, `sed`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 78. `_validate` (private)
 
 Find constraints and validates a variable
 
-> Synopsis: _validate &lt;VARIABLE&gt;<br>
->   VARIABLE: The variable to validate in the followling format : variable_name=value.<br>
+> Synopsis:
+> _validate &lt;VARIABLE&gt;
+- `VARIABLE`: _(type: "str")_ The variable to validate in the followling format : variable_name=value.
 
-### ⚡ Kernel
+- ⚠️ Requires: `sed`
+- 🔗 Depends: `_get_constraint`, `_is_valid`, `echo_danger`
 
-#### 1. `_kernel` (private)
+#### ⌨️ 79. `_kernel` (private)
 
 Shoe Kernel
 
+> Synopsis:
+> _kernel
+
+- 🔗 Depends: `_after`, `_before`, `_default`, `_get_flags`, `_get_functions_names`, `_get_options`, `_validate`, `echo_danger`
 

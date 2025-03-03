@@ -1,6 +1,26 @@
 #!/bin/sh
 
 # Promt user for yes or no
+#
+# {
+#   "namespace": "prompts",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_success",
+#     "echo_warning"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "QUESTION",
+#       "type": "str",
+#       "description": "A string containing the question.",
+#       "default": "Confirm ?"
+#     }
+#   ]
+# }
 _yes_no() {
     # Synopsis: _yes_no [QUESTION]
     #   QUESTION: (optional) A string containing the question. Defaults to "Confirm ?".

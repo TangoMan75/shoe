@@ -1,6 +1,24 @@
 #!/bin/sh
 
 # Build container stack with docker compose
+#
+# {
+#   "namespace": "docker",
+#   "depends": [
+#     "_get_docker_compose",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the compose.yaml file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _docker_compose_build() {
     # Synopsis: _docker_compose_build <FILE_PATH>
     #   FILE_PATH: The path to the compose.yaml file.

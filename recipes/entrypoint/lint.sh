@@ -1,6 +1,16 @@
 #!/bin/sh
 
 ## Sniff errors with linter
+##
+## {
+##   "requires": [
+##     "shellcheck"
+##   ],
+##   "depends": [
+##     "_check_installed",
+##     "echo_info"
+##   ]
+## }
 lint() {
     _check_installed shellcheck
 

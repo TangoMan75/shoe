@@ -1,6 +1,25 @@
 #!/bin/sh
 
 # Guess padding length from longest constant, option, flag or command of the provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_padding() {
     # Synopsis: _get_padding <SCRIPT_PATH>
     #   SCRIPT_PATH: The path to the input script.
