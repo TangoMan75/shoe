@@ -74,7 +74,6 @@
 #--------------------------------------------------
 #_ Hooks
 #--------------------------------------------------
-../../src/shell/hooks/divider.sh
 ../../src/shell/hooks/_default.sh
 ../../src/shell/hooks/_before.sh
 ../../src/shell/hooks/_after.sh

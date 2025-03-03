@@ -121,8 +121,6 @@ Print this help
 
 ### ⚡ Hooks
 
-### ⚡ Hooks
-
 #### 1. `_default` (private)
 
 Place here commands you need executed by default (optional)
