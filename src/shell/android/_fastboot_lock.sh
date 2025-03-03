@@ -1,6 +1,18 @@
 #!/bin/sh
 
 # Lock bootloader and flashing
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "fastboot"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_fastboot",
+#     "echo_danger",
+#     "echo_info"
+#   ]
+# }
 _fastboot_lock() {
     # Synopsis: _fastboot_lock
 

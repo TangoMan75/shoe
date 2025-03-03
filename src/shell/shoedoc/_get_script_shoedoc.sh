@@ -1,6 +1,25 @@
 #!/bin/sh
 
 # Get shoedoc bloc at the top the provided shoe script file
+#
+# {
+#   "namespace": "shoedoc",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_script_shoedoc() {
     # Synopsis: _get_script_shoedoc <SCRIPT_PATH>
     #   SCRIPT_PATH: The path to the input script.

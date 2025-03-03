@@ -1,6 +1,63 @@
 #!/bin/sh
 
 # Generate Makefile for provided shoe script
+#
+# {
+#   "namespace": "make",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "_get_script_shoedoc",
+#     "_get_shoedoc_description",
+#     "_get_shoedoc_tag",
+#     "_get_shoedoc_title",
+#     "alert_primary",
+#     "echo_danger",
+#     "echo_success"
+#   ],
+#   "assumes": [
+#     "ALERT_DANGER",
+#     "ALERT_DARK",
+#     "ALERT_INFO",
+#     "ALERT_LIGHT",
+#     "ALERT_PRIMARY",
+#     "ALERT_SECONDARY",
+#     "ALERT_SUCCESS",
+#     "ALERT_WARNING",
+#     "DANGER",
+#     "DARK",
+#     "DEFAULT",
+#     "EOL",
+#     "INFO",
+#     "LIGHT",
+#     "PRIMARY",
+#     "SECONDARY",
+#     "SUCCESS",
+#     "WARNING"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "DESTINATION",
+#       "type": "folder",
+#       "description": "The path to the destination folder. Defaults to file parent."
+#     },
+#     {
+#       "position": 3,
+#       "name": "OUTPUT_FILE_NAME",
+#       "type": "str",
+#       "description": "The name for the generated Makefile. Defaults to \"<BASENAME>.makefile\"."
+#     }
+#   ]
+# }
 _generate_makefile() {
     # Synopsis: _generate_makefile <SCRIPT_PATH> [DESTINATION] [OUTPUT_FILE_NAME]
     #   SCRIPT_PATH:      The path to the input script.
@@ -23,7 +80,9 @@ _generate_makefile() {
 
     cat > "$2/$3" <<EOT
 ## $(printf '%s' "$(_get_shoedoc_title "${__annotations__}")")
+##
 ## $(printf '%s' "$(_get_shoedoc_description "${__annotations__}" | tr '\n' ' ')")
+##
 ## @version $(_get_shoedoc_tag "${__annotations__}" 'version')
 ## @author  $(_get_shoedoc_tag "${__annotations__}" 'author')
 ## @license $(_get_shoedoc_tag "${__annotations__}" 'license')

@@ -1,6 +1,27 @@
 #!/bin/sh
 
 # Sideload given full OTA package to connected device
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "adb"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _adb_sideload() {
     # Synopsis: _adb_sideload <FILE_PATH>
     #   FILE_PATH: The path to the input file.

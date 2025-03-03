@@ -1,6 +1,47 @@
 #!/bin/sh
 
 # Spawn a new container with given image, name, command and volume
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "IMAGE",
+#       "type": "str",
+#       "description": "The name of the container image to run.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "NAME",
+#       "type": "str",
+#       "description": "Assign a name to the container.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "COMMAND",
+#       "type": "str",
+#       "description": "The command to run inside provided container.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 4,
+#       "name": "FOLDER_PATH",
+#       "type": "folder",
+#       "description": "The path to the volume folder."
+#     }
+#   ]
+# }
 _docker_run() {
     # Synopsis: _docker_run <IMAGE> <NAME> <COMMAND> [FOLDER_PATH]
     #   IMAGE:       The name of the container image to run.

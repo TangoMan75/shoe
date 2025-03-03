@@ -1,6 +1,24 @@
 #!/bin/sh
 
 # Present user with a list of choices and prompt them to select one
+#
+# {
+#   "namespace": "prompts",
+#   "depends": [
+#     "echo_danger",
+#     "echo_success",
+#     "echo_warning"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "CHOICES",
+#       "type": "str",
+#       "description": "Array containing choices.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _select() {
     # Synopsis: _select <CHOICES>
     #   CHOICES: Array containing choices

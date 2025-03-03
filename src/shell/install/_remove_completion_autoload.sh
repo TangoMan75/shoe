@@ -1,6 +1,30 @@
 #!/bin/sh
 
 # Remove completion script autoload
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_sed_i",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SHELL_CONFIG_FILE",
+#       "type": "file",
+#       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _remove_completion_autoload() {
     # Synopsis: _remove_completion_autoload <SHELL_CONFIG_FILE> [ALIAS]
     # Removes an autoload line for a completion script from a shell configuration file.

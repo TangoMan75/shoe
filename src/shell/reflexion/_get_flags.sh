@@ -1,6 +1,25 @@
 #!/bin/sh
 
 # List flags from provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_flags() {
     # Synopsis: _get_flags <SCRIPT_PATH>
     #   SCRIPT_PATH: The path to the input script.

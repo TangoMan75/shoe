@@ -1,6 +1,34 @@
 #!/bin/sh
 
 # Print usage of the provided shoe script (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_info",
+#     "echo_success",
+#     "echo_warning"
+#   ],
+#   "assumes": [
+#     "DEFAULT",
+#     "INFO",
+#     "SUCCESS",
+#     "WARNING"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _print_usage() {
     # Synopsis: _print_usage <FILE_PATH>
     #   FILE_PATH: The path to the input file.

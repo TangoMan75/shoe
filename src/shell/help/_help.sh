@@ -2,6 +2,37 @@
 
 
 # Print help for provider shoe script
+#
+# {
+#   "namespace": "help",
+#   "depends": [
+#     "_get_constants",
+#     "_get_flags",
+#     "_get_options",
+#     "_get_padding",
+#     "_get_script_shoedoc",
+#     "_get_shoedoc_description",
+#     "_get_shoedoc_title",
+#     "_print_commands",
+#     "_print_constants",
+#     "_print_description",
+#     "_print_flags",
+#     "_print_infos",
+#     "_print_options",
+#     "_print_usage",
+#     "alert_primary",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _help() {
     # Synopsis: _help <FILE_PATH>
     #   FILE_PATH: The path to the input file.

@@ -1,6 +1,26 @@
 #!/bin/sh
 
 # Checks if given container is running
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "CONTAINER_NAME|CONTAINER_ID",
+#       "type": "str",
+#       "description": "The name or the id of the docker container.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _is_container_running() {
     # Synopsis: _is_container_running <CONTAINER_NAME|CONTAINER_ID>
     #   CONTAINER_NAME: The name of the docker container.

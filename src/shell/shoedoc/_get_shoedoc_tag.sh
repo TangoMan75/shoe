@@ -1,6 +1,32 @@
 #!/bin/sh
 
 # Return given tag values from shoedoc bloc
+#
+# {
+#   "namespace": "shoedoc",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "TEXT",
+#       "type": "str",
+#       "description": "The input shoedoc annotation bloc.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "TAG_NAME",
+#       "type": "str",
+#       "description": "The name of tag to return.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_shoedoc_tag() {
     # Synopsis: _get_shoedoc_tag <TEXT> <TAG_NAME>
     #   TEXT:     The input shoedoc annotation bloc.

@@ -1,6 +1,17 @@
 #!/bin/sh
 
 # List installed packages on connected device
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "adb"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_adb",
+#     "echo_danger"
+#   ]
+# }
 _list_installed_apks() {
     # Synopsis: _list_installed_apks
 

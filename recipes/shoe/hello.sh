@@ -1,6 +1,16 @@
 #!/bin/sh
 
 ## Greets a specified recipient a given number of times (the recipient's name is provided with the "--who" option)
+##
+## {
+##   "parameters": [
+##     {
+##       "name": "who",
+##       "type": "str",
+##       "description": "The recipient's name."
+##     }
+##   ]
+## }
 hello() {
     loop=0
     while [ "${loop}" -lt "${count}" ]; do

@@ -1,6 +1,24 @@
 #!/bin/sh
 
 # Print error message if provided command is missing
+#
+# {
+#   "namespace": "system",
+#   "depends": [
+#     "_get_package_name",
+#     "_is_installed",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "COMMAND",
+#       "type": "str",
+#       "description": "A string containing the command name to find.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _check_installed() {
     # Synopsis: _check_installed <COMMAND>
     #   COMMAND: A string containing the command name to find.

@@ -1,6 +1,22 @@
 #!/bin/sh
 
 # Find package name for given command
+#
+# {
+#   "namespace": "system",
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "COMMAND",
+#       "type": "str",
+#       "description": "A string containing the command name to find.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_package_name() {
     # Synopsis: _get_package_name <COMMAND>
     #   COMMAND: A string containing the command name to find.

@@ -1,6 +1,17 @@
 #!/bin/sh
 
 # Initialise git submodules
+#
+# {
+#   "namespace": "git",
+#   "requires": [
+#     "git"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_info"
+#   ]
+# }
 _initialise_submodules() {
     # Synopsis: _initialise_submodules
 

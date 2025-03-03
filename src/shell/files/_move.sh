@@ -1,6 +1,30 @@
 #!/bin/sh
 
 # Move file to destination folder (creates folder when missing)
+#
+# {
+#   "namespace": "files",
+#   "depends": [
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 1,
+#       "name": "DESTINATION_FOLDER",
+#       "type": "folder",
+#       "description": "The path to the destination folder.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _move() {
     # Synopsis: _move <FILE_PATH> <DESTINATION_FOLDER>
     #   FILE_PATH:          The path to the input file.

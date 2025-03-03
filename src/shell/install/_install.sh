@@ -1,6 +1,41 @@
 #!/bin/sh
 
 # Install script and enable completion
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_copy_install",
+#     "_generate_autocomplete",
+#     "_generate_global_autocomplete",
+#     "_is_installed",
+#     "_set_completion_autoload",
+#     "_symlink_install",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     },
+#     {
+#       "position": 3,
+#       "name": "GLOBAL",
+#       "type": "bool",
+#       "description": "Install globally.",
+#       "default": false
+#     }
+#   ]
+# }
 _install() {
     # Synopsis: _install <FILE_PATH> [ALIAS] [GLOBAL]
     #   FILE_PATH: The path to the input file.

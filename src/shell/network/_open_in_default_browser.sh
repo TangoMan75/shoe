@@ -1,6 +1,39 @@
 #!/bin/sh
 
 # Open in default browser
+#
+# {
+#   "namespace": "network",
+#   "depends": [
+#     "_open",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "IP",
+#       "type": "str",
+#       "description": "Target IP address or domain.",
+#       "default": "127.0.0.1"
+#     },
+#     {
+#       "position": 2,
+#       "name": "PORT",
+#       "type": "int",
+#       "description": "Destination port.",
+#       "default": "8080",
+#       "constraint": "/^[0-9]{1,5}$/"
+#     },
+#     {
+#       "position": 3,
+#       "name": "SCHEME",
+#       "type": "str",
+#       "description": "scheme - e.g. http.",
+#       "default": "http"
+#     }
+#   ]
+# }
 _open_in_default_browser() {
     # Synopsis: _open_in_default_browser [IP] [PORT] [SCHEME]
     #   IP:     (optional) Target IP address or domain. (default=127.0.0.1)

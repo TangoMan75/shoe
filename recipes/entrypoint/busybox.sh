@@ -1,6 +1,16 @@
 #!/bin/sh
 
 ## Run script in Busybox Docker container
+##
+## {
+##   "requires": [
+##     "docker"
+##   ],
+##   "depends": [
+##     "_check_installed",
+##     "echo_info"
+##   ]
+## }
 busybox() {
     _check_installed docker
 

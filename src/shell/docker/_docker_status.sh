@@ -1,6 +1,17 @@
 #!/bin/sh
 
 # Print docker status
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_info"
+#   ]
+# }
 _docker_status() {
     # Synopsis: _docker_status
 

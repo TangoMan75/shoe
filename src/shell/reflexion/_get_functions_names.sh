@@ -1,6 +1,32 @@
 #!/bin/sh
 
 # List functions names from provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "GET_PRIVATE",
+#       "type": "bool",
+#       "description": "If set to \"true\", retrieves private functions as well.",
+#       "default": false
+#     }
+#   ]
+# }
 _get_functions_names() {
     # Synopsis: _get_functions_names <SCRIPT_PATH> [GET_PRIVATE]
     #   SCRIPT_PATH: The path to the input script.

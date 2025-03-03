@@ -1,6 +1,17 @@
 #!/bin/sh
 
 # Return docker compose command
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "command",
+#     "docker"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ]
+# }
 _get_docker_compose() {
     # Synopsis: _get_docker_compose
 

@@ -1,6 +1,24 @@
 #!/bin/sh
 
 # Collapse blank lines with "sed"
+#
+# {
+#   "namespace": "strings",
+#   "depends": [
+#     "_sed_i",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _collapse_blank_lines() {
     # Synopsis: _collapse_blank_lines <FILE_PATH>
     #   FILE_PATH: The path to the input file.

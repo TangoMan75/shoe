@@ -1,6 +1,17 @@
 #!/bin/sh
 
 ## Install bash_unit framework
+##
+## {
+##   "requires": [
+##     "curl"
+##   ],
+##   "depends": [
+##     "_check_installed",
+##     "echo_danger",
+##     "echo_info"
+##   ]
+## }
 bash_unit() {
     if [ ! -d ./tests ]; then
         mkdir -p ./tests

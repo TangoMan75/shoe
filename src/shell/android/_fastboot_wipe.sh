@@ -1,6 +1,18 @@
 #!/bin/sh
 
 # Wipe userdata on connected device
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "fastboot"
+#   ],
+#   "depends": [
+#     "_is_device_connected_with_fastboot",
+#     "echo_danger",
+#     "echo_info"
+#   ]
+# }
 _fastboot_wipe() {
     # Synopsis: _fastboot_wipe
 

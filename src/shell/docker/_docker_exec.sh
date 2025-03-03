@@ -1,6 +1,40 @@
 #!/bin/sh
 
 # Execute command in the given docker container
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "CONTAINER_NAME",
+#       "type": "str",
+#       "description": "The name of the container to run.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "COMMAND",
+#       "type": "str",
+#       "description": "The command to execute.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "USER",
+#       "type": "str",
+#       "description": "The user name."
+#     }
+#   ]
+# }
 _docker_exec() {
     # Synopsis: _docker_exec <CONTAINER_NAME> <COMMAND> [USER]
     #   CONTAINER_NAME: The name of the container to run.

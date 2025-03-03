@@ -1,6 +1,24 @@
 #!/bin/sh
 
 # Set new host in /etc/hosts
+#
+# {
+#   "namespace": "network",
+#   "depends": [
+#     "_remove_host",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "HOSTNAME",
+#       "type": "str",
+#       "description": "The hostame to set locally.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _set_host() {
     # Synopsis: set_host <HOSTNAME>
     #   HOSTNAME: The hostame to set locally.

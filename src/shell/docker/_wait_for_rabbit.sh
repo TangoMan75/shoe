@@ -1,6 +1,29 @@
 #!/bin/sh
 
 # Wait for rabbitmq container to start with docker
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "_spin",
+#     "echo_danger",
+#     "echo_success",
+#     "echo_warning"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "CONTAINER_NAME",
+#       "type": "str",
+#       "description": "The name of the docker container.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _wait_for_rabbit() {
     # Synopsis: _wait_for_rabbit <CONTAINER_NAME>
     #   CONTAINER_NAME: The name of the rabbitmq docker container.

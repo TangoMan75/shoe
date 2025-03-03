@@ -1,6 +1,16 @@
 #!/bin/sh
 
 ## Run script in Ubuntu Docker container
+##
+## {
+##   "requires": [
+##     "docker"
+##   ],
+##   "depends": [
+##     "_check_installed",
+##     "echo_info"
+##   ]
+## }
 ubuntu() {
     _check_installed docker
 

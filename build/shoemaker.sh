@@ -77,6 +77,15 @@ private=false
 #--------------------------------------------------
 
 ## Dump functions from given script into individual files
+##
+## {
+##   "depends": [
+##     "_get_function",
+##     "_get_functions_names",
+##     "echo_danger",
+##     "echo_success"
+##   ]
+## }
 dump() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"
@@ -100,6 +109,15 @@ dump() {
 }
 
 ## Dump "build.shoe" file
+##
+## {
+##   "depends": [
+##     "_get_functions_names",
+##     "_pwd",
+##     "echo_danger",
+##     "echo_success"
+##   ]
+## }
 list() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"
@@ -122,6 +140,14 @@ list() {
 }
 
 ## Build from given "build.shoe" file
+##
+## {
+##   "depends": [
+##     "_build",
+##     "_pwd",
+##     "echo_danger"
+##   ]
+## }
 build() {
     if [ ! -f "${file}" ]; then
         echo_danger "error: \"${file}\" file not found\n"
@@ -142,6 +168,13 @@ build() {
 }
 
 ## Build all scripts
+##
+## {
+##   "depends": [
+##     "_build",
+##     "_pwd"
+##   ]
+## }
 build_all() {
     build_folder="$(_pwd)/build"
 
@@ -155,16 +188,51 @@ build_all() {
     done
 }
 
+## Remove json annotations from file
+##
+## {
+##   "requires": [
+##     "sed"
+##   ],
+##   "depends": [
+##     "echo_danger",
+##     "echo_info",
+##     "sed_i"
+##   ]
+## }
+remove_json_annotations() {
+    if [ ! -f "${file}" ]; then
+        echo_danger "error: \"${file}\" file not found\n"
+        return 1
+    fi
+
+    echo_info "$(sed_i) -r '/^##? \{$/,/^##? \}$/d; /^##?$/d' \"${file}\"\n"
+    $(sed_i) -r '/^##? \{$/,/^##? \}$/d; /^##?$/d' "${file}"
+}
+
 ##################################################
 ### Documentation
 ##################################################
 
 ## Generate Markdown documentation for provided shoe script
+##
+## {
+##   "depends": [
+##     "_generate_doc"
+##   ]
+## }
 generate_doc() {
     _generate_doc "$(realpath "${file}")" "${destination}" "$(basename "${file}" .sh).md" "${private}"
 }
 
 ## Generate Markdown documentation for all scripts
+##
+## {
+##   "depends": [
+##     "_generate_doc",
+##     "_pwd"
+##   ]
+## }
 generate_doc_all() {
     doc_folder="$(_pwd)/doc"
 
@@ -183,11 +251,24 @@ generate_doc_all() {
 ##################################################
 
 ## Generate Markdown documentation for provided shoe script
+##
+## {
+##   "depends": [
+##     "_generate_makefile"
+##   ]
+## }
 generate_makefile() {
     _generate_makefile "$(realpath "${file}")" "${destination}" "$(basename "${file}" .sh).makefile"
 }
 
 ## Generate Makefile for all scripts
+##
+## {
+##   "depends": [
+##     "_generate_makefile",
+##     "_pwd"
+##   ]
+## }
 generate_makefile_all() {
     build_folder="$(_pwd)/build"
 
@@ -206,6 +287,40 @@ generate_makefile_all() {
 #--------------------------------------------------
 
 # Build from given "build.shoe" file
+#
+# {
+#   "depends": [
+#     "_collapse_blank_lines",
+#     "_sed_i",
+#     "alert_primary",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "DESTINATION",
+#       "type": "folder",
+#       "description": "The path to the destination folder.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "TYPE",
+#       "type": "str",
+#       "description": "The script type to build (bash or sh).",
+#       "constraint": "/^(bash|sh)$/",
+#       "default": "sh"
+#     }
+#   ]
+# }
 _build() {
     # Synopsis: _build <FILE_PATH> <DESTINATION> [TYPE]
     #   FILE_PATH:    The path to the input file.
@@ -266,16 +381,50 @@ _build() {
 ##################################################
 
 ## Install script and enable completion
+##
+## {
+##   "namespace": "install",
+##   "depends": [
+##     "_install"
+##   ],
+##   "assumes": [
+##     "ALIAS",
+##     "global"
+##   ]
+## }
 self_install() {
     _install "$0" "${ALIAS}" "${global:-false}"
 }
 
 ## Uninstall script from system
+##
+## {
+##   "namespace": "install",
+##   "depends": [
+##     "_uninstall"
+##   ],
+##   "assumes": [
+##     "ALIAS"
+##   ]
+## }
 self_uninstall() {
     _uninstall "$0" "${ALIAS}"
 }
 
 ## Update script from @update
+##
+## {
+##   "namespace": "install",
+##   "depends": [
+##     "_get_annotation_tags",
+##     "_get_script_shoedoc",
+##     "_update"
+##   ],
+##   "assumes": [
+##     "ALIAS",
+##     "global"
+##   ]
+## }
 self_update() {
     _annotations="$(_get_script_shoedoc "$0")"
     _update_link="$(_get_annotation_tags "${_annotations}" 'update')"
@@ -293,6 +442,13 @@ self_update() {
 ##################################################
 
 ## Print this help
+##
+## {
+##   "namespace": "help",
+##   "depends": [
+##     "_help"
+##   ]
+## }
 help() {
     _help "$0"
 }
@@ -302,17 +458,29 @@ help() {
 #--------------------------------------------------
 
 # Place here commands you need executed by default (optional)
+#
+# {
+#   "namespace": "hooks"
+# }
 _default() {
     help
 }
 
 # Place here commands you need executed first every time (optional)
+#
+# {
+#   "namespace": "hooks"
+# }
 _before() {
     _check_installed awk
     _check_installed sed
 }
 
 # Place here commands you need executed last every time (optional)
+#
+# {
+#   "namespace": "hooks"
+# }
 _after() {
     return 0
 }
@@ -330,6 +498,25 @@ _after() {
 #--------------------------------------------------
 
 # Get shoedoc description
+#
+# {
+#   "namespace": "shoedoc",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "TEXT",
+#       "type": "str",
+#       "description": "The input shoedoc annotation bloc.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_shoedoc_description() {
     # Synopsis: _get_shoedoc_description <TEXT>
     #   TEXT: The input shoedoc annotation bloc.
@@ -348,6 +535,25 @@ _get_shoedoc_description() {
 }
 
 # Get shoedoc
+#
+# {
+#   "namespace": "shoedoc",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "TEXT",
+#       "type": "str",
+#       "description": "The input shoedoc annotation bloc.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_shoedoc() {
     # Synopsis: _get_shoedoc <TEXT>
     #   TEXT: The input shoedoc annotation bloc.
@@ -366,6 +572,32 @@ _get_shoedoc() {
 }
 
 # Return given tag values from shoedoc bloc
+#
+# {
+#   "namespace": "shoedoc",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "TEXT",
+#       "type": "str",
+#       "description": "The input shoedoc annotation bloc.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "TAG_NAME",
+#       "type": "str",
+#       "description": "The name of tag to return.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_shoedoc_tag() {
     # Synopsis: _get_shoedoc_tag <TEXT> <TAG_NAME>
     #   TEXT:     The input shoedoc annotation bloc.
@@ -384,6 +616,25 @@ _get_shoedoc_tag() {
 }
 
 # Get shoedoc title
+#
+# {
+#   "namespace": "shoedoc",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "TEXT",
+#       "type": "str",
+#       "description": "The input shoedoc annotation bloc.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_shoedoc_title() {
     # Synopsis: _get_shoedoc_title <TEXT>
     #   TEXT: The input shoedoc annotation bloc.
@@ -401,6 +652,25 @@ _get_shoedoc_title() {
 }
 
 # Get shoedoc bloc at the top the provided shoe script file
+#
+# {
+#   "namespace": "shoedoc",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_script_shoedoc() {
     # Synopsis: _get_script_shoedoc <SCRIPT_PATH>
     #   SCRIPT_PATH: The path to the input script.
@@ -479,6 +749,33 @@ ALERT_LIGHT='\033[1;47;90m'
 ALERT_DARK='\033[1;40;37m'
 
 # Print primary text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_primary() {
     # Synopsis: echo_primary <STRING> [INDENTATION] [PADDING]
     #  STRING:      Text to display.
@@ -493,6 +790,33 @@ echo_primary() {
 }
 
 # Print secondary text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_secondary() {
     # Synopsis: echo_secondary <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -505,6 +829,33 @@ echo_secondary() {
 }
 
 # Print success text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_success() {
     # Synopsis: echo_success <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -517,6 +868,33 @@ echo_success() {
 }
 
 # Print danger text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_danger() {
     # Synopsis: echo_danger <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -529,6 +907,33 @@ echo_danger() {
 }
 
 # Print warning text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_warning() {
     # Synopsis: echo_warning <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -541,6 +946,33 @@ echo_warning() {
 }
 
 # Print info text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_info() {
     # Synopsis: echo_info <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -553,6 +985,33 @@ echo_info() {
 }
 
 # Print light text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_light() {
     # Synopsis: echo_light <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -565,6 +1024,33 @@ echo_light() {
 }
 
 # Print dark text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_dark() {
     # Synopsis: echo_dark <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -577,6 +1063,19 @@ echo_dark() {
 }
 
 # Print primary alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_primary()   {
     # Synopsis: alert_primary <STRING>
     #   STRING: Text to display.
@@ -585,6 +1084,19 @@ alert_primary()   {
 }
 
 # Print secondary alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_secondary() {
     # Synopsis: alert_secondary <STRING>
     #   STRING: Text to display.
@@ -593,6 +1105,19 @@ alert_secondary() {
 }
 
 # Print success alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_success()   {
     # Synopsis: alert_success <STRING>
     #   STRING: Text to display.
@@ -601,6 +1126,19 @@ alert_success()   {
 }
 
 # Print danger alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_danger()    {
     # Synopsis: alert_danger <STRING>
     #   STRING: Text to display.
@@ -609,6 +1147,19 @@ alert_danger()    {
 }
 
 # Print warning alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_warning()   {
     # Synopsis: alert_warning <STRING>
     #   STRING: Text to display.
@@ -617,6 +1168,19 @@ alert_warning()   {
 }
 
 # Print info alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_info()      {
     # Synopsis: alert_info <STRING>
     #   STRING: Text to display.
@@ -625,6 +1189,19 @@ alert_info()      {
 }
 
 # Print light alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_light()     {
     # Synopsis: alert_light <STRING>
     #   STRING: Text to display.
@@ -633,6 +1210,19 @@ alert_light()     {
 }
 
 # Print dark alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_dark()      {
     # Synopsis: alert_dark <STRING>
     #   STRING: Text to display.
@@ -645,6 +1235,15 @@ alert_dark()      {
 #--------------------------------------------------
 
 # Return sed -i system flavour
+#
+# {
+#   "namespace": "compatibility",
+#   "requires": [
+#     "command",
+#     "sed",
+#     "uname"
+#   ]
+# }
 _sed_i() {
     # Synopsis: _sed_i
 
@@ -662,6 +1261,51 @@ _sed_i() {
 #--------------------------------------------------
 
 # Generate Markdown documentation for provided shoe script
+#
+# {
+#   "namespace": "documentation",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "_get_script_shoedoc",
+#     "_get_shoedoc_description",
+#     "_get_shoedoc_tag",
+#     "_get_shoedoc_title",
+#     "_print_synopsis",
+#     "alert_primary",
+#     "echo_danger",
+#     "echo_success"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "DESTINATION",
+#       "type": "folder",
+#       "description": "The path to the destination folder. Defaults to file parent."
+#     },
+#     {
+#       "position": 3,
+#       "name": "OUTPUT_FILE_NAME",
+#       "type": "str",
+#       "description": "The name for the documentation file. Defaults to \"<BASENAME>.md\"."
+#     },
+#     {
+#       "position": 4,
+#       "name": "GET_PRIVATE",
+#       "type": "bool",
+#       "description": "If set to \"true\", documents private constants, options, flags, and commands as well.",
+#       "default": false
+#     }
+#   ]
+# }
 _generate_doc() {
     # Synopsis: _generate_doc <SCRIPT_PATH> [DESTINATION] [OUTPUT_FILE_NAME] [GET_PRIVATE]
     #   SCRIPT_PATH:      The path to the input file.
@@ -723,7 +1367,7 @@ _generate_doc() {
             awk -F '=' \
             '/^[a-zA-Z0-9_]+=.+$/ {
                 if (substr($1,1,1) != "_" || $1 == toupper($1)) next;
-                printf "%d. **`%s` (private)**\n> %s\n  - Default: _%s_\n\n",++i,$1,substr(PREV,4),$2
+                printf "%d. **`%s` (private)**\n> %s\n  - 🚩 Default: _%s_\n\n",++i,$1,substr(PREV,4),$2
             } {PREV = $0}' "$1"
         fi
 
@@ -744,15 +1388,48 @@ _generate_doc() {
                 if (match(PREV,/ \/.+\//)) { # check option has constraint
                     CONSTRAINT=substr(PREV,RSTART+1,RLENGTH);
                     DESCRIPTION=substr(PREV,4,length(PREV)-length(CONSTRAINT)-3);
-                    printf "%d. **`--%s`**\n> %s\n  - Constraint: `%s`\n  - Default: _%s_",++i,$1,DESCRIPTION,CONSTRAINT,$2
+                    printf "%d. **`--%s`**\n> %s\n  - 🧩 Constraint: `%s`\n  - 🚩 Default: _%s_",++i,$1,DESCRIPTION,CONSTRAINT,$2
                 } else {
-                    printf "%d. **`%s`**\n> %s\n  - Default: _%s_",++i,$1,substr(PREV,4),$2
+                    printf "%d. **`%s`**\n> %s\n  - 🚩 Default: _%s_",++i,$1,substr(PREV,4),$2
                 }
                 printf "\n\n"
             } {PREV = $0}' "$1"
         fi
+    ) > "$2/$3"
 
-        printf '## 🤖 Commands\n\n'
+    printf '## 🤖 Commands\n\n' >> "$2/$3"
+
+    if _is_installed jq; then
+        __index__=0
+        for __function_name__ in $(_get_functions_names "$1" true); do
+            echo_info "${__function_name__}\n"
+
+            __json__="$(_parse_annotation "$1" "${__function_name__}")"
+            if [ -z "${__json__}" ]; then
+                echo_danger "error: _generate_doc: no annotation found for function \"${__function_name__}\"\n"
+                continue
+            fi
+
+            if [ "$4" = false ] && [ "$(printf '%s' "${__json__}" | jq -r '.scope')" = 'private' ]; then
+                continue
+            fi
+
+            __index__=$((__index__ + 1))
+            (
+                # shellcheck disable=SC2016
+                printf '#### ⌨️ %d. `%s` %s\n\n' ${__index__} "${__function_name__}" "($(printf '%s\n' "${__json__}" | jq -r '.scope'))"
+                printf '%s\n\n' "$(printf '%s\n' "${__json__}" | jq -r '.summary')"
+                # shellcheck disable=SC2016
+                printf '%s\n\n' "$(_print_synopsis "${__json__}" true)"
+            ) >> "$2/$3"
+        done
+
+        echo_success "Documentation generated : \"$2/$3\"\n"
+
+        return 0
+    fi
+
+    (
         awk -v GET_PRIVATE="$4" '/^#+/ {
                 if (summary=="") {
                     summary=$0
@@ -803,6 +1480,37 @@ _generate_doc() {
 
 
 # Print help for provider shoe script
+#
+# {
+#   "namespace": "help",
+#   "depends": [
+#     "_get_constants",
+#     "_get_flags",
+#     "_get_options",
+#     "_get_padding",
+#     "_get_script_shoedoc",
+#     "_get_shoedoc_description",
+#     "_get_shoedoc_title",
+#     "_print_commands",
+#     "_print_constants",
+#     "_print_description",
+#     "_print_flags",
+#     "_print_infos",
+#     "_print_options",
+#     "_print_usage",
+#     "alert_primary",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _help() {
     # Synopsis: _help <FILE_PATH>
     #   FILE_PATH: The path to the input file.
@@ -838,6 +1546,38 @@ _help() {
 }
 
 # List commands of the provided shoe script (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_warning"
+#   ],
+#   "assumes": [
+#     "PRIMARY",
+#     "SUCCESS",
+#     "WARNING"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 12
+#     }
+#   ]
+# }
 _print_commands() {
     # Synopsis: _print_commands <FILE_PATH> [PADDING]
     #   FILE_PATH: The path to the input file.
@@ -866,6 +1606,40 @@ _print_commands() {
 }
 
 # List constants of the provided shoe script (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_warning"
+#   ],
+#   "assumes": [
+#     "EOL",
+#     "INFO",
+#     "PRIMARY",
+#     "SUCCESS",
+#     "WARNING"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 12
+#     }
+#   ]
+# }
 _print_constants() {
     # Synopsis: _print_constants <FILE_PATH> [PADDING]
     #   FILE_PATH: The path to the input file.
@@ -888,6 +1662,23 @@ _print_constants() {
 }
 
 # Print provided text formatted as a description (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "depends": [
+#     "echo_primary",
+#     "echo_warning"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "DESCRIPTION",
+#       "type": "str",
+#       "description": "A string containing script description.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _print_description() {
     # Synopsis: _print_description <DESCRIPTION>
     #   DESCRIPTION: A string containing script description.
@@ -897,6 +1688,37 @@ _print_description() {
 }
 
 # List flags of the provided shoe script (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_warning"
+#   ],
+#   "assumes": [
+#     "PRIMARY",
+#     "SUCCESS"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 12
+#     }
+#   ]
+# }
 _print_flags() {
     # Synopsis: _print_flags <FILE_PATH> [PADDING]
     #   FILE_PATH: The path to the input file.
@@ -918,6 +1740,27 @@ _print_flags() {
 }
 
 # Print infos of the provided shoe script (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "depends": [
+#     "_get_script_shoedoc",
+#     "_get_shoedoc_tag",
+#     "echo_danger",
+#     "echo_primary",
+#     "echo_success",
+#     "echo_warning"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _print_infos() {
     # Synopsis: _print_infos <FILE_PATH>
     #   FILE_PATH: The path to the input file.
@@ -938,6 +1781,40 @@ _print_infos() {
 }
 
 # List options of the provided shoe script (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_warning"
+#   ],
+#   "assumes": [
+#     "DEFAULT",
+#     "EOL",
+#     "INFO",
+#     "SUCCESS",
+#     "WARNING"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 12
+#     }
+#   ]
+# }
 _print_options() {
     # Synopsis: _print_options <FILE_PATH> [PADDING]
     #   FILE_PATH: The path to the input file.
@@ -969,6 +1846,34 @@ _print_options() {
 }
 
 # Print usage of the provided shoe script (used by "help" command)
+#
+# {
+#   "namespace": "help",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_info",
+#     "echo_success",
+#     "echo_warning"
+#   ],
+#   "assumes": [
+#     "DEFAULT",
+#     "INFO",
+#     "SUCCESS",
+#     "WARNING"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _print_usage() {
     # Synopsis: _print_usage <FILE_PATH>
     #   FILE_PATH: The path to the input file.
@@ -995,6 +1900,29 @@ _print_usage() {
 #--------------------------------------------------
 
 # Install script via copy
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _copy_install() {
     # Synopsis: _copy_install <FILE_PATH> [ALIAS]
     #   FILE_PATH: The path to the input file.
@@ -1012,6 +1940,30 @@ _copy_install() {
 }
 
 # Generates an autocomplete script for the provided file
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_get_comspec",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _generate_autocomplete() {
     # Synopsis: _generate_autocomplete <FILE_PATH> [ALIAS]
     #   FILE_PATH: The path to the input file.
@@ -1031,6 +1983,30 @@ _generate_autocomplete() {
 }
 
 # Creates a system-wide autocomplete script for the provided file
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_get_comspec",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _generate_global_autocomplete() {
     # Synopsis: _generate_global_autocomplete <FILE_PATH> [ALIAS]
     #   FILE_PATH: The path to the input file.
@@ -1050,6 +2026,25 @@ _generate_global_autocomplete() {
 }
 
 # Generate comspec string for the provided file
+#
+# {
+#   "namespace": "install",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_comspec() {
     # Synopsis: _get_comspec <FILE_PATH>
     #   FILE_PATH: The path to the input file.
@@ -1076,6 +2071,41 @@ _get_comspec() {
 }
 
 # Install script and enable completion
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_copy_install",
+#     "_generate_autocomplete",
+#     "_generate_global_autocomplete",
+#     "_is_installed",
+#     "_set_completion_autoload",
+#     "_symlink_install",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     },
+#     {
+#       "position": 3,
+#       "name": "GLOBAL",
+#       "type": "bool",
+#       "description": "Install globally.",
+#       "default": false
+#     }
+#   ]
+# }
 _install() {
     # Synopsis: _install <FILE_PATH> [ALIAS] [GLOBAL]
     #   FILE_PATH: The path to the input file.
@@ -1115,6 +2145,30 @@ _install() {
 }
 
 # Remove completion script autoload
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_sed_i",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SHELL_CONFIG_FILE",
+#       "type": "file",
+#       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _remove_completion_autoload() {
     # Synopsis: _remove_completion_autoload <SHELL_CONFIG_FILE> [ALIAS]
     # Removes an autoload line for a completion script from a shell configuration file.
@@ -1137,6 +2191,38 @@ _remove_completion_autoload() {
 }
 
 # Adds an autoload line for completion script to a shell configuration file
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_collapse_blank_lines",
+#     "_sed_i",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SHELL_CONFIG_FILE",
+#       "type": "file",
+#       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "SCRIPT_FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _set_completion_autoload() {
     # Synopsis: _set_completion_autoload <SHELL_CONFIG_FILE_PATH> <SCRIPT_FILE_PATH> [ALIAS]
     #   SHELL_CONFIG_FILE_PATH: The path to the shell configuration file to be modified (e.g., ~/.bashrc, ~/.zshrc).
@@ -1174,6 +2260,29 @@ _set_completion_autoload() {
 }
 
 # Install script via symlink
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _symlink_install(){
     # Synopsis: _symlink_install <FILE_PATH> [ALIAS]
     #   FILE_PATH: The path to the input file.
@@ -1191,6 +2300,30 @@ _symlink_install(){
 }
 
 # Uninstall script from system
+#
+# {
+#   "namespace": "install",
+#   "depends": [
+#     "_remove_completion_autoload",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     }
+#   ]
+# }
 _uninstall() {
     # Synopsis: _uninstall <FILE_PATH> [ALIAS]
     #   FILE_PATH: The path to the input file.
@@ -1221,6 +2354,54 @@ _uninstall() {
 }
 
 # Updates given script from the provided URL
+#
+# {
+#   "namespace": "install",
+#   "requires": [
+#     "curl",
+#     "wget"
+#   ],
+#   "depends": [
+#     "_copy_install",
+#     "_generate_autocomplete",
+#     "_generate_global_autocomplete",
+#     "_install",
+#     "_is_installed",
+#     "_set_completion_autoload",
+#     "_symlink_install",
+#     "_uninstall",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "URL",
+#       "type": "str",
+#       "description": "The URL of the script to download and install.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     },
+#     {
+#       "position": 4,
+#       "name": "GLOBAL",
+#       "type": "bool",
+#       "description": "Install globally.",
+#       "default": false
+#     }
+#   ]
+# }
 _update() {
     # Synopsis: _update <FILE_PATH> <URL> [ALIAS] [GLOBAL]
     #   FILE_PATH: The path to the input file.
@@ -1256,6 +2437,63 @@ _update() {
 #--------------------------------------------------
 
 # Generate Makefile for provided shoe script
+#
+# {
+#   "namespace": "make",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "_get_script_shoedoc",
+#     "_get_shoedoc_description",
+#     "_get_shoedoc_tag",
+#     "_get_shoedoc_title",
+#     "alert_primary",
+#     "echo_danger",
+#     "echo_success"
+#   ],
+#   "assumes": [
+#     "ALERT_DANGER",
+#     "ALERT_DARK",
+#     "ALERT_INFO",
+#     "ALERT_LIGHT",
+#     "ALERT_PRIMARY",
+#     "ALERT_SECONDARY",
+#     "ALERT_SUCCESS",
+#     "ALERT_WARNING",
+#     "DANGER",
+#     "DARK",
+#     "DEFAULT",
+#     "EOL",
+#     "INFO",
+#     "LIGHT",
+#     "PRIMARY",
+#     "SECONDARY",
+#     "SUCCESS",
+#     "WARNING"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "DESTINATION",
+#       "type": "folder",
+#       "description": "The path to the destination folder. Defaults to file parent."
+#     },
+#     {
+#       "position": 3,
+#       "name": "OUTPUT_FILE_NAME",
+#       "type": "str",
+#       "description": "The name for the generated Makefile. Defaults to \"<BASENAME>.makefile\"."
+#     }
+#   ]
+# }
 _generate_makefile() {
     # Synopsis: _generate_makefile <SCRIPT_PATH> [DESTINATION] [OUTPUT_FILE_NAME]
     #   SCRIPT_PATH:      The path to the input script.
@@ -1278,7 +2516,9 @@ _generate_makefile() {
 
     cat > "$2/$3" <<EOT
 ## $(printf '%s' "$(_get_shoedoc_title "${__annotations__}")")
+##
 ## $(printf '%s' "$(_get_shoedoc_description "${__annotations__}" | tr '\n' ' ')")
+##
 ## @version $(_get_shoedoc_tag "${__annotations__}" 'version')
 ## @author  $(_get_shoedoc_tag "${__annotations__}" 'author')
 ## @license $(_get_shoedoc_tag "${__annotations__}" 'license')
@@ -1420,7 +2660,34 @@ EOT
 #_ Reflexion
 #--------------------------------------------------
 
+
 # List constants from provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "GET_PRIVATE",
+#       "type": "bool",
+#       "description": "If set to \"true\", retrieves private constants as well.",
+#       "default": false
+#     }
+#   ]
+# }
 _get_constants() {
     # Synopsis: _get_constants <SCRIPT_PATH> [GET_PRIVATE]
     #   SCRIPT_PATH: The path to the input script.
@@ -1443,6 +2710,32 @@ _get_constants() {
 }
 
 # Get constaint for given variable from provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "VARIABLE_NAME",
+#       "type": "str",
+#       "description": "The variable to validate.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_constraint() {
     # Synopsis: _get_constraint <SCRIPT_PATH> <VARIABLE_NAME>
     #   SCRIPT_PATH:   The path to the input script.
@@ -1464,6 +2757,25 @@ _get_constraint() {
 }
 
 # List flags from provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_flags() {
     # Synopsis: _get_flags <SCRIPT_PATH>
     #   SCRIPT_PATH: The path to the input script.
@@ -1479,7 +2791,83 @@ _get_flags() {
     } {PREV = $0}' "$1"
 }
 
+# Get function annotation by name
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FUNCTION_NAME",
+#       "type": "str",
+#       "description": "The name of the function to retrieve.",
+#       "nullable": false
+#     }
+#   ]
+# }
+_get_function_annotation() {
+    # Synopsis: _get_function_annotation <SCRIPT_PATH> <FUNCTION_NAME>
+    #   SCRIPT_PATH:   The path to the input file.
+    #   FUNCTION_NAME: The name of the function to retrieve.
+
+    if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_function_annotation: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 2 ]; then echo_danger "error: _get_function_annotation: too many arguments (${#})\n"; return 1; fi
+
+    set -- "$(realpath "$1")" "$2"
+    if [ ! -f "$1" ]; then echo_danger "error: _get_function_annotation: \"$1\" file not found\n"; return 1; fi
+
+    awk -v FUNCTION_NAME="$2" '
+        /^#/ { annotation=annotation"\n"$0 }
+        /^(function +)?[a-zA-Z0-9_]+ *\(\)/ {           # matches a function (ignoring curly braces)
+            function_name=substr($0,1,index($0,"(")-1); # truncate string at opening round bracket
+            sub("^function ","",function_name);         # remove leading "function " if present
+            gsub(" +","",function_name);                # trim whitespaces
+            if (function_name==FUNCTION_NAME) print substr(annotation,2); # print annotation (without leading "\n")
+        }
+        !/^#/ { annotation="" }
+    ' "$1"
+}
+
 # Get function by name
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FUNCTION_NAME",
+#       "type": "str",
+#       "description": "The name of the function to retrieve.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_function() {
     # Synopsis: _get_function <SCRIPT_PATH> <FUNCTION_NAME>
     #   SCRIPT_PATH:   The path to the input file.
@@ -1519,31 +2907,33 @@ _get_function() {
     !/^#/ { annotation="" }' "$1"
 }
 
-# Get function annotation by name
-_get_function_annotation() {
-    # Synopsis: _get_function_annotation <SCRIPT_PATH> <FUNCTION_NAME>
-    #   SCRIPT_PATH:   The path to the input file.
-    #   FUNCTION_NAME: The name of the function to retrieve.
-
-    if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_function_annotation: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_function_annotation: too many arguments (${#})\n"; return 1; fi
-
-    set -- "$(realpath "$1")" "$2"
-    if [ ! -f "$1" ]; then echo_danger "error: _get_function_annotation: \"$1\" file not found\n"; return 1; fi
-
-    awk -v FUNCTION_NAME="$2" '
-        /^#/ { annotation=annotation"\n"$0 }
-        /^(function +)?[a-zA-Z0-9_]+ *\(\)/ {           # matches a function (ignoring curly braces)
-            function_name=substr($0,1,index($0,"(")-1); # truncate string at opening round bracket
-            sub("^function ","",function_name);         # remove leading "function " if present
-            gsub(" +","",function_name);                # trim whitespaces
-            if (function_name==FUNCTION_NAME) print substr(annotation,2); # print annotation (without leading "\n")
-        }
-        !/^#/ { annotation="" }
-    ' "$1"
-}
-
 # List functions names from provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "GET_PRIVATE",
+#       "type": "bool",
+#       "description": "If set to \"true\", retrieves private functions as well.",
+#       "default": false
+#     }
+#   ]
+# }
 _get_functions_names() {
     # Synopsis: _get_functions_names <SCRIPT_PATH> [GET_PRIVATE]
     #   SCRIPT_PATH: The path to the input script.
@@ -1570,6 +2960,32 @@ _get_functions_names() {
 }
 
 # List options from provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "GET_PRIVATE_ONLY",
+#       "type": "bool",
+#       "description": "If set to \"true\", retrieves private options only.",
+#       "default": false
+#     }
+#   ]
+# }
 _get_options() {
     # Synopsis: _get_options <SCRIPT_PATH> [GET_PRIVATE_ONLY]
     #   SCRIPT_PATH:      The path to the input script.
@@ -1592,6 +3008,25 @@ _get_options() {
 }
 
 # Guess padding length from longest constant, option, flag or command of the provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_padding() {
     # Synopsis: _get_padding <SCRIPT_PATH>
     #   SCRIPT_PATH: The path to the input script.
@@ -1614,6 +3049,33 @@ _get_padding() {
 }
 
 # Get value for given parameter from provided ".env" or ".sh" file
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "sed"
+#   ],
+#   "depends": [
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "KEY",
+#       "type": "str",
+#       "description": "The variable name to get from provided file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_parameter() {
     # Synopsys : _get_parameter <FILE_PATH> <KEY>
     #   FILE_PATH: The path to the input file.
@@ -1629,43 +3091,178 @@ _get_parameter() {
     sed -n "s/^$2=\(.*\)/\1/p" "$1"
 }
 
-# Return json object from annotation
+# Return function annotation as json
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "jq",
+#     "sed"
+#   ],
+#   "depends": [
+#     "_get_function_annotation",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FUNCTION_NAME",
+#       "type": "str",
+#       "description": "The name of the function to retrieve.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _parse_annotation() {
-    # Synopsis: _parse_annotation <ANNOTATION>
-    #   ANNOTATION: The input text containing raw annotation.
+    # Synopsis: _parse_annotation <SCRIPT_PATH> <FUNCTION_NAME>
+    #   SCRIPT_PATH:   The path to the input file.
+    #   FUNCTION_NAME: The name of the function to retrieve.
 
-    # if [ -z "$1" ]; then echo_danger 'error: _parse_annotation: some mandatory parameter is missing\n'; return 1; fi
-    # if [ ${#} -gt 1 ]; then echo_danger "error: _parse_annotation: too many arguments (${#})\n"; return 1; fi
+    if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _parse_annotation: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 2 ]; then echo_danger "error: _parse_annotation: too many arguments (${#})\n"; return 1; fi
 
-    set -- "$(printf '%s' "$1" | sed -E 's/^ *#+ ?//g')"
+    set -- "$(realpath "$1")" "$2"
+    if [ ! -f "$1" ]; then echo_danger "error: _parse_annotation: \"$1\" file not found\n"; return 1; fi
 
-    result="$(printf '%s' "$1" | awk 'function count_occurrences(str,char) {
-        gsub("\\.","",str); # remove escaped characters
-        gsub(/"[^"]*"/,""); # remove quoted string
-        return gsub(char,char,str);
-    }{
-        temp=$0;
-        open+=count_occurrences($0,"{");
-        if (open > closed) print temp;
-        closed+=count_occurrences($0,"}");
-    }')"
+    set -- "$1" "$2" "$(printf '%s' "$(_get_function_annotation "$1" "$2" | sed -nE 's/^ *#+ *//p')")"
+    set -- "$1" "$2" "$3" "$(printf '%s' "$3" | sed -n '/^{/,$p')" "$(printf '%s' "$3" | head -n 1)"
 
-    summary="$(printf '%s' "$1" | head -n 1)"
+    if [ "$(printf '%s' "$2" | cut -c1)" = "_" ]; then
+        set -- "$1" "$2" "$3" "$4" "$5" 'private'
+    else
+        set -- "$1" "$2" "$3" "$4" "$5" 'public'
+    fi
+    # $1: SCRIPT_PATH, $2: FUNCTION_NAME, $3: annotation, $4 json, $5: summary, $6: scope
 
-    if [ -z "${result}" ]; then
+    if [ -z "$4" ]; then
         jq --null-input \
-            --arg summary "${summary}" \
+            --arg name "$2" \
+            --arg summary "$5" \
+            --arg scope "$6" \
             '$ARGS.named'
 
         return 0
     fi
 
     jq --null-input \
-    --arg summary "${summary}" \
-    '$ARGS.named + '"${result}"
+    --arg name "$2" \
+    --arg summary "$5" \
+    --arg scope "$6" \
+    '$ARGS.named + '"$4"
+}
+
+# Print function synopsis from a JSON string.
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "jq"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "JSON",
+#       "type": "json",
+#       "description": "The input string containing raw JSON.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "MARKDOWN_FORMAT",
+#       "type": "bool",
+#       "description": "If set to \"true\", returns result as markdown.",
+#       "default": false
+#     }
+#   ]
+# }
+_print_synopsis() {
+    # Synopsis: _print_synopsis <JSON> [MARKDOWN_FORMAT]
+    #   JSON: The input string containing raw JSON.
+    #   MARKDOWN_FORMAT: (Optional) If set to 'true', returns result as markdown. Defaults to "false".
+
+    if [ -z "$1" ]; then echo_danger 'error: _print_synopsis: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 2 ]; then echo_danger "error: _print_synopsis: too many arguments (${#})\n"; return 1; fi
+    if ! printf '%s' "$1" | jq empty >/dev/null 2>&1; then echo_danger "error: _print_synopsis: invalid JSON input\n"; return 1; fi
+
+    if [ "${2:-false}" = "true" ]; then
+        printf '> Synopsis:\n> '
+    else
+        printf 'Synopsis: '
+    fi
+
+    printf '%s' "$1" | jq -rj '.name'
+
+    if [ "${2:-false}" = "true" ]; then
+        printf '%s' "$1" | jq -rj '[.parameters // [] | .[] | if (.nullable|tostring) == "false" then " &lt;\(.name)&gt;" else " [\(.name)]" end] | join("")'
+        printf '\n'
+        printf '%s' "$1" | jq -r '.parameters // [] | .[] | "`\(.name)`: \(if .type then "_(type: \"\(.type)\")_ " else "" end)\(if (.nullable|tostring) == "false" then "" else "(optional) " end)\(if .description then .description else "" end)\(if has("default") then " _Defaults to \"\(.default|tostring)\"._" else "" end)"' | while read -r line; do
+            printf '%s\n' "- ${line}"
+        done
+        printf '\n'
+        printf '%s' "$1" | jq -rj '[.requires // [] | .[] | "`\(.)`"] | if length > 0 then "- ⚠️ Requires: \(.|join(", "))\n" else "" end'
+        printf '%s' "$1" | jq -rj '[.depends // [] | .[] | "`\(.)`"] | if length > 0 then "- 🔗 Depends: \(.|join(", "))\n" else "" end'
+        printf '\n'
+        return 0
+    fi
+
+    printf '%s' "$1" | jq -rj 'if .scope then " (\(.scope)) " else "" end'
+    printf '%s' "$1" | jq -rj '[.parameters // [] | .[] | if (.nullable|tostring) == "false" then "<\(.name)>" else "[\(.name)]" end] | join(" ")'
+    printf '\n'
+    printf '%s' "$1" | jq -r '.parameters // [] | .[] | "\(.name): \(if .type then "(\(.type)) " else "" end)\(if (.nullable|tostring) == "false" then "" else "(optional) " end)\(if .description then .description else "" end)\(if has("default") then " Defaults to \"\(.default|tostring)\"." else "" end)"' | while read -r line; do
+        printf '    %s\n' "${line}"
+    done
+    printf '%s' "$1" | jq -rj '[.requires // [] | .[]] | if length > 0 then "    Requires: \(.|join(", "))\n" else "" end'
+    printf '%s' "$1" | jq -rj '[.depends // [] | .[]] | if length > 0 then "    Depends: \(.|join(", "))\n" else "" end'
+    printf '\n'
 }
 
 # Set value for given parameter into provided file ".env" or ".sh" file
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "sed"
+#   ],
+#   "depends": [
+#     "_sed_i",
+#     "echo_danger",
+#     "echo_info",
+#     "echo_warning"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "KEY",
+#       "type": "str",
+#       "description": "The variable name to get from provided file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "VALUE",
+#       "type": "str",
+#       "description": "The value to be set to provided file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _set_parameter() {
     # Synopsys : _set_parameter <FILE_PATH> <KEY> <VALUE>
     #   FILE_PATH: The path to the input script.
@@ -1701,6 +3298,24 @@ _set_parameter() {
 #--------------------------------------------------
 
 # Collapse blank lines with "sed"
+#
+# {
+#   "namespace": "strings",
+#   "depends": [
+#     "_sed_i",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _collapse_blank_lines() {
     # Synopsis: _collapse_blank_lines <FILE_PATH>
     #   FILE_PATH: The path to the input file.
@@ -1721,6 +3336,24 @@ _collapse_blank_lines() {
 #--------------------------------------------------
 
 # Print error message if provided command is missing
+#
+# {
+#   "namespace": "system",
+#   "depends": [
+#     "_get_package_name",
+#     "_is_installed",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "COMMAND",
+#       "type": "str",
+#       "description": "A string containing the command name to find.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _check_installed() {
     # Synopsis: _check_installed <COMMAND>
     #   COMMAND: A string containing the command name to find.
@@ -1741,6 +3374,22 @@ _check_installed() {
 }
 
 # Find package name for given command
+#
+# {
+#   "namespace": "system",
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "COMMAND",
+#       "type": "str",
+#       "description": "A string containing the command name to find.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_package_name() {
     # Synopsis: _get_package_name <COMMAND>
     #   COMMAND: A string containing the command name to find.
@@ -1777,6 +3426,25 @@ _get_package_name() {
 }
 
 # Check provided command is installed
+#
+# {
+#   "namespace": "system",
+#   "requires": [
+#     "dpkg"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "COMMAND",
+#       "type": "str",
+#       "description": "A string containing the command name to find.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _is_installed() {
     # Synopsis: _is_installed <COMMAND>
     #   COMMAND: A string containing the command name to find.
@@ -1805,6 +3473,11 @@ _is_installed() {
 }
 
 # Return current project directory realpath, or "pwd" when installed globally
+#
+# {
+#   "namespace": "system",
+#   "returns": "str"
+# }
 _pwd() {
     # Synopsis: _pwd
 
@@ -1822,6 +3495,33 @@ _pwd() {
 #--------------------------------------------------
 
 # Checks if variable is valid given regex constraint
+#
+# {
+#   "namespace": "validation",
+#   "requires": [
+#     "grep",
+#     "sed"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "VALUE",
+#       "type": "str",
+#       "description": "The string to be compared to regex pattern.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PATTERN",
+#       "type": "str",
+#       "description": "The regex parttern to apply.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _is_valid() {
     # Synopsis: _is_valid <VALUE> <PATTERN>
     #   VALUE:   The string to be compared to regex pattern.
@@ -1849,6 +3549,27 @@ _is_valid() {
 }
 
 # Find constraints and validates a variable
+#
+# {
+#   "namespace": "validation",
+#   "requires": [
+#     "sed"
+#   ],
+#   "depends": [
+#     "_get_constraint",
+#     "_is_valid",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "VARIABLE",
+#       "type": "str",
+#       "description": "The variable to validate in the followling format : variable_name=value.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _validate() {
     # Synopsis: _validate <VARIABLE>
     #   VARIABLE: The variable to validate in the followling format : variable_name=value.
@@ -1869,6 +3590,20 @@ _validate() {
 #--------------------------------------------------
 
 # Shoe Kernel
+#
+# {
+#   "namespace": "kernel",
+#   "depends": [
+#     "_after",
+#     "_before",
+#     "_default",
+#     "_get_flags",
+#     "_get_functions_names",
+#     "_get_options",
+#     "_validate",
+#     "echo_danger"
+#   ]
+# }
 _kernel() {
     if [ ${#} -lt 1 ]; then _default; exit 0; fi
 

@@ -1,6 +1,32 @@
 #!/bin/sh
 
 # Get constaint for given variable from provided shoe script
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "VARIABLE_NAME",
+#       "type": "str",
+#       "description": "The variable to validate.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _get_constraint() {
     # Synopsis: _get_constraint <SCRIPT_PATH> <VARIABLE_NAME>
     #   SCRIPT_PATH:   The path to the input script.

@@ -1,6 +1,15 @@
 #!/bin/sh
 
 # Return sed -i system flavour
+#
+# {
+#   "namespace": "compatibility",
+#   "requires": [
+#     "command",
+#     "sed",
+#     "uname"
+#   ]
+# }
 _sed_i() {
     # Synopsis: _sed_i
 

@@ -1,6 +1,13 @@
 #!/bin/sh
 
 # Open with default system handler
+#
+# {
+#   "namespace": "compatibility",
+#   "requires": [
+#     "uname"
+#   ]
+# }
 _open() {
     # Synopsis: _open
 

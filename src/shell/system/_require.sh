@@ -1,6 +1,36 @@
 #!/bin/sh
 
 # Install required package globally
+#
+# {
+#   "namespace": "system",
+#   "requires": [
+#     "apt"
+#   ],
+#   "depends": [
+#     "_get_package_manager",
+#     "_get_package_name",
+#     "_is_installed",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "PACKAGE",
+#       "type": "str",
+#       "description": "The command/package to remove.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "PACKAGE_MANAGER",
+#       "type": "str",
+#       "description": "The package manager required to remove the package with.",
+#       "default": "apt"
+#     }
+#   ]
+# }
 _require() {
     # Synopsis: _require <PACKAGE> [PACKAGE_MANAGER]
     #   PACKAGE:         The command/package to install.

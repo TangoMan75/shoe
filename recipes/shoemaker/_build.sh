@@ -1,6 +1,40 @@
 #!/bin/sh
 
 # Build from given "build.shoe" file
+#
+# {
+#   "depends": [
+#     "_collapse_blank_lines",
+#     "_sed_i",
+#     "alert_primary",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "DESTINATION",
+#       "type": "folder",
+#       "description": "The path to the destination folder.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "TYPE",
+#       "type": "str",
+#       "description": "The script type to build (bash or sh).",
+#       "constraint": "/^(bash|sh)$/",
+#       "default": "sh"
+#     }
+#   ]
+# }
 _build() {
     # Synopsis: _build <FILE_PATH> <DESTINATION> [TYPE]
     #   FILE_PATH:    The path to the input file.

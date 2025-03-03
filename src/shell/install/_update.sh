@@ -1,6 +1,54 @@
 #!/bin/sh
 
 # Updates given script from the provided URL
+#
+# {
+#   "namespace": "install",
+#   "requires": [
+#     "curl",
+#     "wget"
+#   ],
+#   "depends": [
+#     "_copy_install",
+#     "_generate_autocomplete",
+#     "_generate_global_autocomplete",
+#     "_install",
+#     "_is_installed",
+#     "_set_completion_autoload",
+#     "_symlink_install",
+#     "_uninstall",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "URL",
+#       "type": "str",
+#       "description": "The URL of the script to download and install.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 3,
+#       "name": "ALIAS",
+#       "type": "str",
+#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+#     },
+#     {
+#       "position": 4,
+#       "name": "GLOBAL",
+#       "type": "bool",
+#       "description": "Install globally.",
+#       "default": false
+#     }
+#   ]
+# }
 _update() {
     # Synopsis: _update <FILE_PATH> <URL> [ALIAS] [GLOBAL]
     #   FILE_PATH: The path to the input file.

@@ -1,6 +1,36 @@
 #!/bin/sh
 
 # Wait for postgresql container to start with docker
+#
+# {
+#   "namespace": "docker",
+#   "requires": [
+#     "docker"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "_spin",
+#     "echo_danger",
+#     "echo_success",
+#     "echo_warning"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "CONTAINER_NAME",
+#       "type": "str",
+#       "description": "The name of the docker container.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "USERNAME",
+#       "type": "str",
+#       "description": "The psql username.",
+#       "default": ""
+#     }
+#   ]
+# }
 _wait_for_postgres() {
     # Synopsis: _wait_for_postgres <CONTAINER_NAME> [USERNAME]
     #   CONTAINER_NAME: The name of the postgresql docker container.

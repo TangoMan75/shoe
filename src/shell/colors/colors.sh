@@ -1,6 +1,33 @@
 #!/bin/sh
 
 # Print primary text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_primary() {
     # Synopsis: echo_primary <STRING> [INDENTATION] [PADDING]
     #  STRING:      Text to display.
@@ -15,6 +42,33 @@ echo_primary() {
 }
 
 # Print secondary text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_secondary() {
     # Synopsis: echo_secondary <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -27,6 +81,33 @@ echo_secondary() {
 }
 
 # Print success text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_success() {
     # Synopsis: echo_success <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -39,6 +120,33 @@ echo_success() {
 }
 
 # Print danger text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_danger() {
     # Synopsis: echo_danger <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -51,6 +159,33 @@ echo_danger() {
 }
 
 # Print warning text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_warning() {
     # Synopsis: echo_warning <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -63,6 +198,33 @@ echo_warning() {
 }
 
 # Print info text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_info() {
     # Synopsis: echo_info <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -75,6 +237,33 @@ echo_info() {
 }
 
 # Print light text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_light() {
     # Synopsis: echo_light <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -87,6 +276,33 @@ echo_light() {
 }
 
 # Print dark text with optional indentation and padding
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "INDENTATION",
+#       "type": "int",
+#       "description": "Indentation level.",
+#       "default": 0
+#     },
+#     {
+#       "position": 3,
+#       "name": "PADDING",
+#       "type": "int",
+#       "description": "Padding length.",
+#       "default": 0
+#     }
+#   ]
+# }
 echo_dark() {
     # Synopsis: echo_dark <STRING> [INDENTATION] [PADDING]
     #  STRING:       Text to display.
@@ -99,6 +315,19 @@ echo_dark() {
 }
 
 # Print primary alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_primary()   {
     # Synopsis: alert_primary <STRING>
     #   STRING: Text to display.
@@ -107,6 +336,19 @@ alert_primary()   {
 }
 
 # Print secondary alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_secondary() {
     # Synopsis: alert_secondary <STRING>
     #   STRING: Text to display.
@@ -115,6 +357,19 @@ alert_secondary() {
 }
 
 # Print success alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_success()   {
     # Synopsis: alert_success <STRING>
     #   STRING: Text to display.
@@ -123,6 +378,19 @@ alert_success()   {
 }
 
 # Print danger alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_danger()    {
     # Synopsis: alert_danger <STRING>
     #   STRING: Text to display.
@@ -131,6 +399,19 @@ alert_danger()    {
 }
 
 # Print warning alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_warning()   {
     # Synopsis: alert_warning <STRING>
     #   STRING: Text to display.
@@ -139,6 +420,19 @@ alert_warning()   {
 }
 
 # Print info alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_info()      {
     # Synopsis: alert_info <STRING>
     #   STRING: Text to display.
@@ -147,6 +441,19 @@ alert_info()      {
 }
 
 # Print light alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_light()     {
     # Synopsis: alert_light <STRING>
     #   STRING: Text to display.
@@ -155,6 +462,19 @@ alert_light()     {
 }
 
 # Print dark alert
+#
+# {
+#   "namespace": "colors",
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "STRING",
+#       "type": "str",
+#       "description": "Text to display.",
+#       "nullable": false
+#     }
+#   ]
+# }
 alert_dark()      {
     # Synopsis: alert_dark <STRING>
     #   STRING: Text to display.

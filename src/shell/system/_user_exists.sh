@@ -1,6 +1,25 @@
 #!/bin/sh
 
 # Check provided user exists
+#
+# {
+#   "namespace": "system",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "USERNAME",
+#       "type": "str",
+#       "description": "The username to check.",
+#       "nullable": false
+#     }
+#   ]
+# }
 _user_exists() {
     # Synopsis: _user_exists [USERNAME]
     #   USERNAME: The username to check.

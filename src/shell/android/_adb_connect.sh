@@ -1,6 +1,36 @@
 #!/bin/sh
 
 # Connect to device with adb via wifi (not recommended when flashing images)
+#
+# {
+#   "namespace": "android",
+#   "requires": [
+#     "adb"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "IP",
+#       "type": "str",
+#       "description": "Device IP address.",
+#       "nullable": false,
+#       "constraint": "/^([0-9]{1,3}\\.){3}[0-9]{1,3}$/"
+#     },
+#     {
+#       "position": 2,
+#       "name": "PORT",
+#       "type": "int",
+#       "default": 5555,
+#       "description": "Destination port.",
+#       "constraint": "/^[0-9]{1,5}$/"
+#     }
+#   ]
+# }
 _adb_connect() {
     # Synopsis: _adb_connect <IP> [PORT]
     #   IP:   Device IP address.

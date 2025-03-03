@@ -1,6 +1,14 @@
 #!/bin/sh
 
 # Print default package manager
+#
+# {
+#   "namespace": "system",
+#   "depends": [
+#     "_is_installed",
+#     "echo_danger"
+#   ]
+# }
 _get_package_manager() {
     # Synopsis: _get_package_manager
 
