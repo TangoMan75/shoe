@@ -1314,8 +1314,37 @@ _generate_doc() {
                 printf "\n\n"
             } {PREV = $0}' "$1"
         fi
+    ) > "$2/$3"
 
-        printf '## 🤖 Commands\n\n'
+    printf '## 🤖 Commands\n\n' >> "$2/$3"
+
+    if _is_installed jq; then
+        __index__=0
+        for __function_name__ in $(_get_functions_names "$1" true); do
+            echo_info "${__function_name__}\n"
+
+            __json__="$(_parse_annotation "$1" "${__function_name__}")"
+            if [ -z "${__json__}" ]; then
+                echo_danger "error: _generate_doc: no annotation found for function \"${__function_name__}\"\n"
+                continue
+            fi
+
+            (
+                __index__=$((__index__ + 1))
+                # shellcheck disable=SC2016
+                printf '#### %d. `%s` %s\n\n' ${__index__} "${__function_name__}" "($(printf '%s\n' "${__json__}" | jq -r '.scope'))"
+                printf '%s\n\n' "$(printf '%s\n' "${__json__}" | jq -r '.summary')"
+                # shellcheck disable=SC2016
+                printf '%s\n\n' "$(_print_synopsis "${__json__}" true)"
+            ) >> "$2/$3"
+        done
+
+        echo_success "Documentation generated : \"$2/$3\"\n"
+
+        return 0
+    fi
+
+    (
         awk -v GET_PRIVATE="$4" '/^#+/ {
                 if (summary=="") {
                     summary=$0
@@ -2546,6 +2575,7 @@ EOT
 #_ Reflexion
 #--------------------------------------------------
 
+
 # List constants from provided shoe script
 #
 # {
@@ -2676,6 +2706,56 @@ _get_flags() {
     } {PREV = $0}' "$1"
 }
 
+# Get function annotation by name
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FUNCTION_NAME",
+#       "type": "str",
+#       "description": "The name of the function to retrieve.",
+#       "nullable": false
+#     }
+#   ]
+# }
+_get_function_annotation() {
+    # Synopsis: _get_function_annotation <SCRIPT_PATH> <FUNCTION_NAME>
+    #   SCRIPT_PATH:   The path to the input file.
+    #   FUNCTION_NAME: The name of the function to retrieve.
+
+    if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_function_annotation: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 2 ]; then echo_danger "error: _get_function_annotation: too many arguments (${#})\n"; return 1; fi
+
+    set -- "$(realpath "$1")" "$2"
+    if [ ! -f "$1" ]; then echo_danger "error: _get_function_annotation: \"$1\" file not found\n"; return 1; fi
+
+    awk -v FUNCTION_NAME="$2" '
+        /^#/ { annotation=annotation"\n"$0 }
+        /^(function +)?[a-zA-Z0-9_]+ *\(\)/ {           # matches a function (ignoring curly braces)
+            function_name=substr($0,1,index($0,"(")-1); # truncate string at opening round bracket
+            sub("^function ","",function_name);         # remove leading "function " if present
+            gsub(" +","",function_name);                # trim whitespaces
+            if (function_name==FUNCTION_NAME) print substr(annotation,2); # print annotation (without leading "\n")
+        }
+        !/^#/ { annotation="" }
+    ' "$1"
+}
+
 # Get function by name
 #
 # {
@@ -2740,56 +2820,6 @@ _get_function() {
         }
     }
     !/^#/ { annotation="" }' "$1"
-}
-
-# Get function annotation by name
-#
-# {
-#   "namespace": "reflexion",
-#   "requires": [
-#     "awk"
-#   ],
-#   "depends": [
-#     "echo_danger"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "SCRIPT_PATH",
-#       "type": "file",
-#       "description": "The path to the input script.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "FUNCTION_NAME",
-#       "type": "str",
-#       "description": "The name of the function to retrieve.",
-#       "nullable": false
-#     }
-#   ]
-# }
-_get_function_annotation() {
-    # Synopsis: _get_function_annotation <SCRIPT_PATH> <FUNCTION_NAME>
-    #   SCRIPT_PATH:   The path to the input file.
-    #   FUNCTION_NAME: The name of the function to retrieve.
-
-    if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_function_annotation: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_function_annotation: too many arguments (${#})\n"; return 1; fi
-
-    set -- "$(realpath "$1")" "$2"
-    if [ ! -f "$1" ]; then echo_danger "error: _get_function_annotation: \"$1\" file not found\n"; return 1; fi
-
-    awk -v FUNCTION_NAME="$2" '
-        /^#/ { annotation=annotation"\n"$0 }
-        /^(function +)?[a-zA-Z0-9_]+ *\(\)/ {           # matches a function (ignoring curly braces)
-            function_name=substr($0,1,index($0,"(")-1); # truncate string at opening round bracket
-            sub("^function ","",function_name);         # remove leading "function " if present
-            gsub(" +","",function_name);                # trim whitespaces
-            if (function_name==FUNCTION_NAME) print substr(annotation,2); # print annotation (without leading "\n")
-        }
-        !/^#/ { annotation="" }
-    ' "$1"
 }
 
 # List functions names from provided shoe script
@@ -2976,37 +3006,50 @@ _get_parameter() {
     sed -n "s/^$2=\(.*\)/\1/p" "$1"
 }
 
-# Return json object from annotation
+# Return function annotation as json
 #
 # {
 #   "namespace": "reflexion",
 #   "requires": [
-#     "sed",
-#     "awk"
+#     "awk",
+#     "jq",
+#     "sed"
 #   ],
 #   "depends": [
+#     "_get_function_annotation",
 #     "echo_danger"
 #   ],
 #   "parameters": [
 #     {
 #       "position": 1,
-#       "name": "ANNOTATION",
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FUNCTION_NAME",
 #       "type": "str",
-#       "description": "The input text containing raw annotation.",
+#       "description": "The name of the function to retrieve.",
 #       "nullable": false
 #     }
 #   ]
 # }
 _parse_annotation() {
-    # Synopsis: _parse_annotation <ANNOTATION>
-    #   ANNOTATION: The input text containing raw annotation.
+    # Synopsis: _parse_annotation <SCRIPT_PATH> <FUNCTION_NAME>
+    #   SCRIPT_PATH:   The path to the input file.
+    #   FUNCTION_NAME: The name of the function to retrieve.
 
-    # if [ -z "$1" ]; then echo_danger 'error: _parse_annotation: some mandatory parameter is missing\n'; return 1; fi
-    # if [ ${#} -gt 1 ]; then echo_danger "error: _parse_annotation: too many arguments (${#})\n"; return 1; fi
+    if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _parse_annotation: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 2 ]; then echo_danger "error: _parse_annotation: too many arguments (${#})\n"; return 1; fi
 
-    set -- "$(printf '%s' "$1" | sed -E 's/^ *#+ ?//g')"
+    set -- "$(realpath "$1")" "$2"
+    if [ ! -f "$1" ]; then echo_danger "error: _parse_annotation: \"$1\" file not found\n"; return 1; fi
 
-    result="$(printf '%s' "$1" | awk 'function count_occurrences(str,char) {
+    set -- "$1" "$2" "$(printf '%s' "$(_get_function_annotation "$1" "$2")" | sed -E 's/^ *#+ ?//g')"
+
+    set -- "$1" "$2" "$3" "$(printf '%s' "$3" | awk 'function count_occurrences(str,char) {
         gsub("\\.","",str); # remove escaped characters
         gsub(/"[^"]*"/,""); # remove quoted string
         return gsub(char,char,str);
@@ -3017,19 +3060,91 @@ _parse_annotation() {
         closed+=count_occurrences($0,"}");
     }')"
 
-    summary="$(printf '%s' "$1" | head -n 1)"
+    set -- "$1" "$2" "$3" "$4" "$(printf '%s' "$3" | head -n 1)"
 
-    if [ -z "${result}" ]; then
+    if [ "$(printf '%s' "$2" | cut -c1)" = "_" ]; then
+        set -- "$1" "$2" "$3" "$4" "$5" "private"
+    else
+        set -- "$1" "$2" "$3" "$4" "$5" "public"
+    fi
+    # $1: SCRIPT_PATH, $2: FUNCTION_NAME, $3: annotation, $4: json, $5: summary, $6: scope
+
+    if [ -z "$4" ]; then
         jq --null-input \
-            --arg summary "${summary}" \
+            --arg name "$2" \
+            --arg summary "$5" \
+            --arg scope "$6" \
             '$ARGS.named'
 
         return 0
     fi
 
     jq --null-input \
-    --arg summary "${summary}" \
-    '$ARGS.named + '"${result}"
+    --arg name "$2" \
+    --arg summary "$5" \
+    --arg scope "$6" \
+    '$ARGS.named + '"$4"
+}
+
+# Print function synopsis from a JSON string.
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "jq"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "JSON",
+#       "type": "json",
+#       "description": "The input string containing raw JSON.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "MARKDOWN_FORMAT",
+#       "type": "bool",
+#       "description": "If set to \"true\", returns result as markdown.",
+#       "default": false
+#     }
+#   ]
+# }
+_print_synopsis() {
+    # Synopsis: _print_synopsis <JSON> [MARKDOWN_FORMAT]
+    #   JSON: The input string containing raw JSON.
+    #   MARKDOWN_FORMAT: (Optional) If set to 'true', returns result as markdown. Defaults to "false".
+
+    if [ -z "$1" ]; then echo_danger 'error: _print_synopsis: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 2 ]; then echo_danger "error: _print_synopsis: too many arguments (${#})\n"; return 1; fi
+    if ! printf '%s' "$1" | jq empty >/dev/null 2>&1; then echo_danger "error: _print_synopsis: invalid JSON input\n"; return 1; fi
+
+    if [ "${2:-false}" = "true" ]; then
+        printf "##### Synopsis\n> "
+    else
+        printf "Synopsis: "
+    fi
+
+    printf '%s' "$1" | jq -rj '.name + " "'
+    printf '%s' "$1" | jq -rj 'if .scope then "(\(.scope)) " else "" end'
+
+    if [ "${2:-false}" = "true" ]; then
+        printf '%s' "$1" | jq -rj '[.parameters // [] | .[] | if (.nullable|tostring) == "false" then "&lt;\(.name)&gt;" else "[\(.name)]" end] | join(" ")'
+    else
+        printf '%s' "$1" | jq -rj '[.parameters // [] | .[] | if (.nullable|tostring) == "false" then "<\(.name)>" else "[\(.name)]" end] | join(" ")'
+    fi
+    printf '\n'
+
+    printf '%s' "$1" | jq -r '.parameters // [] | .[] | "`\(.name)`: \(if .type then "_(type: \"\(.type)\")_ " else "" end)\(if (.nullable|tostring) == "false" then "" else "(optional) " end)\(if .description then .description else "" end)\(if has("default") then " _Defaults to \"\(.default|tostring)\"._" else "" end)"' | while read -r line; do
+        if [ "${2:-false}" = "true" ]; then
+            printf '%s\n' "- ${line}"
+        else
+            printf '    %s\n' "${line}"
+        fi
+    done
 }
 
 # Set value for given parameter into provided file ".env" or ".sh" file

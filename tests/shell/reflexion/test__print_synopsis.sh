@@ -67,9 +67,10 @@ test_should_return_expected_string() {
 
 #--------------------------------------------------
 
-expected='##### Synopsis: _foobar (private) &lt;FOO&gt; [BAR]<br>
-- FOO: (type: "str") The input string containing foo.<br>
-- BAR: (type: "bool") (optional) If set to "true", returns bar. Defaults to "false".<br>'
+expected='##### Synopsis
+> _foobar (private) &lt;FOO&gt; [BAR]
+- `FOO`: _(type: "str")_ The input string containing foo.
+- `BAR`: _(type: "bool")_ (optional) If set to "true", returns bar. _Defaults to "false"._'
 
 test_should_return_expected_string() {
     assert_equals "${expected}" "$(_print_synopsis "${actual}" true)"

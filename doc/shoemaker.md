@@ -42,2290 +42,662 @@ documentation from a shoe script.
 
 ## 🤖 Commands
 
-#### 1. `dump`
+#### 1. `dump` (public)
 
 Dump functions from given script into individual files
 
+##### Synopsis
+> dump (public) 
 
-#### 2. `list`
+#### 1. `list` (public)
 
 Dump "build.shoe" file
 
+##### Synopsis
+> list (public) 
 
-#### 3. `build`
+#### 1. `build` (public)
 
 Build from given "build.shoe" file
 
+##### Synopsis
+> build (public) 
 
-#### 4. `build_all`
+#### 1. `build_all` (public)
 
 Build all scripts
 
+##### Synopsis
+> build_all (public) 
 
-### ⚡ Documentation
-
-#### 1. `generate_doc`
+#### 1. `generate_doc` (public)
 
 Generate Markdown documentation for provided shoe script
 
+##### Synopsis
+> generate_doc (public) 
 
-#### 2. `generate_doc_all`
+#### 1. `generate_doc_all` (public)
 
 Generate Markdown documentation for all scripts
 
+##### Synopsis
+> generate_doc_all (public) 
 
-### ⚡ Make
-
-#### 1. `generate_makefile`
+#### 1. `generate_makefile` (public)
 
 Generate Markdown documentation for provided shoe script
 
+##### Synopsis
+> generate_makefile (public) 
 
-#### 2. `generate_makefile_all`
+#### 1. `generate_makefile_all` (public)
 
 Generate Makefile for all scripts
 
+##### Synopsis
+> generate_makefile_all (public) 
 
-#### 3. `_build` (private)
+#### 1. `_build` (private)
 
 Build from given "build.shoe" file
 
-```json
-{
-  "requires": [
-    "adb"
-  ],
-  "depends": [
-    "_is_device_connected_with_adb",
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "DESTINATION",
-      "type": "folder",
-      "description": "The path to the destination folder.",
-      "nullable": false
-    },
-    {
-      "position": 3,
-      "name": "TYPE",
-      "type": "str",
-      "description": "The script type to build (bash or sh).",
-      "constraint": "/^(bash|sh)$/",
-      "default": "sh"
-    }
-  ]
-}
-```
+##### Synopsis
+> _build (private) &lt;FILE_PATH&gt; &lt;DESTINATION&gt; [TYPE]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `DESTINATION`: _(type: "folder")_ The path to the destination folder.
+- `TYPE`: _(type: "str")_ (optional) The script type to build (bash or sh). _Defaults to "sh"._
 
-> Synopsis: _build &lt;FILE_PATH&gt; &lt;DESTINATION&gt; [TYPE]<br>
->   FILE_PATH:    The path to the input file.<br>
->   DESTINATION:  The path to the destination folder.<br>
->   TYPE:         (optional) The script type to build (bash or sh). Will default to "sh".<br>
-
-### ⚡ Self Install
-
-#### 1. `self_install`
+#### 1. `self_install` (public)
 
 Install script and enable completion
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "_install"
-  ],
-  "assumes": [
-    "ALIAS",
-    "global"
-  ]
-}
-```
+##### Synopsis
+> self_install (public) 
 
-
-#### 2. `self_uninstall`
+#### 1. `self_uninstall` (public)
 
 Uninstall script from system
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "_uninstall"
-  ],
-  "assumes": [
-    "ALIAS"
-  ]
-}
-```
+##### Synopsis
+> self_uninstall (public) 
 
-
-#### 3. `self_update`
+#### 1. `self_update` (public)
 
 Update script from @update
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "_get_annotation_tags",
-    "_get_script_shoedoc",
-    "_update"
-  ],
-  "assumes": [
-    "ALIAS",
-    "global"
-  ]
-}
-```
+##### Synopsis
+> self_update (public) 
 
-
-### ⚡ Help
-
-#### 1. `help`
+#### 1. `help` (public)
 
 Print this help
 
-```json
-{
-  "namespace": "help",
-  "depends": [
-    "_help"
-  ]
-}
-```
-
-
-### ⚡ Hooks
+##### Synopsis
+> help (public) 
 
 #### 1. `_default` (private)
 
 Place here commands you need executed by default (optional)
 
-```json
-{
-  "namespace": "hooks"
-}
-```
+##### Synopsis
+> _default (private) 
 
-
-#### 2. `_before` (private)
+#### 1. `_before` (private)
 
 Place here commands you need executed first every time (optional)
 
-```json
-{
-  "namespace": "hooks"
-}
-```
+##### Synopsis
+> _before (private) 
 
-
-#### 3. `_after` (private)
+#### 1. `_after` (private)
 
 Place here commands you need executed last every time (optional)
 
-```json
-{
-  "namespace": "hooks"
-}
-```
-
-
-### ⚡ Bashdoc
+##### Synopsis
+> _after (private) 
 
 #### 1. `_get_shoedoc_description` (private)
 
 Get shoedoc description
 
-```json
-{
-  "namespace": "shoedoc",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "TEXT",
-      "type": "str",
-      "description": "The input shoedoc annotation bloc.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_shoedoc_description (private) &lt;TEXT&gt;
+- `TEXT`: _(type: "str")_ The input shoedoc annotation bloc.
 
-> Synopsis: _get_shoedoc_description &lt;TEXT&gt;<br>
->   TEXT: The input shoedoc annotation bloc.<br>
-
-#### 2. `_get_shoedoc` (private)
+#### 1. `_get_shoedoc` (private)
 
 Get shoedoc
 
-```json
-{
-  "namespace": "shoedoc",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "TEXT",
-      "type": "str",
-      "description": "The input shoedoc annotation bloc.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_shoedoc (private) &lt;TEXT&gt;
+- `TEXT`: _(type: "str")_ The input shoedoc annotation bloc.
 
-> Synopsis: _get_shoedoc &lt;TEXT&gt;<br>
->   TEXT: The input shoedoc annotation bloc.<br>
->   note: Remove every line that does not start with a pound character or contains a tag<br>
->         Returns string without leading pound characters<br>
-
-#### 3. `_get_shoedoc_tag` (private)
+#### 1. `_get_shoedoc_tag` (private)
 
 Return given tag values from shoedoc bloc
 
-```json
-{
-  "namespace": "shoedoc",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "TEXT",
-      "type": "str",
-      "description": "The input shoedoc annotation bloc.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "TAG_NAME",
-      "type": "str",
-      "description": "The name of tag to return.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_shoedoc_tag (private) &lt;TEXT&gt; &lt;TAG_NAME&gt;
+- `TEXT`: _(type: "str")_ The input shoedoc annotation bloc.
+- `TAG_NAME`: _(type: "str")_ The name of tag to return.
 
-> Synopsis: _get_shoedoc_tag &lt;TEXT&gt; &lt;TAG_NAME&gt;<br>
->   TEXT:     The input shoedoc annotation bloc.<br>
->   TAG_NAME: The name of tag to return.<br>
-
-#### 4. `_get_shoedoc_title` (private)
+#### 1. `_get_shoedoc_title` (private)
 
 Get shoedoc title
 
-```json
-{
-  "namespace": "shoedoc",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "TEXT",
-      "type": "str",
-      "description": "The input shoedoc annotation bloc.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_shoedoc_title (private) &lt;TEXT&gt;
+- `TEXT`: _(type: "str")_ The input shoedoc annotation bloc.
 
-> Synopsis: _get_shoedoc_title &lt;TEXT&gt;<br>
->   TEXT: The input shoedoc annotation bloc.<br>
->   note: Returns the first line that does not contain a tag<br>
-
-#### 5. `_get_script_shoedoc` (private)
+#### 1. `_get_script_shoedoc` (private)
 
 Get shoedoc bloc at the top the provided shoe script file
 
-```json
-{
-  "namespace": "shoedoc",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_script_shoedoc (private) &lt;SCRIPT_PATH&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
 
-> Synopsis: _get_script_shoedoc &lt;SCRIPT_PATH&gt;<br>
->   SCRIPT_PATH: The path to the input script.<br>
->   note:        Each shoedoc should strictly start with two pound signs (##)<br>
->                Returns the first valid docbloc found in the provided file<br>
-
-### ⚡ Colors
-
-#### 1. `echo_primary` (private)
+#### 1. `echo_primary` (public)
 
 Print primary text with optional indentation and padding
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "INDENTATION",
-      "type": "int",
-      "description": "Indentation level.",
-      "default": 0
-    },
-    {
-      "position": 3,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 0
-    }
-  ]
-}
-```
+##### Synopsis
+> echo_primary (public) &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-> Synopsis: echo_primary &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:      Text to display.<br>
->  INDENTATION: Indentation level (default: 0).<br>
->  PADDING:     Padding length (default: 0).<br>
->  note:        Older versions of printf supports a more limited set of format specifiers (eg: "%-*b"),<br>
->               this is why we're calculating the PADDING length on each execution.<br>
-
-#### 2. `echo_secondary` (private)
+#### 1. `echo_secondary` (public)
 
 Print secondary text with optional indentation and padding
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "INDENTATION",
-      "type": "int",
-      "description": "Indentation level.",
-      "default": 0
-    },
-    {
-      "position": 3,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 0
-    }
-  ]
-}
-```
+##### Synopsis
+> echo_secondary (public) &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-> Synopsis: echo_secondary &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
-
-#### 3. `echo_success` (private)
+#### 1. `echo_success` (public)
 
 Print success text with optional indentation and padding
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "INDENTATION",
-      "type": "int",
-      "description": "Indentation level.",
-      "default": 0
-    },
-    {
-      "position": 3,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 0
-    }
-  ]
-}
-```
+##### Synopsis
+> echo_success (public) &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-> Synopsis: echo_success &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
-
-#### 4. `echo_danger` (private)
+#### 1. `echo_danger` (public)
 
 Print danger text with optional indentation and padding
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "INDENTATION",
-      "type": "int",
-      "description": "Indentation level.",
-      "default": 0
-    },
-    {
-      "position": 3,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 0
-    }
-  ]
-}
-```
+##### Synopsis
+> echo_danger (public) &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-> Synopsis: echo_danger &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
-
-#### 5. `echo_warning` (private)
+#### 1. `echo_warning` (public)
 
 Print warning text with optional indentation and padding
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "INDENTATION",
-      "type": "int",
-      "description": "Indentation level.",
-      "default": 0
-    },
-    {
-      "position": 3,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 0
-    }
-  ]
-}
-```
+##### Synopsis
+> echo_warning (public) &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-> Synopsis: echo_warning &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
-
-#### 6. `echo_info` (private)
+#### 1. `echo_info` (public)
 
 Print info text with optional indentation and padding
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "INDENTATION",
-      "type": "int",
-      "description": "Indentation level.",
-      "default": 0
-    },
-    {
-      "position": 3,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 0
-    }
-  ]
-}
-```
+##### Synopsis
+> echo_info (public) &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-> Synopsis: echo_info &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
-
-#### 7. `echo_light` (private)
+#### 1. `echo_light` (public)
 
 Print light text with optional indentation and padding
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "INDENTATION",
-      "type": "int",
-      "description": "Indentation level.",
-      "default": 0
-    },
-    {
-      "position": 3,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 0
-    }
-  ]
-}
-```
+##### Synopsis
+> echo_light (public) &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-> Synopsis: echo_light &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
-
-#### 8. `echo_dark` (private)
+#### 1. `echo_dark` (public)
 
 Print dark text with optional indentation and padding
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "INDENTATION",
-      "type": "int",
-      "description": "Indentation level.",
-      "default": 0
-    },
-    {
-      "position": 3,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 0
-    }
-  ]
-}
-```
+##### Synopsis
+> echo_dark (public) &lt;STRING&gt; [INDENTATION] [PADDING]
+- `STRING`: _(type: "str")_ Text to display.
+- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-> Synopsis: echo_dark &lt;STRING&gt; [INDENTATION] [PADDING]<br>
->  STRING:       Text to display.<br>
->  INDENTATION:  Indentation level (default: 0).<br>
->  PADDING:      Padding length (default: 0).<br>
-
-#### 9. `alert_primary` (private)
+#### 1. `alert_primary` (public)
 
 Print primary alert
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> alert_primary (public) &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-> Synopsis: alert_primary &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
-
-#### 10. `alert_secondary` (private)
+#### 1. `alert_secondary` (public)
 
 Print secondary alert
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> alert_secondary (public) &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-> Synopsis: alert_secondary &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
-
-#### 11. `alert_success` (private)
+#### 1. `alert_success` (public)
 
 Print success alert
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> alert_success (public) &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-> Synopsis: alert_success &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
-
-#### 12. `alert_danger` (private)
+#### 1. `alert_danger` (public)
 
 Print danger alert
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> alert_danger (public) &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-> Synopsis: alert_danger &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
-
-#### 13. `alert_warning` (private)
+#### 1. `alert_warning` (public)
 
 Print warning alert
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> alert_warning (public) &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-> Synopsis: alert_warning &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
-
-#### 14. `alert_info` (private)
+#### 1. `alert_info` (public)
 
 Print info alert
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> alert_info (public) &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-> Synopsis: alert_info &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
-
-#### 15. `alert_light` (private)
+#### 1. `alert_light` (public)
 
 Print light alert
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> alert_light (public) &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
-> Synopsis: alert_light &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
-
-#### 16. `alert_dark` (private)
+#### 1. `alert_dark` (public)
 
 Print dark alert
 
-```json
-{
-  "namespace": "colors",
-  "parameters": [
-    {
-      "position": 1,
-      "name": "STRING",
-      "type": "str",
-      "description": "Text to display.",
-      "nullable": false
-    }
-  ]
-}
-```
-
-> Synopsis: alert_dark &lt;STRING&gt;<br>
->   STRING: Text to display.<br>
-
-### ⚡ Compatibility
+##### Synopsis
+> alert_dark (public) &lt;STRING&gt;
+- `STRING`: _(type: "str")_ Text to display.
 
 #### 1. `_sed_i` (private)
 
 Return sed -i system flavour
 
-```json
-{
-  "namespace": "compatibility",
-  "requires": [
-    "command",
-    "sed",
-    "uname"
-  ]
-}
-```
-
-> Synopsis: _sed_i<br>
-
-### ⚡ Documentation
+##### Synopsis
+> _sed_i (private) 
 
 #### 1. `_generate_doc` (private)
 
 Generate Markdown documentation for provided shoe script
 
-```json
-{
-  "namespace": "documentation",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "_get_script_shoedoc",
-    "_get_shoedoc_description",
-    "_get_shoedoc_tag",
-    "_get_shoedoc_title",
-    "alert_primary",
-    "echo_danger",
-    "echo_success"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "DESTINATION",
-      "type": "folder",
-      "description": "The path to the destination folder. Defaults to file parent."
-    },
-    {
-      "position": 3,
-      "name": "OUTPUT_FILE_NAME",
-      "type": "str",
-      "description": "The name for the documentation file. Defaults to \"<BASENAME>.md\"."
-    },
-    {
-      "position": 4,
-      "name": "GET_PRIVATE",
-      "type": "bool",
-      "description": "If set to \"true\", documents private constants, options, flags, and commands as well.",
-      "default": false
-    }
-  ]
-}
-```
-
-> Synopsis: _generate_doc &lt;SCRIPT_PATH&gt; [DESTINATION] [OUTPUT_FILE_NAME] [GET_PRIVATE]<br>
->   SCRIPT_PATH:      The path to the input file.<br>
->   DESTINATION:      (optional) The path to the destination folder. Defaults to file parent.<br>
->   OUTPUT_FILE_NAME: (optional) The name for the documentation file. Defaults to "&lt;BASENAME&gt;.md".<br>
->   GET_PRIVATE:      (Optional) If set to 'true', documents private constants, options, flags, and commands as well. Defaults to "false".<br>
-
-### ⚡ Help
+##### Synopsis
+> _generate_doc (private) &lt;SCRIPT_PATH&gt; [DESTINATION] [OUTPUT_FILE_NAME] [GET_PRIVATE]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `DESTINATION`: _(type: "folder")_ (optional) The path to the destination folder. Defaults to file parent.
+- `OUTPUT_FILE_NAME`: _(type: "str")_ (optional) The name for the documentation file. Defaults to "<BASENAME>.md".
+- `GET_PRIVATE`: _(type: "bool")_ (optional) If set to "true", documents private constants, options, flags, and commands as well. _Defaults to "false"._
 
 #### 1. `_help` (private)
 
 Print help for provider shoe script
 
-```json
-{
-  "namespace": "help",
-  "depends": [
-    "_get_constants",
-    "_get_flags",
-    "_get_options",
-    "_get_padding",
-    "_get_script_shoedoc",
-    "_get_shoedoc_description",
-    "_get_shoedoc_title",
-    "_print_commands",
-    "_print_constants",
-    "_print_description",
-    "_print_flags",
-    "_print_infos",
-    "_print_options",
-    "_print_usage",
-    "alert_primary",
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _help (private) &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
-> Synopsis: _help &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
-
-#### 2. `_print_commands` (private)
+#### 1. `_print_commands` (private)
 
 List commands of the provided shoe script (used by "help" command)
 
-```json
-{
-  "namespace": "help",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger",
-    "echo_warning"
-  ],
-  "assumes": [
-    "PRIMARY",
-    "SUCCESS",
-    "WARNING"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 12
-    }
-  ]
-}
-```
+##### Synopsis
+> _print_commands (private) &lt;FILE_PATH&gt; [PADDING]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "12"._
 
-> Synopsis: _print_commands &lt;FILE_PATH&gt; [PADDING]<br>
->   FILE_PATH: The path to the input file.<br>
->   PADDING:   (optional) Padding length (default: 12)<br>
->   note:      "awk: %*x formats are not supported"<br>
-
-#### 3. `_print_constants` (private)
+#### 1. `_print_constants` (private)
 
 List constants of the provided shoe script (used by "help" command)
 
-```json
-{
-  "namespace": "help",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger",
-    "echo_warning"
-  ],
-  "assumes": [
-    "EOL",
-    "INFO",
-    "PRIMARY",
-    "SUCCESS",
-    "WARNING"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 12
-    }
-  ]
-}
-```
+##### Synopsis
+> _print_constants (private) &lt;FILE_PATH&gt; [PADDING]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "12"._
 
-> Synopsis: _print_constants &lt;FILE_PATH&gt; [PADDING]<br>
->   FILE_PATH: The path to the input file.<br>
->   PADDING:   (optional) Padding length (default: 12)<br>
->   note:      "awk: %*x formats are not supported"<br>
-
-#### 4. `_print_description` (private)
+#### 1. `_print_description` (private)
 
 Print provided text formatted as a description (used by "help" command)
 
-```json
-{
-  "namespace": "help",
-  "depends": [
-    "echo_primary",
-    "echo_warning"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "DESCRIPTION",
-      "type": "str",
-      "description": "A string containing script description.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _print_description (private) &lt;DESCRIPTION&gt;
+- `DESCRIPTION`: _(type: "str")_ A string containing script description.
 
-> Synopsis: _print_description &lt;DESCRIPTION&gt;<br>
->   DESCRIPTION: A string containing script description.<br>
-
-#### 5. `_print_flags` (private)
+#### 1. `_print_flags` (private)
 
 List flags of the provided shoe script (used by "help" command)
 
-```json
-{
-  "namespace": "help",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger",
-    "echo_warning"
-  ],
-  "assumes": [
-    "PRIMARY",
-    "SUCCESS"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 12
-    }
-  ]
-}
-```
+##### Synopsis
+> _print_flags (private) &lt;FILE_PATH&gt; [PADDING]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "12"._
 
-> Synopsis: _print_flags &lt;FILE_PATH&gt; [PADDING]<br>
->   FILE_PATH: The path to the input file.<br>
->   PADDING:   (optional) Padding length (default: 12)<br>
->   note:      "awk: %*x formats are not supported"<br>
-
-#### 6. `_print_infos` (private)
+#### 1. `_print_infos` (private)
 
 Print infos of the provided shoe script (used by "help" command)
 
-```json
-{
-  "namespace": "help",
-  "depends": [
-    "_get_script_shoedoc",
-    "_get_shoedoc_tag",
-    "echo_danger",
-    "echo_primary",
-    "echo_success",
-    "echo_warning"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _print_infos (private) &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
-> Synopsis: _print_infos &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
-
-#### 7. `_print_options` (private)
+#### 1. `_print_options` (private)
 
 List options of the provided shoe script (used by "help" command)
 
-```json
-{
-  "namespace": "help",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger",
-    "echo_warning"
-  ],
-  "assumes": [
-    "DEFAULT",
-    "EOL",
-    "INFO",
-    "SUCCESS",
-    "WARNING"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "PADDING",
-      "type": "int",
-      "description": "Padding length.",
-      "default": 12
-    }
-  ]
-}
-```
+##### Synopsis
+> _print_options (private) &lt;FILE_PATH&gt; [PADDING]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "12"._
 
-> Synopsis: _print_options &lt;FILE_PATH&gt; [PADDING]<br>
->   FILE_PATH: The path to the input file.<br>
->   PADDING:   (optional) Padding length (default: 12)<br>
->   note:      "awk: %*x formats are not supported"<br>
-
-#### 8. `_print_usage` (private)
+#### 1. `_print_usage` (private)
 
 Print usage of the provided shoe script (used by "help" command)
 
-```json
-{
-  "namespace": "help",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger",
-    "echo_info",
-    "echo_success",
-    "echo_warning"
-  ],
-  "assumes": [
-    "DEFAULT",
-    "INFO",
-    "SUCCESS",
-    "WARNING"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    }
-  ]
-}
-```
-
-> Synopsis: _print_usage &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
-
-### ⚡ Install
+##### Synopsis
+> _print_usage (private) &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
 #### 1. `_copy_install` (private)
 
 Install script via copy
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "ALIAS",
-      "type": "str",
-      "description": "The alias of the script to install. Defaults to the basename of the provided file."
-    }
-  ]
-}
-```
+##### Synopsis
+> _copy_install (private) &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-> Synopsis: _copy_install &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided file<br>
->   note:      Creates a symbolic link in the /usr/local/bin/ directory.<br>
-
-#### 2. `_generate_autocomplete` (private)
+#### 1. `_generate_autocomplete` (private)
 
 Generates an autocomplete script for the provided file
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "_get_comspec",
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "ALIAS",
-      "type": "str",
-      "description": "The alias of the script to install. Defaults to the basename of the provided file."
-    }
-  ]
-}
-```
+##### Synopsis
+> _generate_autocomplete (private) &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-> Synopsis: _generate_autocomplete &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to autocomplete. Defaults to the basename of the provided file<br>
->   note:      This function creates a completion script named "&lt;ALIAS&gt;-completion.sh" in the same directory as the script itself.<br>
->              Refer to https://iridakos.com/programming/2018/03/01/bash-programmable-completion-tutorial for details on how to configure shell autocompletions.<br>
->              Or read the official docmentation for "complete" https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html#Programmable-Completion-Builtins<br>
-
-#### 3. `_generate_global_autocomplete` (private)
+#### 1. `_generate_global_autocomplete` (private)
 
 Creates a system-wide autocomplete script for the provided file
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "_get_comspec",
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "ALIAS",
-      "type": "str",
-      "description": "The alias of the script to install. Defaults to the basename of the provided file."
-    }
-  ]
-}
-```
+##### Synopsis
+> _generate_global_autocomplete (private) &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-> Synopsis: _generate_global_autocomplete &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to autocomplete. Defaults to the basename of the provided file<br>
->   note:      This function creates a completion script named "&lt;ALIAS&gt;" (where "&lt;ALIAS&gt;" is the basename of the provided file)<br>
->              in the /etc/bash_completion.d/ directory, enabling autocompletion for all users on the system.<br>
->              It uses sudo for file creation in a system directory, requiring root privileges.<br>
-
-#### 4. `_get_comspec` (private)
+#### 1. `_get_comspec` (private)
 
 Generate comspec string for the provided file
 
-```json
-{
-  "namespace": "install",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_comspec (private) &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
-> Synopsis: _get_comspec &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
-
-#### 5. `_install` (private)
+#### 1. `_install` (private)
 
 Install script and enable completion
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "_copy_install",
-    "_generate_autocomplete",
-    "_generate_global_autocomplete",
-    "_is_installed",
-    "_set_completion_autoload",
-    "_symlink_install",
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "ALIAS",
-      "type": "str",
-      "description": "The alias of the script to install. Defaults to the basename of the provided file."
-    },
-    {
-      "position": 3,
-      "name": "GLOBAL",
-      "type": "bool",
-      "description": "Install globally.",
-      "default": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _install (private) &lt;FILE_PATH&gt; [ALIAS] [GLOBAL]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
+- `GLOBAL`: _(type: "bool")_ (optional) Install globally. _Defaults to "false"._
 
-> Synopsis: _install &lt;FILE_PATH&gt; [ALIAS] [GLOBAL]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided script.<br>
->   GLOBAL:    (optional) Install globally. Defaults to "false".<br>
-
-#### 6. `_remove_completion_autoload` (private)
+#### 1. `_remove_completion_autoload` (private)
 
 Remove completion script autoload
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "_sed_i",
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SHELL_CONFIG_FILE",
-      "type": "file",
-      "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "ALIAS",
-      "type": "str",
-      "description": "The alias of the script to install. Defaults to the basename of the provided file."
-    }
-  ]
-}
-```
+##### Synopsis
+> _remove_completion_autoload (private) &lt;SHELL_CONFIG_FILE&gt; [ALIAS]
+- `SHELL_CONFIG_FILE`: _(type: "file")_ The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-> Synopsis: _remove_completion_autoload &lt;SHELL_CONFIG_FILE&gt; [ALIAS]<br>
-> Removes an autoload line for a completion script from a shell configuration file.<br>
->   SHELL_CONFIG_FILE: The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).<br>
->   ALIAS:             (optional) The alias of the script to remove. Defaults to the basename of the provided file<br>
-
-#### 7. `_set_completion_autoload` (private)
+#### 1. `_set_completion_autoload` (private)
 
 Adds an autoload line for completion script to a shell configuration file
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "_collapse_blank_lines",
-    "_sed_i",
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SHELL_CONFIG_FILE",
-      "type": "file",
-      "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "SCRIPT_FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 3,
-      "name": "ALIAS",
-      "type": "str",
-      "description": "The alias of the script to install. Defaults to the basename of the provided file."
-    }
-  ]
-}
-```
+##### Synopsis
+> _set_completion_autoload (private) &lt;SHELL_CONFIG_FILE&gt; &lt;SCRIPT_FILE_PATH&gt; [ALIAS]
+- `SHELL_CONFIG_FILE`: _(type: "file")_ The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).
+- `SCRIPT_FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-> Synopsis: _set_completion_autoload &lt;SHELL_CONFIG_FILE_PATH&gt; &lt;SCRIPT_FILE_PATH&gt; [ALIAS]<br>
->   SHELL_CONFIG_FILE_PATH: The path to the shell configuration file to be modified (e.g., ~/.bashrc, ~/.zshrc).<br>
->   SCRIPT_FILE_PATH:       The path to the input file.<br>
->   ALIAS:                  (optional) The alias of the input script. Defaults to the basename of the provided file<br>
-
-#### 8. `_symlink_install` (private)
+#### 1. `_symlink_install` (private)
 
 Install script via symlink
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "ALIAS",
-      "type": "str",
-      "description": "The alias of the script to install. Defaults to the basename of the provided file."
-    }
-  ]
-}
-```
+##### Synopsis
+> _symlink_install (private) &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-> Synopsis: _symlink_install &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided file<br>
->   note:      Creates a symbolic link in the /usr/local/bin/ directory.<br>
-
-#### 9. `_uninstall` (private)
+#### 1. `_uninstall` (private)
 
 Uninstall script from system
 
-```json
-{
-  "namespace": "install",
-  "depends": [
-    "_remove_completion_autoload",
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "ALIAS",
-      "type": "str",
-      "description": "The alias of the script to install. Defaults to the basename of the provided file."
-    }
-  ]
-}
-```
+##### Synopsis
+> _uninstall (private) &lt;FILE_PATH&gt; [ALIAS]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-> Synopsis: _uninstall &lt;FILE_PATH&gt; [ALIAS]<br>
->   FILE_PATH: The path to the input file.<br>
->   ALIAS:     (optional) The alias of the script to uninstall. Defaults to the basename of the provided script.<br>
-
-#### 10. `_update` (private)
+#### 1. `_update` (private)
 
 Updates given script from the provided URL
 
-```json
-{
-  "namespace": "install",
-  "requires": [
-    "curl",
-    "wget"
-  ],
-  "depends": [
-    "_copy_install",
-    "_generate_autocomplete",
-    "_generate_global_autocomplete",
-    "_install",
-    "_is_installed",
-    "_set_completion_autoload",
-    "_symlink_install",
-    "_uninstall",
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "URL",
-      "type": "str",
-      "description": "The URL of the script to download and install.",
-      "nullable": false
-    },
-    {
-      "position": 3,
-      "name": "ALIAS",
-      "type": "str",
-      "description": "The alias of the script to install. Defaults to the basename of the provided file."
-    },
-    {
-      "position": 4,
-      "name": "GLOBAL",
-      "type": "bool",
-      "description": "Install globally.",
-      "default": false
-    }
-  ]
-}
-```
-
-> Synopsis: _update &lt;FILE_PATH&gt; &lt;URL&gt; [ALIAS] [GLOBAL]<br>
->   FILE_PATH: The path to the input file.<br>
->   URL:       The URL of the script to download and install.<br>
->   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided script.<br>
->   GLOBAL:    (optional) Install globally. Defaults to "false".<br>
-
-### ⚡ Make
+##### Synopsis
+> _update (private) &lt;FILE_PATH&gt; &lt;URL&gt; [ALIAS] [GLOBAL]
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `URL`: _(type: "str")_ The URL of the script to download and install.
+- `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
+- `GLOBAL`: _(type: "bool")_ (optional) Install globally. _Defaults to "false"._
 
 #### 1. `_generate_makefile` (private)
 
 Generate Makefile for provided shoe script
 
-```json
-{
-  "namespace": "make",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "_get_script_shoedoc",
-    "_get_shoedoc_description",
-    "_get_shoedoc_tag",
-    "_get_shoedoc_title",
-    "alert_primary",
-    "echo_danger",
-    "echo_success"
-  ],
-  "assumes": [
-    "ALERT_DANGER",
-    "ALERT_DARK",
-    "ALERT_INFO",
-    "ALERT_LIGHT",
-    "ALERT_PRIMARY",
-    "ALERT_SECONDARY",
-    "ALERT_SUCCESS",
-    "ALERT_WARNING",
-    "DANGER",
-    "DARK",
-    "DEFAULT",
-    "EOL",
-    "INFO",
-    "LIGHT",
-    "PRIMARY",
-    "SECONDARY",
-    "SUCCESS",
-    "WARNING"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "DESTINATION",
-      "type": "folder",
-      "description": "The path to the destination folder. Defaults to file parent."
-    },
-    {
-      "position": 3,
-      "name": "OUTPUT_FILE_NAME",
-      "type": "str",
-      "description": "The name for the generated Makefile. Defaults to \"<BASENAME>.makefile\"."
-    }
-  ]
-}
-```
-
-> Synopsis: _generate_makefile &lt;SCRIPT_PATH&gt; [DESTINATION] [OUTPUT_FILE_NAME]<br>
->   SCRIPT_PATH:      The path to the input script.<br>
->   DESTINATION:      (optional) The path to the destination folder. Defaults to file parent.<br>
->   OUTPUT_FILE_NAME: (optional) The name for the generated Makefile. Defaults to "&lt;BASENAME&gt;.makefile".<br>
-
-### ⚡ Reflexion
+##### Synopsis
+> _generate_makefile (private) &lt;SCRIPT_PATH&gt; [DESTINATION] [OUTPUT_FILE_NAME]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `DESTINATION`: _(type: "folder")_ (optional) The path to the destination folder. Defaults to file parent.
+- `OUTPUT_FILE_NAME`: _(type: "str")_ (optional) The name for the generated Makefile. Defaults to "<BASENAME>.makefile".
 
 #### 1. `_get_constants` (private)
 
 List constants from provided shoe script
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "GET_PRIVATE",
-      "type": "bool",
-      "description": "If set to \"true\", retrieves private constants as well.",
-      "default": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_constants (private) &lt;SCRIPT_PATH&gt; [GET_PRIVATE]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `GET_PRIVATE`: _(type: "bool")_ (optional) If set to "true", retrieves private constants as well. _Defaults to "false"._
 
-> Synopsis: _get_constants &lt;SCRIPT_PATH&gt; [GET_PRIVATE]<br>
->   SCRIPT_PATH: The path to the input script.<br>
->   GET_PRIVATE: (Optional) If set to 'true', retrieves private constants as well. (default=false)<br>
-
-#### 2. `_get_constraint` (private)
+#### 1. `_get_constraint` (private)
 
 Get constaint for given variable from provided shoe script
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "VARIABLE_NAME",
-      "type": "str",
-      "description": "The variable to validate.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_constraint (private) &lt;SCRIPT_PATH&gt; &lt;VARIABLE_NAME&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `VARIABLE_NAME`: _(type: "str")_ The variable to validate.
 
-> Synopsis: _get_constraint &lt;SCRIPT_PATH&gt; &lt;VARIABLE_NAME&gt;<br>
->   SCRIPT_PATH:   The path to the input script.<br>
->   VARIABLE_NAME: The variable to validate.<br>
-
-#### 3. `_get_flags` (private)
+#### 1. `_get_flags` (private)
 
 List flags from provided shoe script
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_flags (private) &lt;SCRIPT_PATH&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
 
-> Synopsis: _get_flags &lt;SCRIPT_PATH&gt;<br>
->   SCRIPT_PATH: The path to the input script.<br>
-
-#### 4. `_get_function` (private)
-
-Get function by name
-
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "FUNCTION_NAME",
-      "type": "str",
-      "description": "The name of the function to retrieve.",
-      "nullable": false
-    }
-  ]
-}
-```
-
-> Synopsis: _get_function &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;<br>
->   SCRIPT_PATH:   The path to the input file.<br>
->   FUNCTION_NAME: The name of the function to retrieve.<br>
-
-#### 5. `_get_function_annotation` (private)
+#### 1. `_get_function_annotation` (private)
 
 Get function annotation by name
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "FUNCTION_NAME",
-      "type": "str",
-      "description": "The name of the function to retrieve.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_function_annotation (private) &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `FUNCTION_NAME`: _(type: "str")_ The name of the function to retrieve.
 
-> Synopsis: _get_function_annotation &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;<br>
->   SCRIPT_PATH:   The path to the input file.<br>
->   FUNCTION_NAME: The name of the function to retrieve.<br>
+#### 1. `_get_function` (private)
 
-#### 6. `_get_functions_names` (private)
+Get function by name
+
+##### Synopsis
+> _get_function (private) &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `FUNCTION_NAME`: _(type: "str")_ The name of the function to retrieve.
+
+#### 1. `_get_functions_names` (private)
 
 List functions names from provided shoe script
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "GET_PRIVATE",
-      "type": "bool",
-      "description": "If set to \"true\", retrieves private functions as well.",
-      "default": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_functions_names (private) &lt;SCRIPT_PATH&gt; [GET_PRIVATE]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `GET_PRIVATE`: _(type: "bool")_ (optional) If set to "true", retrieves private functions as well. _Defaults to "false"._
 
-> Synopsis: _get_functions_names &lt;SCRIPT_PATH&gt; [GET_PRIVATE]<br>
->   SCRIPT_PATH: The path to the input script.<br>
->   GET_PRIVATE: (Optional) If set to 'true', retrieves private functions as well. Defaults to "false".<br>
-
-#### 7. `_get_options` (private)
+#### 1. `_get_options` (private)
 
 List options from provided shoe script
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "GET_PRIVATE_ONLY",
-      "type": "bool",
-      "description": "If set to \"true\", retrieves private options only.",
-      "default": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_options (private) &lt;SCRIPT_PATH&gt; [GET_PRIVATE_ONLY]
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `GET_PRIVATE_ONLY`: _(type: "bool")_ (optional) If set to "true", retrieves private options only. _Defaults to "false"._
 
-> Synopsis: _get_options &lt;SCRIPT_PATH&gt; [GET_PRIVATE_ONLY]<br>
->   SCRIPT_PATH:      The path to the input script.<br>
->   GET_PRIVATE_ONLY: (Optional) If set to 'true', retrieves private options only. Defaults to "false".<br>
-
-#### 8. `_get_padding` (private)
+#### 1. `_get_padding` (private)
 
 Guess padding length from longest constant, option, flag or command of the provided shoe script
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "SCRIPT_PATH",
-      "type": "file",
-      "description": "The path to the input script.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_padding (private) &lt;SCRIPT_PATH&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
 
-> Synopsis: _get_padding &lt;SCRIPT_PATH&gt;<br>
->   SCRIPT_PATH: The path to the input script.<br>
-
-#### 9. `_get_parameter` (private)
+#### 1. `_get_parameter` (private)
 
 Get value for given parameter from provided ".env" or ".sh" file
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "sed"
-  ],
-  "depends": [
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "KEY",
-      "type": "str",
-      "description": "The variable name to get from provided file.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_parameter (private) &lt;FILE_PATH&gt; &lt;KEY&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `KEY`: _(type: "str")_ The variable name to get from provided file.
 
-> Synopsys : _get_parameter &lt;FILE_PATH&gt; &lt;KEY&gt;<br>
->   FILE_PATH: The path to the input file.<br>
->   KEY:       The variable name to get from provided file.<br>
+#### 1. `_parse_annotation` (private)
 
-#### 10. `_parse_annotation` (private)
+Return function annotation as json
 
-Return json object from annotation
+##### Synopsis
+> _parse_annotation (private) &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `FUNCTION_NAME`: _(type: "str")_ The name of the function to retrieve.
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "sed",
-    "awk"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "ANNOTATION",
-      "type": "str",
-      "description": "The input text containing raw annotation.",
-      "nullable": false
-    }
-  ]
-}
-```
+#### 1. `_print_synopsis` (private)
 
-> Synopsis: _parse_annotation &lt;ANNOTATION&gt;<br>
->   ANNOTATION: The input text containing raw annotation.<br>
+Print function synopsis from a JSON string.
 
-#### 11. `_set_parameter` (private)
+##### Synopsis
+> _print_synopsis (private) &lt;JSON&gt; [MARKDOWN_FORMAT]
+- `JSON`: _(type: "json")_ The input string containing raw JSON.
+- `MARKDOWN_FORMAT`: _(type: "bool")_ (optional) If set to "true", returns result as markdown. _Defaults to "false"._
+
+#### 1. `_set_parameter` (private)
 
 Set value for given parameter into provided file ".env" or ".sh" file
 
-```json
-{
-  "namespace": "reflexion",
-  "requires": [
-    "sed"
-  ],
-  "depends": [
-    "_sed_i",
-    "echo_danger",
-    "echo_info",
-    "echo_warning"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "KEY",
-      "type": "str",
-      "description": "The variable name to get from provided file.",
-      "nullable": false
-    },
-    {
-      "position": 3,
-      "name": "VALUE",
-      "type": "str",
-      "description": "The value to be set to provided file.",
-      "nullable": false
-    }
-  ]
-}
-```
-
-> Synopsys : _set_parameter &lt;FILE_PATH&gt; &lt;KEY&gt; &lt;VALUE&gt;<br>
->   FILE_PATH: The path to the input script.<br>
->   KEY:       The variable name to set to provided file<br>
->   VALUE:     The value to be set to provided file<br>
-
-### ⚡ Strings
+##### Synopsis
+> _set_parameter (private) &lt;FILE_PATH&gt; &lt;KEY&gt; &lt;VALUE&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `KEY`: _(type: "str")_ The variable name to get from provided file.
+- `VALUE`: _(type: "str")_ The value to be set to provided file.
 
 #### 1. `_collapse_blank_lines` (private)
 
 Collapse blank lines with "sed"
 
-```json
-{
-  "namespace": "strings",
-  "depends": [
-    "_sed_i",
-    "echo_danger",
-    "echo_info"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "FILE_PATH",
-      "type": "file",
-      "description": "The path to the input file.",
-      "nullable": false
-    }
-  ]
-}
-```
-
-> Synopsis: _collapse_blank_lines &lt;FILE_PATH&gt;<br>
->   FILE_PATH: The path to the input file.<br>
-
-### ⚡ System
+##### Synopsis
+> _collapse_blank_lines (private) &lt;FILE_PATH&gt;
+- `FILE_PATH`: _(type: "file")_ The path to the input file.
 
 #### 1. `_check_installed` (private)
 
 Print error message if provided command is missing
 
-```json
-{
-  "namespace": "system",
-  "depends": [
-    "_get_package_name",
-    "_is_installed",
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "COMMAND",
-      "type": "str",
-      "description": "A string containing the command name to find.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _check_installed (private) &lt;COMMAND&gt;
+- `COMMAND`: _(type: "str")_ A string containing the command name to find.
 
-> Synopsis: _check_installed &lt;COMMAND&gt;<br>
->   COMMAND: A string containing the command name to find.<br>
-
-#### 2. `_get_package_name` (private)
+#### 1. `_get_package_name` (private)
 
 Find package name for given command
 
-```json
-{
-  "namespace": "system",
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "COMMAND",
-      "type": "str",
-      "description": "A string containing the command name to find.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _get_package_name (private) &lt;COMMAND&gt;
+- `COMMAND`: _(type: "str")_ A string containing the command name to find.
 
-> Synopsis: _get_package_name &lt;COMMAND&gt;<br>
->   COMMAND: A string containing the command name to find.<br>
-
-#### 3. `_is_installed` (private)
+#### 1. `_is_installed` (private)
 
 Check provided command is installed
 
-```json
-{
-  "namespace": "system",
-  "requires": [
-    "dpkg"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "COMMAND",
-      "type": "str",
-      "description": "A string containing the command name to find.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _is_installed (private) &lt;COMMAND&gt;
+- `COMMAND`: _(type: "str")_ A string containing the command name to find.
 
-> Synopsis: _is_installed &lt;COMMAND&gt;<br>
->   COMMAND: A string containing the command name to find.<br>
-
-#### 4. `_pwd` (private)
+#### 1. `_pwd` (private)
 
 Return current project directory realpath, or "pwd" when installed globally
 
-```json
-{
-  "namespace": "system",
-  "returns": "str"
-}
-```
-
-> Synopsis: _pwd<br>
-
-### ⚡ Validation
+##### Synopsis
+> _pwd (private) 
 
 #### 1. `_is_valid` (private)
 
 Checks if variable is valid given regex constraint
 
-```json
-{
-  "namespace": "validation",
-  "requires": [
-    "grep",
-    "sed"
-  ],
-  "depends": [
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "VALUE",
-      "type": "str",
-      "description": "The string to be compared to regex pattern.",
-      "nullable": false
-    },
-    {
-      "position": 2,
-      "name": "PATTERN",
-      "type": "str",
-      "description": "The regex parttern to apply.",
-      "nullable": false
-    }
-  ]
-}
-```
+##### Synopsis
+> _is_valid (private) &lt;VALUE&gt; &lt;PATTERN&gt;
+- `VALUE`: _(type: "str")_ The string to be compared to regex pattern.
+- `PATTERN`: _(type: "str")_ The regex parttern to apply.
 
-> Synopsis: _is_valid &lt;VALUE&gt; &lt;PATTERN&gt;<br>
->   VALUE:   The string to be compared to regex pattern.<br>
->   PATTERN: The regex parttern to apply.<br>
-
-#### 2. `_validate` (private)
+#### 1. `_validate` (private)
 
 Find constraints and validates a variable
 
-```json
-{
-  "namespace": "validation",
-  "requires": [
-    "sed"
-  ],
-  "depends": [
-    "_get_constraint",
-    "_is_valid",
-    "echo_danger"
-  ],
-  "parameters": [
-    {
-      "position": 1,
-      "name": "VARIABLE",
-      "type": "str",
-      "description": "The variable to validate in the followling format : variable_name=value.",
-      "nullable": false
-    }
-  ]
-}
-```
-
-> Synopsis: _validate &lt;VARIABLE&gt;<br>
->   VARIABLE: The variable to validate in the followling format : variable_name=value.<br>
-
-### ⚡ Kernel
+##### Synopsis
+> _validate (private) &lt;VARIABLE&gt;
+- `VARIABLE`: _(type: "str")_ The variable to validate in the followling format : variable_name=value.
 
 #### 1. `_kernel` (private)
 
 Shoe Kernel
 
-```json
-{
-  "namespace": "kernel",
-  "depends": [
-    "_after",
-    "_before",
-    "_default",
-    "_get_flags",
-    "_get_functions_names",
-    "_get_options",
-    "_validate",
-    "echo_danger"
-  ]
-}
-```
-
+##### Synopsis
+> _kernel (private) 
 

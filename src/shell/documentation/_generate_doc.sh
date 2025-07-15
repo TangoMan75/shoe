@@ -152,7 +152,7 @@ _generate_doc() {
             (
                 __index__=$((__index__ + 1))
                 # shellcheck disable=SC2016
-                printf '#### %d. `%s`%s\n\n' ${__index__} "${__function_name__}" " ($(printf '%s\n' "${__json__}" | jq -r '.scope'))"
+                printf '#### %d. `%s` %s\n\n' ${__index__} "${__function_name__}" "($(printf '%s\n' "${__json__}" | jq -r '.scope'))"
                 printf '%s\n\n' "$(printf '%s\n' "${__json__}" | jq -r '.summary')"
                 # shellcheck disable=SC2016
                 printf '%s\n\n' "$(_print_synopsis "${__json__}" true)"
