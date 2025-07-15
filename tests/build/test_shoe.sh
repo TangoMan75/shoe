@@ -18,9 +18,9 @@
 #     assert_not_equals "a string" "a string" "a string should be different from another string"
 #     fake ps echo hello world
 
-src_file="../build/shoe.sh"
+src_file="../../build/shoe.sh"
 
-source ./_remove_colors.sh
+source ../helper/_remove_colors.sh
 
 test_script_execution_should_return_expected_status_code() {
     assert_status_code 0 "${src_file}"
