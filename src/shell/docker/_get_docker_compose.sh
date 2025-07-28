@@ -4,7 +4,7 @@
 _get_docker_compose() {
     # Synopsis: _get_docker_compose
 
-    if [ "$(docker compose 2>/dev/null)" ]; then
+    if [ "$(docker compose >/dev/null 2>&1)" ]; then
         echo 'docker compose'
 
         return 0
@@ -16,7 +16,7 @@ _get_docker_compose() {
         return 0
     fi
 
-    echo_danger "error: \"$(basename "${0}")\" requires docker-compose, try: 'sudo apt-get install -y docker-compose'\n"
+    echo_danger "error: \"$(basename "${0}")\" requires docker-compose or docker compose plugin\n"
 
     exit 1
 }
