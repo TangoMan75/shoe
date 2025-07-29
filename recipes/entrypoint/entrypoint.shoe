@@ -1,0 +1,132 @@
+../../src/shell/header.sh
+
+## TangoMan Entrypoint
+##
+## Execute Development and Continuous Integration tasks.
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 0.1.0
+## @license MIT
+## @link    https://github.com/TangoMan75/shoe
+
+#--------------------------------------------------
+# Place your constants after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your options after this line
+#--------------------------------------------------
+./options.sh
+
+#--------------------------------------------------
+# Place your flags after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your private constants after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your global variables after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+./lint.sh
+./tests.sh
+./git_hooks.sh
+./bash_unit.sh
+./alpine.sh
+./busybox.sh
+./ubuntu.sh
+
+#--------------------------------------------------
+# Place your private functions after this line
+#--------------------------------------------------
+
+##################################################
+### Help
+##################################################
+../../src/shell/help/help.sh
+
+#--------------------------------------------------
+#_ Hooks
+#--------------------------------------------------
+../../src/shell/hooks/_default.sh
+../../src/shell/hooks/_before.sh
+../../src/shell/hooks/_after.sh
+
+###################################################
+# TangoMan Shoe Shell Microframework
+###################################################
+
+#--------------------------------------------------
+# Generated code : Do not edit below this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+#_ Bashdoc
+#--------------------------------------------------
+../../src/shell/shoedoc/_get_shoedoc_description.sh
+../../src/shell/shoedoc/_get_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc_tag.sh
+../../src/shell/shoedoc/_get_shoedoc_title.sh
+../../src/shell/shoedoc/_get_script_shoedoc.sh
+
+#--------------------------------------------------
+#_ Colors
+#--------------------------------------------------
+../../src/shell/colors/constants_echo_colors.sh
+../../src/shell/colors/constants_alert_colors.sh
+../../src/shell/colors/colors.sh
+
+#--------------------------------------------------
+#_ Git
+#--------------------------------------------------
+../../src/shell/git/_git_hooks.sh
+
+#--------------------------------------------------
+#_ Help
+#--------------------------------------------------
+../../src/shell/help/_help.sh
+../../src/shell/help/_print_commands.sh
+../../src/shell/help/_print_constants.sh
+../../src/shell/help/_print_description.sh
+../../src/shell/help/_print_flags.sh
+../../src/shell/help/_print_infos.sh
+../../src/shell/help/_print_options.sh
+../../src/shell/help/_print_usage.sh
+
+#--------------------------------------------------
+#_ Reflexion
+#--------------------------------------------------
+../../src/shell/reflexion/_get_constants.sh
+../../src/shell/reflexion/_get_constraint.sh
+../../src/shell/reflexion/_get_flags.sh
+../../src/shell/reflexion/_get_function.sh
+../../src/shell/reflexion/_get_functions_names.sh
+../../src/shell/reflexion/_get_options.sh
+../../src/shell/reflexion/_get_padding.sh
+../../src/shell/reflexion/_get_parameter.sh
+../../src/shell/reflexion/_set_parameter.sh
+
+#--------------------------------------------------
+#_ System
+#--------------------------------------------------
+../../src/shell/system/_check_installed.sh
+../../src/shell/system/_is_installed.sh
+../../src/shell/system/_pwd.sh
+
+#--------------------------------------------------
+#_ Validation
+#--------------------------------------------------
+../../src/shell/validation/_is_valid.sh
+../../src/shell/validation/_validate.sh
+
+#--------------------------------------------------
+#_ Kernel
+#--------------------------------------------------
+../../src/shell/kernel/kernel.sh
+../../src/shell/footer.sh
+
