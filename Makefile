@@ -1,11 +1,13 @@
 ## TangoMan Shoemaker
+##
 ## A versatile developement tool to split a script file into its components, build a script from a build.lst file, generate Makefile or Markdown documentation from a shoe script.  
+##
 ## @version 0.1.0
 ## @author  "Matthias Morin" <mat@tangoman.io>
 ## @license MIT
 ## @link    https://github.com/TangoMan75/shoe
 
-.PHONY: help dump list build build_all generate_doc generate_doc_all generate_makefile generate_makefile_all self_install self_uninstall self_update
+.PHONY: help dump list build build_all remove_json_annotations generate_doc generate_doc_all generate_makefile generate_makefile_all self_install self_uninstall self_update
 
 ##################################################
 # Colors
@@ -124,6 +126,11 @@ build:
 build_all:
 	@printf "${INFO}sh shoemaker.sh build_all${EOL}"
 	@sh shoemaker.sh build_all
+
+## Remove json annotations from file
+remove_json_annotations:
+	@printf "${INFO}sh shoemaker.sh remove_json_annotations${EOL}"
+	@sh shoemaker.sh remove_json_annotations
 
 ##################################################
 ### Documentation

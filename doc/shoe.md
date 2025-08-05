@@ -154,7 +154,9 @@ Private functions are prefixed with underscore, they cannot be called from the c
 > Synopsis:
 > _private
 
-#### ⌨️ 4. `self_install` (public)
+### ⚡ INSTALL
+
+#### ⌨️ 1. `self_install` (public)
 
 Install script and enable completion
 
@@ -163,7 +165,7 @@ Install script and enable completion
 
 - 🔗 Depends: `_install`
 
-#### ⌨️ 5. `self_uninstall` (public)
+#### ⌨️ 2. `self_uninstall` (public)
 
 Uninstall script from system
 
@@ -172,7 +174,7 @@ Uninstall script from system
 
 - 🔗 Depends: `_uninstall`
 
-#### ⌨️ 6. `self_update` (public)
+#### ⌨️ 3. `self_update` (public)
 
 Update script from @update
 
@@ -181,7 +183,9 @@ Update script from @update
 
 - 🔗 Depends: `_get_annotation_tags`, `_get_script_shoedoc`, `_update`
 
-#### ⌨️ 7. `generate_doc` (public)
+### ⚡ DOCUMENTATION
+
+#### ⌨️ 1. `generate_doc` (public)
 
 Generate Markdown documentation for current shoe script
 
@@ -190,7 +194,9 @@ Generate Markdown documentation for current shoe script
 
 - 🔗 Depends: `_generate_doc`
 
-#### ⌨️ 8. `generate_makefile` (public)
+### ⚡ MAKE
+
+#### ⌨️ 1. `generate_makefile` (public)
 
 Generate Makefile for current shoe script
 
@@ -199,7 +205,9 @@ Generate Makefile for current shoe script
 
 - 🔗 Depends: `_generate_makefile`
 
-#### ⌨️ 9. `help` (public)
+### ⚡ HELP
+
+#### ⌨️ 1. `help` (public)
 
 Print this help
 
@@ -208,28 +216,32 @@ Print this help
 
 - 🔗 Depends: `_help`
 
-#### ⌨️ 10. `_default` (private)
+### ⚡ HOOKS
+
+#### ⌨️ 1. `_default` (private)
 
 Place here commands you need executed by default (optional)
 
 > Synopsis:
 > _default
 
-#### ⌨️ 11. `_before` (private)
+#### ⌨️ 2. `_before` (private)
 
 Place here commands you need executed first every time (optional)
 
 > Synopsis:
 > _before
 
-#### ⌨️ 12. `_after` (private)
+#### ⌨️ 3. `_after` (private)
 
 Place here commands you need executed last every time (optional)
 
 > Synopsis:
 > _after
 
-#### ⌨️ 13. `_adb_connect` (private)
+### ⚡ ANDROID
+
+#### ⌨️ 1. `_adb_connect` (private)
 
 Connect to device with adb via wifi (not recommended when flashing images)
 
@@ -241,7 +253,7 @@ Connect to device with adb via wifi (not recommended when flashing images)
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 14. `_adb_sideload` (private)
+#### ⌨️ 2. `_adb_sideload` (private)
 
 Sideload given full OTA package to connected device
 
@@ -252,7 +264,7 @@ Sideload given full OTA package to connected device
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 15. `_adb_start_server` (private)
+#### ⌨️ 3. `_adb_start_server` (private)
 
 Start local adb server
 
@@ -262,7 +274,7 @@ Start local adb server
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_check_installed`, `echo_info`
 
-#### ⌨️ 16. `_fastboot_lock` (private)
+#### ⌨️ 4. `_fastboot_lock` (private)
 
 Lock bootloader and flashing
 
@@ -272,7 +284,7 @@ Lock bootloader and flashing
 - ⚠️ Requires: `fastboot`
 - 🔗 Depends: `_is_device_connected_with_fastboot`, `echo_danger`, `echo_info`
 
-#### ⌨️ 17. `_fastboot_unlock` (private)
+#### ⌨️ 5. `_fastboot_unlock` (private)
 
 Unlock bootloader and flashing
 
@@ -282,7 +294,7 @@ Unlock bootloader and flashing
 - ⚠️ Requires: `fastboot`
 - 🔗 Depends: `_is_device_connected_with_fastboot`, `echo_danger`, `echo_info`
 
-#### ⌨️ 18. `_fastboot_wipe` (private)
+#### ⌨️ 6. `_fastboot_wipe` (private)
 
 Wipe userdata on connected device
 
@@ -292,7 +304,7 @@ Wipe userdata on connected device
 - ⚠️ Requires: `fastboot`
 - 🔗 Depends: `_is_device_connected_with_fastboot`, `echo_danger`, `echo_info`
 
-#### ⌨️ 19. `_flash_img` (private)
+#### ⌨️ 7. `_flash_img` (private)
 
 Flash img file to connected device provided partition
 
@@ -305,7 +317,7 @@ Flash img file to connected device provided partition
 - ⚠️ Requires: `fastboot`
 - 🔗 Depends: `_is_device_connected_with_fastboot`, `echo_danger`, `echo_info`
 
-#### ⌨️ 20. `_get_apk_label` (private)
+#### ⌨️ 8. `_get_apk_label` (private)
 
 Get APK label
 
@@ -316,7 +328,7 @@ Get APK label
 - ⚠️ Requires: `aapt`
 - 🔗 Depends: `_check_installed`, `echo_danger`
 
-#### ⌨️ 21. `_get_apk_package_name` (private)
+#### ⌨️ 9. `_get_apk_package_name` (private)
 
 Get APK package_name
 
@@ -327,7 +339,7 @@ Get APK package_name
 - ⚠️ Requires: `aapt`
 - 🔗 Depends: `_check_installed`, `echo_danger`
 
-#### ⌨️ 22. `_get_apk_path` (private)
+#### ⌨️ 10. `_get_apk_path` (private)
 
 Get installed APK path on connected device from package name
 
@@ -338,7 +350,7 @@ Get installed APK path on connected device from package name
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_is_device_connected_with_adb`, `echo_danger`
 
-#### ⌨️ 23. `_get_apk_version` (private)
+#### ⌨️ 11. `_get_apk_version` (private)
 
 Get APK version
 
@@ -349,7 +361,7 @@ Get APK version
 - ⚠️ Requires: `aapt`
 - 🔗 Depends: `_check_installed`, `echo_danger`
 
-#### ⌨️ 24. `_install_apk` (private)
+#### ⌨️ 12. `_install_apk` (private)
 
 Install APK on connected device
 
@@ -361,7 +373,7 @@ Install APK on connected device
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_is_device_connected_with_adb`, `echo_danger`, `echo_info`
 
-#### ⌨️ 25. `_is_apk_installed` (private)
+#### ⌨️ 13. `_is_apk_installed` (private)
 
 Check if package is installed on connected device
 
@@ -372,7 +384,7 @@ Check if package is installed on connected device
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_is_device_connected_with_adb`, `echo_danger`
 
-#### ⌨️ 26. `_is_device_connected_with_adb` (private)
+#### ⌨️ 14. `_is_device_connected_with_adb` (private)
 
 Check device is connected with adb
 
@@ -382,7 +394,7 @@ Check device is connected with adb
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_check_installed`
 
-#### ⌨️ 27. `_is_device_connected_with_fastboot` (private)
+#### ⌨️ 15. `_is_device_connected_with_fastboot` (private)
 
 Check device is connected with fastboot
 
@@ -392,7 +404,7 @@ Check device is connected with fastboot
 - ⚠️ Requires: `fastboot`
 - 🔗 Depends: `_check_installed`
 
-#### ⌨️ 28. `_list_installed_apks` (private)
+#### ⌨️ 16. `_list_installed_apks` (private)
 
 List installed packages on connected device
 
@@ -402,7 +414,7 @@ List installed packages on connected device
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_is_device_connected_with_adb`, `echo_danger`
 
-#### ⌨️ 29. `_pull_apk` (private)
+#### ⌨️ 17. `_pull_apk` (private)
 
 Copy APK from connected device to local folder
 
@@ -414,7 +426,7 @@ Copy APK from connected device to local folder
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_is_device_connected_with_adb`, `echo_danger`, `echo_info`
 
-#### ⌨️ 30. `_reboot_bootloader` (private)
+#### ⌨️ 18. `_reboot_bootloader` (private)
 
 Reboot connected device to bootloader
 
@@ -424,7 +436,7 @@ Reboot connected device to bootloader
 - ⚠️ Requires: `adb`, `fastboot`
 - 🔗 Depends: `_is_device_connected_with_adb`, `_is_device_connected_with_fastboot`, `echo_danger`, `echo_info`
 
-#### ⌨️ 31. `_reboot_recovery` (private)
+#### ⌨️ 19. `_reboot_recovery` (private)
 
 Reboot connected device to recovery
 
@@ -434,7 +446,7 @@ Reboot connected device to recovery
 - ⚠️ Requires: `adb`, `fastboot`
 - 🔗 Depends: `_is_device_connected_with_adb`, `_is_device_connected_with_fastboot`, `echo_danger`, `echo_info`
 
-#### ⌨️ 32. `_reboot_system` (private)
+#### ⌨️ 20. `_reboot_system` (private)
 
 Reboot connected device to system
 
@@ -444,7 +456,7 @@ Reboot connected device to system
 - ⚠️ Requires: `adb`, `fastboot`
 - 🔗 Depends: `_is_device_connected_with_adb`, `_is_device_connected_with_fastboot`, `echo_danger`, `echo_info`
 
-#### ⌨️ 33. `_reboot_with_img` (private)
+#### ⌨️ 21. `_reboot_with_img` (private)
 
 Boot connected device with given image temporarily
 
@@ -455,7 +467,7 @@ Boot connected device with given image temporarily
 - ⚠️ Requires: `fastboot`
 - 🔗 Depends: `_is_device_connected_with_fastboot`, `echo_danger`, `echo_info`
 
-#### ⌨️ 34. `_remove_apk` (private)
+#### ⌨️ 22. `_remove_apk` (private)
 
 Remove APK from connected device
 
@@ -467,7 +479,7 @@ Remove APK from connected device
 - ⚠️ Requires: `adb`
 - 🔗 Depends: `_is_device_connected_with_adb`, `echo_danger`, `echo_info`
 
-#### ⌨️ 35. `_toggle_active_slot` (private)
+#### ⌨️ 23. `_toggle_active_slot` (private)
 
 Toggle connected device active slot
 
@@ -477,7 +489,9 @@ Toggle connected device active slot
 - ⚠️ Requires: `fastboot`
 - 🔗 Depends: `_is_device_connected_with_fastboot`, `echo_danger`, `echo_info`
 
-#### ⌨️ 36. `_get_shoedoc_description` (private)
+### ⚡ SHOEDOC
+
+#### ⌨️ 1. `_get_shoedoc_description` (private)
 
 Get shoedoc description
 
@@ -488,7 +502,7 @@ Get shoedoc description
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 37. `_get_shoedoc` (private)
+#### ⌨️ 2. `_get_shoedoc` (private)
 
 Get shoedoc
 
@@ -499,7 +513,7 @@ Get shoedoc
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 38. `_get_shoedoc_tag` (private)
+#### ⌨️ 3. `_get_shoedoc_tag` (private)
 
 Return given tag values from shoedoc bloc
 
@@ -511,7 +525,7 @@ Return given tag values from shoedoc bloc
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 39. `_get_shoedoc_title` (private)
+#### ⌨️ 4. `_get_shoedoc_title` (private)
 
 Get shoedoc title
 
@@ -522,7 +536,7 @@ Get shoedoc title
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 40. `_get_script_shoedoc` (private)
+#### ⌨️ 5. `_get_script_shoedoc` (private)
 
 Get shoedoc bloc at the top the provided shoe script file
 
@@ -533,7 +547,9 @@ Get shoedoc bloc at the top the provided shoe script file
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 41. `echo_primary` (public)
+### ⚡ COLORS
+
+#### ⌨️ 1. `echo_primary` (public)
 
 Print primary text with optional indentation and padding
 
@@ -543,7 +559,7 @@ Print primary text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 42. `echo_secondary` (public)
+#### ⌨️ 2. `echo_secondary` (public)
 
 Print secondary text with optional indentation and padding
 
@@ -553,7 +569,7 @@ Print secondary text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 43. `echo_success` (public)
+#### ⌨️ 3. `echo_success` (public)
 
 Print success text with optional indentation and padding
 
@@ -563,7 +579,7 @@ Print success text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 44. `echo_danger` (public)
+#### ⌨️ 4. `echo_danger` (public)
 
 Print danger text with optional indentation and padding
 
@@ -573,7 +589,7 @@ Print danger text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 45. `echo_warning` (public)
+#### ⌨️ 5. `echo_warning` (public)
 
 Print warning text with optional indentation and padding
 
@@ -583,7 +599,7 @@ Print warning text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 46. `echo_info` (public)
+#### ⌨️ 6. `echo_info` (public)
 
 Print info text with optional indentation and padding
 
@@ -593,7 +609,7 @@ Print info text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 47. `echo_light` (public)
+#### ⌨️ 7. `echo_light` (public)
 
 Print light text with optional indentation and padding
 
@@ -603,7 +619,7 @@ Print light text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 48. `echo_dark` (public)
+#### ⌨️ 8. `echo_dark` (public)
 
 Print dark text with optional indentation and padding
 
@@ -613,7 +629,7 @@ Print dark text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 49. `alert_primary` (public)
+#### ⌨️ 9. `alert_primary` (public)
 
 Print primary alert
 
@@ -621,7 +637,7 @@ Print primary alert
 > alert_primary &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 50. `alert_secondary` (public)
+#### ⌨️ 10. `alert_secondary` (public)
 
 Print secondary alert
 
@@ -629,7 +645,7 @@ Print secondary alert
 > alert_secondary &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 51. `alert_success` (public)
+#### ⌨️ 11. `alert_success` (public)
 
 Print success alert
 
@@ -637,7 +653,7 @@ Print success alert
 > alert_success &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 52. `alert_danger` (public)
+#### ⌨️ 12. `alert_danger` (public)
 
 Print danger alert
 
@@ -645,7 +661,7 @@ Print danger alert
 > alert_danger &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 53. `alert_warning` (public)
+#### ⌨️ 13. `alert_warning` (public)
 
 Print warning alert
 
@@ -653,7 +669,7 @@ Print warning alert
 > alert_warning &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 54. `alert_info` (public)
+#### ⌨️ 14. `alert_info` (public)
 
 Print info alert
 
@@ -661,7 +677,7 @@ Print info alert
 > alert_info &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 55. `alert_light` (public)
+#### ⌨️ 15. `alert_light` (public)
 
 Print light alert
 
@@ -669,7 +685,7 @@ Print light alert
 > alert_light &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 56. `alert_dark` (public)
+#### ⌨️ 16. `alert_dark` (public)
 
 Print dark alert
 
@@ -677,7 +693,9 @@ Print dark alert
 > alert_dark &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 57. `_open` (private)
+### ⚡ COMPATIBILITY
+
+#### ⌨️ 1. `_open` (private)
 
 Open with default system handler
 
@@ -686,7 +704,7 @@ Open with default system handler
 
 - ⚠️ Requires: `uname`
 
-#### ⌨️ 58. `_sed_i` (private)
+#### ⌨️ 2. `_sed_i` (private)
 
 Return sed -i system flavour
 
@@ -695,27 +713,29 @@ Return sed -i system flavour
 
 - ⚠️ Requires: `command`, `sed`, `uname`
 
-#### ⌨️ 59. `_docker_compose_build` (private)
+### ⚡ DOCKER
+
+#### ⌨️ 1. `_docker_compose_build` (private)
 
 Build container stack with docker compose
 
 > Synopsis:
-> _docker_compose_build &lt;FILE_PATH&gt;
-- `FILE_PATH`: _(type: "file")_ The path to the compose.yaml file.
+> _docker_compose_build [FILE_PATH]
+- `FILE_PATH`: _(type: "file")_ (optional) The path to the compose.yaml file.
 
 - 🔗 Depends: `_get_docker_compose`, `echo_danger`, `echo_info`
 
-#### ⌨️ 60. `_docker_compose_start` (private)
+#### ⌨️ 2. `_docker_compose_start` (private)
 
 Build and start container stack with docker compose
 
 > Synopsis:
-> _docker_compose_start &lt;FILE_PATH&gt;
-- `FILE_PATH`: _(type: "file")_ The path to the compose.yaml file.
+> _docker_compose_start [FILE_PATH]
+- `FILE_PATH`: _(type: "file")_ (optional) The path to the compose.yaml file.
 
-- 🔗 Depends: `echo_danger`, `echo_info`
+- 🔗 Depends: `_get_docker_compose`, `echo_danger`, `echo_info`
 
-#### ⌨️ 61. `_docker_compose_stop` (private)
+#### ⌨️ 3. `_docker_compose_stop` (private)
 
 Stop container stack with docker compose
 
@@ -724,7 +744,7 @@ Stop container stack with docker compose
 
 - 🔗 Depends: `_get_docker_compose`, `echo_info`
 
-#### ⌨️ 62. `_docker_exec` (private)
+#### ⌨️ 4. `_docker_exec` (private)
 
 Execute command in the given docker container
 
@@ -737,7 +757,7 @@ Execute command in the given docker container
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 63. `_docker_kill_all` (private)
+#### ⌨️ 5. `_docker_kill_all` (private)
 
 Kill all running containers with docker
 
@@ -747,7 +767,7 @@ Kill all running containers with docker
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_info`
 
-#### ⌨️ 64. `_docker_rm` (private)
+#### ⌨️ 6. `_docker_rm` (private)
 
 Remove given docker container
 
@@ -758,7 +778,7 @@ Remove given docker container
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 65. `_docker_run_atmoz_sftp` (private)
+#### ⌨️ 7. `_docker_run_atmoz_sftp` (private)
 
 Run local atmoz_sftp server
 
@@ -772,7 +792,7 @@ Run local atmoz_sftp server
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 66. `_docker_run` (private)
+#### ⌨️ 8. `_docker_run` (private)
 
 Spawn a new container with given image, name, command and volume
 
@@ -786,7 +806,7 @@ Spawn a new container with given image, name, command and volume
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 67. `_docker_run_whoami` (private)
+#### ⌨️ 9. `_docker_run_whoami` (private)
 
 Run local whoami server
 
@@ -796,7 +816,7 @@ Run local whoami server
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_info`
 
-#### ⌨️ 68. `_docker_status` (private)
+#### ⌨️ 10. `_docker_status` (private)
 
 Print docker status
 
@@ -806,7 +826,7 @@ Print docker status
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_info`
 
-#### ⌨️ 69. `_find_container_name` (private)
+#### ⌨️ 11. `_find_container_name` (private)
 
 Find container name from string
 
@@ -817,7 +837,7 @@ Find container name from string
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_danger`
 
-#### ⌨️ 70. `_get_container_id` (private)
+#### ⌨️ 12. `_get_container_id` (private)
 
 Get container id from name
 
@@ -829,7 +849,7 @@ Get container id from name
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_danger`
 
-#### ⌨️ 71. `_get_container_ip` (private)
+#### ⌨️ 13. `_get_container_ip` (private)
 
 Get running container ip
 
@@ -840,7 +860,7 @@ Get running container ip
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_danger`
 
-#### ⌨️ 72. `_get_container_name` (private)
+#### ⌨️ 14. `_get_container_name` (private)
 
 Get container name from id
 
@@ -851,7 +871,7 @@ Get container name from id
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_danger`
 
-#### ⌨️ 73. `_get_docker_compose` (private)
+#### ⌨️ 15. `_get_docker_compose` (private)
 
 Return docker compose command
 
@@ -861,7 +881,7 @@ Return docker compose command
 - ⚠️ Requires: `command`, `docker`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 74. `_is_container_running` (private)
+#### ⌨️ 16. `_is_container_running` (private)
 
 Checks if given container is running
 
@@ -872,7 +892,7 @@ Checks if given container is running
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_danger`
 
-#### ⌨️ 75. `_wait_for_postgres` (private)
+#### ⌨️ 17. `_wait_for_postgres` (private)
 
 Wait for postgresql container to start with docker
 
@@ -884,7 +904,7 @@ Wait for postgresql container to start with docker
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `_spin`, `echo_danger`, `echo_success`, `echo_warning`
 
-#### ⌨️ 76. `_wait_for_rabbit` (private)
+#### ⌨️ 18. `_wait_for_rabbit` (private)
 
 Wait for rabbitmq container to start with docker
 
@@ -895,7 +915,9 @@ Wait for rabbitmq container to start with docker
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `_spin`, `echo_danger`, `echo_success`, `echo_warning`
 
-#### ⌨️ 77. `_generate_doc` (private)
+### ⚡ DOCUMENTATION
+
+#### ⌨️ 1. `_generate_doc` (private)
 
 Generate Markdown documentation for provided shoe script
 
@@ -909,7 +931,9 @@ Generate Markdown documentation for provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_tag`, `_get_shoedoc_title`, `_print_synopsis`, `alert_primary`, `echo_danger`, `echo_success`
 
-#### ⌨️ 78. `_get_file_extension` (private)
+### ⚡ FILES
+
+#### ⌨️ 1. `_get_file_extension` (private)
 
 Get file extension
 
@@ -919,7 +943,7 @@ Get file extension
 
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 79. `_move` (private)
+#### ⌨️ 2. `_move` (private)
 
 Move file to destination folder (creates folder when missing)
 
@@ -930,7 +954,9 @@ Move file to destination folder (creates folder when missing)
 
 - 🔗 Depends: `echo_danger`, `echo_info`
 
-#### ⌨️ 80. `_git_hooks` (private)
+### ⚡ GIT
+
+#### ⌨️ 1. `_git_hooks` (private)
 
 Update .git/hooks folder
 
@@ -941,7 +967,7 @@ Update .git/hooks folder
 - ⚠️ Requires: `git`
 - 🔗 Depends: `echo_danger`, `echo_info`
 
-#### ⌨️ 81. `_initialise_submodules` (private)
+#### ⌨️ 2. `_initialise_submodules` (private)
 
 Initialise git submodules
 
@@ -951,7 +977,9 @@ Initialise git submodules
 - ⚠️ Requires: `git`
 - 🔗 Depends: `echo_danger`, `echo_info`
 
-#### ⌨️ 82. `_help` (private)
+### ⚡ HELP
+
+#### ⌨️ 1. `_help` (private)
 
 Print help for provider shoe script
 
@@ -961,7 +989,7 @@ Print help for provider shoe script
 
 - 🔗 Depends: `_get_constants`, `_get_flags`, `_get_options`, `_get_padding`, `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_title`, `_print_commands`, `_print_constants`, `_print_description`, `_print_flags`, `_print_infos`, `_print_options`, `_print_usage`, `alert_primary`, `echo_danger`
 
-#### ⌨️ 83. `_print_commands` (private)
+#### ⌨️ 2. `_print_commands` (private)
 
 List commands of the provided shoe script (used by "help" command)
 
@@ -973,7 +1001,7 @@ List commands of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_warning`
 
-#### ⌨️ 84. `_print_constants` (private)
+#### ⌨️ 3. `_print_constants` (private)
 
 List constants of the provided shoe script (used by "help" command)
 
@@ -985,7 +1013,7 @@ List constants of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_warning`
 
-#### ⌨️ 85. `_print_description` (private)
+#### ⌨️ 4. `_print_description` (private)
 
 Print provided text formatted as a description (used by "help" command)
 
@@ -995,7 +1023,7 @@ Print provided text formatted as a description (used by "help" command)
 
 - 🔗 Depends: `echo_primary`, `echo_warning`
 
-#### ⌨️ 86. `_print_flags` (private)
+#### ⌨️ 5. `_print_flags` (private)
 
 List flags of the provided shoe script (used by "help" command)
 
@@ -1007,7 +1035,7 @@ List flags of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_warning`
 
-#### ⌨️ 87. `_print_infos` (private)
+#### ⌨️ 6. `_print_infos` (private)
 
 Print infos of the provided shoe script (used by "help" command)
 
@@ -1017,7 +1045,7 @@ Print infos of the provided shoe script (used by "help" command)
 
 - 🔗 Depends: `_get_script_shoedoc`, `_get_shoedoc_tag`, `echo_danger`, `echo_primary`, `echo_success`, `echo_warning`
 
-#### ⌨️ 88. `_print_options` (private)
+#### ⌨️ 7. `_print_options` (private)
 
 List options of the provided shoe script (used by "help" command)
 
@@ -1029,7 +1057,7 @@ List options of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_warning`
 
-#### ⌨️ 89. `_print_usage` (private)
+#### ⌨️ 8. `_print_usage` (private)
 
 Print usage of the provided shoe script (used by "help" command)
 
@@ -1040,7 +1068,9 @@ Print usage of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_info`, `echo_success`, `echo_warning`
 
-#### ⌨️ 90. `_copy_install` (private)
+### ⚡ INSTALL
+
+#### ⌨️ 1. `_copy_install` (private)
 
 Install script via copy
 
@@ -1051,7 +1081,7 @@ Install script via copy
 
 - 🔗 Depends: `echo_danger`, `echo_info`
 
-#### ⌨️ 91. `_generate_autocomplete` (private)
+#### ⌨️ 2. `_generate_autocomplete` (private)
 
 Generates an autocomplete script for the provided file
 
@@ -1062,7 +1092,7 @@ Generates an autocomplete script for the provided file
 
 - 🔗 Depends: `_get_comspec`, `echo_danger`, `echo_info`
 
-#### ⌨️ 92. `_generate_global_autocomplete` (private)
+#### ⌨️ 3. `_generate_global_autocomplete` (private)
 
 Creates a system-wide autocomplete script for the provided file
 
@@ -1073,7 +1103,7 @@ Creates a system-wide autocomplete script for the provided file
 
 - 🔗 Depends: `_get_comspec`, `echo_danger`, `echo_info`
 
-#### ⌨️ 93. `_get_comspec` (private)
+#### ⌨️ 4. `_get_comspec` (private)
 
 Generate comspec string for the provided file
 
@@ -1084,7 +1114,7 @@ Generate comspec string for the provided file
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 94. `_install` (private)
+#### ⌨️ 5. `_install` (private)
 
 Install script and enable completion
 
@@ -1096,7 +1126,7 @@ Install script and enable completion
 
 - 🔗 Depends: `_copy_install`, `_generate_autocomplete`, `_generate_global_autocomplete`, `_is_installed`, `_set_completion_autoload`, `_symlink_install`, `echo_danger`
 
-#### ⌨️ 95. `_remove_completion_autoload` (private)
+#### ⌨️ 6. `_remove_completion_autoload` (private)
 
 Remove completion script autoload
 
@@ -1107,7 +1137,7 @@ Remove completion script autoload
 
 - 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`
 
-#### ⌨️ 96. `_set_completion_autoload` (private)
+#### ⌨️ 7. `_set_completion_autoload` (private)
 
 Adds an autoload line for completion script to a shell configuration file
 
@@ -1119,7 +1149,7 @@ Adds an autoload line for completion script to a shell configuration file
 
 - 🔗 Depends: `_collapse_blank_lines`, `_sed_i`, `echo_danger`, `echo_info`
 
-#### ⌨️ 97. `_symlink_install` (private)
+#### ⌨️ 8. `_symlink_install` (private)
 
 Install script via symlink
 
@@ -1130,7 +1160,7 @@ Install script via symlink
 
 - 🔗 Depends: `echo_danger`, `echo_info`
 
-#### ⌨️ 98. `_uninstall` (private)
+#### ⌨️ 9. `_uninstall` (private)
 
 Uninstall script from system
 
@@ -1141,7 +1171,7 @@ Uninstall script from system
 
 - 🔗 Depends: `_remove_completion_autoload`, `echo_danger`, `echo_info`
 
-#### ⌨️ 99. `_update` (private)
+#### ⌨️ 10. `_update` (private)
 
 Updates given script from the provided URL
 
@@ -1155,7 +1185,9 @@ Updates given script from the provided URL
 - ⚠️ Requires: `curl`, `wget`
 - 🔗 Depends: `_copy_install`, `_generate_autocomplete`, `_generate_global_autocomplete`, `_install`, `_is_installed`, `_set_completion_autoload`, `_symlink_install`, `_uninstall`, `echo_danger`
 
-#### ⌨️ 100. `_generate_makefile` (private)
+### ⚡ MAKE
+
+#### ⌨️ 1. `_generate_makefile` (private)
 
 Generate Makefile for provided shoe script
 
@@ -1168,7 +1200,9 @@ Generate Makefile for provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_tag`, `_get_shoedoc_title`, `alert_primary`, `echo_danger`, `echo_success`
 
-#### ⌨️ 101. `_open_in_default_browser` (private)
+### ⚡ NETWORK
+
+#### ⌨️ 1. `_open_in_default_browser` (private)
 
 Open in default browser
 
@@ -1180,7 +1214,7 @@ Open in default browser
 
 - 🔗 Depends: `_open`, `echo_danger`, `echo_info`
 
-#### ⌨️ 102. `_php_serve` (private)
+#### ⌨️ 2. `_php_serve` (private)
 
 Serve given local directory with PHP
 
@@ -1193,7 +1227,7 @@ Serve given local directory with PHP
 - ⚠️ Requires: `php`
 - 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 103. `_py_serve` (private)
+#### ⌨️ 3. `_py_serve` (private)
 
 Serve given local directory with Python 3
 
@@ -1206,7 +1240,7 @@ Serve given local directory with Python 3
 - ⚠️ Requires: `python3`
 - 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 104. `_remove_host` (private)
+#### ⌨️ 4. `_remove_host` (private)
 
 Remove hostname from /etc/hosts
 
@@ -1216,7 +1250,7 @@ Remove hostname from /etc/hosts
 
 - 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`
 
-#### ⌨️ 105. `_set_host` (private)
+#### ⌨️ 5. `_set_host` (private)
 
 Set new host in /etc/hosts
 
@@ -1226,7 +1260,9 @@ Set new host in /etc/hosts
 
 - 🔗 Depends: `_remove_host`, `echo_danger`, `echo_info`
 
-#### ⌨️ 106. `_select` (private)
+### ⚡ PROMPTS
+
+#### ⌨️ 1. `_select` (private)
 
 Present user with a list of choices and prompt them to select one
 
@@ -1236,7 +1272,7 @@ Present user with a list of choices and prompt them to select one
 
 - 🔗 Depends: `echo_danger`, `echo_success`, `echo_warning`
 
-#### ⌨️ 107. `_yes_no` (private)
+#### ⌨️ 2. `_yes_no` (private)
 
 Promt user for yes or no
 
@@ -1247,7 +1283,9 @@ Promt user for yes or no
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_success`, `echo_warning`
 
-#### ⌨️ 108. `_get_constants` (private)
+### ⚡ REFLEXION
+
+#### ⌨️ 1. `_get_constants` (private)
 
 List constants from provided shoe script
 
@@ -1259,7 +1297,7 @@ List constants from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 109. `_get_constraint` (private)
+#### ⌨️ 2. `_get_constraint` (private)
 
 Get constaint for given variable from provided shoe script
 
@@ -1271,7 +1309,7 @@ Get constaint for given variable from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 110. `_get_flags` (private)
+#### ⌨️ 3. `_get_flags` (private)
 
 List flags from provided shoe script
 
@@ -1282,7 +1320,7 @@ List flags from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 111. `_get_function` (private)
+#### ⌨️ 4. `_get_function` (private)
 
 Get function by name
 
@@ -1294,7 +1332,7 @@ Get function by name
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 112. `_get_function_annotation` (private)
+#### ⌨️ 5. `_get_function_annotation` (private)
 
 Get function annotation by name
 
@@ -1306,7 +1344,7 @@ Get function annotation by name
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 113. `_get_functions_names` (private)
+#### ⌨️ 6. `_get_functions_names` (private)
 
 List functions names from provided shoe script
 
@@ -1318,7 +1356,7 @@ List functions names from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 114. `_get_options` (private)
+#### ⌨️ 7. `_get_options` (private)
 
 List options from provided shoe script
 
@@ -1330,7 +1368,7 @@ List options from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 115. `_get_padding` (private)
+#### ⌨️ 8. `_get_padding` (private)
 
 Guess padding length from longest constant, option, flag or command of the provided shoe script
 
@@ -1341,7 +1379,7 @@ Guess padding length from longest constant, option, flag or command of the provi
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 116. `_get_parameter` (private)
+#### ⌨️ 9. `_get_parameter` (private)
 
 Get value for given parameter from provided ".env" or ".sh" file
 
@@ -1353,7 +1391,7 @@ Get value for given parameter from provided ".env" or ".sh" file
 - ⚠️ Requires: `sed`
 - 🔗 Depends: `echo_danger`, `echo_info`
 
-#### ⌨️ 117. `_parse_annotation` (private)
+#### ⌨️ 10. `_parse_annotation` (private)
 
 Return function annotation as json
 
@@ -1365,7 +1403,7 @@ Return function annotation as json
 - ⚠️ Requires: `jq`, `sed`
 - 🔗 Depends: `_get_function_annotation`, `echo_danger`
 
-#### ⌨️ 118. `_set_parameter` (private)
+#### ⌨️ 11. `_set_parameter` (private)
 
 Set value for given parameter into provided file ".env" or ".sh" file
 
@@ -1378,7 +1416,9 @@ Set value for given parameter into provided file ".env" or ".sh" file
 - ⚠️ Requires: `sed`
 - 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`, `echo_warning`
 
-#### ⌨️ 119. `_collapse_blank_lines` (private)
+### ⚡ STRINGS
+
+#### ⌨️ 1. `_collapse_blank_lines` (private)
 
 Collapse blank lines with "sed"
 
@@ -1388,7 +1428,7 @@ Collapse blank lines with "sed"
 
 - 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`
 
-#### ⌨️ 120. `_generate_key` (private)
+#### ⌨️ 2. `_generate_key` (private)
 
 Generate random 32 bit string
 
@@ -1398,7 +1438,144 @@ Generate random 32 bit string
 - ⚠️ Requires: `openssl`
 - 🔗 Depends: `echo_info`
 
-#### ⌨️ 121. `_check_installed` (private)
+### ⚡ SYMFONY
+
+#### ⌨️ 1. `_composer_install` (private)
+
+Install project dependencies with composer
+
+> Synopsis:
+> _composer_install
+
+- ⚠️ Requires: `composer`
+- 🔗 Depends: `_check_installed`, `_pwd`, `echo_info`
+
+#### ⌨️ 2. `_composer_update` (private)
+
+Update project dependencies with composer
+
+> Synopsis:
+> _composer_update
+
+- ⚠️ Requires: `composer`
+- 🔗 Depends: `_check_installed`, `echo_info`
+
+#### ⌨️ 3. `_console` (private)
+
+Get correct Symfony console binary path
+
+> Synopsis:
+> _console
+
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 4. `_db_create` (private)
+
+Create Symfony database with Doctrine
+
+> Synopsis:
+> _db_create [ENV]
+- `ENV`: _(type: "str")_ (optional) Environment.
+
+- 🔗 Depends: `_console`, `echo_info`
+
+#### ⌨️ 5. `_db_drop` (private)
+
+Drop database with Doctrine
+
+> Synopsis:
+> _db_drop [ENV]
+- `ENV`: _(type: "str")_ (optional) Environment.
+
+- 🔗 Depends: `_console`, `echo_info`
+
+#### ⌨️ 6. `_db_query` (private)
+
+Executes arbitrary SQL directly from the command line
+
+> Synopsis:
+> _db_query [SQL]
+- `SQL`: _(type: "str")_ (optional) SQL query.
+
+- 🔗 Depends: `_console`, `echo_info`
+
+#### ⌨️ 7. `_db_schema` (private)
+
+Create schema with Doctrine
+
+> Synopsis:
+> _db_schema [ENV]
+- `ENV`: _(type: "str")_ (optional) Environment.
+
+- 🔗 Depends: `_console`, `echo_info`
+
+### ⚡ CI_CD
+
+#### ⌨️ 1. `_phpunit` (private)
+
+Get correct PHPUnit binary path
+
+> Synopsis:
+> _phpunit
+
+- 🔗 Depends: `echo_danger`
+
+### ⚡ SYMFONY
+
+#### ⌨️ 1. `_sf_cache` (private)
+
+Clear Symfony cache
+
+> Synopsis:
+> _sf_cache [ENV]
+- `ENV`: _(type: "str")_ (optional) Environment.
+
+- 🔗 Depends: `_console`, `echo_info`
+
+#### ⌨️ 2. `_sf_lint` (private)
+
+Run linter (sniff)
+
+> Synopsis:
+> _sf_lint
+
+- ⚠️ Requires: `composer`, `php`
+- 🔗 Depends: `_check_installed`, `_console`, `echo_info`
+
+#### ⌨️ 3. `_security` (private)
+
+Check security issues in project dependencies (symfony-cli)
+
+> Synopsis:
+> _security
+
+- ⚠️ Requires: `composer`, `symfony`
+- 🔗 Depends: `_check_installed`, `echo_info`
+
+#### ⌨️ 4. `_sf_serve` (private)
+
+Run a local web server with Symfony CLI
+
+> Synopsis:
+> _sf_serve
+
+- ⚠️ Requires: `symfony`
+- 🔗 Depends: `_check_installed`, `echo_info`
+
+#### ⌨️ 5. `_sf_test` (private)
+
+Run test with PHPUnit
+
+> Synopsis:
+> _sf_test [FILE_PATH]
+- `FILE_PATH`: _(type: "file")_ (optional) The path to the input file.
+
+- ⚠️ Requires: `php`
+- 🔗 Depends: `_phpunit`, `echo_danger`, `echo_info`
+
+### ⚡ SYSTEM
+
+#### ⌨️ 1. `_check_installed` (private)
 
 Print error message if provided command is missing
 
@@ -1408,7 +1585,7 @@ Print error message if provided command is missing
 
 - 🔗 Depends: `_get_package_name`, `_is_installed`, `echo_danger`
 
-#### ⌨️ 122. `_get_package_manager` (private)
+#### ⌨️ 2. `_get_package_manager` (private)
 
 Print default package manager
 
@@ -1417,7 +1594,7 @@ Print default package manager
 
 - 🔗 Depends: `_is_installed`, `echo_danger`
 
-#### ⌨️ 123. `_get_package_name` (private)
+#### ⌨️ 3. `_get_package_name` (private)
 
 Find package name for given command
 
@@ -1427,7 +1604,7 @@ Find package name for given command
 
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 124. `_is_checksum_valid` (private)
+#### ⌨️ 4. `_is_checksum_valid` (private)
 
 Validate a file checksum
 
@@ -1438,14 +1615,14 @@ Validate a file checksum
 
 - ⚠️ Requires: `awk`, `sha256sum`
 
-#### ⌨️ 125. `_is_gnome` (private)
+#### ⌨️ 5. `_is_gnome` (private)
 
 Check current desktop is gnome
 
 > Synopsis:
 > _is_gnome
 
-#### ⌨️ 126. `_is_installed` (private)
+#### ⌨️ 6. `_is_installed` (private)
 
 Check provided command is installed
 
@@ -1456,7 +1633,7 @@ Check provided command is installed
 - ⚠️ Requires: `dpkg`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 127. `_is_root` (private)
+#### ⌨️ 7. `_is_root` (private)
 
 Check current user is root
 
@@ -1465,14 +1642,14 @@ Check current user is root
 
 - ⚠️ Requires: `awk`, `id`
 
-#### ⌨️ 128. `_pwd` (private)
+#### ⌨️ 8. `_pwd` (private)
 
 Return current project directory realpath, or "pwd" when installed globally
 
 > Synopsis:
 > _pwd
 
-#### ⌨️ 129. `_remove` (private)
+#### ⌨️ 9. `_remove` (private)
 
 Remove given package from system
 
@@ -1484,7 +1661,7 @@ Remove given package from system
 - ⚠️ Requires: `apt`
 - 🔗 Depends: `_get_package_manager`, `_get_package_name`, `_is_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 130. `_require` (private)
+#### ⌨️ 10. `_require` (private)
 
 Install required package globally
 
@@ -1496,7 +1673,7 @@ Install required package globally
 - ⚠️ Requires: `apt`
 - 🔗 Depends: `_get_package_manager`, `_get_package_name`, `_is_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 131. `_spin` (private)
+#### ⌨️ 11. `_spin` (private)
 
 Animate a spinner in the terminal for a given amout of time
 
@@ -1506,7 +1683,7 @@ Animate a spinner in the terminal for a given amout of time
 
 - ⚠️ Requires: `awk`
 
-#### ⌨️ 132. `_user_exists` (private)
+#### ⌨️ 12. `_user_exists` (private)
 
 Check provided user exists
 
@@ -1517,7 +1694,9 @@ Check provided user exists
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 133. `_is_valid` (private)
+### ⚡ VALIDATION
+
+#### ⌨️ 1. `_is_valid` (private)
 
 Checks if variable is valid given regex constraint
 
@@ -1529,7 +1708,7 @@ Checks if variable is valid given regex constraint
 - ⚠️ Requires: `grep`, `sed`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 134. `_validate` (private)
+#### ⌨️ 2. `_validate` (private)
 
 Find constraints and validates a variable
 
@@ -1540,12 +1719,15 @@ Find constraints and validates a variable
 - ⚠️ Requires: `sed`
 - 🔗 Depends: `_get_constraint`, `_is_valid`, `echo_danger`
 
-#### ⌨️ 135. `_kernel` (private)
+### ⚡ KERNEL
+
+#### ⌨️ 1. `_kernel` (private)
 
 Shoe Kernel
 
 > Synopsis:
 > _kernel
 
+- ⚠️ Requires: `awk`
 - 🔗 Depends: `_after`, `_before`, `_default`, `_get_flags`, `_get_functions_names`, `_get_options`, `_validate`, `echo_danger`
 

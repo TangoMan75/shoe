@@ -136,7 +136,9 @@ Build from given "build.shoe" file
 
 - 🔗 Depends: `_collapse_blank_lines`, `_sed_i`, `alert_primary`, `echo_danger`, `echo_info`
 
-#### ⌨️ 11. `self_install` (public)
+### ⚡ INSTALL
+
+#### ⌨️ 1. `self_install` (public)
 
 Install script and enable completion
 
@@ -145,7 +147,7 @@ Install script and enable completion
 
 - 🔗 Depends: `_install`
 
-#### ⌨️ 12. `self_uninstall` (public)
+#### ⌨️ 2. `self_uninstall` (public)
 
 Uninstall script from system
 
@@ -154,7 +156,7 @@ Uninstall script from system
 
 - 🔗 Depends: `_uninstall`
 
-#### ⌨️ 13. `self_update` (public)
+#### ⌨️ 3. `self_update` (public)
 
 Update script from @update
 
@@ -163,7 +165,9 @@ Update script from @update
 
 - 🔗 Depends: `_get_annotation_tags`, `_get_script_shoedoc`, `_update`
 
-#### ⌨️ 14. `help` (public)
+### ⚡ HELP
+
+#### ⌨️ 1. `help` (public)
 
 Print this help
 
@@ -172,28 +176,32 @@ Print this help
 
 - 🔗 Depends: `_help`
 
-#### ⌨️ 15. `_default` (private)
+### ⚡ HOOKS
+
+#### ⌨️ 1. `_default` (private)
 
 Place here commands you need executed by default (optional)
 
 > Synopsis:
 > _default
 
-#### ⌨️ 16. `_before` (private)
+#### ⌨️ 2. `_before` (private)
 
 Place here commands you need executed first every time (optional)
 
 > Synopsis:
 > _before
 
-#### ⌨️ 17. `_after` (private)
+#### ⌨️ 3. `_after` (private)
 
 Place here commands you need executed last every time (optional)
 
 > Synopsis:
 > _after
 
-#### ⌨️ 18. `_get_shoedoc_description` (private)
+### ⚡ SHOEDOC
+
+#### ⌨️ 1. `_get_shoedoc_description` (private)
 
 Get shoedoc description
 
@@ -204,7 +212,7 @@ Get shoedoc description
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 19. `_get_shoedoc` (private)
+#### ⌨️ 2. `_get_shoedoc` (private)
 
 Get shoedoc
 
@@ -215,7 +223,7 @@ Get shoedoc
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 20. `_get_shoedoc_tag` (private)
+#### ⌨️ 3. `_get_shoedoc_tag` (private)
 
 Return given tag values from shoedoc bloc
 
@@ -227,7 +235,7 @@ Return given tag values from shoedoc bloc
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 21. `_get_shoedoc_title` (private)
+#### ⌨️ 4. `_get_shoedoc_title` (private)
 
 Get shoedoc title
 
@@ -238,7 +246,7 @@ Get shoedoc title
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 22. `_get_script_shoedoc` (private)
+#### ⌨️ 5. `_get_script_shoedoc` (private)
 
 Get shoedoc bloc at the top the provided shoe script file
 
@@ -249,7 +257,9 @@ Get shoedoc bloc at the top the provided shoe script file
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 23. `echo_primary` (public)
+### ⚡ COLORS
+
+#### ⌨️ 1. `echo_primary` (public)
 
 Print primary text with optional indentation and padding
 
@@ -259,7 +269,7 @@ Print primary text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 24. `echo_secondary` (public)
+#### ⌨️ 2. `echo_secondary` (public)
 
 Print secondary text with optional indentation and padding
 
@@ -269,7 +279,7 @@ Print secondary text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 25. `echo_success` (public)
+#### ⌨️ 3. `echo_success` (public)
 
 Print success text with optional indentation and padding
 
@@ -279,7 +289,7 @@ Print success text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 26. `echo_danger` (public)
+#### ⌨️ 4. `echo_danger` (public)
 
 Print danger text with optional indentation and padding
 
@@ -289,7 +299,7 @@ Print danger text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 27. `echo_warning` (public)
+#### ⌨️ 5. `echo_warning` (public)
 
 Print warning text with optional indentation and padding
 
@@ -299,7 +309,7 @@ Print warning text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 28. `echo_info` (public)
+#### ⌨️ 6. `echo_info` (public)
 
 Print info text with optional indentation and padding
 
@@ -309,7 +319,7 @@ Print info text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 29. `echo_light` (public)
+#### ⌨️ 7. `echo_light` (public)
 
 Print light text with optional indentation and padding
 
@@ -319,7 +329,7 @@ Print light text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 30. `echo_dark` (public)
+#### ⌨️ 8. `echo_dark` (public)
 
 Print dark text with optional indentation and padding
 
@@ -329,7 +339,7 @@ Print dark text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 31. `alert_primary` (public)
+#### ⌨️ 9. `alert_primary` (public)
 
 Print primary alert
 
@@ -337,7 +347,7 @@ Print primary alert
 > alert_primary &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 32. `alert_secondary` (public)
+#### ⌨️ 10. `alert_secondary` (public)
 
 Print secondary alert
 
@@ -345,7 +355,7 @@ Print secondary alert
 > alert_secondary &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 33. `alert_success` (public)
+#### ⌨️ 11. `alert_success` (public)
 
 Print success alert
 
@@ -353,7 +363,7 @@ Print success alert
 > alert_success &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 34. `alert_danger` (public)
+#### ⌨️ 12. `alert_danger` (public)
 
 Print danger alert
 
@@ -361,7 +371,7 @@ Print danger alert
 > alert_danger &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 35. `alert_warning` (public)
+#### ⌨️ 13. `alert_warning` (public)
 
 Print warning alert
 
@@ -369,7 +379,7 @@ Print warning alert
 > alert_warning &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 36. `alert_info` (public)
+#### ⌨️ 14. `alert_info` (public)
 
 Print info alert
 
@@ -377,7 +387,7 @@ Print info alert
 > alert_info &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 37. `alert_light` (public)
+#### ⌨️ 15. `alert_light` (public)
 
 Print light alert
 
@@ -385,7 +395,7 @@ Print light alert
 > alert_light &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 38. `alert_dark` (public)
+#### ⌨️ 16. `alert_dark` (public)
 
 Print dark alert
 
@@ -393,7 +403,9 @@ Print dark alert
 > alert_dark &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 39. `_sed_i` (private)
+### ⚡ COMPATIBILITY
+
+#### ⌨️ 1. `_sed_i` (private)
 
 Return sed -i system flavour
 
@@ -402,7 +414,9 @@ Return sed -i system flavour
 
 - ⚠️ Requires: `command`, `sed`, `uname`
 
-#### ⌨️ 40. `_generate_doc` (private)
+### ⚡ DOCUMENTATION
+
+#### ⌨️ 1. `_generate_doc` (private)
 
 Generate Markdown documentation for provided shoe script
 
@@ -416,7 +430,9 @@ Generate Markdown documentation for provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_tag`, `_get_shoedoc_title`, `_print_synopsis`, `alert_primary`, `echo_danger`, `echo_success`
 
-#### ⌨️ 41. `_help` (private)
+### ⚡ HELP
+
+#### ⌨️ 1. `_help` (private)
 
 Print help for provider shoe script
 
@@ -426,7 +442,7 @@ Print help for provider shoe script
 
 - 🔗 Depends: `_get_constants`, `_get_flags`, `_get_options`, `_get_padding`, `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_title`, `_print_commands`, `_print_constants`, `_print_description`, `_print_flags`, `_print_infos`, `_print_options`, `_print_usage`, `alert_primary`, `echo_danger`
 
-#### ⌨️ 42. `_print_commands` (private)
+#### ⌨️ 2. `_print_commands` (private)
 
 List commands of the provided shoe script (used by "help" command)
 
@@ -438,7 +454,7 @@ List commands of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_warning`
 
-#### ⌨️ 43. `_print_constants` (private)
+#### ⌨️ 3. `_print_constants` (private)
 
 List constants of the provided shoe script (used by "help" command)
 
@@ -450,7 +466,7 @@ List constants of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_warning`
 
-#### ⌨️ 44. `_print_description` (private)
+#### ⌨️ 4. `_print_description` (private)
 
 Print provided text formatted as a description (used by "help" command)
 
@@ -460,7 +476,7 @@ Print provided text formatted as a description (used by "help" command)
 
 - 🔗 Depends: `echo_primary`, `echo_warning`
 
-#### ⌨️ 45. `_print_flags` (private)
+#### ⌨️ 5. `_print_flags` (private)
 
 List flags of the provided shoe script (used by "help" command)
 
@@ -472,7 +488,7 @@ List flags of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_warning`
 
-#### ⌨️ 46. `_print_infos` (private)
+#### ⌨️ 6. `_print_infos` (private)
 
 Print infos of the provided shoe script (used by "help" command)
 
@@ -482,7 +498,7 @@ Print infos of the provided shoe script (used by "help" command)
 
 - 🔗 Depends: `_get_script_shoedoc`, `_get_shoedoc_tag`, `echo_danger`, `echo_primary`, `echo_success`, `echo_warning`
 
-#### ⌨️ 47. `_print_options` (private)
+#### ⌨️ 7. `_print_options` (private)
 
 List options of the provided shoe script (used by "help" command)
 
@@ -494,7 +510,7 @@ List options of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_warning`
 
-#### ⌨️ 48. `_print_usage` (private)
+#### ⌨️ 8. `_print_usage` (private)
 
 Print usage of the provided shoe script (used by "help" command)
 
@@ -505,7 +521,9 @@ Print usage of the provided shoe script (used by "help" command)
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`, `echo_info`, `echo_success`, `echo_warning`
 
-#### ⌨️ 49. `_copy_install` (private)
+### ⚡ INSTALL
+
+#### ⌨️ 1. `_copy_install` (private)
 
 Install script via copy
 
@@ -516,7 +534,7 @@ Install script via copy
 
 - 🔗 Depends: `echo_danger`, `echo_info`
 
-#### ⌨️ 50. `_generate_autocomplete` (private)
+#### ⌨️ 2. `_generate_autocomplete` (private)
 
 Generates an autocomplete script for the provided file
 
@@ -527,7 +545,7 @@ Generates an autocomplete script for the provided file
 
 - 🔗 Depends: `_get_comspec`, `echo_danger`, `echo_info`
 
-#### ⌨️ 51. `_generate_global_autocomplete` (private)
+#### ⌨️ 3. `_generate_global_autocomplete` (private)
 
 Creates a system-wide autocomplete script for the provided file
 
@@ -538,7 +556,7 @@ Creates a system-wide autocomplete script for the provided file
 
 - 🔗 Depends: `_get_comspec`, `echo_danger`, `echo_info`
 
-#### ⌨️ 52. `_get_comspec` (private)
+#### ⌨️ 4. `_get_comspec` (private)
 
 Generate comspec string for the provided file
 
@@ -549,7 +567,7 @@ Generate comspec string for the provided file
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 53. `_install` (private)
+#### ⌨️ 5. `_install` (private)
 
 Install script and enable completion
 
@@ -561,7 +579,7 @@ Install script and enable completion
 
 - 🔗 Depends: `_copy_install`, `_generate_autocomplete`, `_generate_global_autocomplete`, `_is_installed`, `_set_completion_autoload`, `_symlink_install`, `echo_danger`
 
-#### ⌨️ 54. `_remove_completion_autoload` (private)
+#### ⌨️ 6. `_remove_completion_autoload` (private)
 
 Remove completion script autoload
 
@@ -572,7 +590,7 @@ Remove completion script autoload
 
 - 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`
 
-#### ⌨️ 55. `_set_completion_autoload` (private)
+#### ⌨️ 7. `_set_completion_autoload` (private)
 
 Adds an autoload line for completion script to a shell configuration file
 
@@ -584,7 +602,7 @@ Adds an autoload line for completion script to a shell configuration file
 
 - 🔗 Depends: `_collapse_blank_lines`, `_sed_i`, `echo_danger`, `echo_info`
 
-#### ⌨️ 56. `_symlink_install` (private)
+#### ⌨️ 8. `_symlink_install` (private)
 
 Install script via symlink
 
@@ -595,7 +613,7 @@ Install script via symlink
 
 - 🔗 Depends: `echo_danger`, `echo_info`
 
-#### ⌨️ 57. `_uninstall` (private)
+#### ⌨️ 9. `_uninstall` (private)
 
 Uninstall script from system
 
@@ -606,7 +624,7 @@ Uninstall script from system
 
 - 🔗 Depends: `_remove_completion_autoload`, `echo_danger`, `echo_info`
 
-#### ⌨️ 58. `_update` (private)
+#### ⌨️ 10. `_update` (private)
 
 Updates given script from the provided URL
 
@@ -620,7 +638,9 @@ Updates given script from the provided URL
 - ⚠️ Requires: `curl`, `wget`
 - 🔗 Depends: `_copy_install`, `_generate_autocomplete`, `_generate_global_autocomplete`, `_install`, `_is_installed`, `_set_completion_autoload`, `_symlink_install`, `_uninstall`, `echo_danger`
 
-#### ⌨️ 59. `_generate_makefile` (private)
+### ⚡ MAKE
+
+#### ⌨️ 1. `_generate_makefile` (private)
 
 Generate Makefile for provided shoe script
 
@@ -633,7 +653,9 @@ Generate Makefile for provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_tag`, `_get_shoedoc_title`, `alert_primary`, `echo_danger`, `echo_success`
 
-#### ⌨️ 60. `_get_constants` (private)
+### ⚡ REFLEXION
+
+#### ⌨️ 1. `_get_constants` (private)
 
 List constants from provided shoe script
 
@@ -645,7 +667,7 @@ List constants from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 61. `_get_constraint` (private)
+#### ⌨️ 2. `_get_constraint` (private)
 
 Get constaint for given variable from provided shoe script
 
@@ -657,7 +679,7 @@ Get constaint for given variable from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 62. `_get_flags` (private)
+#### ⌨️ 3. `_get_flags` (private)
 
 List flags from provided shoe script
 
@@ -668,7 +690,7 @@ List flags from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 63. `_get_function_annotation` (private)
+#### ⌨️ 4. `_get_function_annotation` (private)
 
 Get function annotation by name
 
@@ -680,7 +702,7 @@ Get function annotation by name
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 64. `_get_function` (private)
+#### ⌨️ 5. `_get_function` (private)
 
 Get function by name
 
@@ -692,7 +714,7 @@ Get function by name
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 65. `_get_functions_names` (private)
+#### ⌨️ 6. `_get_functions_names` (private)
 
 List functions names from provided shoe script
 
@@ -704,7 +726,7 @@ List functions names from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 66. `_get_options` (private)
+#### ⌨️ 7. `_get_options` (private)
 
 List options from provided shoe script
 
@@ -716,7 +738,7 @@ List options from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 67. `_get_padding` (private)
+#### ⌨️ 8. `_get_padding` (private)
 
 Guess padding length from longest constant, option, flag or command of the provided shoe script
 
@@ -727,7 +749,7 @@ Guess padding length from longest constant, option, flag or command of the provi
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 68. `_get_parameter` (private)
+#### ⌨️ 9. `_get_parameter` (private)
 
 Get value for given parameter from provided ".env" or ".sh" file
 
@@ -739,7 +761,7 @@ Get value for given parameter from provided ".env" or ".sh" file
 - ⚠️ Requires: `sed`
 - 🔗 Depends: `echo_danger`, `echo_info`
 
-#### ⌨️ 69. `_parse_annotation` (private)
+#### ⌨️ 10. `_parse_annotation` (private)
 
 Return function annotation as json
 
@@ -751,7 +773,7 @@ Return function annotation as json
 - ⚠️ Requires: `jq`, `sed`
 - 🔗 Depends: `_get_function_annotation`, `echo_danger`
 
-#### ⌨️ 70. `_print_synopsis` (private)
+#### ⌨️ 11. `_print_synopsis` (private)
 
 Print function synopsis from a JSON string.
 
@@ -763,7 +785,7 @@ Print function synopsis from a JSON string.
 - ⚠️ Requires: `jq`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 71. `_set_parameter` (private)
+#### ⌨️ 12. `_set_parameter` (private)
 
 Set value for given parameter into provided file ".env" or ".sh" file
 
@@ -776,7 +798,9 @@ Set value for given parameter into provided file ".env" or ".sh" file
 - ⚠️ Requires: `sed`
 - 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`, `echo_warning`
 
-#### ⌨️ 72. `_collapse_blank_lines` (private)
+### ⚡ STRINGS
+
+#### ⌨️ 1. `_collapse_blank_lines` (private)
 
 Collapse blank lines with "sed"
 
@@ -786,7 +810,9 @@ Collapse blank lines with "sed"
 
 - 🔗 Depends: `_sed_i`, `echo_danger`, `echo_info`
 
-#### ⌨️ 73. `_check_installed` (private)
+### ⚡ SYSTEM
+
+#### ⌨️ 1. `_check_installed` (private)
 
 Print error message if provided command is missing
 
@@ -796,7 +822,7 @@ Print error message if provided command is missing
 
 - 🔗 Depends: `_get_package_name`, `_is_installed`, `echo_danger`
 
-#### ⌨️ 74. `_get_package_name` (private)
+#### ⌨️ 2. `_get_package_name` (private)
 
 Find package name for given command
 
@@ -806,7 +832,7 @@ Find package name for given command
 
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 75. `_is_installed` (private)
+#### ⌨️ 3. `_is_installed` (private)
 
 Check provided command is installed
 
@@ -817,14 +843,16 @@ Check provided command is installed
 - ⚠️ Requires: `dpkg`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 76. `_pwd` (private)
+#### ⌨️ 4. `_pwd` (private)
 
 Return current project directory realpath, or "pwd" when installed globally
 
 > Synopsis:
 > _pwd
 
-#### ⌨️ 77. `_is_valid` (private)
+### ⚡ VALIDATION
+
+#### ⌨️ 1. `_is_valid` (private)
 
 Checks if variable is valid given regex constraint
 
@@ -836,7 +864,7 @@ Checks if variable is valid given regex constraint
 - ⚠️ Requires: `grep`, `sed`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 78. `_validate` (private)
+#### ⌨️ 2. `_validate` (private)
 
 Find constraints and validates a variable
 
@@ -847,12 +875,15 @@ Find constraints and validates a variable
 - ⚠️ Requires: `sed`
 - 🔗 Depends: `_get_constraint`, `_is_valid`, `echo_danger`
 
-#### ⌨️ 79. `_kernel` (private)
+### ⚡ KERNEL
+
+#### ⌨️ 1. `_kernel` (private)
 
 Shoe Kernel
 
 > Synopsis:
 > _kernel
 
+- ⚠️ Requires: `awk`
 - 🔗 Depends: `_after`, `_before`, `_default`, `_get_flags`, `_get_functions_names`, `_get_options`, `_validate`, `echo_danger`
 

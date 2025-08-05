@@ -245,6 +245,23 @@
 ../../src/shell/strings/_generate_key.sh
 
 #--------------------------------------------------
+#_ Symfony
+#--------------------------------------------------
+../../src/shell/symfony/_composer_install.sh
+../../src/shell/symfony/_composer_update.sh
+../../src/shell/symfony/_console.sh
+../../src/shell/symfony/_db_create.sh
+../../src/shell/symfony/_db_drop.sh
+../../src/shell/symfony/_db_query.sh
+../../src/shell/symfony/_db_schema.sh
+../../src/shell/symfony/_phpunit.sh
+../../src/shell/symfony/_sf_cache.sh
+../../src/shell/symfony/_sf_lint.sh
+../../src/shell/symfony/_sf_security.sh
+../../src/shell/symfony/_sf_serve.sh
+../../src/shell/symfony/_sf_test.sh
+
+#--------------------------------------------------
 #_ System
 #--------------------------------------------------
 ../../src/shell/system/_check_installed.sh

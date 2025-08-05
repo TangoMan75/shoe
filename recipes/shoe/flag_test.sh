@@ -1,6 +1,12 @@
 #!/bin/sh
 
 ## Prints flag status
+##
+## {
+##    "assumes": [
+##      "flag"
+##    ]
+## }
 flag_test() {
     if [ "${flag}" = true ]; then
         echo "Flag is on"
