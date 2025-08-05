@@ -154,6 +154,15 @@ _generate_doc() {
                 continue
             fi
 
+            __namespace__="$(printf '%s' "${__json__}" | jq -r '.namespace')"
+            if [ "${__namespace__}" != "${__current_namespace__}" ] && [ "${__namespace__}" != null ]; then
+                __index__=0
+                __current_namespace__="${__namespace__}"
+                (
+                    printf '### ⚡ %s\n\n' "$(printf '%s' "${__namespace__}" | awk '{print toupper($0)}')"
+                ) >> "$2/$3"
+            fi
+
             __index__=$((__index__ + 1))
             (
                 # shellcheck disable=SC2016

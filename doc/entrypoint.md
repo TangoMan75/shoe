@@ -50,7 +50,9 @@ Run tests
 - ⚠️ Requires: `bash_unit`
 - 🔗 Depends: `echo_info`
 
-#### ⌨️ 3. `git_hooks` (public)
+### ⚡ APP
+
+#### ⌨️ 1. `git_hooks` (public)
 
 Install git hooks
 
@@ -59,7 +61,7 @@ Install git hooks
 
 - 🔗 Depends: `_git_hooks`
 
-#### ⌨️ 4. `bash_unit` (public)
+#### ⌨️ 2. `bash_unit` (public)
 
 Install bash_unit framework
 
@@ -69,14 +71,14 @@ Install bash_unit framework
 - ⚠️ Requires: `curl`
 - 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
 
-#### ⌨️ 5. `test_can_fail` (public)
+#### ⌨️ 3. `test_can_fail` (public)
 
 https://github.com/pgrange/bash_unit
 
 > Synopsis:
 > test_can_fail
 
-#### ⌨️ 6. `alpine` (public)
+#### ⌨️ 4. `alpine` (public)
 
 Run script in Alpine Docker container
 
@@ -86,7 +88,7 @@ Run script in Alpine Docker container
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_info`
 
-#### ⌨️ 7. `busybox` (public)
+#### ⌨️ 5. `busybox` (public)
 
 Run script in Busybox Docker container
 
@@ -96,7 +98,7 @@ Run script in Busybox Docker container
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_info`
 
-#### ⌨️ 8. `ubuntu` (public)
+#### ⌨️ 6. `ubuntu` (public)
 
 Run script in Ubuntu Docker container
 
@@ -106,7 +108,9 @@ Run script in Ubuntu Docker container
 - ⚠️ Requires: `docker`
 - 🔗 Depends: `_check_installed`, `echo_info`
 
-#### ⌨️ 9. `help` (public)
+### ⚡ HELP
+
+#### ⌨️ 1. `help` (public)
 
 Print this help
 
@@ -115,7 +119,9 @@ Print this help
 
 - 🔗 Depends: `_help`
 
-#### ⌨️ 10. `echo_primary` (public)
+### ⚡ COLORS
+
+#### ⌨️ 1. `echo_primary` (public)
 
 Print primary text with optional indentation and padding
 
@@ -125,7 +131,7 @@ Print primary text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 11. `echo_secondary` (public)
+#### ⌨️ 2. `echo_secondary` (public)
 
 Print secondary text with optional indentation and padding
 
@@ -135,7 +141,7 @@ Print secondary text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 12. `echo_success` (public)
+#### ⌨️ 3. `echo_success` (public)
 
 Print success text with optional indentation and padding
 
@@ -145,7 +151,7 @@ Print success text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 13. `echo_danger` (public)
+#### ⌨️ 4. `echo_danger` (public)
 
 Print danger text with optional indentation and padding
 
@@ -155,7 +161,7 @@ Print danger text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 14. `echo_warning` (public)
+#### ⌨️ 5. `echo_warning` (public)
 
 Print warning text with optional indentation and padding
 
@@ -165,7 +171,7 @@ Print warning text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 15. `echo_info` (public)
+#### ⌨️ 6. `echo_info` (public)
 
 Print info text with optional indentation and padding
 
@@ -175,7 +181,7 @@ Print info text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 16. `echo_light` (public)
+#### ⌨️ 7. `echo_light` (public)
 
 Print light text with optional indentation and padding
 
@@ -185,7 +191,7 @@ Print light text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 17. `echo_dark` (public)
+#### ⌨️ 8. `echo_dark` (public)
 
 Print dark text with optional indentation and padding
 
@@ -195,7 +201,7 @@ Print dark text with optional indentation and padding
 - `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
 - `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
 
-#### ⌨️ 18. `alert_primary` (public)
+#### ⌨️ 9. `alert_primary` (public)
 
 Print primary alert
 
@@ -203,7 +209,7 @@ Print primary alert
 > alert_primary &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 19. `alert_secondary` (public)
+#### ⌨️ 10. `alert_secondary` (public)
 
 Print secondary alert
 
@@ -211,7 +217,7 @@ Print secondary alert
 > alert_secondary &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 20. `alert_success` (public)
+#### ⌨️ 11. `alert_success` (public)
 
 Print success alert
 
@@ -219,7 +225,7 @@ Print success alert
 > alert_success &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 21. `alert_danger` (public)
+#### ⌨️ 12. `alert_danger` (public)
 
 Print danger alert
 
@@ -227,7 +233,7 @@ Print danger alert
 > alert_danger &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 22. `alert_warning` (public)
+#### ⌨️ 13. `alert_warning` (public)
 
 Print warning alert
 
@@ -235,7 +241,7 @@ Print warning alert
 > alert_warning &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 23. `alert_info` (public)
+#### ⌨️ 14. `alert_info` (public)
 
 Print info alert
 
@@ -243,7 +249,7 @@ Print info alert
 > alert_info &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 24. `alert_light` (public)
+#### ⌨️ 15. `alert_light` (public)
 
 Print light alert
 
@@ -251,7 +257,7 @@ Print light alert
 > alert_light &lt;STRING&gt;
 - `STRING`: _(type: "str")_ Text to display.
 
-#### ⌨️ 25. `alert_dark` (public)
+#### ⌨️ 16. `alert_dark` (public)
 
 Print dark alert
 

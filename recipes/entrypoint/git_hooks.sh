@@ -3,6 +3,7 @@
 ## Install git hooks
 ##
 ## {
+##   "namespace": "app",
 ##   "depends": [
 ##     "_git_hooks"
 ##   ]

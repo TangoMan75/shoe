@@ -109,6 +109,12 @@ hello() {
 }
 
 ## Prints flag status
+##
+## {
+##    "assumes": [
+##      "flag"
+##    ]
+## }
 flag_test() {
     if [ "${flag}" = true ]; then
         echo "Flag is on"
@@ -1960,17 +1966,22 @@ _sed_i() {
 #       "position": 1,
 #       "name": "FILE_PATH",
 #       "type": "file",
-#       "description": "The path to the compose.yaml file.",
-#       "nullable": false
+#       "description": "The path to the compose.yaml file."
 #     }
 #   ]
 # }
 _docker_compose_build() {
-    # Synopsis: _docker_compose_build <FILE_PATH>
-    #   FILE_PATH: The path to the compose.yaml file.
+    # Synopsis: _docker_compose_build [FILE_PATH]
+    #   FILE_PATH: (optional) The path to the compose.yaml file.
 
-    if [ -z "$1" ]; then echo_danger 'error: _docker_compose_build: some mandatory parameter is missing\n'; return 1; fi
     if [ ${#} -gt 1 ]; then echo_danger "error: _docker_compose_build: too many arguments (${#})\n"; return 1; fi
+
+    if [ -z "$1" ]; then
+        echo_info "$(_get_docker_compose) build\n"
+        $(_get_docker_compose) build
+
+        return 0
+    fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _docker_compose_build: \"$1\" file not found\n"; return 1; fi
@@ -1984,6 +1995,7 @@ _docker_compose_build() {
 # {
 #   "namespace": "docker",
 #   "depends": [
+#     "_get_docker_compose",
 #     "echo_danger",
 #     "echo_info"
 #   ],
@@ -1992,29 +2004,28 @@ _docker_compose_build() {
 #       "position": 1,
 #       "name": "FILE_PATH",
 #       "type": "file",
-#       "description": "The path to the compose.yaml file.",
-#       "nullable": false
+#       "description": "The path to the compose.yaml file."
 #     }
 #   ]
 # }
 _docker_compose_start() {
-    # Synopsis: _docker_compose_start <FILE_PATH>
-    #   FILE_PATH: The path to the compose.yaml file.
+    # Synopsis: _docker_compose_start [FILE_PATH]
+    #   FILE_PATH: (optional) The path to the compose.yaml file.
 
-    if [ -z "$1" ]; then echo_danger 'error: _docker_compose_start: some mandatory parameter is missing\n'; return 1; fi
     if [ ${#} -gt 1 ]; then echo_danger "error: _docker_compose_start: too many arguments (${#})\n"; return 1; fi
+
+    if [ -z "$1" ]; then
+        echo_info "$(_get_docker_compose) up --detach --remove-orphans\n"
+        $(_get_docker_compose) up --detach --remove-orphans
+
+        return 0
+    fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _docker_compose_start: \"$1\" file not found\n"; return 1; fi
 
-    if [ "$(docker compose >/dev/null 2>&1)" ]; then
-        echo_info "docker compose --file \"$1\" up -d --remove-orphans\n"
-        docker compose --file "$1" up -d --remove-orphans
-        return 0
-    fi
-
-    echo_info "docker-compose --file \"$1\" up --detach --remove-orphans\n"
-    docker-compose --file "$1" up --detach --remove-orphans
+    echo_info "$(_get_docker_compose) --file \"$1\" up --detach --remove-orphans\n"
+    $(_get_docker_compose) --file "$1" up --detach --remove-orphans
 }
 
 # Stop container stack with docker compose
@@ -2826,6 +2837,15 @@ _generate_doc() {
 
             if [ "$4" = false ] && [ "$(printf '%s' "${__json__}" | jq -r '.scope')" = 'private' ]; then
                 continue
+            fi
+
+            __namespace__="$(printf '%s' "${__json__}" | jq -r '.namespace')"
+            if [ "${__namespace__}" != "${__current_namespace__}" ] && [ "${__namespace__}" != null ]; then
+                __index__=0
+                __current_namespace__="${__namespace__}"
+                (
+                    printf '### ⚡ %s\n\n' "$(printf '%s' "${__namespace__}" | awk '{print toupper($0)}')"
+                ) >> "$2/$3"
             fi
 
             __index__=$((__index__ + 1))
@@ -5152,6 +5172,384 @@ _generate_key() {
 }
 
 #--------------------------------------------------
+#_ Symfony
+#--------------------------------------------------
+
+# Install project dependencies with composer
+#
+# {
+#   "namespace": "symfony",
+#   "requires": [
+#     "composer"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "_pwd",
+#     "echo_info"
+#   ]
+# }
+_composer_install() {
+    _check_installed composer
+
+    echo_info "composer install --no-interaction --prefer-dist --optimize-autoloader --working-dir=\"$(_pwd)\"\n"
+    composer install --no-interaction --prefer-dist --optimize-autoloader --working-dir="$(_pwd)"
+}
+
+# Update project dependencies with composer
+#
+# {
+#   "namespace": "symfony",
+#   "requires": [
+#     "composer"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_info"
+#   ]
+# }
+_composer_update() {
+    _check_installed composer
+
+    echo_info "composer update --with-dependencies\n"
+    composer update --with-dependencies
+}
+
+# Get correct Symfony console binary path
+#
+# {
+#   "namespace": "symfony",
+#   "depends": [
+#     "echo_danger"
+#   ]
+# }
+_console() {
+    if [ -x "$(command -v symfony)" ]; then
+        echo 'symfony console'
+
+        return 0
+    fi
+
+    if [ -f ./app/console ]; then
+        echo './app/console'
+
+        return 0
+    fi
+
+    if [ -f ./bin/console ]; then
+        echo './bin/console'
+
+        return 0
+    fi
+
+    echo_danger "error: \"$(basename "${0}")\" symfony console not found, try: 'composer install'\n"
+    exit 1
+}
+
+# Create Symfony database with Doctrine
+#
+# {
+#   "namespace": "symfony",
+#   "depends": [
+#     "_console",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "ENV",
+#       "type": "str",
+#       "description": "Environment.",
+#       "constraint": "/^(dev|prod|test)$/"
+#     }
+#   ]
+# }
+_db_create() {
+    if [ -z "$1" ]; then echo_danger 'error: _db_create: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 1 ]; then echo_danger "error: _db_create: too many arguments (${#})\n"; return 1; fi
+
+    # following command will not break script execution on failure even with `-e` option enabled
+    echo_info "$(_console) doctrine:database:create --env \"$1\" || true\n"
+    $(_console) doctrine:database:create --env "$1" || true
+}
+
+# Drop database with Doctrine
+#
+# {
+#   "namespace": "symfony",
+#   "depends": [
+#     "_console",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "ENV",
+#       "type": "str",
+#       "description": "Environment.",
+#       "constraint": "/^(dev|prod|test)$/"
+#     }
+#   ]
+# }
+_db_drop() {
+    if [ -z "$1" ]; then echo_danger 'error: _db_drop: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 1 ]; then echo_danger "error: _db_drop: too many arguments (${#})\n"; return 1; fi
+
+    # following command will not break script execution on failure even with `-e` option enabled
+    echo_info "$(_console) doctrine:database:drop --force --env \"$1\" || true\n"
+    $(_console) doctrine:database:drop --force --env "$1" || true
+}
+
+# Executes arbitrary SQL directly from the command line
+#
+# {
+#   "namespace": "symfony",
+#   "depends": [
+#     "_console",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SQL",
+#       "type": "str",
+#       "description": "SQL query.",
+#       "constraint": "/.+/"
+#     }
+#   ]
+# }
+_db_query() {
+    if [ -z "$1" ]; then echo_danger 'error: _db_query: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 1 ]; then echo_danger "error: _db_query: too many arguments (${#})\n"; return 1; fi
+
+    echo_info "$(_console) doctrine:query:sql \"$1\"\n"
+    $(_console) doctrine:query:sql "$1"
+}
+
+# Create schema with Doctrine
+#
+# {
+#   "namespace": "symfony",
+#   "depends": [
+#     "_console",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "ENV",
+#       "type": "str",
+#       "description": "Environment.",
+#       "constraint": "/^(dev|prod|test)$/"
+#     }
+#   ]
+# }
+_db_schema() {
+    if [ -z "$1" ]; then echo_danger 'error: _db_create: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 1 ]; then echo_danger "error: _db_create: too many arguments (${#})\n"; return 1; fi
+
+    echo_info "$(_console) doctrine:schema:create --dump-sql --env \"$1\"\n"
+    $(_console) doctrine:schema:create --dump-sql --env "$1"
+
+    # following command will not break script execution on failure even with `-e` option enabled
+    echo_info "$(_console) doctrine:schema:create --env \"$1\" || true\n"
+    $(_console) doctrine:schema:create --env "$1" || true
+}
+
+# Get correct PHPUnit binary path
+#
+# {
+#   "namespace": "ci_cd",
+#   "depends": [
+#     "echo_danger"
+#   ]
+# }
+_phpunit() {
+    if [ -f ./vendor/bin/phpunit ]; then
+        echo ./vendor/bin/phpunit
+
+        return 0
+    fi
+
+    if [ -f ./vendor/bin/simple-phpunit ]; then
+        echo ./vendor/bin/simple-phpunit
+
+        return 0
+    fi
+
+    if [ -f ./vendor/symfony/phpunit-bridge/bin/simple-phpunit ]; then
+        echo './vendor/symfony/phpunit-bridge/bin/simple-phpunit'
+
+        return 0
+    fi
+
+    if [ -f ./bin/phpunit ]; then
+        echo './bin/phpunit'
+
+        return 0
+    fi
+
+    echo_danger "error: \"$(basename "${0}")\" requires phpunit, try: 'composer install'\n"
+
+    return 1
+}
+
+# Clear Symfony cache
+#
+# {
+#   "namespace": "symfony",
+#   "depends": [
+#     "_console",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "ENV",
+#       "type": "str",
+#       "description": "Environment.",
+#       "constraint": "/^(dev|prod|test)$/"
+#     }
+#   ]
+# }
+_sf_cache() {
+    if [ -z "$1" ]; then echo_danger 'error: _sf_cache: some mandatory parameter is missing\n'; return 1; fi
+    if [ ${#} -gt 1 ]; then echo_danger "error: _sf_cache: too many arguments (${#})\n"; return 1; fi
+
+    echo_info "$(_console) cache:clear --env \"$1\"\n"
+    $(_console) cache:clear --env "$1"
+
+    echo_info "$(_console) cache:warmup --env \"$1\"\n"
+    $(_console) cache:warmup --env "$1"
+}
+
+# Run linter (sniff)
+#
+# {
+#   "namespace": "symfony",
+#   "requires": [
+#     "composer",
+#     "php"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "_console",
+#     "echo_info"
+#   ]
+# }
+_sf_lint() {
+    _check_installed php
+    _check_installed composer
+
+    # check composer validity
+    echo_info 'composer validate\n'
+    composer validate
+
+    # check php files syntax
+    echo_info "php -l -d memory-limit=-1 -d display_errors=0 \"...\"\n"
+    find ./src ./tests -type f -name '*.php' | while read -r __file__; do
+        php -l -d memory-limit=-1 -d display_errors=0 "${__file__}"
+    done
+
+    echo_info "$(_console) lint:container\n"
+    $(_console) lint:container
+
+    echo_info "$(_console) lint:twig ./templates --show-deprecations\n"
+    $(_console) lint:twig ./templates --show-deprecations
+
+    echo_info "$(_console) lint:yaml ./compose.yaml ./compose.*.yaml"
+    $(_console) lint:yaml ./compose.yaml ./compose.*.yaml
+}
+
+# Check security issues in project dependencies (symfony-cli)
+#
+# {
+#   "namespace": "symfony",
+#   "requires": [
+#     "composer",
+#     "symfony"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_info"
+#   ]
+# }
+_security() {
+    if "$(_is_installed symfony)"; then
+        echo_info 'symfony security:check\n'
+        symfony security:check
+
+        return 0
+    fi
+
+    if "$(_is_installed composer)"; then
+        echo_info 'composer audit\n'
+        composer audit
+
+        return 0
+    fi
+
+    echo_danger "error: \"$0\" requires symfony or composer.\n"
+    return 1
+}
+
+# Run a local web server with Symfony CLI
+#
+# {
+#   "namespace": "symfony",
+#   "requires": [
+#     "symfony"
+#   ],
+#   "depends": [
+#     "_check_installed",
+#     "echo_info"
+#   ]
+# }
+_sf_serve() {
+    _check_installed symfony
+
+    echo_info 'symfony local:server:start --no-tls\n'
+    symfony local:server:start --no-tls
+}
+
+# Run test with PHPUnit
+#
+# {
+#   "namespace": "symfony",
+#   "requires": [
+#     "php"
+#   ],
+#   "depends": [
+#     "_phpunit",
+#     "echo_danger",
+#     "echo_info"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "FILE_PATH",
+#       "type": "file",
+#       "description": "The path to the input file."
+#     }
+#   ]
+# }
+_sf_test() {
+    if [ ${#} -gt 1 ]; then echo_danger "error: _sf_tests: too many arguments (${#})\n"; return 1; fi
+
+    if [ -z "$1" ]; then
+        echo_info "php -d memory-limit=-1 \"$(_phpunit)\" --stop-on-failure\n"
+        php -d memory-limit=-1 "$(_phpunit)" --stop-on-failure
+
+        return 0
+    fi
+
+    set -- "$(realpath "$1")"
+    if [ ! -f "$1" ]; then echo_danger "error: _sf_tests: \"$1\" file not found\n"; return 1; fi
+
+    echo_info "php -d memory-limit=-1 \"$(_phpunit)\" --stop-on-failure --testdox \"$1\"\n"
+    php -d memory-limit=-1 "$(_phpunit)" --stop-on-failure --testdox "$1"
+}
+
+#--------------------------------------------------
 #_ System
 #--------------------------------------------------
 
@@ -5792,6 +6190,9 @@ _validate() {
 #
 # {
 #   "namespace": "kernel",
+#   "requires": [
+#     "awk"
+#   ],
 #   "depends": [
 #     "_after",
 #     "_before",
@@ -5807,14 +6208,15 @@ _kernel() {
     if [ ${#} -lt 1 ]; then _default; exit 0; fi
 
     __error__=''
-    __eval__=''
     __execute__=''
     __requires_value__=''
     for __argument__ in "$@"; do
         __is_valid__=false
         # check if previous argument requires value
         if [ -n "${__requires_value__}" ]; then
-            __eval__="${__eval__} ${__requires_value__}=${__argument__}"
+            # invalid parameters will raise errors
+            _validate "${__requires_value__}=${__argument__}"
+            eval "${__requires_value__}=\"${__argument__}\";"
             __requires_value__=''
             continue
         fi
@@ -5824,8 +6226,7 @@ _kernel() {
                 # get shorthand character
                 __shorthand__="$(printf '%s' "${__flag__}" | awk '{$0=substr($0,1,1); print}')"
                 if [ "${__argument__}" = "--${__flag__}" ] || [ "${__argument__}" = "-${__shorthand__}" ]; then
-                    # append argument to the eval stack
-                    __eval__="${__eval__} ${__flag__}=true"
+                    eval "${__flag__}=true"
                     __is_valid__=true
                     break
                 fi
@@ -5871,13 +6272,9 @@ _kernel() {
         exit 1
     fi
 
-    for __option__ in ${__eval__}; do
-        # invalid parameters will raise errors
-        _validate "${__option__}"
-        eval "${__option__}"
-    done
-
     if [ -n "$(command -v _before)" ]; then _before; fi
+
+    if [ -z "${__execute__}" ]; then _default; exit 0; fi
 
     for __function__ in ${__execute__}; do
         eval "${__function__}"

@@ -109,6 +109,7 @@ tests() {
 ## Install git hooks
 ##
 ## {
+##   "namespace": "app",
 ##   "depends": [
 ##     "_git_hooks"
 ##   ]
@@ -2149,6 +2150,9 @@ _validate() {
 #
 # {
 #   "namespace": "kernel",
+#   "requires": [
+#     "awk"
+#   ],
 #   "depends": [
 #     "_after",
 #     "_before",
@@ -2164,14 +2168,15 @@ _kernel() {
     if [ ${#} -lt 1 ]; then _default; exit 0; fi
 
     __error__=''
-    __eval__=''
     __execute__=''
     __requires_value__=''
     for __argument__ in "$@"; do
         __is_valid__=false
         # check if previous argument requires value
         if [ -n "${__requires_value__}" ]; then
-            __eval__="${__eval__} ${__requires_value__}=${__argument__}"
+            # invalid parameters will raise errors
+            _validate "${__requires_value__}=${__argument__}"
+            eval "${__requires_value__}=\"${__argument__}\";"
             __requires_value__=''
             continue
         fi
@@ -2181,8 +2186,7 @@ _kernel() {
                 # get shorthand character
                 __shorthand__="$(printf '%s' "${__flag__}" | awk '{$0=substr($0,1,1); print}')"
                 if [ "${__argument__}" = "--${__flag__}" ] || [ "${__argument__}" = "-${__shorthand__}" ]; then
-                    # append argument to the eval stack
-                    __eval__="${__eval__} ${__flag__}=true"
+                    eval "${__flag__}=true"
                     __is_valid__=true
                     break
                 fi
@@ -2228,13 +2232,9 @@ _kernel() {
         exit 1
     fi
 
-    for __option__ in ${__eval__}; do
-        # invalid parameters will raise errors
-        _validate "${__option__}"
-        eval "${__option__}"
-    done
-
     if [ -n "$(command -v _before)" ]; then _before; fi
+
+    if [ -z "${__execute__}" ]; then _default; exit 0; fi
 
     for __function__ in ${__execute__}; do
         eval "${__function__}"
