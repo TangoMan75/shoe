@@ -1,6 +1,23 @@
 #!/bin/sh
 
 # Shoe Kernel
+#
+# {
+#   "namespace": "kernel",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "_after",
+#     "_before",
+#     "_default",
+#     "_get_flags",
+#     "_get_functions_names",
+#     "_get_options",
+#     "_validate",
+#     "echo_danger"
+#   ]
+# }
 _kernel() {
     if [ ${#} -lt 1 ]; then _default; exit 0; fi
 
