@@ -1,6 +1,23 @@
 #!/bin/sh
 
 # Shoe Kernel
+#
+# {
+#   "namespace": "kernel",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "_after",
+#     "_before",
+#     "_default",
+#     "_get_flags",
+#     "_get_functions_names",
+#     "_get_options",
+#     "_validate",
+#     "echo_danger"
+#   ]
+# }
 _kernel() {
     __functions_names__=$(_get_functions_names "$0" true)
     for __function__ in ${__functions_names__}; do
