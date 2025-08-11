@@ -2,6 +2,14 @@
 
 # Shoe Kernel
 _kernel() {
+    __functions_names__=$(_get_functions_names "$0" true)
+    for __function__ in ${__functions_names__}; do
+        if [ "$(printf "%s" "${__functions_names__}" | grep -cx "${__function__}")" -gt 1 ]; then
+            echo_danger "error: function \"${__function__}\" is defined multiple times\n"
+            exit 1
+        fi
+    done
+
     if [ ${#} -lt 1 ]; then _default; exit 0; fi
 
     __error__=''
