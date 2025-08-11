@@ -53,7 +53,7 @@ _docker_run_atmoz_sftp() {
     _check_installed docker
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _docker_run_atmoz_sftp: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 4 ]; then echo_danger "error: _docker_run_atmoz_sftp: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 4 ]; then echo_danger "error: _docker_run_atmoz_sftp: too many arguments ($#)\n"; return 1; fi
 
     set -- "$1" "$2" "${3:-bridge}" "$4"
 

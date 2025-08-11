@@ -34,7 +34,7 @@ _generate_global_autocomplete() {
     #              It uses sudo for file creation in a system directory, requiring root privileges.
 
     if [ -z "$1" ]; then echo_danger 'error: _generate_global_autocomplete: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _generate_global_autocomplete: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _generate_global_autocomplete: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
     if [ ! -f "$1" ]; then echo_danger "error: _generate_global_autocomplete: \"$1\" file not found\n"; return 1; fi

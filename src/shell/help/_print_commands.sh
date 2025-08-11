@@ -40,7 +40,7 @@ _print_commands() {
     #   note:      "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then echo_danger 'error: _print_commands: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _print_commands: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_commands: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-12}"
     if [ ! -f "$1" ]; then echo_danger "error: _print_commands: \"$1\" file not found\n"; return 1; fi

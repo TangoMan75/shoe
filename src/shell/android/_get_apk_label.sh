@@ -28,7 +28,7 @@ _get_apk_label() {
     _check_installed aapt
 
     if [ -z "$1" ]; then echo_danger 'error: _get_apk_label: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_apk_label: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_apk_label: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_apk_label: \"$1\" file not found\n"; return 1; fi

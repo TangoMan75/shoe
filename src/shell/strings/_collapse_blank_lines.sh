@@ -24,7 +24,7 @@ _collapse_blank_lines() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _collapse_blank_lines: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _collapse_blank_lines: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _collapse_blank_lines: too many arguments ($#)\n"; return 1; fi
     if [ ! -f "$1" ]; then echo_danger "error: _collapse_blank_lines: \"$1\" file not found\n"; return 1; fi
     set -- "$(realpath "$1")"
 

@@ -33,7 +33,7 @@ _adb_sideload() {
     fi
 
     if [ -z "$1" ]; then echo_danger 'error: _adb_sideload: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _adb_sideload: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _adb_sideload: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _adb_sideload: \"$1\" file not found\n"; return 1; fi

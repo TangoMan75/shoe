@@ -39,7 +39,7 @@ _wait_for_postgres() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _wait_for_postgres: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _wait_for_postgres: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _wait_for_postgres: too many arguments ($#)\n"; return 1; fi
 
     if [ -n "$2" ]; then
         set -- "$1" "--username $2"

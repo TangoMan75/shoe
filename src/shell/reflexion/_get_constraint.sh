@@ -33,7 +33,7 @@ _get_constraint() {
     #   VARIABLE_NAME: The variable to validate.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_constraint: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_constraint: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_constraint: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _get_constraint: \"$1\" file not found\n"; return 1; fi

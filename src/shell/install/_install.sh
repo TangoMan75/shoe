@@ -43,7 +43,7 @@ _install() {
     #   GLOBAL:    (optional) Install globally. Defaults to "false".
 
     if [ -z "$1" ]; then echo_danger 'error: _install: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _install: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _install: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}" "${3:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _install: \"$1\" file not found\n"; return 1; fi

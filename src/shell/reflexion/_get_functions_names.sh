@@ -33,7 +33,7 @@ _get_functions_names() {
     #   GET_PRIVATE: (Optional) If set to 'true', retrieves private functions as well. Defaults to "false".
 
     if [ -z "$1" ]; then echo_danger 'error: _get_functions_names: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_functions_names: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_functions_names: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _get_functions_names: \"$1\" file not found\n"; return 1; fi

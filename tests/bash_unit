@@ -123,7 +123,7 @@ assert_not_equals() {
 fake() {
   local command=$1
   shift
-  if [ ${#} -gt 0 ]
+  if [ $# -gt 0 ]
   then
     eval "function $command() { export FAKE_PARAMS=\"\$@\" ; $@ ; }"
   else
@@ -231,7 +231,7 @@ color() {
   local color=$1
   shift
   _start_color
-  if [ ${#} -gt 0 ]
+  if [ $# -gt 0 ]
   then
     echo $*
   else

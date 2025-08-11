@@ -44,7 +44,7 @@ _set_parameter() {
     #   VALUE:     The value to be set to provided file
 
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then echo_danger 'error: _set_parameter: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _set_parameter: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _set_parameter: too many arguments ($#)\n"; return 1; fi
 
     # set default values
     set -- "$(realpath "$1")" "$2" "$3"

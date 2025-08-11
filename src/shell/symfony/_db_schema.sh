@@ -20,7 +20,7 @@
 # }
 _db_schema() {
     if [ -z "$1" ]; then echo_danger 'error: _db_create: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _db_create: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _db_create: too many arguments ($#)\n"; return 1; fi
 
     echo_info "$(_console) doctrine:schema:create --dump-sql --env \"$1\"\n"
     $(_console) doctrine:schema:create --dump-sql --env "$1"

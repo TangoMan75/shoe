@@ -314,7 +314,7 @@ _get_shoedoc_description() {
     #   TEXT: The input shoedoc annotation bloc.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_shoedoc_description: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_shoedoc_description: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_shoedoc_description: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk '/^#.*/ {
         if (substr($2,1,1) != "@") {
@@ -353,7 +353,7 @@ _get_shoedoc() {
     #         Returns string without leading pound characters
 
     if [ -z "$1" ]; then echo_danger 'error: _get_shoedoc: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_shoedoc: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_shoedoc: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk '/^#.*/ {
         if (substr($2,1,1) != "@") {
@@ -396,7 +396,7 @@ _get_shoedoc_tag() {
     #   TAG_NAME: The name of tag to return.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_shoedoc_tag: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_shoedoc_tag: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_shoedoc_tag: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk -v TAG="$2" '/^#.*/ {
         if ($2=="@"TAG) {
@@ -433,7 +433,7 @@ _get_shoedoc_title() {
     #   note: Returns the first line that does not contain a tag
 
     if [ -z "$1" ]; then echo_danger 'error: _get_shoedoc_title: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_shoedoc_title: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_shoedoc_title: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk '/^#.*/ {
         if (substr($2,1,1) != "@") {
@@ -470,7 +470,7 @@ _get_script_shoedoc() {
     #                Returns the first valid docbloc found in the provided file
 
     if [ -z "$1" ]; then echo_danger 'error: _get_script_shoedoc: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_script_shoedoc: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_script_shoedoc: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_script_shoedoc: \"$1\" file not found\n"; return 1; fi
@@ -1053,7 +1053,7 @@ _git_hooks() {
 
     if [ -z "$(git rev-parse --show-toplevel 2>/dev/null)" ]; then echo_danger 'error: not a git repository (or any of the parent directories)\n'; return 1; fi
     if [ -z "$1" ]; then echo_danger 'error: _git_hooks: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _git_hooks: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _git_hooks: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "${1:-.githooks}")" '.git/hooks'
     if [ ! -d "$1" ]; then echo_danger "error: _git_hooks: \"$1\" folder not found\n"; return 1; fi
@@ -1110,7 +1110,7 @@ _help() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _help: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _help: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _help: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _help: \"$1\" file not found\n"; return 1; fi
@@ -1179,7 +1179,7 @@ _print_commands() {
     #   note:      "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then echo_danger 'error: _print_commands: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _print_commands: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_commands: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-12}"
     if [ ! -f "$1" ]; then echo_danger "error: _print_commands: \"$1\" file not found\n"; return 1; fi
@@ -1241,7 +1241,7 @@ _print_constants() {
     #   note:      "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then echo_danger 'error: _print_constants: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _print_constants: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_constants: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-12}"
     if [ ! -f "$1" ]; then echo_danger "error: _print_constants: \"$1\" file not found\n"; return 1; fi
@@ -1320,7 +1320,7 @@ _print_flags() {
     #   note:      "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then echo_danger 'error: _print_flags: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _print_flags: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_flags: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" $((${2:-12}-2))
     if [ ! -f "$1" ]; then echo_danger "error: _print_flags: \"$1\" file not found\n"; return 1; fi
@@ -1360,7 +1360,7 @@ _print_infos() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _print_infos: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _print_infos: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _print_infos: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _print_infos: \"$1\" file not found\n"; return 1; fi
@@ -1416,7 +1416,7 @@ _print_options() {
     #   note:      "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then echo_danger 'error: _print_options: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _print_options: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_options: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" $((${2:-12}-2))
     if [ ! -f "$1" ]; then echo_danger "error: _print_options: \"$1\" file not found\n"; return 1; fi
@@ -1473,7 +1473,7 @@ _print_usage() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _print_usage: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _print_usage: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _print_usage: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _print_usage: \"$1\" file not found\n"; return 1; fi
@@ -1526,7 +1526,7 @@ _get_constants() {
     #   GET_PRIVATE: (Optional) If set to 'true', retrieves private constants as well. (default=false)
 
     if [ -z "$1" ]; then echo_danger 'error: _get_constants: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_constants: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_constants: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _get_constants: \"$1\" file not found\n"; return 1; fi
@@ -1574,7 +1574,7 @@ _get_constraint() {
     #   VARIABLE_NAME: The variable to validate.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_constraint: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_constraint: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_constraint: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _get_constraint: \"$1\" file not found\n"; return 1; fi
@@ -1613,7 +1613,7 @@ _get_flags() {
     #   SCRIPT_PATH: The path to the input script.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_flags: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_flags: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_flags: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_flags: \"$1\" file not found\n"; return 1; fi
@@ -1656,7 +1656,7 @@ _get_function() {
     #   FUNCTION_NAME: The name of the function to retrieve.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_function: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_function: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_function: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _get_function: \"$1\" file not found\n"; return 1; fi
@@ -1722,7 +1722,7 @@ _get_functions_names() {
     #   GET_PRIVATE: (Optional) If set to 'true', retrieves private functions as well. Defaults to "false".
 
     if [ -z "$1" ]; then echo_danger 'error: _get_functions_names: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_functions_names: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_functions_names: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _get_functions_names: \"$1\" file not found\n"; return 1; fi
@@ -1774,7 +1774,7 @@ _get_options() {
     #   GET_PRIVATE_ONLY: (Optional) If set to 'true', retrieves private options only. Defaults to "false".
 
     if [ -z "$1" ]; then echo_danger 'error: _get_options: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_options: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_options: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _get_options: \"$1\" file not found\n"; return 1; fi
@@ -1814,7 +1814,7 @@ _get_padding() {
     #   SCRIPT_PATH: The path to the input script.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_padding: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_padding: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_padding: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_padding: \"$1\" file not found\n"; return 1; fi
@@ -1864,7 +1864,7 @@ _get_parameter() {
     #   KEY:       The variable name to get from provided file.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_parameter: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_parameter: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_parameter: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _get_parameter: \"$1\" file not found\n"; return 1; fi
@@ -1917,7 +1917,7 @@ _set_parameter() {
     #   VALUE:     The value to be set to provided file
 
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then echo_danger 'error: _set_parameter: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _set_parameter: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _set_parameter: too many arguments ($#)\n"; return 1; fi
 
     # set default values
     set -- "$(realpath "$1")" "$2" "$3"
@@ -1968,7 +1968,7 @@ _check_installed() {
     #   COMMAND: A string containing the command name to find.
 
     if [ -z "$1" ]; then echo_danger 'error: _check_installed: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _check_installed: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _check_installed: too many arguments ($#)\n"; return 1; fi
 
     if _is_installed "$1"; then
         return 0
@@ -2007,7 +2007,7 @@ _is_installed() {
     #   COMMAND: A string containing the command name to find.
 
     if [ -z "$1" ]; then echo_danger 'error: _is_installed: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _is_installed: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _is_installed: too many arguments ($#)\n"; return 1; fi
 
     if [ -x "$(command -v "$1")" ]; then
 
@@ -2084,8 +2084,8 @@ _is_valid() {
     #   VALUE:   The string to be compared to regex pattern.
     #   PATTERN: The regex parttern to apply.
 
-    if [ ${#} -lt 2 ]; then echo_danger 'error: _is_valid: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _is_valid: too many arguments (${#})\n"; return 1; fi
+    if [ $# -lt 2 ]; then echo_danger 'error: _is_valid: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _is_valid: too many arguments ($#)\n"; return 1; fi
 
     # missing pattern always returns valid status
     if [ -z "$2" ]; then
@@ -2132,7 +2132,7 @@ _validate() {
     #   VARIABLE: The variable to validate in the followling format : variable_name=value.
 
     if [ -z "$1" ]; then echo_danger 'error: _validate: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _validate: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _validate: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(printf '%s' "$1" | cut -d= -f1)" "$(printf '%s' "$1" | cut -d= -f2)" "$(_get_constraint "$0" "$(printf '%s' "$1" | cut -d= -f1)")"
 

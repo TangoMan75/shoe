@@ -31,7 +31,7 @@ _move() {
     #   DESTINATION_FOLDER: The path to the destination folder.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _move: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _move: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _move: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$(realpath "$2")"
     if [ ! -f "$1" ]; then echo_danger "error: _move: \"$1\" file not found\n"; return 1; fi

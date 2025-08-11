@@ -25,7 +25,7 @@ _get_flags() {
     #   SCRIPT_PATH: The path to the input script.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_flags: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_flags: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_flags: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_flags: \"$1\" file not found\n"; return 1; fi

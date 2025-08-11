@@ -22,7 +22,7 @@ _docker_compose_start() {
     # Synopsis: _docker_compose_start [FILE_PATH]
     #   FILE_PATH: (optional) The path to the compose.yaml file.
 
-    if [ ${#} -gt 1 ]; then echo_danger "error: _docker_compose_start: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _docker_compose_start: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$1" ]; then
         echo_info "$(_get_docker_compose) up --detach --remove-orphans\n"

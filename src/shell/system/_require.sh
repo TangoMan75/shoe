@@ -39,7 +39,7 @@ _require() {
     #                    eg: `_require adb` will install "android-tools-adb" package.
 
     if [ -z "$1" ]; then echo_danger 'error: _require: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _require: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _require: too many arguments ($#)\n"; return 1; fi
 
     if _is_installed "$1"; then
         return 0

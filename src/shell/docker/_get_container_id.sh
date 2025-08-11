@@ -36,7 +36,7 @@ _get_container_id() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _get_container_id: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_container_id: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_container_id: too many arguments ($#)\n"; return 1; fi
 
     set -- "$1" "${2:-true}"
 

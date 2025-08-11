@@ -27,7 +27,7 @@ _get_script_shoedoc() {
     #                Returns the first valid docbloc found in the provided file
 
     if [ -z "$1" ]; then echo_danger 'error: _get_script_shoedoc: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_script_shoedoc: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_script_shoedoc: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_script_shoedoc: \"$1\" file not found\n"; return 1; fi

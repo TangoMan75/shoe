@@ -46,7 +46,7 @@ _php_serve() {
     _check_installed php
 
     if [ -z "$1" ]; then echo_danger 'error: _php_serve: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _php_serve: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _php_serve: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-127.0.0.1}" "${3:-8080}"
     if [ ! -d "$1" ]; then echo_danger "error: _php_serve: \"$1\" folder not found\n"; return 1; fi

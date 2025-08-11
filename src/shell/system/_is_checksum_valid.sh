@@ -32,8 +32,8 @@ _is_checksum_valid() {
 
     _check_installed sha256sum
 
-    if [ ${#} -lt 2 ]; then echo_danger 'error: _is_checksum_valid: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _is_checksum_valid: too many arguments (${#})\n"; return 1; fi
+    if [ $# -lt 2 ]; then echo_danger 'error: _is_checksum_valid: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _is_checksum_valid: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _is_checksum_valid: \"$1\" file not found\n"; return 1; fi

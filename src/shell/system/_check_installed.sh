@@ -24,7 +24,7 @@ _check_installed() {
     #   COMMAND: A string containing the command name to find.
 
     if [ -z "$1" ]; then echo_danger 'error: _check_installed: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _check_installed: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _check_installed: too many arguments ($#)\n"; return 1; fi
 
     if _is_installed "$1"; then
         return 0

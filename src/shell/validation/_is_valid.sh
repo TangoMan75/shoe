@@ -33,8 +33,8 @@ _is_valid() {
     #   VALUE:   The string to be compared to regex pattern.
     #   PATTERN: The regex parttern to apply.
 
-    if [ ${#} -lt 2 ]; then echo_danger 'error: _is_valid: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _is_valid: too many arguments (${#})\n"; return 1; fi
+    if [ $# -lt 2 ]; then echo_danger 'error: _is_valid: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _is_valid: too many arguments ($#)\n"; return 1; fi
 
     # missing pattern always returns valid status
     if [ -z "$2" ]; then

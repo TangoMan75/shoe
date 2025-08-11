@@ -26,7 +26,7 @@ _get_shoedoc_title() {
     #   note: Returns the first line that does not contain a tag
 
     if [ -z "$1" ]; then echo_danger 'error: _get_shoedoc_title: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_shoedoc_title: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_shoedoc_title: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk '/^#.*/ {
         if (substr($2,1,1) != "@") {

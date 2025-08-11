@@ -33,7 +33,7 @@ _get_shoedoc_tag() {
     #   TAG_NAME: The name of tag to return.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_shoedoc_tag: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_shoedoc_tag: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_shoedoc_tag: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk -v TAG="$2" '/^#.*/ {
         if ($2=="@"TAG) {

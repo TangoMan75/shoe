@@ -32,7 +32,7 @@ _is_apk_installed() {
     fi
 
     if [ -z "$1" ]; then echo_danger 'error: _is_apk_installed: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _is_apk_installed: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _is_apk_installed: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$(adb shell cmd package path "$1")" ]; then
 

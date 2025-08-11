@@ -44,7 +44,7 @@ _docker_exec() {
     _check_installed docker
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _docker_exec: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _docker_exec: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _docker_exec: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$3" ]; then
         echo_info "docker exec --interactive --tty \"$1\" $2\n"

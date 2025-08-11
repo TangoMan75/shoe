@@ -35,7 +35,7 @@ _parse_annotation() {
     #   FUNCTION_NAME: The name of the function to retrieve.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _parse_annotation: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _parse_annotation: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _parse_annotation: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _parse_annotation: \"$1\" file not found\n"; return 1; fi

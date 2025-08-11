@@ -326,7 +326,7 @@ _adb_connect() {
     _check_installed adb
 
     if [ -z "$1" ]; then echo_danger 'error: _adb_connect: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _adb_connect: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _adb_connect: too many arguments ($#)\n"; return 1; fi
 
     set -- "$1" "${2:-5555}"
 
@@ -367,7 +367,7 @@ _adb_sideload() {
     fi
 
     if [ -z "$1" ]; then echo_danger 'error: _adb_sideload: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _adb_sideload: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _adb_sideload: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _adb_sideload: \"$1\" file not found\n"; return 1; fi
@@ -536,7 +536,7 @@ _flash_img() {
     fi
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _flash_img: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _flash_img: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _flash_img: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2" "${3:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _flash_img: \"$1\" file not found\n"; return 1; fi
@@ -582,7 +582,7 @@ _get_apk_label() {
     _check_installed aapt
 
     if [ -z "$1" ]; then echo_danger 'error: _get_apk_label: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_apk_label: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_apk_label: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_apk_label: \"$1\" file not found\n"; return 1; fi
@@ -618,7 +618,7 @@ _get_apk_package_name() {
     _check_installed aapt
 
     if [ -z "$1" ]; then echo_danger 'error: _get_apk_package_name: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_apk_package_name: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_apk_package_name: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_apk_package_name: \"$1\" file not found\n"; return 1; fi
@@ -658,7 +658,7 @@ _get_apk_path() {
     fi
 
     if [ -z "$1" ]; then echo_danger 'error: _get_apk_path: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_apk_path: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_apk_path: too many arguments ($#)\n"; return 1; fi
 
     # deprecated
     # adb shell pm path "$1" | awk -F ':' '{print $2}'
@@ -693,7 +693,7 @@ _get_apk_version() {
     _check_installed aapt
 
     if [ -z "$1" ]; then echo_danger 'error: _get_apk_version: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_apk_version: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_apk_version: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_apk_version: \"$1\" file not found\n"; return 1; fi
@@ -743,7 +743,7 @@ _install_apk() {
     fi
 
     if [ -z "$1" ]; then echo_danger 'error: _install_apk: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _install_apk: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _install_apk: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _install_apk: \"$1\" file not found\n"; return 1; fi
@@ -793,7 +793,7 @@ _is_apk_installed() {
     fi
 
     if [ -z "$1" ]; then echo_danger 'error: _is_apk_installed: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _is_apk_installed: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _is_apk_installed: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$(adb shell cmd package path "$1")" ]; then
 
@@ -918,7 +918,7 @@ _pull_apk() {
     fi
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _pull_apk: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _pull_apk: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _pull_apk: too many arguments ($#)\n"; return 1; fi
 
     set -- "$1" "$(_get_apk_path "$1")" "$(realpath "$2")"
     if [ ! -d "$2" ]; then echo_danger "error: _pull_apk: \"$2\" folder not found\n"; return 1; fi
@@ -1071,7 +1071,7 @@ _reboot_with_img() {
     fi
 
     if [ -z "$1" ]; then echo_danger 'error: _reboot_with_img: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _reboot_with_img: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _reboot_with_img: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _reboot_with_img: \"$1\" file not found\n"; return 1; fi
@@ -1121,7 +1121,7 @@ _remove_apk() {
     fi
 
     if [ -z "$1" ]; then echo_danger 'error: _remove_apk: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _remove_apk: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _remove_apk: too many arguments ($#)\n"; return 1; fi
 
     set -- "$1" "${2:-false}"
 
@@ -1194,7 +1194,7 @@ _get_shoedoc_description() {
     #   TEXT: The input shoedoc annotation bloc.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_shoedoc_description: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_shoedoc_description: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_shoedoc_description: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk '/^#.*/ {
         if (substr($2,1,1) != "@") {
@@ -1233,7 +1233,7 @@ _get_shoedoc() {
     #         Returns string without leading pound characters
 
     if [ -z "$1" ]; then echo_danger 'error: _get_shoedoc: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_shoedoc: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_shoedoc: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk '/^#.*/ {
         if (substr($2,1,1) != "@") {
@@ -1276,7 +1276,7 @@ _get_shoedoc_tag() {
     #   TAG_NAME: The name of tag to return.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_shoedoc_tag: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_shoedoc_tag: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_shoedoc_tag: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk -v TAG="$2" '/^#.*/ {
         if ($2=="@"TAG) {
@@ -1313,7 +1313,7 @@ _get_shoedoc_title() {
     #   note: Returns the first line that does not contain a tag
 
     if [ -z "$1" ]; then echo_danger 'error: _get_shoedoc_title: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_shoedoc_title: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_shoedoc_title: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk '/^#.*/ {
         if (substr($2,1,1) != "@") {
@@ -1350,7 +1350,7 @@ _get_script_shoedoc() {
     #                Returns the first valid docbloc found in the provided file
 
     if [ -z "$1" ]; then echo_danger 'error: _get_script_shoedoc: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_script_shoedoc: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_script_shoedoc: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_script_shoedoc: \"$1\" file not found\n"; return 1; fi
@@ -1974,7 +1974,7 @@ _docker_compose_build() {
     # Synopsis: _docker_compose_build [FILE_PATH]
     #   FILE_PATH: (optional) The path to the compose.yaml file.
 
-    if [ ${#} -gt 1 ]; then echo_danger "error: _docker_compose_build: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _docker_compose_build: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$1" ]; then
         echo_info "$(_get_docker_compose) build\n"
@@ -2012,7 +2012,7 @@ _docker_compose_start() {
     # Synopsis: _docker_compose_start [FILE_PATH]
     #   FILE_PATH: (optional) The path to the compose.yaml file.
 
-    if [ ${#} -gt 1 ]; then echo_danger "error: _docker_compose_start: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _docker_compose_start: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$1" ]; then
         echo_info "$(_get_docker_compose) up --detach --remove-orphans\n"
@@ -2088,7 +2088,7 @@ _docker_exec() {
     _check_installed docker
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _docker_exec: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _docker_exec: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _docker_exec: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$3" ]; then
         echo_info "docker exec --interactive --tty \"$1\" $2\n"
@@ -2154,7 +2154,7 @@ _docker_rm() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _docker_rm: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _docker_rm: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _docker_rm: too many arguments ($#)\n"; return 1; fi
 
     echo_info "docker rm \"$1\"\n"
     docker rm "$1"
@@ -2213,7 +2213,7 @@ _docker_run_atmoz_sftp() {
     _check_installed docker
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _docker_run_atmoz_sftp: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 4 ]; then echo_danger "error: _docker_run_atmoz_sftp: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 4 ]; then echo_danger "error: _docker_run_atmoz_sftp: too many arguments ($#)\n"; return 1; fi
 
     set -- "$1" "$2" "${3:-bridge}" "$4"
 
@@ -2283,7 +2283,7 @@ _docker_run() {
     _check_installed docker
 
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then echo_danger 'error: _docker_run: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 4 ]; then echo_danger "error: _docker_run: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 4 ]; then echo_danger "error: _docker_run: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$4" ]; then
         echo_info "docker run --detach --rm --interactive --tty --name \"$2\" \"$1\" $3\n"
@@ -2319,7 +2319,7 @@ _docker_run_whoami() {
 
     _check_installed docker
 
-    if [ ${#} -gt 0 ]; then echo_danger "error: _docker_run_whoami: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 0 ]; then echo_danger "error: _docker_run_whoami: too many arguments ($#)\n"; return 1; fi
 
     echo_info "docker run --detach --publish-all --rm --name whoami traefik/whoami\n"
     docker run --detach --publish-all --rm --name whoami traefik/whoami
@@ -2375,7 +2375,7 @@ _find_container_name() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _find_container_name: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _find_container_name: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _find_container_name: too many arguments ($#)\n"; return 1; fi
 
     # sanitize input
     set -- "$(printf '%s' "$1" | sed 's/[^a-zA-Z0-9_-]//g')"
@@ -2421,7 +2421,7 @@ _get_container_id() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _get_container_id: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_container_id: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_container_id: too many arguments ($#)\n"; return 1; fi
 
     set -- "$1" "${2:-true}"
 
@@ -2463,7 +2463,7 @@ _get_container_ip() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _get_container_ip: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_container_ip: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_container_ip: too many arguments ($#)\n"; return 1; fi
 
     if [ "$(docker inspect "$1" --format '{{.State.Running}}' 2>/dev/null)" != true ]; then
 
@@ -2509,7 +2509,7 @@ _get_container_name() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _get_container_name: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_container_name: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_container_name: too many arguments ($#)\n"; return 1; fi
 
     docker inspect "$1" --format '{{slice .Name 1}}'
 }
@@ -2575,7 +2575,7 @@ _is_container_running() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _is_container_running: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _is_container_running: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _is_container_running: too many arguments ($#)\n"; return 1; fi
 
     if [ "$(docker inspect "$1" --format '{{.State.Running}}' 2>/dev/null)" = true ]; then
 
@@ -2624,7 +2624,7 @@ _wait_for_postgres() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _wait_for_postgres: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _wait_for_postgres: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _wait_for_postgres: too many arguments ($#)\n"; return 1; fi
 
     if [ -n "$2" ]; then
         set -- "$1" "--username $2"
@@ -2670,7 +2670,7 @@ _wait_for_rabbit() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _wait_for_rabbit: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _wait_for_rabbit: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _wait_for_rabbit: too many arguments ($#)\n"; return 1; fi
 
     echo_warning "Waiting for \"$1\" to start."
 
@@ -2739,7 +2739,7 @@ _generate_doc() {
     #   GET_PRIVATE:      (Optional) If set to 'true', documents private constants, options, flags, and commands as well. Defaults to "false".
 
     if [ -z "$1" ]; then echo_danger 'error: _generate_doc: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 4 ]; then echo_danger "error: _generate_doc: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 4 ]; then echo_danger "error: _generate_doc: too many arguments ($#)\n"; return 1; fi
 
     # set default values
     set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).md"}" "${4:-false}"
@@ -2934,7 +2934,7 @@ _get_file_extension() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_file_extension: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_file_extension: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_file_extension: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$'
 }
@@ -2970,7 +2970,7 @@ _move() {
     #   DESTINATION_FOLDER: The path to the destination folder.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _move: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _move: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _move: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$(realpath "$2")"
     if [ ! -f "$1" ]; then echo_danger "error: _move: \"$1\" file not found\n"; return 1; fi
@@ -3011,7 +3011,7 @@ _git_hooks() {
 
     if [ -z "$(git rev-parse --show-toplevel 2>/dev/null)" ]; then echo_danger 'error: not a git repository (or any of the parent directories)\n'; return 1; fi
     if [ -z "$1" ]; then echo_danger 'error: _git_hooks: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _git_hooks: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _git_hooks: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "${1:-.githooks}")" '.git/hooks'
     if [ ! -d "$1" ]; then echo_danger "error: _git_hooks: \"$1\" folder not found\n"; return 1; fi
@@ -3091,7 +3091,7 @@ _help() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _help: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _help: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _help: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _help: \"$1\" file not found\n"; return 1; fi
@@ -3160,7 +3160,7 @@ _print_commands() {
     #   note:      "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then echo_danger 'error: _print_commands: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _print_commands: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_commands: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-12}"
     if [ ! -f "$1" ]; then echo_danger "error: _print_commands: \"$1\" file not found\n"; return 1; fi
@@ -3222,7 +3222,7 @@ _print_constants() {
     #   note:      "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then echo_danger 'error: _print_constants: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _print_constants: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_constants: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-12}"
     if [ ! -f "$1" ]; then echo_danger "error: _print_constants: \"$1\" file not found\n"; return 1; fi
@@ -3301,7 +3301,7 @@ _print_flags() {
     #   note:      "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then echo_danger 'error: _print_flags: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _print_flags: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_flags: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" $((${2:-12}-2))
     if [ ! -f "$1" ]; then echo_danger "error: _print_flags: \"$1\" file not found\n"; return 1; fi
@@ -3341,7 +3341,7 @@ _print_infos() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _print_infos: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _print_infos: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _print_infos: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _print_infos: \"$1\" file not found\n"; return 1; fi
@@ -3397,7 +3397,7 @@ _print_options() {
     #   note:      "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then echo_danger 'error: _print_options: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _print_options: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_options: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" $((${2:-12}-2))
     if [ ! -f "$1" ]; then echo_danger "error: _print_options: \"$1\" file not found\n"; return 1; fi
@@ -3454,7 +3454,7 @@ _print_usage() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _print_usage: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _print_usage: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _print_usage: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _print_usage: \"$1\" file not found\n"; return 1; fi
@@ -3505,7 +3505,7 @@ _copy_install() {
     #   note:      Creates a symbolic link in the /usr/local/bin/ directory.
 
     if [ -z "$1" ]; then echo_danger 'error: _copy_install: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _copy_install: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _copy_install: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
     if [ ! -f "$1" ]; then echo_danger "error: _copy_install: \"$1\" file not found\n"; return 1; fi
@@ -3548,7 +3548,7 @@ _generate_autocomplete() {
     #              Or read the official docmentation for "complete" https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html#Programmable-Completion-Builtins
 
     if [ -z "$1" ]; then echo_danger 'error: _generate_autocomplete: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _generate_autocomplete: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _generate_autocomplete: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
     if [ ! -f "$1" ]; then echo_danger "error: _generate_autocomplete: \"$1\" file not found\n"; return 1; fi
@@ -3591,7 +3591,7 @@ _generate_global_autocomplete() {
     #              It uses sudo for file creation in a system directory, requiring root privileges.
 
     if [ -z "$1" ]; then echo_danger 'error: _generate_global_autocomplete: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _generate_global_autocomplete: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _generate_global_autocomplete: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
     if [ ! -f "$1" ]; then echo_danger "error: _generate_global_autocomplete: \"$1\" file not found\n"; return 1; fi
@@ -3625,7 +3625,7 @@ _get_comspec() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_comspec: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_comspec: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_comspec: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_comspec: \"$1\" file not found\n"; return 1; fi
@@ -3688,7 +3688,7 @@ _install() {
     #   GLOBAL:    (optional) Install globally. Defaults to "false".
 
     if [ -z "$1" ]; then echo_danger 'error: _install: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _install: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _install: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}" "${3:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _install: \"$1\" file not found\n"; return 1; fi
@@ -3750,8 +3750,8 @@ _remove_completion_autoload() {
     #   SHELL_CONFIG_FILE: The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).
     #   ALIAS:             (optional) The alias of the script to remove. Defaults to the basename of the provided file
 
-    if [ ${#} -lt 1 ]; then echo_danger 'error: _remove_completion_autoload: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _remove_completion_autoload: too many arguments (${#})\n"; return 1; fi
+    if [ $# -lt 1 ]; then echo_danger 'error: _remove_completion_autoload: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _remove_completion_autoload: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
     if [ ! -f "$1" ]; then echo_danger "error: _remove_completion_autoload: \"$1\" file not found\n"; return 1; fi
@@ -3805,7 +3805,7 @@ _set_completion_autoload() {
     #   ALIAS:                  (optional) The alias of the input script. Defaults to the basename of the provided file
 
     if [ -z "$1" ]  || [ -z "$2" ]; then echo_danger 'error: _set_completion_autoload: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _set_completion_autoload: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _set_completion_autoload: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$(realpath "$2")" "${3:-"$(basename "$2" .sh)"}"
     if [ ! -f "$1" ]; then echo_danger "error: _set_completion_autoload: \"$1\" file not found\n"; return 1; fi
@@ -3865,7 +3865,7 @@ _symlink_install(){
     #   note:      Creates a symbolic link in the /usr/local/bin/ directory.
 
     if [ -z "$1" ]; then echo_danger 'error: _symlink_install some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _symlink_install too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _symlink_install too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
     if [ ! -f "$1" ]; then echo_danger "error: _symlink_install \"$1\" file not found\n"; return 1; fi
@@ -3905,7 +3905,7 @@ _uninstall() {
     #   ALIAS:     (optional) The alias of the script to uninstall. Defaults to the basename of the provided script.
 
     if [ -z "$1" ]; then echo_danger 'error: _uninstall: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _uninstall: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _uninstall: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
     if [ ! -f "$1" ]; then echo_danger "error: _uninstall: \"$1\" file not found\n"; return 1; fi
@@ -3985,7 +3985,7 @@ _update() {
     #   GLOBAL:    (optional) Install globally. Defaults to "false".
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _update: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 4 ]; then echo_danger "error: _update: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 4 ]; then echo_danger "error: _update: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2" "${3:-"$(basename "$1" .sh)"}" "${4:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _update: \"$1\" file not found\n"; return 1; fi
@@ -4076,7 +4076,7 @@ _generate_makefile() {
     #   OUTPUT_FILE_NAME: (optional) The name for the generated Makefile. Defaults to "<BASENAME>.makefile".
 
     if [ -z "$1" ]; then echo_danger 'error: _generate_makefile: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _generate_makefile: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _generate_makefile: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).makefile"}"
     if [ ! -f "$1" ]; then echo_danger "error: _generate_makefile: \"$1\" file not found\n"; return 1; fi
@@ -4275,7 +4275,7 @@ _open_in_default_browser() {
     #   PORT:   (optional) Destination port. (default=8080)
     #   SCHEME: (optional) scheme - e.g. http. (default=http)
 
-    if [ ${#} -gt 3 ]; then echo_danger "error: _open_in_default_browser: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _open_in_default_browser: too many arguments ($#)\n"; return 1; fi
 
     # set default values
     set -- "${1:-127.0.0.1}" "${2:-80}" "${3:-http}"
@@ -4330,7 +4330,7 @@ _php_serve() {
     _check_installed php
 
     if [ -z "$1" ]; then echo_danger 'error: _php_serve: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _php_serve: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _php_serve: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-127.0.0.1}" "${3:-8080}"
     if [ ! -d "$1" ]; then echo_danger "error: _php_serve: \"$1\" folder not found\n"; return 1; fi
@@ -4385,7 +4385,7 @@ _py_serve() {
     _check_installed python3
 
     if [ -z "$1" ]; then echo_danger 'error: _py_serve: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _py_serve: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _py_serve: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-127.0.0.1}" "${3:-8080}"
     if [ ! -d "$1" ]; then echo_danger "error: _php_serve: \"$1\" folder not found\n"; return 1; fi
@@ -4582,7 +4582,7 @@ _get_constants() {
     #   GET_PRIVATE: (Optional) If set to 'true', retrieves private constants as well. (default=false)
 
     if [ -z "$1" ]; then echo_danger 'error: _get_constants: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_constants: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_constants: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _get_constants: \"$1\" file not found\n"; return 1; fi
@@ -4630,7 +4630,7 @@ _get_constraint() {
     #   VARIABLE_NAME: The variable to validate.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_constraint: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_constraint: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_constraint: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _get_constraint: \"$1\" file not found\n"; return 1; fi
@@ -4669,7 +4669,7 @@ _get_flags() {
     #   SCRIPT_PATH: The path to the input script.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_flags: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_flags: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_flags: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_flags: \"$1\" file not found\n"; return 1; fi
@@ -4712,7 +4712,7 @@ _get_function() {
     #   FUNCTION_NAME: The name of the function to retrieve.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_function: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_function: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_function: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _get_function: \"$1\" file not found\n"; return 1; fi
@@ -4778,7 +4778,7 @@ _get_function_annotation() {
     #   FUNCTION_NAME: The name of the function to retrieve.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_function_annotation: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_function_annotation: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_function_annotation: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _get_function_annotation: \"$1\" file not found\n"; return 1; fi
@@ -4828,7 +4828,7 @@ _get_functions_names() {
     #   GET_PRIVATE: (Optional) If set to 'true', retrieves private functions as well. Defaults to "false".
 
     if [ -z "$1" ]; then echo_danger 'error: _get_functions_names: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_functions_names: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_functions_names: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _get_functions_names: \"$1\" file not found\n"; return 1; fi
@@ -4880,7 +4880,7 @@ _get_options() {
     #   GET_PRIVATE_ONLY: (Optional) If set to 'true', retrieves private options only. Defaults to "false".
 
     if [ -z "$1" ]; then echo_danger 'error: _get_options: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_options: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_options: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
     if [ ! -f "$1" ]; then echo_danger "error: _get_options: \"$1\" file not found\n"; return 1; fi
@@ -4920,7 +4920,7 @@ _get_padding() {
     #   SCRIPT_PATH: The path to the input script.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_padding: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_padding: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_padding: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")"
     if [ ! -f "$1" ]; then echo_danger "error: _get_padding: \"$1\" file not found\n"; return 1; fi
@@ -4970,7 +4970,7 @@ _get_parameter() {
     #   KEY:       The variable name to get from provided file.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_parameter: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _get_parameter: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_parameter: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _get_parameter: \"$1\" file not found\n"; return 1; fi
@@ -5014,7 +5014,7 @@ _parse_annotation() {
     #   FUNCTION_NAME: The name of the function to retrieve.
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _parse_annotation: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _parse_annotation: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _parse_annotation: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _parse_annotation: \"$1\" file not found\n"; return 1; fi
@@ -5090,7 +5090,7 @@ _set_parameter() {
     #   VALUE:     The value to be set to provided file
 
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then echo_danger 'error: _set_parameter: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _set_parameter: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _set_parameter: too many arguments ($#)\n"; return 1; fi
 
     # set default values
     set -- "$(realpath "$1")" "$2" "$3"
@@ -5141,7 +5141,7 @@ _collapse_blank_lines() {
     #   FILE_PATH: The path to the input file.
 
     if [ -z "$1" ]; then echo_danger 'error: _collapse_blank_lines: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _collapse_blank_lines: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _collapse_blank_lines: too many arguments ($#)\n"; return 1; fi
     if [ ! -f "$1" ]; then echo_danger "error: _collapse_blank_lines: \"$1\" file not found\n"; return 1; fi
     set -- "$(realpath "$1")"
 
@@ -5265,7 +5265,7 @@ _console() {
 # }
 _db_create() {
     if [ -z "$1" ]; then echo_danger 'error: _db_create: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _db_create: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _db_create: too many arguments ($#)\n"; return 1; fi
 
     # following command will not break script execution on failure even with `-e` option enabled
     echo_info "$(_console) doctrine:database:create --env \"$1\" || true\n"
@@ -5292,7 +5292,7 @@ _db_create() {
 # }
 _db_drop() {
     if [ -z "$1" ]; then echo_danger 'error: _db_drop: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _db_drop: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _db_drop: too many arguments ($#)\n"; return 1; fi
 
     # following command will not break script execution on failure even with `-e` option enabled
     echo_info "$(_console) doctrine:database:drop --force --env \"$1\" || true\n"
@@ -5319,7 +5319,7 @@ _db_drop() {
 # }
 _db_query() {
     if [ -z "$1" ]; then echo_danger 'error: _db_query: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _db_query: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _db_query: too many arguments ($#)\n"; return 1; fi
 
     echo_info "$(_console) doctrine:query:sql \"$1\"\n"
     $(_console) doctrine:query:sql "$1"
@@ -5345,7 +5345,7 @@ _db_query() {
 # }
 _db_schema() {
     if [ -z "$1" ]; then echo_danger 'error: _db_create: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _db_create: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _db_create: too many arguments ($#)\n"; return 1; fi
 
     echo_info "$(_console) doctrine:schema:create --dump-sql --env \"$1\"\n"
     $(_console) doctrine:schema:create --dump-sql --env "$1"
@@ -5413,7 +5413,7 @@ _phpunit() {
 # }
 _sf_cache() {
     if [ -z "$1" ]; then echo_danger 'error: _sf_cache: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _sf_cache: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _sf_cache: too many arguments ($#)\n"; return 1; fi
 
     echo_info "$(_console) cache:clear --env \"$1\"\n"
     $(_console) cache:clear --env "$1"
@@ -5533,7 +5533,7 @@ _sf_serve() {
 #   ]
 # }
 _sf_test() {
-    if [ ${#} -gt 1 ]; then echo_danger "error: _sf_tests: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _sf_tests: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$1" ]; then
         echo_info "php -d memory-limit=-1 \"$(_phpunit)\" --stop-on-failure\n"
@@ -5577,7 +5577,7 @@ _check_installed() {
     #   COMMAND: A string containing the command name to find.
 
     if [ -z "$1" ]; then echo_danger 'error: _check_installed: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _check_installed: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _check_installed: too many arguments ($#)\n"; return 1; fi
 
     if _is_installed "$1"; then
         return 0
@@ -5650,7 +5650,7 @@ _get_package_name() {
     #   COMMAND: A string containing the command name to find.
 
     if [ -z "$1" ]; then echo_danger 'error: _get_package_name: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_package_name: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_package_name: too many arguments ($#)\n"; return 1; fi
 
     # debian packages
     if [ "$1" = aapt ];     then echo android-tools-adb;      return 0; fi
@@ -5712,8 +5712,8 @@ _is_checksum_valid() {
 
     _check_installed sha256sum
 
-    if [ ${#} -lt 2 ]; then echo_danger 'error: _is_checksum_valid: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _is_checksum_valid: too many arguments (${#})\n"; return 1; fi
+    if [ $# -lt 2 ]; then echo_danger 'error: _is_checksum_valid: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _is_checksum_valid: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _is_checksum_valid: \"$1\" file not found\n"; return 1; fi
@@ -5765,7 +5765,7 @@ _is_installed() {
     #   COMMAND: A string containing the command name to find.
 
     if [ -z "$1" ]; then echo_danger 'error: _is_installed: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _is_installed: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _is_installed: too many arguments ($#)\n"; return 1; fi
 
     if [ -x "$(command -v "$1")" ]; then
 
@@ -5863,7 +5863,7 @@ _remove() {
     #                    eg: `_remove adb android-tools-adb` will remove "android-tools-adb" package.
 
     if [ -z "$1" ]; then echo_danger 'error: _remove: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _remove: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _remove: too many arguments ($#)\n"; return 1; fi
 
     if ! _is_installed "$1"; then
         return 0
@@ -5962,7 +5962,7 @@ _require() {
     #                    eg: `_require adb` will install "android-tools-adb" package.
 
     if [ -z "$1" ]; then echo_danger 'error: _require: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _require: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _require: too many arguments ($#)\n"; return 1; fi
 
     if _is_installed "$1"; then
         return 0
@@ -6077,7 +6077,7 @@ _user_exists() {
     #   USERNAME: The username to check.
 
     if [ -z "$1" ]; then echo_danger 'error: _user_exists: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _user_exists: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _user_exists: too many arguments ($#)\n"; return 1; fi
 
     if [ -n "$(id -u "$1" 2>/dev/null)" ]; then
 
@@ -6124,8 +6124,8 @@ _is_valid() {
     #   VALUE:   The string to be compared to regex pattern.
     #   PATTERN: The regex parttern to apply.
 
-    if [ ${#} -lt 2 ]; then echo_danger 'error: _is_valid: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _is_valid: too many arguments (${#})\n"; return 1; fi
+    if [ $# -lt 2 ]; then echo_danger 'error: _is_valid: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _is_valid: too many arguments ($#)\n"; return 1; fi
 
     # missing pattern always returns valid status
     if [ -z "$2" ]; then
@@ -6172,7 +6172,7 @@ _validate() {
     #   VARIABLE: The variable to validate in the followling format : variable_name=value.
 
     if [ -z "$1" ]; then echo_danger 'error: _validate: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _validate: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _validate: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(printf '%s' "$1" | cut -d= -f1)" "$(printf '%s' "$1" | cut -d= -f2)" "$(_get_constraint "$0" "$(printf '%s' "$1" | cut -d= -f1)")"
 

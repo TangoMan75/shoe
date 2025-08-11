@@ -52,7 +52,7 @@ _docker_run() {
     _check_installed docker
 
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then echo_danger 'error: _docker_run: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 4 ]; then echo_danger "error: _docker_run: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 4 ]; then echo_danger "error: _docker_run: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$4" ]; then
         echo_info "docker run --detach --rm --interactive --tty --name \"$2\" \"$1\" $3\n"

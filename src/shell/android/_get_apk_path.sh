@@ -32,7 +32,7 @@ _get_apk_path() {
     fi
 
     if [ -z "$1" ]; then echo_danger 'error: _get_apk_path: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_apk_path: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_apk_path: too many arguments ($#)\n"; return 1; fi
 
     # deprecated
     # adb shell pm path "$1" | awk -F ':' '{print $2}'

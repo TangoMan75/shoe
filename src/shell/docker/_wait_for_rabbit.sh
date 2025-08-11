@@ -31,7 +31,7 @@ _wait_for_rabbit() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _wait_for_rabbit: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _wait_for_rabbit: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _wait_for_rabbit: too many arguments ($#)\n"; return 1; fi
 
     echo_warning "Waiting for \"$1\" to start."
 

@@ -27,7 +27,7 @@ _get_shoedoc() {
     #         Returns string without leading pound characters
 
     if [ -z "$1" ]; then echo_danger 'error: _get_shoedoc: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_shoedoc: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_shoedoc: too many arguments ($#)\n"; return 1; fi
 
     printf '%s' "$1" | awk '/^#.*/ {
         if (substr($2,1,1) != "@") {

@@ -28,7 +28,7 @@ _find_container_name() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _find_container_name: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _find_container_name: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _find_container_name: too many arguments ($#)\n"; return 1; fi
 
     # sanitize input
     set -- "$(printf '%s' "$1" | sed 's/[^a-zA-Z0-9_-]//g')"

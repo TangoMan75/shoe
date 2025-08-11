@@ -40,7 +40,7 @@ _open_in_default_browser() {
     #   PORT:   (optional) Destination port. (default=8080)
     #   SCHEME: (optional) scheme - e.g. http. (default=http)
 
-    if [ ${#} -gt 3 ]; then echo_danger "error: _open_in_default_browser: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _open_in_default_browser: too many arguments ($#)\n"; return 1; fi
 
     # set default values
     set -- "${1:-127.0.0.1}" "${2:-80}" "${3:-http}"

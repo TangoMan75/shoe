@@ -39,7 +39,7 @@ _adb_connect() {
     _check_installed adb
 
     if [ -z "$1" ]; then echo_danger 'error: _adb_connect: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _adb_connect: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _adb_connect: too many arguments ($#)\n"; return 1; fi
 
     set -- "$1" "${2:-5555}"
 

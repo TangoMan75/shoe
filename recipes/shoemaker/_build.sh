@@ -42,7 +42,7 @@ _build() {
     #   TYPE:         (optional) The script type to build (bash or sh). Will default to "sh".
 
     if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _build: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 3 ]; then echo_danger "error: _build: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 3 ]; then echo_danger "error: _build: too many arguments ($#)\n"; return 1; fi
     if [ ! -f "$1" ]; then echo_danger "error: _build: \"$1\" file not found\n"; return 1; fi
     if [ ! -d "$2" ]; then echo_danger "error: _build: \"$2\" folder not found\n"; return 1; fi
     set -- "$(realpath "$1")" "$(realpath "$2")" "$3"

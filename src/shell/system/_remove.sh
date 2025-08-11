@@ -39,7 +39,7 @@ _remove() {
     #                    eg: `_remove adb android-tools-adb` will remove "android-tools-adb" package.
 
     if [ -z "$1" ]; then echo_danger 'error: _remove: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 2 ]; then echo_danger "error: _remove: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _remove: too many arguments ($#)\n"; return 1; fi
 
     if ! _is_installed "$1"; then
         return 0

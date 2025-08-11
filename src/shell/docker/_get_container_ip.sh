@@ -29,7 +29,7 @@ _get_container_ip() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _get_container_ip: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_container_ip: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_container_ip: too many arguments ($#)\n"; return 1; fi
 
     if [ "$(docker inspect "$1" --format '{{.State.Running}}' 2>/dev/null)" != true ]; then
 

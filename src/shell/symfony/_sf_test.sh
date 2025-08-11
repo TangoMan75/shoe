@@ -22,7 +22,7 @@
 #   ]
 # }
 _sf_test() {
-    if [ ${#} -gt 1 ]; then echo_danger "error: _sf_tests: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _sf_tests: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$1" ]; then
         echo_info "php -d memory-limit=-1 \"$(_phpunit)\" --stop-on-failure\n"

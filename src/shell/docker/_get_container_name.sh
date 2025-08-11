@@ -28,7 +28,7 @@ _get_container_name() {
     _check_installed docker
 
     if [ -z "$1" ]; then echo_danger 'error: _get_container_name: some mandatory parameter is missing\n'; return 1; fi
-    if [ ${#} -gt 1 ]; then echo_danger "error: _get_container_name: too many arguments (${#})\n"; return 1; fi
+    if [ $# -gt 1 ]; then echo_danger "error: _get_container_name: too many arguments ($#)\n"; return 1; fi
 
     docker inspect "$1" --format '{{slice .Name 1}}'
 }
