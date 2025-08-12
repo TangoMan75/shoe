@@ -104,11 +104,14 @@
 ../../src/shell/reflexion/_get_constants.sh
 ../../src/shell/reflexion/_get_constraint.sh
 ../../src/shell/reflexion/_get_flags.sh
+../../src/shell/reflexion/_get_function_annotation.sh
 ../../src/shell/reflexion/_get_function.sh
 ../../src/shell/reflexion/_get_functions_names.sh
 ../../src/shell/reflexion/_get_options.sh
 ../../src/shell/reflexion/_get_padding.sh
 ../../src/shell/reflexion/_get_parameter.sh
+../../src/shell/reflexion/_parse_annotation.sh
+../../src/shell/reflexion/_print_synopsis.sh
 ../../src/shell/reflexion/_set_parameter.sh
 
 #--------------------------------------------------

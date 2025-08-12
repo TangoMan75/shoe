@@ -5,7 +5,8 @@
 # {
 #   "namespace": "kernel",
 #   "requires": [
-#     "awk"
+#     "awk",
+#     "grep"
 #   ],
 #   "depends": [
 #     "_after",
@@ -19,7 +20,7 @@
 #   ]
 # }
 _kernel() {
-    # Check for duplicate function names
+    # Check for duplicate function definitions
     __functions_names__=$(_get_functions_names "$0" true)
     for __function__ in ${__functions_names__}; do
         if [ "$(printf "%s" "${__functions_names__}" | grep -cx "${__function__}")" -gt 1 ]; then
@@ -45,8 +46,7 @@ _kernel() {
         fi
 
         # Check if argument is a flag or option (starts with - or --)
-        if [ -n "$(printf '%s' "${__argument__}" | awk '/^--?[a-zA-Z0-9_]+$/')" ]; then
-            # Check flags and options in one loop
+        if printf '%s' "${__argument__}" | grep -Eq '^--?[a-zA-Z0-9_]+$'; then
             for __type__ in flag option; do
                 __parameters__="$(_get_flags "$0")"
                 [ "$__type__" = 'option' ] && __parameters__="$(_get_options "$0")"
@@ -91,6 +91,11 @@ _kernel() {
     fi
 
     [ -n "$(command -v _before)" ] && _before
+
+    if printf '%s' "${__execution_stack__}" | grep -qw 'help'; then
+       _help "$0" "$(printf '%s' "${__execution_stack__}" | awk '{for(i=1;i<=NF;i++) if($i=="help") print $(i+1); exit}')"
+       exit 0
+    fi
 
     if [ -z "${__execution_stack__}" ]; then _default; exit 0; fi
 

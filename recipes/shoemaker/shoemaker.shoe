@@ -147,7 +147,6 @@
 #--------------------------------------------------
 #_ Reflexion
 #--------------------------------------------------
-
 ../../src/shell/reflexion/_get_constants.sh
 ../../src/shell/reflexion/_get_constraint.sh
 ../../src/shell/reflexion/_get_flags.sh
