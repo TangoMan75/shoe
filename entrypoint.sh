@@ -502,12 +502,6 @@ WARNING='\033[33m'
 # INFO: bright purple text
 INFO='\033[95m'
 
-# LIGHT: black text over white background
-LIGHT='\033[47;90m'
-
-# DARK: white text over black background
-DARK='\033[40;37m'
-
 # DEFAULT: reset formatting
 DEFAULT='\033[0m'
 
@@ -533,12 +527,6 @@ ALERT_WARNING='\033[1;43;97m'
 
 # ALERT_INFO: bold white text over bright blue background
 ALERT_INFO='\033[1;44;97m'
-
-# ALERT_LIGHT: bold grey text over white background
-ALERT_LIGHT='\033[1;47;90m'
-
-# ALERT_DARK: bold white text over black background
-ALERT_DARK='\033[1;40;37m'
 
 # Print primary text with optional indentation and padding
 #
@@ -776,84 +764,6 @@ echo_info() {
     printf "%*s${INFO}%b${DEFAULT}%*s"      "$2" '' "$1" "$3" ''
 }
 
-# Print light text with optional indentation and padding
-#
-# {
-#   "namespace": "colors",
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "Text to display.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "INDENTATION",
-#       "type": "int",
-#       "description": "Indentation level.",
-#       "default": 0
-#     },
-#     {
-#       "position": 3,
-#       "name": "PADDING",
-#       "type": "int",
-#       "description": "Padding length.",
-#       "default": 0
-#     }
-#   ]
-# }
-echo_light() {
-    # Synopsis: echo_light <STRING> [INDENTATION] [PADDING]
-    #  STRING:       Text to display.
-    #  INDENTATION:  Indentation level (default: 0).
-    #  PADDING:      Padding length (default: 0).
-
-    set -- "$1" "${2:-0}" "$((${3:-0}-${#1}))"
-    if [ "$3" -lt 0 ]; then set -- "$1" "$2" 0; fi
-    printf "%*s${LIGHT}%b${DEFAULT}%*s"     "$2" '' "$1" "$3" ''
-}
-
-# Print dark text with optional indentation and padding
-#
-# {
-#   "namespace": "colors",
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "Text to display.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "INDENTATION",
-#       "type": "int",
-#       "description": "Indentation level.",
-#       "default": 0
-#     },
-#     {
-#       "position": 3,
-#       "name": "PADDING",
-#       "type": "int",
-#       "description": "Padding length.",
-#       "default": 0
-#     }
-#   ]
-# }
-echo_dark() {
-    # Synopsis: echo_dark <STRING> [INDENTATION] [PADDING]
-    #  STRING:       Text to display.
-    #  INDENTATION:  Indentation level (default: 0).
-    #  PADDING:      Padding length (default: 0).
-
-    set -- "$1" "${2:-0}" "$((${3:-0}-${#1}))"
-    if [ "$3" -lt 0 ]; then set -- "$1" "$2" 0; fi
-    printf "%*s${DARK}%b${DEFAULT}%*s"      "$2" '' "$1" "$3" ''
-}
-
 # Print primary alert
 #
 # {
@@ -980,46 +890,26 @@ alert_info()      {
     printf "${EOL}%b%64s${EOL}%b %-63s${EOL}%b%64s${EOL}\n" "${ALERT_INFO}"      '' "${ALERT_INFO}"      "$1" "${ALERT_INFO}"      ''
 }
 
-# Print light alert
+# Print error message to STDERR, prefixed with "error: "
 #
 # {
 #   "namespace": "colors",
 #   "parameters": [
 #     {
 #       "position": 1,
-#       "name": "STRING",
+#       "name": "MESSAGE",
 #       "type": "str",
-#       "description": "Text to display.",
+#       "description": "Error message to display.",
 #       "nullable": false
 #     }
 #   ]
 # }
-alert_light()     {
-    # Synopsis: alert_light <STRING>
-    #   STRING: Text to display.
+echo_error() {
+    # Synopsis: echo_error <MESSAGE>
+    #   MESSAGE: Error message to display.
 
-    printf "${EOL}%b%64s${EOL}%b %-63s${EOL}%b%64s${EOL}\n" "${ALERT_LIGHT}"     '' "${ALERT_LIGHT}"     "$1" "${ALERT_LIGHT}"     ''
-}
+    printf "${DANGER}error: %s${DEFAULT}\n" "$1" >&2
 
-# Print dark alert
-#
-# {
-#   "namespace": "colors",
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "Text to display.",
-#       "nullable": false
-#     }
-#   ]
-# }
-alert_dark()      {
-    # Synopsis: alert_dark <STRING>
-    #   STRING: Text to display.
-
-    printf "${EOL}%b%64s${EOL}%b %-63s${EOL}%b%64s${EOL}\n" "${ALERT_DARK}"      '' "${ALERT_DARK}"      "$1" "${ALERT_DARK}"      ''
 }
 
 #--------------------------------------------------
@@ -1080,6 +970,7 @@ _git_hooks() {
 #   "depends": [
 #     "_get_constants",
 #     "_get_flags",
+#     "_get_function_annotation",
 #     "_get_options",
 #     "_get_padding",
 #     "_get_script_shoedoc",
@@ -1091,6 +982,7 @@ _git_hooks() {
 #     "_print_flags",
 #     "_print_infos",
 #     "_print_options",
+#     "_print_synopsis",
 #     "_print_usage",
 #     "alert_primary",
 #     "echo_danger"
@@ -1102,41 +994,62 @@ _git_hooks() {
 #       "type": "file",
 #       "description": "The path to the input file.",
 #       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FUNCTION_NAME",
+#       "type": "str",
+#       "description": "The function name to get help for.",
 #     }
 #   ]
 # }
 _help() {
     # Synopsis: _help <FILE_PATH>
     #   FILE_PATH: The path to the input file.
+    #   FUNCTION_NAME: The function name to get help for.
 
     if [ -z "$1" ]; then echo_danger 'error: _help: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 1 ]; then echo_danger "error: _help: too many arguments ($#)\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _help: too many arguments ($#)\n"; return 1; fi
 
-    set -- "$(realpath "$1")"
+    set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _help: \"$1\" file not found\n"; return 1; fi
 
-    __padding__=$(_get_padding "$1")
-    __annotations__=$(_get_script_shoedoc "$1")
+    if [ -z "$2" ]; then
+        __padding__=$(_get_padding "$1")
+        __annotations__=$(_get_script_shoedoc "$1")
 
-    alert_primary "$(_get_shoedoc_title "${__annotations__}")"
+        alert_primary "$(_get_shoedoc_title "${__annotations__}")"
 
-    _print_infos "$1"
-    _print_description "$(_get_shoedoc_description "${__annotations__}")"
-    _print_usage "$1"
+        _print_infos "$1"
+        _print_description "$(_get_shoedoc_description "${__annotations__}")"
+        _print_usage "$1"
 
-    if [ -n "$(_get_constants "$1")" ]; then
-        _print_constants "$1" "${__padding__}"
+        if [ -n "$(_get_constants "$1")" ]; then
+            _print_constants "$1" "${__padding__}"
+        fi
+
+        if [ -n "$(_get_flags "$1")" ]; then
+            _print_flags "$1" "${__padding__}"
+        fi
+
+        if [ -n "$(_get_options "$1")" ]; then
+            _print_options "$1" "${__padding__}"
+        fi
+
+        _print_commands "$1" "${__padding__}"
+        exit 0
     fi
 
-    if [ -n "$(_get_flags "$1")" ]; then
-        _print_flags "$1" "${__padding__}"
+    alert_primary "$2"
+    if [ -x "$(command -v jq)" ]; then
+        __json__="$(_parse_annotation "$1" "$2")"
+        if [ -n "${__json__}" ]; then
+            echo_primary "$(printf '%s' "${__json__}" | jq -r '.summary')\n\n"
+            echo_secondary "$(_print_synopsis "${__json__}")\n"
+            exit 0
+        fi
     fi
-
-    if [ -n "$(_get_options "$1")" ]; then
-        _print_options "$1" "${__padding__}"
-    fi
-
-    _print_commands "$1" "${__padding__}"
+    echo_info "$(_get_function_annotation "$0" "$2")\n"
 }
 
 # List commands of the provided shoe script (used by "help" command)
@@ -1623,6 +1536,56 @@ _get_flags() {
     } {PREV = $0}' "$1"
 }
 
+# Get function annotation by name
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "awk"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FUNCTION_NAME",
+#       "type": "str",
+#       "description": "The name of the function to retrieve.",
+#       "nullable": false
+#     }
+#   ]
+# }
+_get_function_annotation() {
+    # Synopsis: _get_function_annotation <SCRIPT_PATH> <FUNCTION_NAME>
+    #   SCRIPT_PATH:   The path to the input file.
+    #   FUNCTION_NAME: The name of the function to retrieve.
+
+    if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_function_annotation: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _get_function_annotation: too many arguments ($#)\n"; return 1; fi
+
+    set -- "$(realpath "$1")" "$2"
+    if [ ! -f "$1" ]; then echo_danger "error: _get_function_annotation: \"$1\" file not found\n"; return 1; fi
+
+    awk -v FUNCTION_NAME="$2" '
+        /^#/ { annotation=annotation"\n"$0 }
+        /^(function +)?[a-zA-Z0-9_]+ *\(\)/ {           # matches a function (ignoring curly braces)
+            function_name=substr($0,1,index($0,"(")-1); # truncate string at opening round bracket
+            sub("^function ","",function_name);         # remove leading "function " if present
+            gsub(" +","",function_name);                # trim whitespaces
+            if (function_name==FUNCTION_NAME) print substr(annotation,2); # print annotation (without leading "\n")
+        }
+        !/^#/ { annotation="" }
+    ' "$1"
+}
+
 # Get function by name
 #
 # {
@@ -1871,6 +1834,141 @@ _get_parameter() {
 
     echo_info "sed -n \"s/^$2=\(.*\)/\1/p\" \"$1\"\n"
     sed -n "s/^$2=\(.*\)/\1/p" "$1"
+}
+
+# Return function annotation as json
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "jq",
+#     "sed"
+#   ],
+#   "depends": [
+#     "_get_function_annotation",
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "SCRIPT_PATH",
+#       "type": "file",
+#       "description": "The path to the input script.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FUNCTION_NAME",
+#       "type": "str",
+#       "description": "The name of the function to retrieve.",
+#       "nullable": false
+#     }
+#   ]
+# }
+_parse_annotation() {
+    # Synopsis: _parse_annotation <SCRIPT_PATH> <FUNCTION_NAME>
+    #   SCRIPT_PATH:   The path to the input file.
+    #   FUNCTION_NAME: The name of the function to retrieve.
+
+    if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _parse_annotation: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _parse_annotation: too many arguments ($#)\n"; return 1; fi
+
+    set -- "$(realpath "$1")" "$2"
+    if [ ! -f "$1" ]; then echo_danger "error: _parse_annotation: \"$1\" file not found\n"; return 1; fi
+
+    set -- "$1" "$2" "$(printf '%s' "$(_get_function_annotation "$1" "$2" | sed -nE 's/^ *#+ *//p')")"
+    set -- "$1" "$2" "$3" "$(printf '%s' "$3" | sed -n '/^{/,$p')" "$(printf '%s' "$3" | head -n 1)"
+
+    if [ "$(printf '%s' "$2" | cut -c1)" = "_" ]; then
+        set -- "$1" "$2" "$3" "$4" "$5" 'private'
+    else
+        set -- "$1" "$2" "$3" "$4" "$5" 'public'
+    fi
+    # $1: SCRIPT_PATH, $2: FUNCTION_NAME, $3: annotation, $4 json, $5: summary, $6: scope
+
+    if [ -z "$4" ]; then
+        jq --null-input \
+            --arg name "$2" \
+            --arg summary "$5" \
+            --arg scope "$6" \
+            '$ARGS.named'
+
+        return 0
+    fi
+
+    jq --null-input \
+    --arg name "$2" \
+    --arg summary "$5" \
+    --arg scope "$6" \
+    '$ARGS.named + '"$4"
+}
+
+# Print function synopsis from a JSON string.
+#
+# {
+#   "namespace": "reflexion",
+#   "requires": [
+#     "jq"
+#   ],
+#   "depends": [
+#     "echo_danger"
+#   ],
+#   "parameters": [
+#     {
+#       "position": 1,
+#       "name": "JSON",
+#       "type": "json",
+#       "description": "The input string containing raw JSON.",
+#       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "MARKDOWN_FORMAT",
+#       "type": "bool",
+#       "description": "If set to \"true\", returns result as markdown.",
+#       "default": false
+#     }
+#   ]
+# }
+_print_synopsis() {
+    # Synopsis: _print_synopsis <JSON> [MARKDOWN_FORMAT]
+    #   JSON: The input string containing raw JSON.
+    #   MARKDOWN_FORMAT: (Optional) If set to 'true', returns result as markdown. Defaults to "false".
+
+    if [ -z "$1" ]; then echo_danger 'error: _print_synopsis: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _print_synopsis: too many arguments ($#)\n"; return 1; fi
+    if ! printf '%s' "$1" | jq empty >/dev/null 2>&1; then echo_danger "error: _print_synopsis: invalid JSON input\n"; return 1; fi
+
+    if [ "${2:-false}" = "true" ]; then
+        printf '> Synopsis:\n> '
+    else
+        printf 'Synopsis: '
+    fi
+
+    printf '%s' "$1" | jq -rj '.name'
+
+    if [ "${2:-false}" = "true" ]; then
+        printf '%s' "$1" | jq -rj '[.parameters // [] | .[] | if (.nullable|tostring) == "false" then " &lt;\(.name)&gt;" else " [\(.name)]" end] | join("")'
+        printf '\n'
+        printf '%s' "$1" | jq -r '.parameters // [] | .[] | "`\(.name)`: \(if .type then "_(type: \"\(.type)\")_ " else "" end)\(if (.nullable|tostring) == "false" then "" else "(optional) " end)\(if .description then .description else "" end)\(if has("default") then " _Defaults to \"\(.default|tostring)\"._" else "" end)"' | while read -r line; do
+            printf '%s\n' "- ${line}"
+        done
+        printf '\n'
+        printf '%s' "$1" | jq -rj '[.requires // [] | .[] | "`\(.)`"] | if length > 0 then "- ⚠️ Requires: \(.|join(", "))\n" else "" end'
+        printf '%s' "$1" | jq -rj '[.depends // [] | .[] | "`\(.)`"] | if length > 0 then "- 🔗 Depends: \(.|join(", "))\n" else "" end'
+        printf '\n'
+        return 0
+    fi
+
+    printf '%s' "$1" | jq -rj 'if .scope then " (\(.scope)) " else "" end'
+    printf '%s' "$1" | jq -rj '[.parameters // [] | .[] | if (.nullable|tostring) == "false" then "<\(.name)>" else "[\(.name)]" end] | join(" ")'
+    printf '\n'
+    printf '%s' "$1" | jq -r '.parameters // [] | .[] | "\(.name): \(if .type then "(\(.type)) " else "" end)\(if (.nullable|tostring) == "false" then "" else "(optional) " end)\(if .description then .description else "" end)\(if has("default") then " Defaults to \"\(.default|tostring)\"." else "" end)"' | while read -r line; do
+        printf '    %s\n' "${line}"
+    done
+    printf '%s' "$1" | jq -rj '[.requires // [] | .[]] | if length > 0 then "    Requires: \(.|join(", "))\n" else "" end'
+    printf '%s' "$1" | jq -rj '[.depends // [] | .[]] | if length > 0 then "    Depends: \(.|join(", "))\n" else "" end'
+    printf '\n'
 }
 
 # Set value for given parameter into provided file ".env" or ".sh" file
@@ -2151,7 +2249,8 @@ _validate() {
 # {
 #   "namespace": "kernel",
 #   "requires": [
-#     "awk"
+#     "awk",
+#     "grep"
 #   ],
 #   "depends": [
 #     "_after",
@@ -2165,7 +2264,7 @@ _validate() {
 #   ]
 # }
 _kernel() {
-    # Check for duplicate function names
+    # Check for duplicate function definitions
     __functions_names__=$(_get_functions_names "$0" true)
     for __function__ in ${__functions_names__}; do
         if [ "$(printf "%s" "${__functions_names__}" | grep -cx "${__function__}")" -gt 1 ]; then
@@ -2191,8 +2290,7 @@ _kernel() {
         fi
 
         # Check if argument is a flag or option (starts with - or --)
-        if [ -n "$(printf '%s' "${__argument__}" | awk '/^--?[a-zA-Z0-9_]+$/')" ]; then
-            # Check flags and options in one loop
+        if printf '%s' "${__argument__}" | grep -Eq '^--?[a-zA-Z0-9_]+$'; then
             for __type__ in flag option; do
                 __parameters__="$(_get_flags "$0")"
                 [ "$__type__" = 'option' ] && __parameters__="$(_get_options "$0")"
@@ -2237,6 +2335,11 @@ _kernel() {
     fi
 
     [ -n "$(command -v _before)" ] && _before
+
+    if printf '%s' "${__execution_stack__}" | grep -qw 'help'; then
+       _help "$0" "$(printf '%s' "${__execution_stack__}" | awk '{for(i=1;i<=NF;i++) if($i=="help") print $(i+1); exit}')"
+       exit 0
+    fi
 
     if [ -z "${__execution_stack__}" ]; then _default; exit 0; fi
 

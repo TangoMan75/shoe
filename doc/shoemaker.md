@@ -437,10 +437,11 @@ Generate Markdown documentation for provided shoe script
 Print help for provider shoe script
 
 > Synopsis:
-> _help &lt;FILE_PATH&gt;
+> _help &lt;FILE_PATH&gt; [FUNCTION_NAME]
 - `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `FUNCTION_NAME`: _(type: "str")_ (optional) The function name to get help for.
 
-- 🔗 Depends: `_get_constants`, `_get_flags`, `_get_options`, `_get_padding`, `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_title`, `_print_commands`, `_print_constants`, `_print_description`, `_print_flags`, `_print_infos`, `_print_options`, `_print_usage`, `alert_primary`, `echo_danger`
+- 🔗 Depends: `_get_constants`, `_get_flags`, `_get_function_annotation`, `_get_options`, `_get_padding`, `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_title`, `_print_commands`, `_print_constants`, `_print_description`, `_print_flags`, `_print_infos`, `_print_options`, `_print_synopsis`, `_print_usage`, `alert_primary`, `echo_danger`
 
 #### ⌨️ 2. `_print_commands` (private)
 
@@ -884,6 +885,6 @@ Shoe Kernel
 > Synopsis:
 > _kernel
 
-- ⚠️ Requires: `awk`
+- ⚠️ Requires: `awk`, `grep`
 - 🔗 Depends: `_after`, `_before`, `_default`, `_get_flags`, `_get_functions_names`, `_get_options`, `_validate`, `echo_danger`
 

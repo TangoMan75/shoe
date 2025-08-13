@@ -984,10 +984,11 @@ Initialise git submodules
 Print help for provider shoe script
 
 > Synopsis:
-> _help &lt;FILE_PATH&gt;
+> _help &lt;FILE_PATH&gt; [FUNCTION_NAME]
 - `FILE_PATH`: _(type: "file")_ The path to the input file.
+- `FUNCTION_NAME`: _(type: "str")_ (optional) The function name to get help for.
 
-- 🔗 Depends: `_get_constants`, `_get_flags`, `_get_options`, `_get_padding`, `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_title`, `_print_commands`, `_print_constants`, `_print_description`, `_print_flags`, `_print_infos`, `_print_options`, `_print_usage`, `alert_primary`, `echo_danger`
+- 🔗 Depends: `_get_constants`, `_get_flags`, `_get_function_annotation`, `_get_options`, `_get_padding`, `_get_script_shoedoc`, `_get_shoedoc_description`, `_get_shoedoc_title`, `_print_commands`, `_print_constants`, `_print_description`, `_print_flags`, `_print_infos`, `_print_options`, `_print_synopsis`, `_print_usage`, `alert_primary`, `echo_danger`
 
 #### ⌨️ 2. `_print_commands` (private)
 
@@ -1320,24 +1321,24 @@ List flags from provided shoe script
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 4. `_get_function` (private)
+#### ⌨️ 4. `_get_function_annotation` (private)
 
-Get function by name
+Get function annotation by name
 
 > Synopsis:
-> _get_function &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
+> _get_function_annotation &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
 - `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
 - `FUNCTION_NAME`: _(type: "str")_ The name of the function to retrieve.
 
 - ⚠️ Requires: `awk`
 - 🔗 Depends: `echo_danger`
 
-#### ⌨️ 5. `_get_function_annotation` (private)
+#### ⌨️ 5. `_get_function` (private)
 
-Get function annotation by name
+Get function by name
 
 > Synopsis:
-> _get_function_annotation &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
+> _get_function &lt;SCRIPT_PATH&gt; &lt;FUNCTION_NAME&gt;
 - `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
 - `FUNCTION_NAME`: _(type: "str")_ The name of the function to retrieve.
 
@@ -1403,7 +1404,19 @@ Return function annotation as json
 - ⚠️ Requires: `jq`, `sed`
 - 🔗 Depends: `_get_function_annotation`, `echo_danger`
 
-#### ⌨️ 11. `_set_parameter` (private)
+#### ⌨️ 11. `_print_synopsis` (private)
+
+Print function synopsis from a JSON string.
+
+> Synopsis:
+> _print_synopsis &lt;JSON&gt; [MARKDOWN_FORMAT]
+- `JSON`: _(type: "json")_ The input string containing raw JSON.
+- `MARKDOWN_FORMAT`: _(type: "bool")_ (optional) If set to "true", returns result as markdown. _Defaults to "false"._
+
+- ⚠️ Requires: `jq`
+- 🔗 Depends: `echo_danger`
+
+#### ⌨️ 12. `_set_parameter` (private)
 
 Set value for given parameter into provided file ".env" or ".sh" file
 
@@ -1728,6 +1741,6 @@ Shoe Kernel
 > Synopsis:
 > _kernel
 
-- ⚠️ Requires: `awk`
+- ⚠️ Requires: `awk`, `grep`
 - 🔗 Depends: `_after`, `_before`, `_default`, `_get_flags`, `_get_functions_names`, `_get_options`, `_validate`, `echo_danger`
 

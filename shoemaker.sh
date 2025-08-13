@@ -710,12 +710,6 @@ WARNING='\033[33m'
 # INFO: bright purple text
 INFO='\033[95m'
 
-# LIGHT: black text over white background
-LIGHT='\033[47;90m'
-
-# DARK: white text over black background
-DARK='\033[40;37m'
-
 # DEFAULT: reset formatting
 DEFAULT='\033[0m'
 
@@ -741,12 +735,6 @@ ALERT_WARNING='\033[1;43;97m'
 
 # ALERT_INFO: bold white text over bright blue background
 ALERT_INFO='\033[1;44;97m'
-
-# ALERT_LIGHT: bold grey text over white background
-ALERT_LIGHT='\033[1;47;90m'
-
-# ALERT_DARK: bold white text over black background
-ALERT_DARK='\033[1;40;37m'
 
 # Print primary text with optional indentation and padding
 #
@@ -984,84 +972,6 @@ echo_info() {
     printf "%*s${INFO}%b${DEFAULT}%*s"      "$2" '' "$1" "$3" ''
 }
 
-# Print light text with optional indentation and padding
-#
-# {
-#   "namespace": "colors",
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "Text to display.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "INDENTATION",
-#       "type": "int",
-#       "description": "Indentation level.",
-#       "default": 0
-#     },
-#     {
-#       "position": 3,
-#       "name": "PADDING",
-#       "type": "int",
-#       "description": "Padding length.",
-#       "default": 0
-#     }
-#   ]
-# }
-echo_light() {
-    # Synopsis: echo_light <STRING> [INDENTATION] [PADDING]
-    #  STRING:       Text to display.
-    #  INDENTATION:  Indentation level (default: 0).
-    #  PADDING:      Padding length (default: 0).
-
-    set -- "$1" "${2:-0}" "$((${3:-0}-${#1}))"
-    if [ "$3" -lt 0 ]; then set -- "$1" "$2" 0; fi
-    printf "%*s${LIGHT}%b${DEFAULT}%*s"     "$2" '' "$1" "$3" ''
-}
-
-# Print dark text with optional indentation and padding
-#
-# {
-#   "namespace": "colors",
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "Text to display.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "INDENTATION",
-#       "type": "int",
-#       "description": "Indentation level.",
-#       "default": 0
-#     },
-#     {
-#       "position": 3,
-#       "name": "PADDING",
-#       "type": "int",
-#       "description": "Padding length.",
-#       "default": 0
-#     }
-#   ]
-# }
-echo_dark() {
-    # Synopsis: echo_dark <STRING> [INDENTATION] [PADDING]
-    #  STRING:       Text to display.
-    #  INDENTATION:  Indentation level (default: 0).
-    #  PADDING:      Padding length (default: 0).
-
-    set -- "$1" "${2:-0}" "$((${3:-0}-${#1}))"
-    if [ "$3" -lt 0 ]; then set -- "$1" "$2" 0; fi
-    printf "%*s${DARK}%b${DEFAULT}%*s"      "$2" '' "$1" "$3" ''
-}
-
 # Print primary alert
 #
 # {
@@ -1188,46 +1098,26 @@ alert_info()      {
     printf "${EOL}%b%64s${EOL}%b %-63s${EOL}%b%64s${EOL}\n" "${ALERT_INFO}"      '' "${ALERT_INFO}"      "$1" "${ALERT_INFO}"      ''
 }
 
-# Print light alert
+# Print error message to STDERR, prefixed with "error: "
 #
 # {
 #   "namespace": "colors",
 #   "parameters": [
 #     {
 #       "position": 1,
-#       "name": "STRING",
+#       "name": "MESSAGE",
 #       "type": "str",
-#       "description": "Text to display.",
+#       "description": "Error message to display.",
 #       "nullable": false
 #     }
 #   ]
 # }
-alert_light()     {
-    # Synopsis: alert_light <STRING>
-    #   STRING: Text to display.
+echo_error() {
+    # Synopsis: echo_error <MESSAGE>
+    #   MESSAGE: Error message to display.
 
-    printf "${EOL}%b%64s${EOL}%b %-63s${EOL}%b%64s${EOL}\n" "${ALERT_LIGHT}"     '' "${ALERT_LIGHT}"     "$1" "${ALERT_LIGHT}"     ''
-}
+    printf "${DANGER}error: %s${DEFAULT}\n" "$1" >&2
 
-# Print dark alert
-#
-# {
-#   "namespace": "colors",
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "Text to display.",
-#       "nullable": false
-#     }
-#   ]
-# }
-alert_dark()      {
-    # Synopsis: alert_dark <STRING>
-    #   STRING: Text to display.
-
-    printf "${EOL}%b%64s${EOL}%b %-63s${EOL}%b%64s${EOL}\n" "${ALERT_DARK}"      '' "${ALERT_DARK}"      "$1" "${ALERT_DARK}"      ''
 }
 
 #--------------------------------------------------
@@ -1495,6 +1385,7 @@ _generate_doc() {
 #   "depends": [
 #     "_get_constants",
 #     "_get_flags",
+#     "_get_function_annotation",
 #     "_get_options",
 #     "_get_padding",
 #     "_get_script_shoedoc",
@@ -1506,6 +1397,7 @@ _generate_doc() {
 #     "_print_flags",
 #     "_print_infos",
 #     "_print_options",
+#     "_print_synopsis",
 #     "_print_usage",
 #     "alert_primary",
 #     "echo_danger"
@@ -1517,41 +1409,62 @@ _generate_doc() {
 #       "type": "file",
 #       "description": "The path to the input file.",
 #       "nullable": false
+#     },
+#     {
+#       "position": 2,
+#       "name": "FUNCTION_NAME",
+#       "type": "str",
+#       "description": "The function name to get help for.",
 #     }
 #   ]
 # }
 _help() {
     # Synopsis: _help <FILE_PATH>
     #   FILE_PATH: The path to the input file.
+    #   FUNCTION_NAME: The function name to get help for.
 
     if [ -z "$1" ]; then echo_danger 'error: _help: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 1 ]; then echo_danger "error: _help: too many arguments ($#)\n"; return 1; fi
+    if [ $# -gt 2 ]; then echo_danger "error: _help: too many arguments ($#)\n"; return 1; fi
 
-    set -- "$(realpath "$1")"
+    set -- "$(realpath "$1")" "$2"
     if [ ! -f "$1" ]; then echo_danger "error: _help: \"$1\" file not found\n"; return 1; fi
 
-    __padding__=$(_get_padding "$1")
-    __annotations__=$(_get_script_shoedoc "$1")
+    if [ -z "$2" ]; then
+        __padding__=$(_get_padding "$1")
+        __annotations__=$(_get_script_shoedoc "$1")
 
-    alert_primary "$(_get_shoedoc_title "${__annotations__}")"
+        alert_primary "$(_get_shoedoc_title "${__annotations__}")"
 
-    _print_infos "$1"
-    _print_description "$(_get_shoedoc_description "${__annotations__}")"
-    _print_usage "$1"
+        _print_infos "$1"
+        _print_description "$(_get_shoedoc_description "${__annotations__}")"
+        _print_usage "$1"
 
-    if [ -n "$(_get_constants "$1")" ]; then
-        _print_constants "$1" "${__padding__}"
+        if [ -n "$(_get_constants "$1")" ]; then
+            _print_constants "$1" "${__padding__}"
+        fi
+
+        if [ -n "$(_get_flags "$1")" ]; then
+            _print_flags "$1" "${__padding__}"
+        fi
+
+        if [ -n "$(_get_options "$1")" ]; then
+            _print_options "$1" "${__padding__}"
+        fi
+
+        _print_commands "$1" "${__padding__}"
+        exit 0
     fi
 
-    if [ -n "$(_get_flags "$1")" ]; then
-        _print_flags "$1" "${__padding__}"
+    alert_primary "$2"
+    if [ -x "$(command -v jq)" ]; then
+        __json__="$(_parse_annotation "$1" "$2")"
+        if [ -n "${__json__}" ]; then
+            echo_primary "$(printf '%s' "${__json__}" | jq -r '.summary')\n\n"
+            echo_secondary "$(_print_synopsis "${__json__}")\n"
+            exit 0
+        fi
     fi
-
-    if [ -n "$(_get_options "$1")" ]; then
-        _print_options "$1" "${__padding__}"
-    fi
-
-    _print_commands "$1" "${__padding__}"
+    echo_info "$(_get_function_annotation "$0" "$2")\n"
 }
 
 # List commands of the provided shoe script (used by "help" command)
@@ -2669,7 +2582,6 @@ EOT
 #_ Reflexion
 #--------------------------------------------------
 
-
 # List constants from provided shoe script
 #
 # {
@@ -3603,7 +3515,8 @@ _validate() {
 # {
 #   "namespace": "kernel",
 #   "requires": [
-#     "awk"
+#     "awk",
+#     "grep"
 #   ],
 #   "depends": [
 #     "_after",
@@ -3617,7 +3530,7 @@ _validate() {
 #   ]
 # }
 _kernel() {
-    # Check for duplicate function names
+    # Check for duplicate function definitions
     __functions_names__=$(_get_functions_names "$0" true)
     for __function__ in ${__functions_names__}; do
         if [ "$(printf "%s" "${__functions_names__}" | grep -cx "${__function__}")" -gt 1 ]; then
@@ -3643,8 +3556,7 @@ _kernel() {
         fi
 
         # Check if argument is a flag or option (starts with - or --)
-        if [ -n "$(printf '%s' "${__argument__}" | awk '/^--?[a-zA-Z0-9_]+$/')" ]; then
-            # Check flags and options in one loop
+        if printf '%s' "${__argument__}" | grep -Eq '^--?[a-zA-Z0-9_]+$'; then
             for __type__ in flag option; do
                 __parameters__="$(_get_flags "$0")"
                 [ "$__type__" = 'option' ] && __parameters__="$(_get_options "$0")"
@@ -3689,6 +3601,11 @@ _kernel() {
     fi
 
     [ -n "$(command -v _before)" ] && _before
+
+    if printf '%s' "${__execution_stack__}" | grep -qw 'help'; then
+       _help "$0" "$(printf '%s' "${__execution_stack__}" | awk '{for(i=1;i<=NF;i++) if($i=="help") print $(i+1); exit}')"
+       exit 0
+    fi
 
     if [ -z "${__execution_stack__}" ]; then _default; exit 0; fi
 
