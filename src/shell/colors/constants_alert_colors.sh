@@ -20,9 +20,3 @@ ALERT_WARNING='\033[1;43;97m'
 # ALERT_INFO: bold white text over bright blue background
 ALERT_INFO='\033[1;44;97m'
 
-# ALERT_LIGHT: bold grey text over white background
-ALERT_LIGHT='\033[1;47;90m'
-
-# ALERT_DARK: bold white text over black background
-ALERT_DARK='\033[1;40;37m'
-

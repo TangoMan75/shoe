@@ -236,84 +236,6 @@ echo_info() {
     printf "%*s${INFO}%b${DEFAULT}%*s"      "$2" '' "$1" "$3" ''
 }
 
-# Print light text with optional indentation and padding
-#
-# {
-#   "namespace": "colors",
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "Text to display.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "INDENTATION",
-#       "type": "int",
-#       "description": "Indentation level.",
-#       "default": 0
-#     },
-#     {
-#       "position": 3,
-#       "name": "PADDING",
-#       "type": "int",
-#       "description": "Padding length.",
-#       "default": 0
-#     }
-#   ]
-# }
-echo_light() {
-    # Synopsis: echo_light <STRING> [INDENTATION] [PADDING]
-    #  STRING:       Text to display.
-    #  INDENTATION:  Indentation level (default: 0).
-    #  PADDING:      Padding length (default: 0).
-
-    set -- "$1" "${2:-0}" "$((${3:-0}-${#1}))"
-    if [ "$3" -lt 0 ]; then set -- "$1" "$2" 0; fi
-    printf "%*s${LIGHT}%b${DEFAULT}%*s"     "$2" '' "$1" "$3" ''
-}
-
-# Print dark text with optional indentation and padding
-#
-# {
-#   "namespace": "colors",
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "Text to display.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "INDENTATION",
-#       "type": "int",
-#       "description": "Indentation level.",
-#       "default": 0
-#     },
-#     {
-#       "position": 3,
-#       "name": "PADDING",
-#       "type": "int",
-#       "description": "Padding length.",
-#       "default": 0
-#     }
-#   ]
-# }
-echo_dark() {
-    # Synopsis: echo_dark <STRING> [INDENTATION] [PADDING]
-    #  STRING:       Text to display.
-    #  INDENTATION:  Indentation level (default: 0).
-    #  PADDING:      Padding length (default: 0).
-
-    set -- "$1" "${2:-0}" "$((${3:-0}-${#1}))"
-    if [ "$3" -lt 0 ]; then set -- "$1" "$2" 0; fi
-    printf "%*s${DARK}%b${DEFAULT}%*s"      "$2" '' "$1" "$3" ''
-}
-
 # Print primary alert
 #
 # {
@@ -440,45 +362,25 @@ alert_info()      {
     printf "${EOL}%b%64s${EOL}%b %-63s${EOL}%b%64s${EOL}\n" "${ALERT_INFO}"      '' "${ALERT_INFO}"      "$1" "${ALERT_INFO}"      ''
 }
 
-# Print light alert
+# Print error message to STDERR, prefixed with "error: "
 #
 # {
 #   "namespace": "colors",
 #   "parameters": [
 #     {
 #       "position": 1,
-#       "name": "STRING",
+#       "name": "MESSAGE",
 #       "type": "str",
-#       "description": "Text to display.",
+#       "description": "Error message to display.",
 #       "nullable": false
 #     }
 #   ]
 # }
-alert_light()     {
-    # Synopsis: alert_light <STRING>
-    #   STRING: Text to display.
+echo_error() {
+    # Synopsis: echo_error <MESSAGE>
+    #   MESSAGE: Error message to display.
 
-    printf "${EOL}%b%64s${EOL}%b %-63s${EOL}%b%64s${EOL}\n" "${ALERT_LIGHT}"     '' "${ALERT_LIGHT}"     "$1" "${ALERT_LIGHT}"     ''
-}
+    printf "${DANGER}error: %s${DEFAULT}\n" "$1" >&2
 
-# Print dark alert
-#
-# {
-#   "namespace": "colors",
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "Text to display.",
-#       "nullable": false
-#     }
-#   ]
-# }
-alert_dark()      {
-    # Synopsis: alert_dark <STRING>
-    #   STRING: Text to display.
-
-    printf "${EOL}%b%64s${EOL}%b %-63s${EOL}%b%64s${EOL}\n" "${ALERT_DARK}"      '' "${ALERT_DARK}"      "$1" "${ALERT_DARK}"      ''
 }
 
