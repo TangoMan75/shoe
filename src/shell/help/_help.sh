@@ -87,6 +87,6 @@ _help() {
             exit 0
         fi
     fi
-    echo_info "$(_get_function_annotation "$0" "$2")"
+    echo_info "$(_get_function_annotation "$0" "$2")\n"
 }
 

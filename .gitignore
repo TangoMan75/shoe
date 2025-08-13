@@ -10,8 +10,9 @@
 /doc/*
 !/doc/entrypoint.md
 !/doc/images
-!/doc/shoemaker.md
+!/doc/instructions
 !/doc/shoe.md
+!/doc/shoemaker.md
 
 /dump/*
 !/dump/.gitignore

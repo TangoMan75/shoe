@@ -1,0 +1,12 @@
+{
+    "github.copilot.chat.commitMessageGeneration.instructions": [
+        {
+            "text": "Be extremely detailed with the file changes and the reason for the change. Use lots of emojis."
+        }
+    ],
+    "github.copilot.chat.codeGeneration.instructions": [
+        {
+            "file": "./doc/instructions/shell_scripting_conventions.md"
+        }
+    ]
+}
