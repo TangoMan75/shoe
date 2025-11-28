@@ -1,42 +1,42 @@
 #!/bin/sh
 
-# List constants from provided shoe script
-#
-# {
-#   "namespace": "reflexion",
-#   "requires": [
-#     "awk"
-#   ],
-#   "depends": [
-#     "echo_danger"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "SCRIPT_PATH",
-#       "type": "file",
-#       "description": "The path to the input script.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "GET_PRIVATE",
-#       "type": "bool",
-#       "description": "If set to \"true\", retrieves private constants as well.",
-#       "default": false
-#     }
-#   ]
-# }
+## List constants from provided shoe script
+##
+## {
+##   "namespace": "reflexion",
+##   "requires": [
+##     "awk"
+##   ],
+##   "depends": [
+##     "_echo_error"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "SCRIPT_PATH",
+##       "type": "file",
+##       "description": "The path to the input script.",
+##       "nullable": false
+##     },
+##     {
+##       "position": 2,
+##       "name": "GET_PRIVATE",
+##       "type": "bool",
+##       "description": "If set to \"true\", retrieves private constants as well.",
+##       "default": false
+##     }
+##   ]
+## }
 _get_constants() {
     # Synopsis: _get_constants <SCRIPT_PATH> [GET_PRIVATE]
     #   SCRIPT_PATH: The path to the input script.
     #   GET_PRIVATE: (Optional) If set to 'true', retrieves private constants as well. (default=false)
 
-    if [ -z "$1" ]; then echo_danger 'error: _get_constants: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 2 ]; then echo_danger "error: _get_constants: too many arguments ($#)\n"; return 1; fi
+    if [ -z "$1" ]; then _echo_error '_get_constants: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then _echo_error "_get_constants: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
-    if [ ! -f "$1" ]; then echo_danger "error: _get_constants: \"$1\" file not found\n"; return 1; fi
+    if [ ! -f "$1" ]; then _echo_error "_get_constants: \"$1\" file not found\n"; return 1; fi
 
     awk -F '=' -v GET_PRIVATE="$2" \
     '/^[A-Z0-9_]+=.+$/ {

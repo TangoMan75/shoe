@@ -117,15 +117,6 @@
 ../../src/shell/android/_toggle_active_slot.sh
 
 #--------------------------------------------------
-#_ Bashdoc
-#--------------------------------------------------
-../../src/shell/shoedoc/_get_shoedoc_description.sh
-../../src/shell/shoedoc/_get_shoedoc.sh
-../../src/shell/shoedoc/_get_shoedoc_tag.sh
-../../src/shell/shoedoc/_get_shoedoc_title.sh
-../../src/shell/shoedoc/_get_script_shoedoc.sh
-
-#--------------------------------------------------
 #_ Colors
 #--------------------------------------------------
 ../../src/shell/colors/constants_echo_colors.sh
@@ -168,6 +159,7 @@
 #--------------------------------------------------
 #_ Files
 #--------------------------------------------------
+../../src/shell/files/_extract.sh
 ../../src/shell/files/_get_file_extension.sh
 ../../src/shell/files/_move.sh
 
@@ -211,6 +203,7 @@
 #--------------------------------------------------
 #_ Network
 #--------------------------------------------------
+../../src/shell/network/_download.sh
 ../../src/shell/network/_open_in_default_browser.sh
 ../../src/shell/network/_php_serve.sh
 ../../src/shell/network/_py_serve.sh
@@ -229,21 +222,32 @@
 ../../src/shell/reflexion/_get_constants.sh
 ../../src/shell/reflexion/_get_constraint.sh
 ../../src/shell/reflexion/_get_flags.sh
-../../src/shell/reflexion/_get_function_annotation.sh
 ../../src/shell/reflexion/_get_function.sh
 ../../src/shell/reflexion/_get_functions_names.sh
 ../../src/shell/reflexion/_get_options.sh
 ../../src/shell/reflexion/_get_padding.sh
 ../../src/shell/reflexion/_get_parameter.sh
-../../src/shell/reflexion/_parse_annotation.sh
+../../src/shell/reflexion/_has_parameter.sh
 ../../src/shell/reflexion/_print_synopsis.sh
 ../../src/shell/reflexion/_set_parameter.sh
+
+#--------------------------------------------------
+#_ Shoedoc
+#--------------------------------------------------
+../../src/shell/shoedoc/_get_function_shoedoc.sh
+../../src/shell/shoedoc/_get_script_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc_description.sh
+../../src/shell/shoedoc/_get_shoedoc_tag.sh
+../../src/shell/shoedoc/_get_shoedoc_title.sh
+../../src/shell/shoedoc/_parse_shoedoc.sh
 
 #--------------------------------------------------
 #_ Strings
 #--------------------------------------------------
 ../../src/shell/strings/_collapse_blank_lines.sh
 ../../src/shell/strings/_generate_key.sh
+../../src/shell/strings/_trim.sh
 
 #--------------------------------------------------
 #_ Symfony
@@ -287,6 +291,5 @@
 #--------------------------------------------------
 #_ Kernel
 #--------------------------------------------------
-../../src/shell/kernel/kernel.sh
-../../src/shell/footer.sh
+../../src/shell/kernel/_kernel.sh
 

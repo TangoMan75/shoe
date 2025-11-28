@@ -1,6 +1,6 @@
 ## TangoMan Shoemaker
 ##
-## A versatile developement tool to split a script file into its components, build a script from a build.lst file, generate Makefile or Markdown documentation from a shoe script.  
+## A versatile developement tool to split a script file into its components, build a script from a build.lst file, generate Makefile or Markdown documentation from a shoe script. 
 ##
 ## @version 0.1.0
 ## @author  "Matthias Morin" <mat@tangoman.io>
@@ -10,126 +10,129 @@
 .PHONY: help dump list build build_all remove_json_annotations generate_doc generate_doc_all generate_makefile generate_makefile_all self_install self_uninstall self_update
 
 ##################################################
-# Colors
+## Colors
 ##################################################
 
-PRIMARY   = \033[97m
-SECONDARY = \033[94m
-SUCCESS   = \033[32m
-DANGER    = \033[31m
-WARNING   = \033[33m
-INFO      = \033[95m
-LIGHT     = 
-DARK      = 
-DEFAULT   = \033[0m
-EOL       = \033[0m\n
+_PRIMARY   = \033[97m
+_SECONDARY = \033[94m
+_SUCCESS   = \033[32m
+_DANGER    = \033[31m
+_WARNING   = \033[33m
+_INFO      = \033[95m
+_LIGHT     = \033[47;90m
+_DARK      = \033[40;37m
+_DEFAULT   = \033[0m
+_EOL       = \033[0m\n
 
-ALERT_PRIMARY   = \033[1;104;97m
-ALERT_SECONDARY = \033[1;45;97m
-ALERT_SUCCESS   = \033[1;42;97m
-ALERT_DANGER    = \033[1;41;97m
-ALERT_WARNING   = \033[1;43;97m
-ALERT_INFO      = \033[1;44;97m
-ALERT_LIGHT     = 
-ALERT_DARK      = 
-
-##################################################
-# Color Functions
-##################################################
-
-define echo_primary
-	@printf "${PRIMARY}%b${EOL}" $(1)
-endef
-define echo_secondary
-	@printf "${SECONDARY}%b${EOL}" $(1)
-endef
-define echo_success
-	@printf "${SUCCESS}%b${EOL}" $(1)
-endef
-define echo_danger
-	@printf "${DANGER}%b${EOL}" $(1)
-endef
-define echo_warning
-	@printf "${WARNING}%b${EOL}" $(1)
-endef
-define echo_info
-	@printf "${INFO}%b${EOL}" $(1)
-endef
-define echo_light
-	@printf "${LIGHT}%b${EOL}" $(1)
-endef
-define echo_dark
-	@printf "${DARK}%b${EOL}" $(1)
-endef
-
-define alert_primary
-	@printf "${EOL}${ALERT_PRIMARY}%64s${EOL}${ALERT_PRIMARY} %-63s${EOL}${ALERT_PRIMARY}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_secondary
-	@printf "${EOL}${ALERT_SECONDARY}%64s${EOL}${ALERT_SECONDARY} %-63s${EOL}${ALERT_SECONDARY}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_success
-	@printf "${EOL}${ALERT_SUCCESS}%64s${EOL}${ALERT_SUCCESS} %-63s${EOL}${ALERT_SUCCESS}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_danger
-	@printf "${EOL}${ALERT_DANGER}%64s${EOL}${ALERT_DANGER} %-63s${EOL}${ALERT_DANGER}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_warning
-	@printf "${EOL}${ALERT_WARNING}%64s${EOL}${ALERT_WARNING} %-63s${EOL}${ALERT_WARNING}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_info
-	@printf "${EOL}${ALERT_INFO}%64s${EOL}${ALERT_INFO} %-63s${EOL}${ALERT_INFO}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_light
-	@printf "${EOL}${ALERT_LIGHT}%64s${EOL}${ALERT_LIGHT} %-63s${EOL}${ALERT_LIGHT}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_dark
-	@printf "${EOL}${ALERT_DARK}%64s${EOL}${ALERT_DARK} %-63s${EOL}${ALERT_DARK}%64s${EOL}\n" "" $(1) ""
-endef
+_ALERT_PRIMARY   = \033[1;104;97m
+_ALERT_SECONDARY = \033[1;45;97m
+_ALERT_SUCCESS   = \033[1;42;97m
+_ALERT_DANGER    = \033[1;41;97m
+_ALERT_WARNING   = \033[1;43;97m
+_ALERT_INFO      = \033[1;44;97m
+_ALERT_LIGHT     = \033[1;47;90m
+_ALERT_DARK      = \033[1;40;37m
 
 ##################################################
-# Help
+## Color Functions
+##################################################
+
+define _echo_primary
+    @printf "${_PRIMARY}%b${_EOL}" $(1)
+endef
+define _echo_secondary
+    @printf "${_SECONDARY}%b${_EOL}" $(1)
+endef
+define _echo_success
+    @printf "${_SUCCESS}%b${_EOL}" $(1)
+endef
+define _echo_danger
+    @printf "${_DANGER}%b${_EOL}" $(1)
+endef
+define _echo_warning
+    @printf "${_WARNING}%b${_EOL}" $(1)
+endef
+define _echo_info
+    @printf "${_INFO}%b${_EOL}" $(1)
+endef
+define _echo_light
+    @printf "${_LIGHT}%b${_EOL}" $(1)
+endef
+define _echo_dark
+    @printf "${_DARK}%b${_EOL}" $(1)
+endef
+define _echo_error
+    @printf "${_DANGER}error: %b${_EOL}" $(1)
+endef
+
+define _alert_primary
+    @printf "${_EOL}${_ALERT_PRIMARY}%64s${_EOL}${_ALERT_PRIMARY} %-63s${_EOL}${_ALERT_PRIMARY}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_secondary
+    @printf "${_EOL}${_ALERT_SECONDARY}%64s${_EOL}${_ALERT_SECONDARY} %-63s${_EOL}${_ALERT_SECONDARY}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_success
+    @printf "${_EOL}${_ALERT_SUCCESS}%64s${_EOL}${_ALERT_SUCCESS} %-63s${_EOL}${_ALERT_SUCCESS}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_danger
+    @printf "${_EOL}${_ALERT_DANGER}%64s${_EOL}${_ALERT_DANGER} %-63s${_EOL}${_ALERT_DANGER}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_warning
+    @printf "${_EOL}${_ALERT_WARNING}%64s${_EOL}${_ALERT_WARNING} %-63s${_EOL}${_ALERT_WARNING}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_info
+    @printf "${_EOL}${_ALERT_INFO}%64s${_EOL}${_ALERT_INFO} %-63s${_EOL}${_ALERT_INFO}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_light
+    @printf "${_EOL}${_ALERT_LIGHT}%64s${_EOL}${_ALERT_LIGHT} %-63s${_EOL}${_ALERT_LIGHT}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_dark
+    @printf "${_EOL}${_ALERT_DARK}%64s${_EOL}${_ALERT_DARK} %-63s${_EOL}${_ALERT_DARK}%64s${_EOL}\n" "" $(1) ""
+endef
+
+##################################################
+## Help
 ##################################################
 
 ## Print this help
 help:
-	$(call alert_primary, "TangoMan Shoemaker")
+	$(call _alert_primary, "TangoMan Shoemaker")
 
-	@printf "${WARNING}Description:${EOL}"
-	@printf "${PRIMARY}  A versatile developement tool to split a script file into its components, build a script from a build.lst file, generate Makefile or Markdown documentation from a shoe script.  ${EOL}\n"
+	@printf "${_WARNING}Description:${_EOL}"
+	@printf "${_PRIMARY}  A versatile developement tool to split a script file into its components, build a script from a build.lst file, generate Makefile or Markdown documentation from a shoe script. ${_EOL}\n"
 
-	@printf "${WARNING}Usage:${EOL}"
-	@printf "${PRIMARY}  make [command]${EOL}\n"
+	@printf "${_WARNING}Usage:${_EOL}"
+	@printf "${_PRIMARY}  make [command]${_EOL}\n"
 
-	@printf "${WARNING}Commands:${EOL}"
-	@awk '/^### /{printf"\n${WARNING}%s${EOL}",substr($$0,5)} \
+	@printf "${_WARNING}Commands:${_EOL}"
+	@awk '/^### /{printf"\n${_WARNING}%s${_EOL}",substr($$0,5)} \
 	/^[a-zA-Z0-9_-]+:/{HELP="";if( match(PREV,/^## /))HELP=substr(PREV,4); \
-		printf "${SUCCESS}  %-12s  ${PRIMARY}%s${EOL}",substr($$1,0,index($$1,":")-1),HELP \
+		printf "${_SUCCESS}  %-12s  ${_PRIMARY}%s${_EOL}",substr($$1,0,index($$1,":")-1),HELP \
 	}{PREV=$$0}' ${MAKEFILE_LIST}
 
 ## Dump functions from given script into individual files
 dump:
-	@printf "${INFO}sh shoemaker.sh dump${EOL}"
+	@printf "${_INFO}sh shoemaker.sh dump${_EOL}"
 	@sh shoemaker.sh dump
 
 ## Dump "build.shoe" file
 list:
-	@printf "${INFO}sh shoemaker.sh list${EOL}"
+	@printf "${_INFO}sh shoemaker.sh list${_EOL}"
 	@sh shoemaker.sh list
 
 ## Build from given "build.shoe" file
 build:
-	@printf "${INFO}sh shoemaker.sh build${EOL}"
+	@printf "${_INFO}sh shoemaker.sh build${_EOL}"
 	@sh shoemaker.sh build
 
 ## Build all scripts
 build_all:
-	@printf "${INFO}sh shoemaker.sh build_all${EOL}"
+	@printf "${_INFO}sh shoemaker.sh build_all${_EOL}"
 	@sh shoemaker.sh build_all
 
 ## Remove json annotations from file
 remove_json_annotations:
-	@printf "${INFO}sh shoemaker.sh remove_json_annotations${EOL}"
+	@printf "${_INFO}sh shoemaker.sh remove_json_annotations${_EOL}"
 	@sh shoemaker.sh remove_json_annotations
 
 ##################################################
@@ -138,12 +141,12 @@ remove_json_annotations:
 
 ## Generate Markdown documentation for provided shoe script
 generate_doc:
-	@printf "${INFO}sh shoemaker.sh generate_doc${EOL}"
+	@printf "${_INFO}sh shoemaker.sh generate_doc${_EOL}"
 	@sh shoemaker.sh generate_doc
 
 ## Generate Markdown documentation for all scripts
 generate_doc_all:
-	@printf "${INFO}sh shoemaker.sh generate_doc_all${EOL}"
+	@printf "${_INFO}sh shoemaker.sh generate_doc_all${_EOL}"
 	@sh shoemaker.sh generate_doc_all
 
 ##################################################
@@ -152,31 +155,31 @@ generate_doc_all:
 
 ## Generate Markdown documentation for provided shoe script
 generate_makefile:
-	@printf "${INFO}sh shoemaker.sh generate_makefile${EOL}"
+	@printf "${_INFO}sh shoemaker.sh generate_makefile${_EOL}"
 	@sh shoemaker.sh generate_makefile
 
 ## Generate Makefile for all scripts
 generate_makefile_all:
-	@printf "${INFO}sh shoemaker.sh generate_makefile_all${EOL}"
+	@printf "${_INFO}sh shoemaker.sh generate_makefile_all${_EOL}"
 	@sh shoemaker.sh generate_makefile_all
 
 ##################################################
 ### Self Install
 ##################################################
 
-## Install script and enable completion
+## Install script and enable autocompletion
 self_install:
-	@printf "${INFO}sh shoemaker.sh self_install${EOL}"
+	@printf "${_INFO}sh shoemaker.sh self_install${_EOL}"
 	@sh shoemaker.sh self_install
 
 ## Uninstall script from system
 self_uninstall:
-	@printf "${INFO}sh shoemaker.sh self_uninstall${EOL}"
+	@printf "${_INFO}sh shoemaker.sh self_uninstall${_EOL}"
 	@sh shoemaker.sh self_uninstall
 
 ## Update script from @update
 self_update:
-	@printf "${INFO}sh shoemaker.sh self_update${EOL}"
+	@printf "${_INFO}sh shoemaker.sh self_update${_EOL}"
 	@sh shoemaker.sh self_update
 
 

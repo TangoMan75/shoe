@@ -3,13 +3,14 @@
 ## Install bash_unit framework
 ##
 ## {
+##   "namespace": "app",
 ##   "requires": [
 ##     "curl"
 ##   ],
 ##   "depends": [
 ##     "_check_installed",
-##     "echo_danger",
-##     "echo_info"
+##     "_echo_error",
+##     "_echo_info"
 ##   ]
 ## }
 bash_unit() {
@@ -34,21 +35,21 @@ EOF
 
     if [ ! -f "./tests/bash_unit" ]; then
         if [ -x "$(command -v wget)" ]; then
-            echo_info "wget -qO \"./tests/bash_unit\" https://raw.githubusercontent.com/pgrange/bash_unit/master/bash_unit\n"
+            _echo_info "wget -qO \"./tests/bash_unit\" https://raw.githubusercontent.com/pgrange/bash_unit/master/bash_unit\n"
             wget -qO "./tests/bash_unit" https://raw.githubusercontent.com/pgrange/bash_unit/master/bash_unit
 
         elif [ -x "$(command -v curl)" ]; then
-            echo_info "curl -sSL -o \"./tests/bash_unit\" https://raw.githubusercontent.com/pgrange/bash_unit/master/bash_unit\n"
+            _echo_info "curl -sSL -o \"./tests/bash_unit\" https://raw.githubusercontent.com/pgrange/bash_unit/master/bash_unit\n"
             curl -sSL -o "./tests/bash_unit" https://raw.githubusercontent.com/pgrange/bash_unit/master/bash_unit
 
         else
-            echo_danger "error: could not find \"bash_unit\" executable, please install manually\n"
+            _echo_error "could not find \"bash_unit\" executable, please install manually\n"
             exit 1
         fi
     fi
 
     if [ ! -x "./tests/bash_unit" ]; then
-        echo_info "chmod +x \"./tests\"/bash_unit\n"
+        _echo_info "chmod +x \"./tests\"/bash_unit\n"
         chmod +x ./tests/bash_unit
     fi
 }

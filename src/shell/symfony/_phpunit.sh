@@ -1,13 +1,13 @@
 #!/bin/sh
 
-# Get correct PHPUnit binary path
-#
-# {
-#   "namespace": "ci_cd",
-#   "depends": [
-#     "echo_danger"
-#   ]
-# }
+## Get correct PHPUnit binary path
+##
+## {
+##   "namespace": "ci_cd",
+##   "depends": [
+##     "_echo_error"
+##   ]
+## }
 _phpunit() {
     if [ -f ./vendor/bin/phpunit ]; then
         echo ./vendor/bin/phpunit
@@ -33,7 +33,7 @@ _phpunit() {
         return 0
     fi
 
-    echo_danger "error: \"$(basename "${0}")\" requires phpunit, try: 'composer install'\n"
+    _echo_error "\"$(basename "${0}")\" requires phpunit, try: 'composer install'\n"
 
     return 1
 }

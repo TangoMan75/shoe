@@ -27,10 +27,6 @@
 ./flags.sh
 
 #--------------------------------------------------
-# Place your private constants after this line
-#--------------------------------------------------
-
-#--------------------------------------------------
 # Place your global variables after this line
 #--------------------------------------------------
 
@@ -88,15 +84,6 @@
 #--------------------------------------------------
 
 #--------------------------------------------------
-#_ Bashdoc
-#--------------------------------------------------
-../../src/shell/shoedoc/_get_shoedoc_description.sh
-../../src/shell/shoedoc/_get_shoedoc.sh
-../../src/shell/shoedoc/_get_shoedoc_tag.sh
-../../src/shell/shoedoc/_get_shoedoc_title.sh
-../../src/shell/shoedoc/_get_script_shoedoc.sh
-
-#--------------------------------------------------
 #_ Colors
 #--------------------------------------------------
 ../../src/shell/colors/constants_echo_colors.sh
@@ -150,15 +137,25 @@
 ../../src/shell/reflexion/_get_constants.sh
 ../../src/shell/reflexion/_get_constraint.sh
 ../../src/shell/reflexion/_get_flags.sh
-../../src/shell/reflexion/_get_function_annotation.sh
 ../../src/shell/reflexion/_get_function.sh
 ../../src/shell/reflexion/_get_functions_names.sh
 ../../src/shell/reflexion/_get_options.sh
 ../../src/shell/reflexion/_get_padding.sh
 ../../src/shell/reflexion/_get_parameter.sh
-../../src/shell/reflexion/_parse_annotation.sh
+../../src/shell/reflexion/_has_parameter.sh
 ../../src/shell/reflexion/_print_synopsis.sh
 ../../src/shell/reflexion/_set_parameter.sh
+
+#--------------------------------------------------
+#_ Shoedoc
+#--------------------------------------------------
+../../src/shell/shoedoc/_get_function_shoedoc.sh
+../../src/shell/shoedoc/_get_script_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc_description.sh
+../../src/shell/shoedoc/_get_shoedoc_tag.sh
+../../src/shell/shoedoc/_get_shoedoc_title.sh
+../../src/shell/shoedoc/_parse_shoedoc.sh
 
 #--------------------------------------------------
 #_ Strings
@@ -182,6 +179,5 @@
 #--------------------------------------------------
 #_ Kernel
 #--------------------------------------------------
-../../src/shell/kernel/kernel.sh
-../../src/shell/footer.sh
+../../src/shell/kernel/_kernel.sh
 

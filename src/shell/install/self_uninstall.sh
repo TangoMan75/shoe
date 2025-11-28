@@ -12,6 +12,6 @@
 ##   ]
 ## }
 self_uninstall() {
-    _uninstall "$0" "${ALIAS}"
+    _uninstall "$0" "${ALIAS:-$(basename "$0" .sh)}"
 }
 

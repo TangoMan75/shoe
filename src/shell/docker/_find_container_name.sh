@@ -1,34 +1,34 @@
 #!/bin/sh
 
-# Find container name from string
-#
-# {
-#   "namespace": "docker",
-#   "requires": [
-#     "docker"
-#   ],
-#   "depends": [
-#     "_check_installed",
-#     "echo_danger"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "STRING",
-#       "type": "str",
-#       "description": "The string to find among running containers.",
-#       "nullable": false
-#     }
-#   ]
-# }
+## Find container name from string
+##
+## {
+##   "namespace": "docker",
+##   "requires": [
+##     "docker"
+##   ],
+##   "depends": [
+##     "_check_installed",
+##     "_echo_error"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "STRING",
+##       "type": "str",
+##       "description": "The string to find among running containers.",
+##       "nullable": false
+##     }
+##   ]
+## }
 _find_container_name() {
     # Synopsis: _find_container_name <STRING>
     #   STRING: The string to find among running containers.
 
     _check_installed docker
 
-    if [ -z "$1" ]; then echo_danger 'error: _find_container_name: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 1 ]; then echo_danger "error: _find_container_name: too many arguments ($#)\n"; return 1; fi
+    if [ -z "$1" ]; then _echo_error '_find_container_name: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 1 ]; then _echo_error "_find_container_name: too many arguments ($#)\n"; return 1; fi
 
     # sanitize input
     set -- "$(printf '%s' "$1" | sed 's/[^a-zA-Z0-9_-]//g')"

@@ -3,53 +3,55 @@
 # Color Functions
 #--------------------------------------------------
 
-define echo_primary
-	@printf "${PRIMARY}%b${EOL}" $(1)
+define _echo_primary
+	@printf "${_PRIMARY}%b${_EOL}" $(1)
 endef
-define echo_secondary
-	@printf "${SECONDARY}%b${EOL}" $(1)
+define _echo_secondary
+	@printf "${_SECONDARY}%b${_EOL}" $(1)
 endef
-define echo_success
-	@printf "${SUCCESS}%b${EOL}" $(1)
+define _echo_success
+	@printf "${_SUCCESS}%b${_EOL}" $(1)
 endef
-define echo_danger
-	@printf "${DANGER}%b${EOL}" $(1)
+define _echo_danger
+	@printf "${_DANGER}%b${_EOL}" $(1)
 endef
-define echo_warning
-	@printf "${WARNING}%b${EOL}" $(1)
+define _echo_warning
+	@printf "${_WARNING}%b${_EOL}" $(1)
 endef
-define echo_info
-	@printf "${INFO}%b${EOL}" $(1)
+define _echo_info
+	@printf "${_INFO}%b${_EOL}" $(1)
 endef
-define echo_light
-	@printf "${LIGHT}%b${EOL}" $(1)
+define _echo_light
+	@printf "${_LIGHT}%b${_EOL}" $(1)
 endef
-define echo_dark
-	@printf "${DARK}%b${EOL}" $(1)
+define _echo_dark
+	@printf "${_DARK}%b${_EOL}" $(1)
 endef
-
-define alert_primary
-	@printf "${EOL}${ALERT_PRIMARY}%64s${EOL}${ALERT_PRIMARY} %-63s${EOL}${ALERT_PRIMARY}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_secondary
-	@printf "${EOL}${ALERT_SECONDARY}%64s${EOL}${ALERT_SECONDARY} %-63s${EOL}${ALERT_SECONDARY}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_success
-	@printf "${EOL}${ALERT_SUCCESS}%64s${EOL}${ALERT_SUCCESS} %-63s${EOL}${ALERT_SUCCESS}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_danger
-	@printf "${EOL}${ALERT_DANGER}%64s${EOL}${ALERT_DANGER} %-63s${EOL}${ALERT_DANGER}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_warning
-	@printf "${EOL}${ALERT_WARNING}%64s${EOL}${ALERT_WARNING} %-63s${EOL}${ALERT_WARNING}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_info
-	@printf "${EOL}${ALERT_INFO}%64s${EOL}${ALERT_INFO} %-63s${EOL}${ALERT_INFO}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_light
-	@printf "${EOL}${ALERT_LIGHT}%64s${EOL}${ALERT_LIGHT} %-63s${EOL}${ALERT_LIGHT}%64s${EOL}\n" "" $(1) ""
-endef
-define alert_dark
-	@printf "${EOL}${ALERT_DARK}%64s${EOL}${ALERT_DARK} %-63s${EOL}${ALERT_DARK}%64s${EOL}\n" "" $(1) ""
+define _echo_error
+	@printf "${_DANGER}error: %b${_EOL}" $(1)
 endef
 
+define _alert_primary
+	@printf "${_EOL}${_ALERT_PRIMARY}%64s${_EOL}${_ALERT_PRIMARY} %-63s${_EOL}${_ALERT_PRIMARY}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_secondary
+	@printf "${_EOL}${_ALERT_SECONDARY}%64s${_EOL}${_ALERT_SECONDARY} %-63s${_EOL}${_ALERT_SECONDARY}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_success
+	@printf "${_EOL}${_ALERT_SUCCESS}%64s${_EOL}${_ALERT_SUCCESS} %-63s${_EOL}${_ALERT_SUCCESS}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_danger
+	@printf "${_EOL}${_ALERT_DANGER}%64s${_EOL}${_ALERT_DANGER} %-63s${_EOL}${_ALERT_DANGER}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_warning
+	@printf "${_EOL}${_ALERT_WARNING}%64s${_EOL}${_ALERT_WARNING} %-63s${_EOL}${_ALERT_WARNING}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_info
+	@printf "${_EOL}${_ALERT_INFO}%64s${_EOL}${_ALERT_INFO} %-63s${_EOL}${_ALERT_INFO}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_light
+	@printf "${_EOL}${_ALERT_LIGHT}%64s${_EOL}${_ALERT_LIGHT} %-63s${_EOL}${_ALERT_LIGHT}%64s${_EOL}\n" "" $(1) ""
+endef
+define _alert_dark
+	@printf "${_EOL}${_ALERT_DARK}%64s${_EOL}${_ALERT_DARK} %-63s${_EOL}${_ALERT_DARK}%64s${_EOL}\n" "" $(1) ""
+endef

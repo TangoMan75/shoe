@@ -1,50 +1,50 @@
 #!/bin/sh
 
-# Adds an autoload line for completion script to a shell configuration file
-#
-# {
-#   "namespace": "install",
-#   "depends": [
-#     "_collapse_blank_lines",
-#     "_sed_i",
-#     "echo_danger",
-#     "echo_info"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "SHELL_CONFIG_FILE",
-#       "type": "file",
-#       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "SCRIPT_FILE_PATH",
-#       "type": "file",
-#       "description": "The path to the input file.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 3,
-#       "name": "ALIAS",
-#       "type": "str",
-#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
-#     }
-#   ]
-# }
+## Adds an autoload line for completion script to a shell configuration file
+##
+## {
+##   "namespace": "install",
+##   "depends": [
+##     "_collapse_blank_lines",
+##     "_sed_i",
+##     "_echo_error",
+##     "_echo_info"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "SHELL_CONFIG_FILE",
+##       "type": "file",
+##       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
+##       "nullable": false
+##     },
+##     {
+##       "position": 2,
+##       "name": "SCRIPT_FILE_PATH",
+##       "type": "file",
+##       "description": "The path to the input file.",
+##       "nullable": false
+##     },
+##     {
+##       "position": 3,
+##       "name": "ALIAS",
+##       "type": "str",
+##       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+##     }
+##   ]
+## }
 _set_completion_autoload() {
     # Synopsis: _set_completion_autoload <SHELL_CONFIG_FILE_PATH> <SCRIPT_FILE_PATH> [ALIAS]
     #   SHELL_CONFIG_FILE_PATH: The path to the shell configuration file to be modified (e.g., ~/.bashrc, ~/.zshrc).
     #   SCRIPT_FILE_PATH:       The path to the input file.
     #   ALIAS:                  (optional) The alias of the input script. Defaults to the basename of the provided file
 
-    if [ -z "$1" ]  || [ -z "$2" ]; then echo_danger 'error: _set_completion_autoload: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 3 ]; then echo_danger "error: _set_completion_autoload: too many arguments ($#)\n"; return 1; fi
+    if [ -z "$1" ]  || [ -z "$2" ]; then _echo_error '_set_completion_autoload: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 3 ]; then _echo_error "_set_completion_autoload: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$(realpath "$2")" "${3:-"$(basename "$2" .sh)"}"
-    if [ ! -f "$1" ]; then echo_danger "error: _set_completion_autoload: \"$1\" file not found\n"; return 1; fi
-    if [ ! -f "$2" ]; then echo_danger "error: _set_completion_autoload: \"$2\" file not found\n"; return 1; fi
+    if [ ! -f "$1" ]; then _echo_error "_set_completion_autoload: \"$1\" file not found\n"; return 1; fi
+    if [ ! -f "$2" ]; then _echo_error "_set_completion_autoload: \"$2\" file not found\n"; return 1; fi
 
     # declare inner function
     __set_completion_autoload() {
@@ -52,7 +52,7 @@ _set_completion_autoload() {
         # remove previous install if any
         $(_sed_i) "/^###> $3$/,/^###< $3$/d" "$1"
 
-        echo_info "printf '\\\n###> %s\\\nsource %s\\\n###< %s\\\n' \"$3\" \"$2\" \"$3\" >> \"$1\"\n"
+        _echo_info "printf '\\\n###> %s\\\nsource %s\\\n###< %s\\\n' \"$3\" \"$2\" \"$3\" >> \"$1\"\n"
         printf '\n###> %s\nsource %s\n###< %s\n' "$3" "$2" "$3" >> "$1"
 
         _collapse_blank_lines "$1"
@@ -68,3 +68,4 @@ _set_completion_autoload() {
         __set_completion_autoload "$1" "$(dirname "$2")/$3-completion.sh" "$3"
     fi
 }
+

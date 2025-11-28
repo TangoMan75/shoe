@@ -1,14 +1,14 @@
 #!/bin/sh
 
-# Print default package manager
-#
-# {
-#   "namespace": "system",
-#   "depends": [
-#     "_is_installed",
-#     "echo_danger"
-#   ]
-# }
+## Print default package manager
+##
+## {
+##   "namespace": "system",
+##   "depends": [
+##     "_is_installed",
+##     "_echo_error"
+##   ]
+## }
 _get_package_manager() {
     # Synopsis: _get_package_manager
 
@@ -32,7 +32,7 @@ _get_package_manager() {
         fi
     done
 
-    echo_danger 'error: "_get_package_manager" No package manager found!\n'
+    _echo_error '_get_package_manager: No package manager found!\n'
 
     exit 1
 }

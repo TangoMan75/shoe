@@ -1,40 +1,40 @@
 #!/bin/sh
 
-# Checks if variable is valid given regex constraint
-#
-# {
-#   "namespace": "validation",
-#   "requires": [
-#     "grep",
-#     "sed"
-#   ],
-#   "depends": [
-#     "echo_danger"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "VALUE",
-#       "type": "str",
-#       "description": "The string to be compared to regex pattern.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "PATTERN",
-#       "type": "str",
-#       "description": "The regex parttern to apply.",
-#       "nullable": false
-#     }
-#   ]
-# }
+## Checks if variable is valid given regex constraint
+##
+## {
+##   "namespace": "validation",
+##   "requires": [
+##     "grep",
+##     "sed"
+##   ],
+##   "depends": [
+##     "_echo_error"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "VALUE",
+##       "type": "str",
+##       "description": "The string to be compared to regex pattern.",
+##       "nullable": false
+##     },
+##     {
+##       "position": 2,
+##       "name": "PATTERN",
+##       "type": "str",
+##       "description": "The regex parttern to apply.",
+##       "nullable": false
+##     }
+##   ]
+## }
 _is_valid() {
     # Synopsis: _is_valid <VALUE> <PATTERN>
     #   VALUE:   The string to be compared to regex pattern.
     #   PATTERN: The regex parttern to apply.
 
-    if [ $# -lt 2 ]; then echo_danger 'error: _is_valid: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 2 ]; then echo_danger "error: _is_valid: too many arguments ($#)\n"; return 1; fi
+    if [ $# -lt 2 ]; then _echo_error '_is_valid: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then _echo_error "_is_valid: too many arguments ($#)\n"; return 1; fi
 
     # missing pattern always returns valid status
     if [ -z "$2" ]; then

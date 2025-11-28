@@ -14,23 +14,60 @@ Execute Development and Continuous Integration tasks.
 
 ## 🔥 Usage
 
-`sh entrypoint.sh [command] (--lint_folder './build') (--test_folder './tests')`
+`sh entrypoint.sh [command] (--recipe '') (--lint_folder './build') (--test_folder './tests')`
 
 ## ⚙️ Options
 
-1. **`--lint_folder`**
+1. **`--recipe`**
+> Recipe name to build 
+  - 🧩 Constraint: `/^~?[a-zA-Z0-9.\/_-]+$/`
+  - 🚩 Default: _''_
+
+2. **`--lint_folder`**
 > Lint directory 
   - 🧩 Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
   - 🚩 Default: _'./build'_
 
-2. **`--test_folder`**
+3. **`--test_folder`**
 > Test directory 
   - 🧩 Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
   - 🚩 Default: _'./tests'_
 
 ## 🤖 Commands
 
-#### ⌨️ 1. `lint` (public)
+### ⚡ APP
+
+#### ⌨️ 1. `build` (public)
+
+Build given script from recipe
+
+> Synopsis:
+> build
+
+- ⚠️ Requires: `shoemaker.sh`, `chmod`
+- 🔗 Depends: `_echo_error`, `_echo_info`
+
+#### ⌨️ 2. `build_all` (public)
+
+Build all scripts in recipes folder
+
+> Synopsis:
+> build_all
+
+- ⚠️ Requires: `shoemaker.sh`, `chmod`
+- 🔗 Depends: `_echo_info`
+
+#### ⌨️ 3. `replace` (public)
+
+Replace shoemaker, entrypoint and Makefile in root directory
+
+> Synopsis:
+> replace
+
+- ⚠️ Requires: `cp`
+- 🔗 Depends: `_echo_info`
+
+#### ⌨️ 4. `lint` (public)
 
 Sniff errors with linter
 
@@ -38,9 +75,9 @@ Sniff errors with linter
 > lint
 
 - ⚠️ Requires: `shellcheck`
-- 🔗 Depends: `_check_installed`, `echo_info`
+- 🔗 Depends: `_check_installed`, `_echo_info`
 
-#### ⌨️ 2. `tests` (public)
+#### ⌨️ 5. `tests` (public)
 
 Run tests
 
@@ -48,11 +85,9 @@ Run tests
 > tests
 
 - ⚠️ Requires: `bash_unit`
-- 🔗 Depends: `echo_info`
+- 🔗 Depends: `_echo_info`
 
-### ⚡ APP
-
-#### ⌨️ 1. `git_hooks` (public)
+#### ⌨️ 6. `git_hooks` (public)
 
 Install git hooks
 
@@ -61,7 +96,7 @@ Install git hooks
 
 - 🔗 Depends: `_git_hooks`
 
-#### ⌨️ 2. `bash_unit` (public)
+#### ⌨️ 7. `bash_unit` (public)
 
 Install bash_unit framework
 
@@ -69,16 +104,16 @@ Install bash_unit framework
 > bash_unit
 
 - ⚠️ Requires: `curl`
-- 🔗 Depends: `_check_installed`, `echo_danger`, `echo_info`
+- 🔗 Depends: `_check_installed`, `_echo_error`, `_echo_info`
 
-#### ⌨️ 3. `test_can_fail` (public)
+#### ⌨️ 8. `test_can_fail` (public)
 
-https://github.com/pgrange/bash_unit
+
 
 > Synopsis:
 > test_can_fail
 
-#### ⌨️ 4. `alpine` (public)
+#### ⌨️ 9. `alpine` (public)
 
 Run script in Alpine Docker container
 
@@ -86,9 +121,9 @@ Run script in Alpine Docker container
 > alpine
 
 - ⚠️ Requires: `docker`
-- 🔗 Depends: `_check_installed`, `echo_info`
+- 🔗 Depends: `_check_installed`, `_echo_info`
 
-#### ⌨️ 5. `busybox` (public)
+#### ⌨️ 10. `busybox` (public)
 
 Run script in Busybox Docker container
 
@@ -96,9 +131,9 @@ Run script in Busybox Docker container
 > busybox
 
 - ⚠️ Requires: `docker`
-- 🔗 Depends: `_check_installed`, `echo_info`
+- 🔗 Depends: `_check_installed`, `_echo_info`
 
-#### ⌨️ 6. `ubuntu` (public)
+#### ⌨️ 11. `ubuntu` (public)
 
 Run script in Ubuntu Docker container
 
@@ -106,7 +141,7 @@ Run script in Ubuntu Docker container
 > ubuntu
 
 - ⚠️ Requires: `docker`
-- 🔗 Depends: `_check_installed`, `echo_info`
+- 🔗 Depends: `_check_installed`, `_echo_info`
 
 ### ⚡ HELP
 
@@ -118,122 +153,4 @@ Print this help
 > help
 
 - 🔗 Depends: `_help`
-
-### ⚡ COLORS
-
-#### ⌨️ 1. `echo_primary` (public)
-
-Print primary text with optional indentation and padding
-
-> Synopsis:
-> echo_primary &lt;STRING&gt; [INDENTATION] [PADDING]
-- `STRING`: _(type: "str")_ Text to display.
-- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
-- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
-
-#### ⌨️ 2. `echo_secondary` (public)
-
-Print secondary text with optional indentation and padding
-
-> Synopsis:
-> echo_secondary &lt;STRING&gt; [INDENTATION] [PADDING]
-- `STRING`: _(type: "str")_ Text to display.
-- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
-- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
-
-#### ⌨️ 3. `echo_success` (public)
-
-Print success text with optional indentation and padding
-
-> Synopsis:
-> echo_success &lt;STRING&gt; [INDENTATION] [PADDING]
-- `STRING`: _(type: "str")_ Text to display.
-- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
-- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
-
-#### ⌨️ 4. `echo_danger` (public)
-
-Print danger text with optional indentation and padding
-
-> Synopsis:
-> echo_danger &lt;STRING&gt; [INDENTATION] [PADDING]
-- `STRING`: _(type: "str")_ Text to display.
-- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
-- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
-
-#### ⌨️ 5. `echo_warning` (public)
-
-Print warning text with optional indentation and padding
-
-> Synopsis:
-> echo_warning &lt;STRING&gt; [INDENTATION] [PADDING]
-- `STRING`: _(type: "str")_ Text to display.
-- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
-- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
-
-#### ⌨️ 6. `echo_info` (public)
-
-Print info text with optional indentation and padding
-
-> Synopsis:
-> echo_info &lt;STRING&gt; [INDENTATION] [PADDING]
-- `STRING`: _(type: "str")_ Text to display.
-- `INDENTATION`: _(type: "int")_ (optional) Indentation level. _Defaults to "0"._
-- `PADDING`: _(type: "int")_ (optional) Padding length. _Defaults to "0"._
-
-#### ⌨️ 7. `alert_primary` (public)
-
-Print primary alert
-
-> Synopsis:
-> alert_primary &lt;STRING&gt;
-- `STRING`: _(type: "str")_ Text to display.
-
-#### ⌨️ 8. `alert_secondary` (public)
-
-Print secondary alert
-
-> Synopsis:
-> alert_secondary &lt;STRING&gt;
-- `STRING`: _(type: "str")_ Text to display.
-
-#### ⌨️ 9. `alert_success` (public)
-
-Print success alert
-
-> Synopsis:
-> alert_success &lt;STRING&gt;
-- `STRING`: _(type: "str")_ Text to display.
-
-#### ⌨️ 10. `alert_danger` (public)
-
-Print danger alert
-
-> Synopsis:
-> alert_danger &lt;STRING&gt;
-- `STRING`: _(type: "str")_ Text to display.
-
-#### ⌨️ 11. `alert_warning` (public)
-
-Print warning alert
-
-> Synopsis:
-> alert_warning &lt;STRING&gt;
-- `STRING`: _(type: "str")_ Text to display.
-
-#### ⌨️ 12. `alert_info` (public)
-
-Print info alert
-
-> Synopsis:
-> alert_info &lt;STRING&gt;
-- `STRING`: _(type: "str")_ Text to display.
-
-#### ⌨️ 13. `echo_error` (public)
-
-Print error message to STDERR, prefixed with "error: "
-
-> Synopsis:
-> echo_error &lt;MESSAGE&gt;
-- `MESSAGE`: _(type: "str")_ Error message to display.
 

@@ -1,17 +1,17 @@
 #!/bin/sh
 
-# Return docker compose command
-#
-# {
-#   "namespace": "docker",
-#   "requires": [
-#     "command",
-#     "docker"
-#   ],
-#   "depends": [
-#     "echo_danger"
-#   ]
-# }
+## Return docker compose command
+##
+## {
+##   "namespace": "docker",
+##   "requires": [
+##     "command",
+##     "docker"
+##   ],
+##   "depends": [
+##     "_echo_error"
+##   ]
+## }
 _get_docker_compose() {
     # Synopsis: _get_docker_compose
 
@@ -27,7 +27,7 @@ _get_docker_compose() {
         return 0
     fi
 
-    echo_danger "error: \"$(basename "${0}")\" requires docker-compose or docker compose plugin\n"
+    _echo_error "\"$(basename "${0}")\" requires docker-compose or docker compose plugin\n"
 
     exit 1
 }

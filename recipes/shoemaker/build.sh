@@ -6,12 +6,12 @@
 ##   "depends": [
 ##     "_build",
 ##     "_pwd",
-##     "echo_danger"
+##     "_echo_error"
 ##   ]
 ## }
 build() {
     if [ ! -f "${file}" ]; then
-        echo_danger "error: \"${file}\" file not found\n"
+        _echo_error "\"${file}\" file not found\n"
         return 1
     fi
     file="$(realpath "${file}")"

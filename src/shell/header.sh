@@ -6,7 +6,7 @@ set -e
 #
 # This file is distributed under to the MIT license.
 #
-# Copyright (c) 2025 "Matthias Morin" <mat@tangoman.io>
+# Copyright (c) 2026 "Matthias Morin" <mat@tangoman.io>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

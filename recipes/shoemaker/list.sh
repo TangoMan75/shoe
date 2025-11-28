@@ -6,13 +6,13 @@
 ##   "depends": [
 ##     "_get_functions_names",
 ##     "_pwd",
-##     "echo_danger",
-##     "echo_success"
+##     "_echo_error",
+##     "_echo_success"
 ##   ]
 ## }
 list() {
     if [ ! -f "${file}" ]; then
-        echo_danger "error: \"${file}\" file not found\n"
+        _echo_error "\"${file}\" file not found\n"
         return 1
     fi
 
@@ -27,7 +27,7 @@ list() {
         mkdir -p "${destination}"
     fi
 
-    echo_success "Listing functions from \"${file}\" to \"${destination}/$(basename "${file}" .sh).shoe\"\n"
+    _echo_success "Listing functions from \"${file}\" to \"${destination}/$(basename "${file}" .sh).shoe\"\n"
     _get_functions_names "${file}" true | sed 's/$/.sh/g' > "${destination}/$(basename "${file}" .sh).shoe"
 }
 

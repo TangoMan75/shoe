@@ -1,28 +1,34 @@
 #!/bin/sh
 
-# shellcheck disable=SC2034
+## shellcheck disable=SC2034
 
-# PRIMARY: bright white text
-PRIMARY='\033[97m'
+## bright white text
+_PRIMARY='\033[97m'
 
-# SECONDARY: bright blue text
-SECONDARY='\033[94m'
+## bright blue text
+_SECONDARY='\033[94m'
 
-# SUCCESS: bright green text
-SUCCESS='\033[32m'
+## bright green text
+_SUCCESS='\033[32m'
 
-# DANGER: red text
-DANGER='\033[31m'
+## red text
+_DANGER='\033[31m'
 
-# WARNING: orange text
-WARNING='\033[33m'
+## orange text
+_WARNING='\033[33m'
 
-# INFO: bright purple text
-INFO='\033[95m'
+## bright purple text
+_INFO='\033[95m'
 
-# DEFAULT: reset formatting
-DEFAULT='\033[0m'
+## light gray background with dark gray text
+_LIGHT='\033[47;90m'
 
-# EOF: reset formatting and carriage return
-EOL='\033[0m\n'
+## black background with light gray text
+_DARK='\033[40;37m'
+
+## reset formatting
+_DEFAULT='\033[0m'
+
+## reset formatting and carriage return
+_EOL='\033[0m\n'
 

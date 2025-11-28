@@ -1,54 +1,54 @@
 #!/bin/sh
 
-# List options of the provided shoe script (used by "help" command)
-#
-# {
-#   "namespace": "help",
-#   "requires": [
-#     "awk"
-#   ],
-#   "depends": [
-#     "echo_danger",
-#     "echo_warning"
-#   ],
-#   "assumes": [
-#     "DEFAULT",
-#     "EOL",
-#     "INFO",
-#     "SUCCESS",
-#     "WARNING"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "FILE_PATH",
-#       "type": "file",
-#       "description": "The path to the input file.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "PADDING",
-#       "type": "int",
-#       "description": "Padding length.",
-#       "default": 12
-#     }
-#   ]
-# }
+## List options of the provided shoe script (used by "help" command)
+##
+## {
+##   "namespace": "help",
+##   "requires": [
+##     "awk"
+##   ],
+##   "depends": [
+##     "_echo_error",
+##     "_echo_warning"
+##   ],
+##   "assumes": [
+##     "DEFAULT",
+##     "EOL",
+##     "INFO",
+##     "SUCCESS",
+##     "WARNING"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "FILE_PATH",
+##       "type": "file",
+##       "description": "The path to the input file.",
+##       "nullable": false
+##     },
+##     {
+##       "position": 2,
+##       "name": "PADDING",
+##       "type": "int",
+##       "description": "Padding length.",
+##       "default": 12
+##     }
+##   ]
+## }
 _print_options() {
     # Synopsis: _print_options <FILE_PATH> [PADDING]
     #   FILE_PATH: The path to the input file.
     #   PADDING:   (optional) Padding length (default: 12)
     #   note:      "awk: %*x formats are not supported"
 
-    if [ -z "$1" ]; then echo_danger 'error: _print_options: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 2 ]; then echo_danger "error: _print_options: too many arguments ($#)\n"; return 1; fi
+    if [ -z "$1" ]; then _echo_error '_print_options: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then _echo_error "_print_options: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" $((${2:-12}-2))
-    if [ ! -f "$1" ]; then echo_danger "error: _print_options: \"$1\" file not found\n"; return 1; fi
+    if [ ! -f "$1" ]; then _echo_error "_print_options: \"$1\" file not found\n"; return 1; fi
 
-    echo_warning "Options:\n"
-    awk  -F '=' -v WARNING="${WARNING}" -v SUCCESS="${SUCCESS}" -v INFO="${INFO}" -v DEFAULT="${DEFAULT}" -v EOL="${EOL}" \
+    _echo_warning "Options:\n"
+    awk  -F '=' -v WARNING="${_WARNING}" -v SUCCESS="${_SUCCESS}" -v INFO="${_INFO}" -v DEFAULT="${_DEFAULT}" -v EOL="${_EOL}" \
     '/^[a-zA-Z0-9_]+=.+$/ {
         if (substr(PREV,1,3) == "## " && $1 != toupper($1) && $2 != "false" && substr($0,1,1) != "_") {
             if (match(PREV,/ \/.+\//)) {

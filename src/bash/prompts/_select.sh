@@ -1,29 +1,30 @@
 #!/bin/bash
 
-# Present user with a list of choices and prompt them to select one
-# {
-#   "namespace": "prompts",
-#   "depends": [
-#     "echo_danger",
-#     "echo_success"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "CHOICES",
-#       "type": "array",
-#       "description": "Array containing choices.",
-#       "nullable": false
-#     }
-#   ]
-# }
+## Present user with a list of choices and prompt them to select one
+##
+## {
+##   "namespace": "prompts",
+##   "depends": [
+##     "_echo_danger",
+##     "_echo_success"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "CHOICES",
+##       "type": "array",
+##       "description": "Array containing choices.",
+##       "nullable": false
+##     }
+##   ]
+## }
 _select() {
     # Synopsis: _select <CHOICES>
     #   CHOICES:  Array containing choices
 
-    if [ -z "$1" ]; then echo_danger 'error: _select: some mandatory parameter is missing\n'; return 1; fi
+    if [ -z "$1" ]; then _echo_danger 'error: _select: some mandatory parameter is missing\n'; return 1; fi
 
-    PS3=$(echo_success 'Please select your choice : ')
+    PS3=$(_echo_success 'Please select your choice : ')
     select __select__ in "$@"; do
         # validate selection
         for __item__ in "$@"; do

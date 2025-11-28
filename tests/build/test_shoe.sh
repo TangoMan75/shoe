@@ -1,13 +1,30 @@
 #!/bin/bash
 
-#/*
-# * This file is part of TangoMan Shoe package.
-# *
-# * Copyright (c) 2025 "Matthias Morin" <mat@tangoman.io>
-# *
-# * This source file is subject to the MIT license that is bundled
-# * with this source code in the file LICENSE.
-# */
+# This file is part of TangoMan Shoe package.
+#
+# This file is distributed under to the MIT license.
+#
+# Copyright (c) 2026 "Matthias Morin" <mat@tangoman.io>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+# Source code is available here: https://github.com/TangoMan75/shoe
 
 # https://github.com/pgrange/bash_unit
 #
@@ -35,7 +52,7 @@ test_unknown_command_should_fail() {
 }
 
 test_unknown_command_should_fail_with_expected_error_message() {
-    assert_equals "error: \"tango\" is not a valid command" "$(_remove_colors "$(${src_file} tango)")"
+    assert_equals "error: \"tango\" is not a valid command" "$(_remove_colors "$(${src_file} tango 2>&1)")"
 }
 
 test_hello_command_should_return_expected_string() {
@@ -59,7 +76,7 @@ test_unknown_shorthand_should_fail() {
 }
 
 test_unknown_shorthand_should_fail_with_expected_error_message() {
-    assert_equals "error: \"z\" is not a valid command" "$(_remove_colors "$(${src_file} z)")"
+    assert_equals "error: \"z\" is not a valid command" "$(_remove_colors "$(${src_file} z 2>&1)")"
 }
 
 test_h_shorthand_should_return_expected_string() {
@@ -83,7 +100,7 @@ test_unknown_flag_should_fail() {
 }
 
 test_unknown_flag_should_fail_with_expected_error_message() {
-    assert_equals "error: \"--tango\" is not a valid parameter" "$(_remove_colors "$(${src_file} --tango)")"
+    assert_equals "error: \"--tango\" is not a valid parameter" "$(_remove_colors "$(${src_file} --tango 2>&1)")"
 }
 
 test_flag_test_command_should_return_given_flag() {
@@ -103,7 +120,7 @@ test_unknown_short_flag_should_fail() {
 }
 
 test_unknown_short_flag_should_fail_with_expected_error_message() {
-    assert_equals "error: \"-t\" is not a valid parameter" "$(_remove_colors "$(${src_file} -t)")"
+    assert_equals "error: \"-t\" is not a valid parameter" "$(_remove_colors "$(${src_file} -t 2>&1)")"
 }
 
 test_flag_test_command_should_return_given_short_flag() {
@@ -119,7 +136,7 @@ test_unknown_option_should_fail() {
 }
 
 test_unknown_option_should_fail_with_expected_error_message() {
-    assert_equals "error: \"--tango\" is not a valid parameter" "$(_remove_colors "$(${src_file} --tango "tango")")"
+    assert_equals "error: \"--tango\" is not a valid parameter" "$(_remove_colors "$(${src_file} --tango "tango"  2>&1)")"
 }
 
 #--------------------------------------------------
@@ -131,7 +148,7 @@ test_unknown_short_option_should_fail() {
 }
 
 test_unknown_short_option_should_fail_with_expected_error_message() {
-    assert_equals "error: \"-t\" is not a valid parameter" "$(_remove_colors "$(${src_file} -t "tango")")"
+    assert_equals "error: \"-t\" is not a valid parameter" "$(_remove_colors "$(${src_file} -t "tango"  2>&1)")"
 }
 
 #--------------------------------------------------
@@ -143,7 +160,7 @@ test_option_should_fail_alphabetical_validation() {
 }
 
 test_option_should_fail_alphabetical_validation_with_expected_error_message() {
-    assert_equals "error: invalid \"who\", expected \"/^[a-zA-Z-]+$/\", \"123\" given" "$(_remove_colors "$(${src_file} --who 123)")"
+    assert_equals "error: invalid \"who\", expected \"/^[a-zA-Z-]+$/\", \"123\" given" "$(_remove_colors "$(${src_file} --who 123 2>&1)")"
 }
 
 test_option_should_fail_numeric_validation() {
@@ -151,7 +168,7 @@ test_option_should_fail_numeric_validation() {
 }
 
 test_option_should_fail_numeric_validation_with_expected_error_message() {
-    assert_equals "error: invalid \"count\", expected \"/[1-9]/\", \"abc\" given" "$(_remove_colors "$(${src_file} --count abc)")"
+    assert_equals "error: invalid \"count\", expected \"/[1-9]/\", \"abc\" given" "$(_remove_colors "$(${src_file} --count abc 2>&1)")"
 }
 
 #--------------------------------------------------
@@ -163,7 +180,7 @@ test_short_option_should_fail_alphabetical_validation() {
 }
 
 test_short_option_should_fail_alphabetical_validation_with_expected_error_message() {
-    assert_equals "error: invalid \"who\", expected \"/^[a-zA-Z-]+$/\", \"123\" given" "$(_remove_colors "$(${src_file} -w 123)")"
+    assert_equals "error: invalid \"who\", expected \"/^[a-zA-Z-]+$/\", \"123\" given" "$(_remove_colors "$(${src_file} -w 123 2>&1)")"
 }
 
 test_short_option_should_fail_numeric_validation() {
@@ -171,6 +188,6 @@ test_short_option_should_fail_numeric_validation() {
 }
 
 test_short_option_should_fail_numeric_validation_with_expected_error_message() {
-    assert_equals "error: invalid \"count\", expected \"/[1-9]/\", \"abc\" given" "$(_remove_colors "$(${src_file} -c abc)")"
+    assert_equals "error: invalid \"count\", expected \"/[1-9]/\", \"abc\" given" "$(_remove_colors "$(${src_file} -c abc 2>&1)")"
 }
 

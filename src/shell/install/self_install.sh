@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## Install script and enable completion
+## Install script and enable autocompletion
 ##
 ## {
 ##   "namespace": "install",
@@ -13,6 +13,6 @@
 ##   ]
 ## }
 self_install() {
-    _install "$0" "${ALIAS}" "${global:-false}"
+    _install "$0" "${ALIAS:-$(basename "$0" .sh)}" "${global:-false}"
 }
 

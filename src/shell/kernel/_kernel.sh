@@ -1,30 +1,30 @@
 #!/bin/sh
 
-# Shoe Kernel
-#
-# {
-#   "namespace": "kernel",
-#   "requires": [
-#     "awk",
-#     "grep"
-#   ],
-#   "depends": [
-#     "_after",
-#     "_before",
-#     "_default",
-#     "_get_flags",
-#     "_get_functions_names",
-#     "_get_options",
-#     "_validate",
-#     "echo_danger"
-#   ]
-# }
+## Shoe Kernel
+##
+## {
+##   "namespace": "kernel",
+##   "requires": [
+##     "awk",
+##     "grep"
+##   ],
+##   "depends": [
+##     "_after",
+##     "_before",
+##     "_default",
+##     "_echo_error",
+##     "_get_flags",
+##     "_get_functions_names",
+##     "_get_options",
+##     "_validate"
+##   ]
+## }
 _kernel() {
     # Check for duplicate function definitions
     __functions_names__=$(_get_functions_names "$0" true)
     for __function__ in ${__functions_names__}; do
         if [ "$(printf "%s" "${__functions_names__}" | grep -cx "${__function__}")" -gt 1 ]; then
-            echo_danger "error: function \"${__function__}\" is defined multiple times\n"
+            _echo_error "function \"${__function__}\" is defined multiple times\n"
             exit 1
         fi
     done
@@ -64,7 +64,7 @@ _kernel() {
                 done
             done
             if [ "${__is_valid__}" = false ]; then
-                echo_danger "error: \"${__argument__}\" is not a valid parameter\n"
+                _echo_error "\"${__argument__}\" is not a valid parameter\n"
                 exit 1
             fi
             continue
@@ -80,13 +80,13 @@ _kernel() {
             fi
         done
         if [ "${__is_valid__}" = false ]; then
-            echo_danger "error: \"${__argument__}\" is not a valid command\n"
+            _echo_error "\"${__argument__}\" is not a valid command\n"
             exit 1
         fi
     done
 
     if [ -n "${__requires_value__}" ]; then
-        echo_danger "error: \"--${__requires_value__}\" requires value\n"
+        _echo_error "\"--${__requires_value__}\" requires value\n"
         exit 1
     fi
 
@@ -106,3 +106,4 @@ _kernel() {
     [ -n "$(command -v _after)" ] && _after
 }
 
+_kernel "$@"

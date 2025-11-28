@@ -6,13 +6,13 @@
 ##   "depends": [
 ##     "_get_function",
 ##     "_get_functions_names",
-##     "echo_danger",
-##     "echo_success"
+##     "_echo_error",
+##     "_echo_success"
 ##   ]
 ## }
 dump() {
     if [ ! -f "${file}" ]; then
-        echo_danger "error: \"${file}\" file not found\n"
+        _echo_error "\"${file}\" file not found\n"
         return 1
     fi
     file="$(realpath "${file}")"
@@ -25,7 +25,7 @@ dump() {
     fi
     destination="$(realpath "${destination}")"
 
-    echo_success "Dumping functions from \"${file}\" to \"${destination}\"\n"
+    _echo_success "Dumping functions from \"${file}\" to \"${destination}\"\n"
     for name in $(_get_functions_names "${file}" true); do
         printf '#!/bin/sh\n\n' > "${destination}/${name}.sh"
         _get_function "${file}" "${name}" >> "${destination}/${name}.sh"

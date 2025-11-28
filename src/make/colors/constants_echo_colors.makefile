@@ -3,14 +3,14 @@
 # Echo Colors
 #--------------------------------------------------
 
-PRIMARY   = \033[97m
-SECONDARY = \033[94m
-SUCCESS   = \033[32m
-DANGER    = \033[31m
-WARNING   = \033[33m
-INFO      = \033[95m
-LIGHT     = \033[47;90m
-DARK      = \033[40;37m
-DEFAULT   = \033[0m
-EOL       = \033[0m\n
+_PRIMARY   = \033[97m
+_SECONDARY = \033[94m
+_SUCCESS   = \033[32m
+_DANGER    = \033[31m
+_WARNING   = \033[33m
+_INFO      = \033[95m
+_LIGHT     = \033[47;90m
+_DARK      = \033[40;37m
+_DEFAULT   = \033[0m
+_EOL       = \033[0m\n
 

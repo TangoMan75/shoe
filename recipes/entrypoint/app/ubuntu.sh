@@ -3,18 +3,19 @@
 ## Run script in Ubuntu Docker container
 ##
 ## {
+##   "namespace": "app",
 ##   "requires": [
 ##     "docker"
 ##   ],
 ##   "depends": [
 ##     "_check_installed",
-##     "echo_info"
+##     "_echo_info"
 ##   ]
 ## }
 ubuntu() {
     _check_installed docker
 
-    echo_info "docker run -it --rm --volume=\"$(pwd):/home:ro\" --workdir=\"/home\" ubuntu sh entrypoint.sh\n"
+    _echo_info "docker run -it --rm --volume=\"$(pwd):/home:ro\" --workdir=\"/home\" ubuntu sh entrypoint.sh\n"
     docker run -it --rm --volume="$(pwd):/home:ro" --workdir="/home" ubuntu sh entrypoint.sh
 }
 

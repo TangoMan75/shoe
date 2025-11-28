@@ -6,7 +6,7 @@
     ],
     "github.copilot.chat.codeGeneration.instructions": [
         {
-            "file": "./doc/instructions/shoe_scripting_conventions.md"
+            "file": "./AGENTS.md"
         }
     ]
 }

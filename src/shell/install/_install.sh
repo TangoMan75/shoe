@@ -1,52 +1,52 @@
 #!/bin/sh
 
-# Install script and enable completion
-#
-# {
-#   "namespace": "install",
-#   "depends": [
-#     "_copy_install",
-#     "_generate_autocomplete",
-#     "_generate_global_autocomplete",
-#     "_is_installed",
-#     "_set_completion_autoload",
-#     "_symlink_install",
-#     "echo_danger"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "FILE_PATH",
-#       "type": "file",
-#       "description": "The path to the input file.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "ALIAS",
-#       "type": "str",
-#       "description": "The alias of the script to install. Defaults to the basename of the provided file."
-#     },
-#     {
-#       "position": 3,
-#       "name": "GLOBAL",
-#       "type": "bool",
-#       "description": "Install globally.",
-#       "default": false
-#     }
-#   ]
-# }
+## Install script and enable autocompletion
+##
+## {
+##   "namespace": "install",
+##   "depends": [
+##     "_copy_install",
+##     "_generate_autocomplete",
+##     "_generate_global_autocomplete",
+##     "_is_installed",
+##     "_set_completion_autoload",
+##     "_symlink_install",
+##     "_echo_error"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "FILE_PATH",
+##       "type": "file",
+##       "description": "The path to the input file.",
+##       "nullable": false
+##     },
+##     {
+##       "position": 2,
+##       "name": "ALIAS",
+##       "type": "str",
+##       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+##     },
+##     {
+##       "position": 3,
+##       "name": "GLOBAL",
+##       "type": "bool",
+##       "description": "Install globally.",
+##       "default": false
+##     }
+##   ]
+## }
 _install() {
     # Synopsis: _install <FILE_PATH> [ALIAS] [GLOBAL]
     #   FILE_PATH: The path to the input file.
     #   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided script.
     #   GLOBAL:    (optional) Install globally. Defaults to "false".
 
-    if [ -z "$1" ]; then echo_danger 'error: _install: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 3 ]; then echo_danger "error: _install: too many arguments ($#)\n"; return 1; fi
+    if [ -z "$1" ]; then _echo_error '_install: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 3 ]; then _echo_error "_install: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}" "${3:-false}"
-    if [ ! -f "$1" ]; then echo_danger "error: _install: \"$1\" file not found\n"; return 1; fi
+    if [ ! -f "$1" ]; then _echo_error "_install: \"$1\" file not found\n"; return 1; fi
 
     if [ "$3" = true ]; then
         _copy_install "$1" "$2"

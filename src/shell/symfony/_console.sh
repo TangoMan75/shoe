@@ -1,13 +1,13 @@
 #!/bin/sh
 
-# Get correct Symfony console binary path
-#
-# {
-#   "namespace": "symfony",
-#   "depends": [
-#     "echo_danger"
-#   ]
-# }
+## Get correct Symfony console binary path
+##
+## {
+##   "namespace": "symfony",
+##   "depends": [
+##     "_echo_error"
+##   ]
+## }
 _console() {
     if [ -x "$(command -v symfony)" ]; then
         echo 'symfony console'
@@ -27,7 +27,7 @@ _console() {
         return 0
     fi
 
-    echo_danger "error: \"$(basename "${0}")\" symfony console not found, try: 'composer install'\n"
+    _echo_error "\"$(basename "${0}")\" symfony console not found, try: 'composer install'\n"
     exit 1
 }
 

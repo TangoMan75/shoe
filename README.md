@@ -338,7 +338,7 @@ If you want to open an issue, please check first if it was not [reported already
 📜 License
 ----------
 
-Copyrights (c) 2025 &quot;Matthias Morin&quot; &lt;mat@tangoman.io&gt;
+Copyright (c) 2026 &quot;Matthias Morin&quot; &lt;mat@tangoman.io&gt;
 
 [![License](https://img.shields.io/badge/Licence-MIT-green.svg)](LICENSE)
 Distributed under the MIT license.

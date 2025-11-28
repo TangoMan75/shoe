@@ -1,42 +1,42 @@
 #!/bin/sh
 
-# List options from provided shoe script
-#
-# {
-#   "namespace": "reflexion",
-#   "requires": [
-#     "awk"
-#   ],
-#   "depends": [
-#     "echo_danger"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "SCRIPT_PATH",
-#       "type": "file",
-#       "description": "The path to the input script.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "GET_PRIVATE_ONLY",
-#       "type": "bool",
-#       "description": "If set to \"true\", retrieves private options only.",
-#       "default": false
-#     }
-#   ]
-# }
+## List options from provided shoe script
+##
+## {
+##   "namespace": "reflexion",
+##   "requires": [
+##     "awk"
+##   ],
+##   "depends": [
+##     "_echo_error"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "SCRIPT_PATH",
+##       "type": "file",
+##       "description": "The path to the input script.",
+##       "nullable": false
+##     },
+##     {
+##       "position": 2,
+##       "name": "GET_PRIVATE_ONLY",
+##       "type": "bool",
+##       "description": "If set to \"true\", retrieves private options only.",
+##       "default": false
+##     }
+##   ]
+## }
 _get_options() {
     # Synopsis: _get_options <SCRIPT_PATH> [GET_PRIVATE_ONLY]
     #   SCRIPT_PATH:      The path to the input script.
     #   GET_PRIVATE_ONLY: (Optional) If set to 'true', retrieves private options only. Defaults to "false".
 
-    if [ -z "$1" ]; then echo_danger 'error: _get_options: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 2 ]; then echo_danger "error: _get_options: too many arguments ($#)\n"; return 1; fi
+    if [ -z "$1" ]; then _echo_error '_get_options: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then _echo_error "_get_options: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "${2:-false}"
-    if [ ! -f "$1" ]; then echo_danger "error: _get_options: \"$1\" file not found\n"; return 1; fi
+    if [ ! -f "$1" ]; then _echo_error "_get_options: \"$1\" file not found\n"; return 1; fi
 
     awk -F '=' -v GET_PRIVATE_ONLY="$2" \
     '/^[a-zA-Z0-9_]+=.+$/ {

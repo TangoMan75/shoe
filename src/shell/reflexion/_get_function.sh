@@ -1,42 +1,42 @@
 #!/bin/sh
 
-# Get function by name
-#
-# {
-#   "namespace": "reflexion",
-#   "requires": [
-#     "awk"
-#   ],
-#   "depends": [
-#     "echo_danger"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "SCRIPT_PATH",
-#       "type": "file",
-#       "description": "The path to the input script.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "FUNCTION_NAME",
-#       "type": "str",
-#       "description": "The name of the function to retrieve.",
-#       "nullable": false
-#     }
-#   ]
-# }
+## Get function by name
+##
+## {
+##   "namespace": "reflexion",
+##   "requires": [
+##     "awk"
+##   ],
+##   "depends": [
+##     "_echo_error"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "SCRIPT_PATH",
+##       "type": "file",
+##       "description": "The path to the input script.",
+##       "nullable": false
+##     },
+##     {
+##       "position": 2,
+##       "name": "FUNCTION_NAME",
+##       "type": "str",
+##       "description": "The name of the function to retrieve.",
+##       "nullable": false
+##     }
+##   ]
+## }
 _get_function() {
     # Synopsis: _get_function <SCRIPT_PATH> <FUNCTION_NAME>
     #   SCRIPT_PATH:   The path to the input file.
     #   FUNCTION_NAME: The name of the function to retrieve.
 
-    if [ -z "$1" ] || [ -z "$2" ]; then echo_danger 'error: _get_function: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 2 ]; then echo_danger "error: _get_function: too many arguments ($#)\n"; return 1; fi
+    if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_get_function: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then _echo_error "_get_function: too many arguments ($#)\n"; return 1; fi
 
     set -- "$(realpath "$1")" "$2"
-    if [ ! -f "$1" ]; then echo_danger "error: _get_function: \"$1\" file not found\n"; return 1; fi
+    if [ ! -f "$1" ]; then _echo_error "_get_function: \"$1\" file not found\n"; return 1; fi
 
     awk -v FUNCTION_NAME="$2" '
     function count_occurrences(str,char) {

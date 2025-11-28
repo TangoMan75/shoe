@@ -1,51 +1,51 @@
 #!/bin/sh
 
-# Generate Markdown documentation for provided shoe script
-#
-# {
-#   "namespace": "documentation",
-#   "requires": [
-#     "awk"
-#   ],
-#   "depends": [
-#     "_get_script_shoedoc",
-#     "_get_shoedoc_description",
-#     "_get_shoedoc_tag",
-#     "_get_shoedoc_title",
-#     "_print_synopsis",
-#     "alert_primary",
-#     "echo_danger",
-#     "echo_success"
-#   ],
-#   "parameters": [
-#     {
-#       "position": 1,
-#       "name": "SCRIPT_PATH",
-#       "type": "file",
-#       "description": "The path to the input script.",
-#       "nullable": false
-#     },
-#     {
-#       "position": 2,
-#       "name": "DESTINATION",
-#       "type": "folder",
-#       "description": "The path to the destination folder. Defaults to file parent."
-#     },
-#     {
-#       "position": 3,
-#       "name": "OUTPUT_FILE_NAME",
-#       "type": "str",
-#       "description": "The name for the documentation file. Defaults to \"<BASENAME>.md\"."
-#     },
-#     {
-#       "position": 4,
-#       "name": "GET_PRIVATE",
-#       "type": "bool",
-#       "description": "If set to \"true\", documents private constants, options, flags, and commands as well.",
-#       "default": false
-#     }
-#   ]
-# }
+## Generate Markdown documentation for provided shoe script
+##
+## {
+##   "namespace": "documentation",
+##   "requires": [
+##     "awk"
+##   ],
+##   "depends": [
+##     "_alert_primary",
+##     "_echo_error",
+##     "_echo_success",
+##     "_get_script_shoedoc",
+##     "_get_shoedoc_description",
+##     "_get_shoedoc_tag",
+##     "_get_shoedoc_title",
+##     "_print_synopsis"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "SCRIPT_PATH",
+##       "type": "file",
+##       "description": "The path to the input script.",
+##       "nullable": false
+##     },
+##     {
+##       "position": 2,
+##       "name": "DESTINATION",
+##       "type": "folder",
+##       "description": "The path to the destination folder. Defaults to file parent."
+##     },
+##     {
+##       "position": 3,
+##       "name": "OUTPUT_FILE_NAME",
+##       "type": "str",
+##       "description": "The name for the documentation file. Defaults to \"<BASENAME>.md\"."
+##     },
+##     {
+##       "position": 4,
+##       "name": "GET_PRIVATE",
+##       "type": "bool",
+##       "description": "If set to \"true\", documents private constants, options, flags, and commands as well.",
+##       "default": false
+##     }
+##   ]
+## }
 _generate_doc() {
     # Synopsis: _generate_doc <SCRIPT_PATH> [DESTINATION] [OUTPUT_FILE_NAME] [GET_PRIVATE]
     #   SCRIPT_PATH:      The path to the input file.
@@ -53,18 +53,18 @@ _generate_doc() {
     #   OUTPUT_FILE_NAME: (optional) The name for the documentation file. Defaults to "<BASENAME>.md".
     #   GET_PRIVATE:      (Optional) If set to 'true', documents private constants, options, flags, and commands as well. Defaults to "false".
 
-    if [ -z "$1" ]; then echo_danger 'error: _generate_doc: some mandatory parameter is missing\n'; return 1; fi
-    if [ $# -gt 4 ]; then echo_danger "error: _generate_doc: too many arguments ($#)\n"; return 1; fi
+    if [ -z "$1" ]; then _echo_error '_generate_doc: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 4 ]; then _echo_error "_generate_doc: too many arguments ($#)\n"; return 1; fi
 
     # set default values
     set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).md"}" "${4:-false}"
-    if [ ! -f "$1" ]; then echo_danger "error: _generate_doc: \"$1\" file not found\n"; return 1; fi
-    if [ ! -d "$2" ]; then echo_danger "error: _generate_doc: \"$2\" folder not found\n"; return 1; fi
+    if [ ! -f "$1" ]; then _echo_error "_generate_doc: \"$1\" file not found\n"; return 1; fi
+    if [ ! -d "$2" ]; then _echo_error "_generate_doc: \"$2\" folder not found\n"; return 1; fi
 
     # check valid input file type
-    if [ "$(printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$')" != .sh ]; then echo_danger 'error: _generate_doc: file should be type ".sh"\n'; return 1; fi
+    if [ "$(printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$')" != .sh ]; then _echo_error '_generate_doc: file should be type ".sh"\n'; return 1; fi
 
-    alert_primary "Generating $3"
+    _alert_primary "Generating $3"
 
     (
         __annotations__=$(_get_script_shoedoc "$1")
@@ -142,11 +142,11 @@ _generate_doc() {
     if _is_installed jq; then
         __index__=0
         for __function_name__ in $(_get_functions_names "$1" true); do
-            echo_info "${__function_name__}\n"
+            _echo_info "${__function_name__}\n"
 
-            __json__="$(_parse_annotation "$1" "${__function_name__}")"
+            __json__="$(_parse_shoedoc "$1" "${__function_name__}")"
             if [ -z "${__json__}" ]; then
-                echo_danger "error: _generate_doc: no annotation found for function \"${__function_name__}\"\n"
+                _echo_error "_generate_doc: no annotation found for function \"${__function_name__}\"\n"
                 continue
             fi
 
@@ -173,7 +173,7 @@ _generate_doc() {
             ) >> "$2/$3"
         done
 
-        echo_success "Documentation generated : \"$2/$3\"\n"
+        _echo_success "Documentation generated : \"$2/$3\"\n"
 
         return 0
     fi
@@ -220,6 +220,6 @@ _generate_doc() {
             !/^#+/ { summary=""; annotations="" }' "$1"
     ) >> "$2/$3"
 
-    echo_success "Documentation generated : \"$2/$3\"\n"
+    _echo_success "Documentation generated : \"$2/$3\"\n"
 }
 
