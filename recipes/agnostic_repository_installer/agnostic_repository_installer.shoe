@@ -1,0 +1,31 @@
+../../src/shell/header.sh
+
+## TangoMan Agnostic Installation script
+##
+## Update constants to have installation script tailored to your needs
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 0.1.0
+## @license MIT
+## @link    https://github.com/TangoMan75/shoe
+
+#--------------------------------------------------
+# Place your constants after this line
+#--------------------------------------------------
+./constants.sh
+
+#--------------------------------------------------
+# Place your private functions after this line
+#--------------------------------------------------
+../../src/shell/colors/simple_colors.sh
+../../src/shell/files/_extract.sh
+../../src/shell/files/_move.sh
+../../src/shell/network/_download.sh
+../../src/shell/system/_check_installed.sh
+../../src/shell/system/_is_installed.sh
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+./install.sh
+

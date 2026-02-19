@@ -1,0 +1,304 @@
+#!/bin/bash
+
+# This script is based on TangoMan Shoe Shell Microframework
+#
+# This file is distributed under to the MIT license.
+#
+# Copyright (c) 2026 "Matthias Morin" <mat@tangoman.io>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+# Source code is available here: https://github.com/TangoMan75/shoe
+
+## TangoMan bash_aliases
+##
+## This project is a collection of bash aliases and functions designed to
+## streamline command-line workflows. It provides a rich set of shortcuts for
+## common tasks related to file system navigation, Git, Docker, networking, and
+## more.
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 0.1.0
+## @license MIT
+## @link    https://github.com/TangoMan75/bash_aliases
+
+#--------------------------------------------------
+# Header
+#--------------------------------------------------
+./_header/_001_constants.sh
+./_header/_002_global_variables.sh
+./_header/_hero.sh
+
+#--------------------------------------------------
+# Colors
+#--------------------------------------------------
+../../src/shell/colors/constants_echo_colors.sh
+../../src/shell/colors/constants_alert_colors.sh
+../../src/shell/colors/colors.sh
+
+#--------------------------------------------------
+# Environment
+#--------------------------------------------------
+./_env/_load_env.sh
+./_env/_create_env.sh
+./_env/_set_var.sh
+
+#--------------------------------------------------
+#_ Strings
+#--------------------------------------------------
+../../src/shell/strings/_sanitize.sh
+../../src/shell/strings/_trim.sh
+
+#--------------------------------------------------
+# Install
+#--------------------------------------------------
+./install/config_bashrc.sh
+./install/config_zshrc.sh
+./install/self_install.sh
+./install/self_uninstall.sh
+
+#--------------------------------------------------
+# TangoMan
+#--------------------------------------------------
+./_tangoman/tango-colors.sh
+./_tangoman/tango-help.sh
+./_tangoman/tango-info.sh
+./_tangoman/tango-reload.sh
+#./_tangoman/tango-update.sh
+
+#--------------------------------------------------
+# Aliases
+#--------------------------------------------------
+./aliases/aliases.sh
+
+#--------------------------------------------------
+# Dev
+#--------------------------------------------------
+../../src/shell/dev/_list_ides.sh
+./dev/open-in-ide.sh
+
+#--------------------------------------------------
+# Docker
+#--------------------------------------------------
+./docker/docker-clean.sh
+./docker/docker-exec.sh
+./docker/docker-kill.sh
+./docker/docker-list.sh
+./docker/docker-logs.sh
+./docker/docker-remove.sh
+./docker/docker-restart.sh
+./docker/docker-shell.sh
+./docker/docker-start.sh
+./docker/docker-status.sh
+./docker/docker-stop.sh
+
+#--------------------------------------------------
+# Git
+#--------------------------------------------------
+../../src/bash/git/_branch_exists.sh
+../../src/bash/git/_commit_exists.sh
+../../src/bash/git/_format_branch_subject.sh
+../../src/bash/git/_format_commit_subject.sh
+../../src/bash/git/_format_ticket.sh
+../../src/bash/git/_format_type.sh
+../../src/bash/git/_get_current_branch.sh
+../../src/bash/git/_get_main_branch.sh
+../../src/bash/git/_is_cherry_pick_in_progress.sh
+../../src/bash/git/_is_rebase_in_progress.sh
+../../src/bash/git/_parse_conventional_branch.sh
+../../src/bash/git/_parse_conventional_commit.sh
+../../src/bash/git/_pick_branch.sh
+../../src/bash/git/_pick_commit.sh
+../../src/bash/git/_pick_repository.sh
+../../src/bash/git/_print_jira_url.sh
+./git/_001_git-global-variables.sh
+./git/_002_git-config.sh
+./git/_git-aliases.sh
+./git/add.sh
+./git/amend.sh
+./git/blame.sh
+./git/branch.sh
+./git/checkout.sh
+./git/clean-unreachable.sh
+./git/clone.sh
+./git/commit.sh
+./git/conventional-branch.sh
+./git/conventional-commit.sh
+./git/delete-github-deployments.sh
+./git/delete-github-workflows.sh
+./git/fetch.sh
+./git/gabort.sh
+./git/gcontinue.sh
+./git/gdiff.sh
+./git/get_url.sh
+./git/greset.sh
+./git/gstatus.sh
+./git/guser.sh
+./git/init.sh
+./git/list-bitbucket.sh
+./git/list-github.sh
+./git/log.sh
+./git/lremote.sh
+./git/merge.sh
+./git/open-commit-in-ide.sh
+./git/pick.sh
+./git/pull-request.sh
+./git/pull.sh
+./git/push.sh
+./git/rebase.sh
+./git/reflog.sh
+./git/reinit.sh
+./git/remote.sh
+./git/show.sh
+./git/stash.sh
+./git/tag.sh
+
+#--------------------------------------------------
+# Multimedia
+#--------------------------------------------------
+./multimedia/convert-md.sh
+./multimedia/convert-to-mp3.sh
+./multimedia/mp3-rename-from-tag.sh
+./multimedia/mp3-update-tag.sh
+./multimedia/picture-get-names.sh
+./multimedia/picture-jpeg-optimize.sh
+./multimedia/picture-list-exif.sh
+./multimedia/picture-organize.sh
+./multimedia/picture-png2jpg.sh
+./multimedia/picture-rename-to-datetime.sh
+./multimedia/picture-resize.sh
+./multimedia/picture-update-datetime.sh
+./multimedia/play.sh
+./multimedia/rename-extension-to-codec.sh
+
+#--------------------------------------------------
+# Network
+#--------------------------------------------------
+./network/_network-aliases.sh
+./network/check-dns.sh
+./network/external-ip.sh
+./network/hosts.sh
+./network/list-adapters.sh
+./network/mount-nfs.sh
+./network/port-redirect.sh
+./network/scan.sh
+./network/set-hosts.sh
+./network/unmount-nfs.sh
+./network/wifi-get-bssids.sh
+./network/wifi-managed-mode.sh
+./network/wifi-monitor-mode.sh
+./network/wifi-radar.sh
+
+#--------------------------------------------------
+# Php
+#--------------------------------------------------
+./php/php-server.sh
+./php/set-php-version.sh
+
+#--------------------------------------------------
+# Prompts
+#--------------------------------------------------
+../../src/bash/prompts/_select.sh
+
+#--------------------------------------------------
+# Python
+#--------------------------------------------------
+./python/_python-aliases.sh
+./python/py-server.sh
+
+#--------------------------------------------------
+# Security
+#--------------------------------------------------
+./security/change-mac-address.sh
+./security/netcat-listen.sh
+./security/reverse-shell.sh
+./security/wifi-deauth.sh
+./security/wifi-fakeauth.sh
+./security/wifi-sniff.sh
+
+#--------------------------------------------------
+# SSH
+#--------------------------------------------------
+./ssh/switch-default-ssh.sh
+
+#--------------------------------------------------
+# Strings
+#--------------------------------------------------
+./strings/_string-aliases.sh
+./strings/decode.sh
+./strings/encode.sh
+./strings/random-string.sh
+./strings/urldecode.sh
+./strings/urlencode.sh
+
+#--------------------------------------------------
+# Symfony
+#--------------------------------------------------
+./symfony/_sf.sh
+./symfony/_symfony-aliases.sh
+./symfony/sf-dump-server.sh
+./symfony/sf-server.sh
+
+#--------------------------------------------------
+# System
+#--------------------------------------------------
+./system/_system-aliases.sh
+./system/backup.sh
+./system/create-user.sh
+./system/drives.sh
+./system/flash-bootable-iso.sh
+./system/mod.sh
+./system/own.sh
+./system/pkg-install.sh
+./system/pkg-installed.sh
+./system/pkg-list.sh
+./system/pkg-remove.sh
+./system/pkg-search.sh
+./system/symlink.sh
+
+#--------------------------------------------------
+# System Dependant
+#--------------------------------------------------
+./system_dependant/_system-dependant-aliases.sh
+./system_dependant/open.sh
+./system_dependant/set_xdg_current_project_dir.sh
+
+#--------------------------------------------------
+# Utils
+#--------------------------------------------------
+./utils/change-extensions.sh
+./utils/cheat.sh
+./utils/clean-folder.sh
+./utils/compress.sh
+./utils/create-desktop-shortcut.sh
+./utils/extract.sh
+./utils/help.sh
+./utils/move-all-files-here.sh
+./utils/rename-script-generator.sh
+./utils/rename.sh
+./utils/size.sh
+
+#--------------------------------------------------
+# Web
+#--------------------------------------------------
+./web/get_youtube_rss.sh
+./web/github.sh
+./web/google.sh
+./web/youtube.sh
+

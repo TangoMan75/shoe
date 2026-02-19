@@ -357,3 +357,12 @@ If you like **TangoMan Shoe Shell Microframework** please star, follow or tweet:
 - This script was inspired by **Peter Forret** [bashew](https://github.com/pforret/bashew)
 - [bash_unit](https://github.com/pgrange/bash_unit): bash unit testing enterprise edition framework (used for CI/CD)
 - [shellcheck](https://github.com/koalaman/shellcheck): a static analysis tool for shell scripts (used for CI/CD)
+
+👋 Let's Build Your Next Project Together !
+-------------------------------------------
+
+Looking for an experienced Full-Stack Partner ?
+
+🚀 I get your **web applications** off the ground with **PHP** and **JavaScript**
+
+[![tangoman.io](https://img.shields.io/badge/✉️%20Get%20in%20touch%20now%20!-FD9400?style=for-the-badge)](https://tangoman.io)

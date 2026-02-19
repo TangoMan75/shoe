@@ -170,6 +170,11 @@
 ../../src/shell/git/_initialise_submodules.sh
 
 #--------------------------------------------------
+#_ Github
+#--------------------------------------------------
+../../src/shell/github/_deploy.sh
+
+#--------------------------------------------------
 #_ Help
 #--------------------------------------------------
 ../../src/shell/help/_help.sh
@@ -276,6 +281,7 @@
 ../../src/shell/system/_is_gnome.sh
 ../../src/shell/system/_is_installed.sh
 ../../src/shell/system/_is_root.sh
+../../src/shell/system/_is_termux.sh
 ../../src/shell/system/_pwd.sh
 ../../src/shell/system/_remove.sh
 ../../src/shell/system/_require.sh

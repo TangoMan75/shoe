@@ -1,0 +1,286 @@
+../../src/shell/header.sh
+
+## TangoMan Android Toolbox
+##
+## Handy tools for your android phone
+##
+## @author       "Matthias Morin" <mat@tangoman.io>
+## @version      1.0.0
+## @license      MIT
+## @link         https://github.com/TangoMan75/shoe
+## @update-link  https://gist.github.com/TangoMan75/eb114e50225a025b68bf7310f0f23503
+
+#--------------------------------------------------
+# Place your constants after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your options after this line
+#--------------------------------------------------
+./options.sh
+
+#--------------------------------------------------
+# Place your flags after this line
+#--------------------------------------------------
+./flags.sh
+
+#--------------------------------------------------
+# Place your global variables after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+
+##################################################
+### Start
+##################################################
+./start/start.sh
+./start/connect.sh
+./start/infos.sh
+
+##################################################
+### Reboot
+##################################################
+./reboot/reboot_bootloader.sh
+./reboot/reboot_recovery.sh
+./reboot/reboot_system.sh
+./reboot/boot_with_img.sh
+./reboot/boot_with_twrp_recovery.sh
+./reboot/boot_with_backup_recovery.sh
+
+##################################################
+### Wipe
+##################################################
+./wipe/wipe.sh
+
+##################################################
+### Root
+##################################################
+./root/unlock.sh
+./root/flash_vbmeta.sh
+./root/flash_recovery.sh
+./root/flash_current_folder.sh
+./root/flash_system.sh
+./root/magisk.sh
+./root/toggle_active_slot.sh
+./root/lock.sh
+
+##################################################
+### Unbrick
+##################################################
+./unbrick/adb_sideload.sh
+./unbrick/update_zip.sh
+./unbrick/flash_all.sh
+
+##################################################
+### System
+##################################################
+./system/shell.sh
+./system/push.sh
+./system/logs.sh
+./system/execute.sh
+./system/list_users.sh
+./system/list_partitions.sh
+./system/dump_partition.sh
+./system/remount.sh
+./system/adb_root.sh
+
+##################################################
+### APKs
+##################################################
+./apk/list.sh
+./apk/list_dump.sh
+./apk/install.sh
+./apk/pull.sh
+./apk/remove_apk.sh
+./apk/push_folder.sh
+
+##################################################
+### Apk Renamer
+##################################################
+./renamer/rename_apks.sh
+./renamer/rename_to_package_name.sh
+./renamer/rename_to_label.sh
+
+##################################################
+### Apk Organizer
+##################################################
+./organizer/organize.sh
+
+##################################################
+### Bloat
+##################################################
+./bloat/remove_bloat.sh
+./bloat/remove_google.sh
+./bloat/remove_extra_google.sh
+./bloat/remove_lineage.sh
+./bloat/remove_samsung.sh
+./bloat/remove_one_plus.sh
+./bloat/remove_huawei.sh
+./bloat/remove_security.sh
+
+#--------------------------------------------------
+# Place your private functions after this line
+#--------------------------------------------------
+
+##################################################
+### Self Install
+##################################################
+../../src/shell/install/self_install.sh
+../../src/shell/install/self_uninstall.sh
+../../src/shell/install/self_update.sh
+
+##################################################
+### Help
+##################################################
+../../src/shell/help/help.sh
+
+#--------------------------------------------------
+#_ Hooks
+#--------------------------------------------------
+../../src/shell/hooks/_default.sh
+../../src/shell/hooks/_before.sh
+../../src/shell/hooks/_after.sh
+
+###################################################
+# TangoMan Shoe Shell Microframework
+###################################################
+
+#--------------------------------------------------
+# Generated code : Do not edit below this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+#_ Android
+#--------------------------------------------------
+../../src/shell/android/_adb_connect.sh
+../../src/shell/android/_adb_sideload.sh
+../../src/shell/android/_adb_start_server.sh
+../../src/shell/android/_fastboot_lock.sh
+../../src/shell/android/_fastboot_unlock.sh
+../../src/shell/android/_fastboot_wipe.sh
+../../src/shell/android/_flash_img.sh
+../../src/shell/android/_get_apk_label.sh
+../../src/shell/android/_get_apk_package_name.sh
+../../src/shell/android/_get_apk_path.sh
+../../src/shell/android/_get_apk_version.sh
+../../src/shell/android/_install_apk.sh
+../../src/shell/android/_is_apk_installed.sh
+../../src/shell/android/_is_device_connected_with_adb.sh
+../../src/shell/android/_is_device_connected_with_fastboot.sh
+../../src/shell/android/_list_installed_apks.sh
+../../src/shell/android/_pull_apk.sh
+../../src/shell/android/_reboot_bootloader.sh
+../../src/shell/android/_reboot_recovery.sh
+../../src/shell/android/_reboot_system.sh
+../../src/shell/android/_reboot_with_img.sh
+../../src/shell/android/_remove_apk.sh
+../../src/shell/android/_toggle_active_slot.sh
+
+#--------------------------------------------------
+#_ Colors
+#--------------------------------------------------
+../../src/shell/colors/constants_echo_colors.sh
+../../src/shell/colors/constants_alert_colors.sh
+../../src/shell/colors/colors.sh
+
+#--------------------------------------------------
+#_ Compatibility
+#--------------------------------------------------
+../../src/shell/compatibility/_open.sh
+../../src/shell/compatibility/_sed_i.sh
+
+#--------------------------------------------------
+#_ Files
+#--------------------------------------------------
+../../src/shell/files/_get_file_extension.sh
+../../src/shell/files/_move.sh
+
+#--------------------------------------------------
+#_ Help
+#--------------------------------------------------
+../../src/shell/help/_help.sh
+../../src/shell/help/_print_commands.sh
+../../src/shell/help/_print_constants.sh
+../../src/shell/help/_print_description.sh
+../../src/shell/help/_print_flags.sh
+../../src/shell/help/_print_infos.sh
+../../src/shell/help/_print_options.sh
+../../src/shell/help/_print_usage.sh
+
+#--------------------------------------------------
+#_ Install
+#--------------------------------------------------
+../../src/shell/install/_copy_install.sh
+../../src/shell/install/_generate_autocomplete.sh
+../../src/shell/install/_generate_global_autocomplete.sh
+../../src/shell/install/_get_comspec.sh
+../../src/shell/install/_install.sh
+../../src/shell/install/_remove_completion_autoload.sh
+../../src/shell/install/_set_completion_autoload.sh
+../../src/shell/install/_symlink_install.sh
+../../src/shell/install/_uninstall.sh
+../../src/shell/install/_update.sh
+
+#--------------------------------------------------
+#_ Prompts
+#--------------------------------------------------
+../../src/shell/prompts/_select.sh
+../../src/shell/prompts/_yes_no.sh
+
+#--------------------------------------------------
+#_ Reflexion
+#--------------------------------------------------
+../../src/shell/reflexion/_get_constants.sh
+../../src/shell/reflexion/_get_constraint.sh
+../../src/shell/reflexion/_get_flags.sh
+../../src/shell/reflexion/_get_function.sh
+../../src/shell/reflexion/_get_functions_names.sh
+../../src/shell/reflexion/_get_options.sh
+../../src/shell/reflexion/_get_padding.sh
+../../src/shell/reflexion/_get_parameter.sh
+../../src/shell/reflexion/_print_synopsis.sh
+../../src/shell/reflexion/_set_parameter.sh
+
+#--------------------------------------------------
+#_ Shoedoc
+#--------------------------------------------------
+../../src/shell/shoedoc/_get_function_shoedoc.sh
+../../src/shell/shoedoc/_get_script_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc_description.sh
+../../src/shell/shoedoc/_get_shoedoc_tag.sh
+../../src/shell/shoedoc/_get_shoedoc_title.sh
+../../src/shell/shoedoc/_parse_shoedoc.sh
+
+#--------------------------------------------------
+#_ Strings
+#--------------------------------------------------
+../../src/shell/strings/_collapse_blank_lines.sh
+
+#--------------------------------------------------
+#_ System
+#--------------------------------------------------
+../../src/shell/system/_check_installed.sh
+../../src/shell/system/_is_checksum_valid.sh
+../../src/shell/system/_is_gnome.sh
+../../src/shell/system/_is_installed.sh
+../../src/shell/system/_is_root.sh
+../../src/shell/system/_is_termux.sh
+../../src/shell/system/_pwd.sh
+../../src/shell/system/_require.sh
+../../src/shell/system/_spin.sh
+../../src/shell/system/_user_exists.sh
+
+#--------------------------------------------------
+#_ Validation
+#--------------------------------------------------
+../../src/shell/validation/_is_valid.sh
+../../src/shell/validation/_validate.sh
+
+#--------------------------------------------------
+#_ Kernel
+#--------------------------------------------------
+../../src/shell/kernel/_kernel.sh
+

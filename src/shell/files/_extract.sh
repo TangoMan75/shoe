@@ -24,16 +24,16 @@
 ##     },
 ##     {
 ##       "position": 1,
-##       "name": "DESTINATION_FOLDER",
+##       "name": "DESTINATION",
 ##       "type": "folder",
 ##       "description": "The path to the destination folder. Defaults to file parent."
 ##     }
 ##   ]
 ## }
 _extract() {
-    # Synopsis: _extract <FILE_PATH> [DESTINATION_FOLDER]
-    #   FILE_PATH:          The path to the input file.
-    #   DESTINATION_FOLDER: (optional) The path to the destination folder. Defaults to file parent.
+    # Synopsis: _extract <FILE_PATH> [DESTINATION]
+    #   FILE_PATH:   The path to the input file.
+    #   DESTINATION: (optional) The path to the destination folder. Defaults to file parent.
 
     if [ -z "$1" ]; then _echo_error '_extract: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_extract: too many arguments ($#)\n"; return 1; fi
