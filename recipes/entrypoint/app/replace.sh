@@ -1,14 +1,13 @@
 #!/bin/sh
 
-## Replace shoemaker, entrypoint and Makefile in root directory
-##
 ## {
-##   "namespace": "app",
+##   "namespace": "recipes/entrypoint/app",
+##   "summary": "Replace shoemaker, entrypoint and Makefile in root directory",
 ##   "requires": [
 ##     "cp"
 ##   ],
 ##   "depends": [
-##     "_echo_info"
+##     "src/shell/colors/_echo_info"
 ##   ]
 ## }
 replace() {

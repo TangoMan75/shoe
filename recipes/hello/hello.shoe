@@ -1,0 +1,16 @@
+../../src/shell/header.sh
+
+## TangoMan Hello World!
+##
+## Greets a specified user a given number of times.
+## Accepts an optional recipient name and an optional repetition count.
+## Useful as a smoke test for new installations.
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 0.1.0
+## @license MIT
+## @link    https://github.com/TangoMan75/shoe
+
+constants.sh
+options.sh
+hello.sh

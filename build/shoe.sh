@@ -2878,16 +2878,16 @@ _generate_doc() {
 ##     },
 ##     {
 ##       "position": 1,
-##       "name": "DESTINATION_FOLDER",
+##       "name": "DESTINATION",
 ##       "type": "folder",
 ##       "description": "The path to the destination folder. Defaults to file parent."
 ##     }
 ##   ]
 ## }
 _extract() {
-    # Synopsis: _extract <FILE_PATH> [DESTINATION_FOLDER]
-    #   FILE_PATH:          The path to the input file.
-    #   DESTINATION_FOLDER: (optional) The path to the destination folder. Defaults to file parent.
+    # Synopsis: _extract <FILE_PATH> [DESTINATION]
+    #   FILE_PATH:   The path to the input file.
+    #   DESTINATION: (optional) The path to the destination folder. Defaults to file parent.
 
     if [ -z "$1" ]; then _echo_error '_extract: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_extract: too many arguments ($#)\n"; return 1; fi
@@ -2971,7 +2971,7 @@ _get_file_extension() {
 ##     },
 ##     {
 ##       "position": 1,
-##       "name": "DESTINATION_FOLDER",
+##       "name": "DESTINATION",
 ##       "type": "folder",
 ##       "description": "The path to the destination folder.",
 ##       "nullable": false
@@ -2979,9 +2979,9 @@ _get_file_extension() {
 ##   ]
 ## }
 _move() {
-    # Synopsis: _move <SOURCE> <DESTINATION_FOLDER>
-    #   SOURCE:             The path to the input file or folder.
-    #   DESTINATION_FOLDER: The path to the destination folder.
+    # Synopsis: _move <SOURCE> <DESTINATION>
+    #   SOURCE:      The path to the input file or folder.
+    #   DESTINATION: The path to the destination folder.
 
     if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_move: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_move: too many arguments ($#)\n"; return 1; fi
@@ -3075,6 +3075,41 @@ _initialise_submodules() {
 
     _echo_info 'git submodule update --init --recursive\n'
     git submodule update --init --recursive
+}
+
+#--------------------------------------------------
+#_ Github
+#--------------------------------------------------
+
+## Deploy source folder to "gh-pages"
+##
+## {
+##   "namespace": "github",
+##   "requires": [
+##     "git"
+##   ],
+##   "depends": [
+##     "_echo_info"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "SOURCE",
+##       "type": "folder",
+##       "description": "The source directory.",
+##       "nullable": false
+##     }
+##   ]
+## }
+_deploy() {
+    if [ -z "$(git rev-parse --show-toplevel 2>/dev/null)" ]; then _echo_error 'not a git repository (or any of the parent directories)\n'; return 1; fi
+    if [ -z "$1" ]; then _echo_error '_deploy: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 1 ]; then _echo_error "_deploy: too many arguments ($#)\n"; return 1; fi
+    if [ ! -d "$1" ]; then _echo_error "_deploy: \"$1\" folder not found\n"; return 1; fi
+
+    # `git subtree split --prefix dist main`: create a temporary commit history from the "dist" subdirectory of the "main" branch.
+    _echo_info "git push origin \"\$(git subtree split --prefix \"$1\" HEAD)\":refs/heads/gh-pages --force\n"
+    git push origin "$(git subtree split --prefix "$1" HEAD)":refs/heads/gh-pages --force
 }
 
 #--------------------------------------------------
@@ -4188,56 +4223,56 @@ _ALERT_DARK      = ${_ALERT_DARK}
 ##################################################
 
 define _echo_primary
-    @printf "\${_PRIMARY}%b\${_EOL}" \$(1)
+	@printf "\${_PRIMARY}%b\${_EOL}" \$(1)
 endef
 define _echo_secondary
-    @printf "\${_SECONDARY}%b\${_EOL}" \$(1)
+	@printf "\${_SECONDARY}%b\${_EOL}" \$(1)
 endef
 define _echo_success
-    @printf "\${_SUCCESS}%b\${_EOL}" \$(1)
+	@printf "\${_SUCCESS}%b\${_EOL}" \$(1)
 endef
 define _echo_danger
-    @printf "\${_DANGER}%b\${_EOL}" \$(1)
+	@printf "\${_DANGER}%b\${_EOL}" \$(1)
 endef
 define _echo_warning
-    @printf "\${_WARNING}%b\${_EOL}" \$(1)
+	@printf "\${_WARNING}%b\${_EOL}" \$(1)
 endef
 define _echo_info
-    @printf "\${_INFO}%b\${_EOL}" \$(1)
+	@printf "\${_INFO}%b\${_EOL}" \$(1)
 endef
 define _echo_light
-    @printf "\${_LIGHT}%b\${_EOL}" \$(1)
+	@printf "\${_LIGHT}%b\${_EOL}" \$(1)
 endef
 define _echo_dark
-    @printf "\${_DARK}%b\${_EOL}" \$(1)
+	@printf "\${_DARK}%b\${_EOL}" \$(1)
 endef
 define _echo_error
-    @printf "\${_DANGER}error: %b\${_EOL}" \$(1)
+	@printf "\${_DANGER}error: %b\${_EOL}" \$(1)
 endef
 
 define _alert_primary
-    @printf "\${_EOL}\${_ALERT_PRIMARY}%64s\${_EOL}\${_ALERT_PRIMARY} %-63s\${_EOL}\${_ALERT_PRIMARY}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_PRIMARY}%64s\${_EOL}\${_ALERT_PRIMARY} %-63s\${_EOL}\${_ALERT_PRIMARY}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_secondary
-    @printf "\${_EOL}\${_ALERT_SECONDARY}%64s\${_EOL}\${_ALERT_SECONDARY} %-63s\${_EOL}\${_ALERT_SECONDARY}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_SECONDARY}%64s\${_EOL}\${_ALERT_SECONDARY} %-63s\${_EOL}\${_ALERT_SECONDARY}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_success
-    @printf "\${_EOL}\${_ALERT_SUCCESS}%64s\${_EOL}\${_ALERT_SUCCESS} %-63s\${_EOL}\${_ALERT_SUCCESS}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_SUCCESS}%64s\${_EOL}\${_ALERT_SUCCESS} %-63s\${_EOL}\${_ALERT_SUCCESS}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_danger
-    @printf "\${_EOL}\${_ALERT_DANGER}%64s\${_EOL}\${_ALERT_DANGER} %-63s\${_EOL}\${_ALERT_DANGER}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_DANGER}%64s\${_EOL}\${_ALERT_DANGER} %-63s\${_EOL}\${_ALERT_DANGER}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_warning
-    @printf "\${_EOL}\${_ALERT_WARNING}%64s\${_EOL}\${_ALERT_WARNING} %-63s\${_EOL}\${_ALERT_WARNING}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_WARNING}%64s\${_EOL}\${_ALERT_WARNING} %-63s\${_EOL}\${_ALERT_WARNING}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_info
-    @printf "\${_EOL}\${_ALERT_INFO}%64s\${_EOL}\${_ALERT_INFO} %-63s\${_EOL}\${_ALERT_INFO}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_INFO}%64s\${_EOL}\${_ALERT_INFO} %-63s\${_EOL}\${_ALERT_INFO}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_light
-    @printf "\${_EOL}\${_ALERT_LIGHT}%64s\${_EOL}\${_ALERT_LIGHT} %-63s\${_EOL}\${_ALERT_LIGHT}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_LIGHT}%64s\${_EOL}\${_ALERT_LIGHT} %-63s\${_EOL}\${_ALERT_LIGHT}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_dark
-    @printf "\${_EOL}\${_ALERT_DARK}%64s\${_EOL}\${_ALERT_DARK} %-63s\${_EOL}\${_ALERT_DARK}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_DARK}%64s\${_EOL}\${_ALERT_DARK} %-63s\${_EOL}\${_ALERT_DARK}%64s\${_EOL}\n" "" \$(1) ""
 endef
 
 ##################################################
@@ -4246,19 +4281,19 @@ endef
 
 ## Print this help
 help:
-    \$(call _alert_primary, "$(_get_shoedoc_title "${__annotations__}")")
+	\$(call _alert_primary, "$(_get_shoedoc_title "${__annotations__}")")
 
-    @printf "\${_WARNING}Description:\${_EOL}"
-    @printf "\${_PRIMARY}  $(_get_shoedoc_description "${__annotations__}" | tr '\n' ' ')\${_EOL}\n"
+	@printf "\${_WARNING}Description:\${_EOL}"
+	@printf "\${_PRIMARY}  $(_get_shoedoc_description "${__annotations__}" | tr '\n' ' ')\${_EOL}\n"
 
-    @printf "\${_WARNING}Usage:\${_EOL}"
-    @printf "\${_PRIMARY}  make [command]\${_EOL}\n"
+	@printf "\${_WARNING}Usage:\${_EOL}"
+	@printf "\${_PRIMARY}  make [command]\${_EOL}\n"
 
-    @printf "\${_WARNING}Commands:\${_EOL}"
-    @awk '/^### /{printf"\n\${_WARNING}%s\${_EOL}",substr(\$\$0,5)} \\
-    /^[a-zA-Z0-9_-]+:/{HELP="";if( match(PREV,/^## /))HELP=substr(PREV,4); \\
-        printf "\${_SUCCESS}  %-12s  \${_PRIMARY}%s\${_EOL}",substr(\$\$1,0,index(\$\$1,":")-1),HELP \\
-    }{PREV=\$\$0}' \${MAKEFILE_LIST}
+	@printf "\${_WARNING}Commands:\${_EOL}"
+	@awk '/^### /{printf"\n\${_WARNING}%s\${_EOL}",substr(\$\$0,5)} \\
+	/^[a-zA-Z0-9_-]+:/{HELP="";if( match(PREV,/^## /))HELP=substr(PREV,4); \\
+		printf "\${_SUCCESS}  %-12s  \${_PRIMARY}%s\${_EOL}",substr(\$\$1,0,index(\$\$1,":")-1),HELP \\
+	}{PREV=\$\$0}' \${MAKEFILE_LIST}
 
 EOT
 
@@ -5597,6 +5632,31 @@ _generate_key() {
     openssl rand -hex 16
 }
 
+## Squeezes repeated whitespaces and trim leading and trailing whitespaces from a string
+##
+## {
+##   "namespace": "strings",
+##   "summary": "Squeezes repeated whitespaces and trim leading and trailing whitespaces from a string.",
+##   "requires": [
+##     "printf",
+##     "sed",
+##     "tr"
+##   ],
+##   "parameters": [
+##     {
+##       "position": 1,
+##       "name": "STRING",
+##       "type": "str",
+##       "description": "The string to trim.",
+##       "nullable": false
+##     }
+##   ]
+## }
+_trim() {
+    # tr -s, --squeeze-repeats    replace each sequence of a repeated character
+    printf '%s' "$1" | tr -s ' ' | sed 's/^ \+//' | sed 's/ \+$//'
+}
+
 #--------------------------------------------------
 #_ Symfony
 #--------------------------------------------------
@@ -6278,6 +6338,22 @@ _is_root() {
     fi
 
     return 1
+}
+
+## Check current environment is Termux
+##
+## {
+##   "namespace": "system"
+## }
+_is_termux() {
+    # Synopsis: _is_termux
+
+    if [ ! -d '/data/data/com.termux' ]; then
+
+        return 1
+    fi
+
+    return 0
 }
 
 ## Return current project directory realpath, or "pwd" when installed globally

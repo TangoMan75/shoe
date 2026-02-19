@@ -1,11 +1,15 @@
 #!/bin/sh
 
-## Build all scripts
-##
 ## {
+##   "namespace": "recipes/shoemaker",
+##   "summary": "Build all scripts",
+##   "requires": [
+##     "find",
+##     "mkdir"
+##   ],
 ##   "depends": [
-##     "_build",
-##     "_pwd"
+##     "recipes/shoemaker/_build",
+##     "src/shell/system/_pwd"
 ##   ]
 ## }
 build_all() {

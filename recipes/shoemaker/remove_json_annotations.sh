@@ -1,15 +1,12 @@
 #!/bin/sh
 
-## Remove json annotations from file
-##
 ## {
-##   "requires": [
-##     "sed"
-##   ],
+##   "namespace": "recipes/shoemaker",
+##   "summary": "Remove json annotations from file",
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info",
-##     "sed_i"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i"
 ##   ]
 ## }
 remove_json_annotations() {
@@ -18,7 +15,7 @@ remove_json_annotations() {
         return 1
     fi
 
-    _echo_info "$(sed_i) -r '/^##? \{$/,/^##? \}$/d; /^##?$/d' \"${file}\"\n"
-    $(sed_i) -r '/^##? \{$/,/^##? \}$/d; /^##?$/d' "${file}"
+    _echo_info "$(_sed_i) -r '/^##? \{$/,/^##? \}$/d; /^##?$/d' \"${file}\"\n"
+    $(_sed_i) -r '/^##? \{$/,/^##? \}$/d; /^##?$/d' "${file}"
 }
 

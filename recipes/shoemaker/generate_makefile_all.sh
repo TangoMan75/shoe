@@ -1,11 +1,16 @@
 #!/bin/sh
 
-## Generate Makefile for all scripts
-##
 ## {
+##   "namespace": "recipes/shoemaker",
+##   "summary": "Generate Makefile for all scripts",
+##   "requires": [
+##     "basename",
+##     "find",
+##     "mkdir"
+##   ],
 ##   "depends": [
-##     "_generate_makefile",
-##     "_pwd"
+##     "src/shell/make/_generate_makefile",
+##     "src/shell/system/_pwd"
 ##   ]
 ## }
 generate_makefile_all() {

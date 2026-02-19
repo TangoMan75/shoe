@@ -1,11 +1,10 @@
 #!/bin/sh
 
-## Install git hooks
-##
 ## {
-##   "namespace": "app",
+##   "namespace": "recipes/entrypoint/app",
+##   "summary": "Install git hooks",
 ##   "depends": [
-##     "_git_hooks"
+##     "src/shell/git/_git_hooks"
 ##   ]
 ## }
 git_hooks() {

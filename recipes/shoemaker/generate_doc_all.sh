@@ -1,11 +1,16 @@
 #!/bin/sh
 
-## Generate Markdown documentation for all scripts
-##
 ## {
+##   "namespace": "recipes/shoemaker",
+##   "summary": "Generate Markdown documentation for all scripts",
+##   "requires": [
+##     "basename",
+##     "find",
+##     "mkdir"
+##   ],
 ##   "depends": [
-##     "_generate_doc",
-##     "_pwd"
+##     "src/shell/documentation/_generate_doc",
+##     "src/shell/system/_pwd"
 ##   ]
 ## }
 generate_doc_all() {

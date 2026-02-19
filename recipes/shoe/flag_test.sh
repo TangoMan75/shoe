@@ -1,11 +1,15 @@
 #!/bin/sh
 
-## Prints flag status
-##
 ## {
-##    "assumes": [
-##      "flag"
-##    ]
+##   "namespace": "recipes/shoe",
+##   "summary": "Prints flag status",
+##   "requires": [
+##     "echo",
+##     "true"
+##   ],
+##   "assumes": [
+##     "flag"
+##   ]
 ## }
 flag_test() {
     if [ "${flag}" = true ]; then

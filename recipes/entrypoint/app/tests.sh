@@ -1,14 +1,15 @@
 #!/bin/sh
 
-## Run tests
-##
 ## {
-##   "namespace": "app",
+##   "namespace": "recipes/entrypoint/app",
+##   "summary": "Run tests",
 ##   "requires": [
-##     "bash_unit"
+##     "bash_unit",
+##     "find",
+##     "sort"
 ##   ],
 ##   "depends": [
-##     "_echo_info"
+##     "src/shell/colors/_echo_info"
 ##   ]
 ## }
 tests() {
