@@ -1,15 +1,15 @@
 #!/bin/sh
 
-## Run script in Ubuntu Docker container
-##
 ## {
-##   "namespace": "app",
+##   "namespace": "recipes/entrypoint/app",
+##   "summary": "Run script in Ubuntu Docker container",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "sh"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 ubuntu() {

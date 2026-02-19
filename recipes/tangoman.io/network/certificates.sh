@@ -1,0 +1,41 @@
+#!/bin/sh
+
+## {
+##   "namespace": "recipes/tangoman.io/network",
+##   "summary": "Install local SSL certificates",
+##   "requires": [
+##     "mkdir"
+##   ],
+##   "depends": [
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
+##   ]
+## }
+certificates() {
+    _check_installed mkcert
+
+    if [ ! -d ./certs ]; then
+        _echo_info 'mkdir certs\n'
+        mkdir certs
+    fi
+
+    _install=''
+    for domain in \
+        ecoter \
+        maildev \
+        phpmyadmin \
+        traefik \
+    ; do
+        _install="${_install} ${domain}.localhost *.${domain}.localhost"
+    done
+
+    if [ ! -f ./certs/local-key.pem ] && [ ! -f ./certs/local-cert.pem ]; then
+        _echo_info "mkcert -key-file ./certs/local-key.pem -cert-file ./certs/local-cert.pem ${_install}\n"
+        # shellcheck disable=SC2086
+        mkcert -key-file ./certs/local-key.pem -cert-file ./certs/local-cert.pem ${_install}
+
+        _echo_info 'mkcert -install\n'
+        mkcert -install
+    fi
+}
+

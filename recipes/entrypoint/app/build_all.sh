@@ -1,15 +1,19 @@
 #!/bin/sh
 
-## Build all scripts in recipes folder
-##
 ## {
-##   "namespace": "app",
+##   "namespace": "recipes/entrypoint/app",
+##   "summary": "Build all scripts in recipes folder",
 ##   "requires": [
+##     "chmod",
+##     "find",
+##     "rm",
+##     "sh",
 ##     "shoemaker.sh",
-##     "chmod"
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/documentation/generate_doc"
 ##   ]
 ## }
 build_all() {

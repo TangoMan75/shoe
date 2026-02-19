@@ -1,13 +1,20 @@
 #!/bin/sh
 
-## Dump "build.shoe" file
-##
 ## {
+##   "namespace": "recipes/shoemaker",
+##   "summary": "Dump \"build.shoe\" file",
+##   "requires": [
+##     "basename",
+##     "mkdir",
+##     "realpath",
+##     "sed",
+##     "true"
+##   ],
 ##   "depends": [
-##     "_get_functions_names",
-##     "_pwd",
-##     "_echo_error",
-##     "_echo_success"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/reflexion/_get_functions_names",
+##     "src/shell/system/_pwd"
 ##   ]
 ## }
 list() {

@@ -1,8 +1,12 @@
 #!/bin/sh
 
-## Greets a specified user a given number of times.(the recipient's name is provided with the "--who" option)
-##
 ## {
+##   "namespace": "recipes/shoe",
+##   "summary": "Hello World!",
+##   "description": "Greets a specified user a given number of times. (the recipient's name is provided with the \"--who\" option)",
+##   "requires": [
+##     "echo"
+##   ],
 ##   "parameters": [
 ##     {
 ##       "name": "who",

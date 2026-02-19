@@ -26,7 +26,7 @@ function _check_branch_is_valid() {
 
 #--------------------------------------------------
 
-# Parse branch type, eg: feat/FOO-01/foobar => fix
+# Parse branch type, eg: feat/FOO-01/foobar => feat
 function _parse_branch_type() {
     echo -n "$1" | sed -nE 's/^(build|chore|ci|docs|feat|fix|perf|refactor|style|test)\/.+/\1/p'
 }

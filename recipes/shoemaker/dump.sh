@@ -1,13 +1,19 @@
 #!/bin/sh
 
-## Dump functions from given script into individual files
-##
 ## {
+##   "namespace": "recipes/shoemaker",
+##   "summary": "Dump functions from given script into individual files",
+##   "requires": [
+##     "basename",
+##     "mkdir",
+##     "printf",
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_get_function",
-##     "_get_functions_names",
-##     "_echo_error",
-##     "_echo_success"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/reflexion/_get_function",
+##     "src/shell/reflexion/_get_functions_names"
 ##   ]
 ## }
 dump() {

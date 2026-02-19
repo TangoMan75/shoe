@@ -1,16 +1,18 @@
 #!/bin/sh
 
-## Install bash_unit framework
-##
 ## {
-##   "namespace": "app",
+##   "namespace": "recipes/entrypoint/app",
+##   "summary": "Install bash_unit framework",
 ##   "requires": [
-##     "curl"
+##     "cat",
+##     "chmod",
+##     "curl",
+##     "mkdir",
+##     "wget"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ]
 ## }
 bash_unit() {

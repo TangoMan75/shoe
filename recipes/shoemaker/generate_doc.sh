@@ -1,10 +1,14 @@
 #!/bin/sh
 
-## Generate Markdown documentation for provided shoe script
-##
 ## {
+##   "namespace": "recipes/shoemaker",
+##   "summary": "Generate Markdown documentation for provided shoe script",
+##   "requires": [
+##     "basename",
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_generate_doc"
+##     "src/shell/documentation/_generate_doc"
 ##   ]
 ## }
 generate_doc() {

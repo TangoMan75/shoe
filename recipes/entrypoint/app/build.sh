@@ -1,16 +1,20 @@
 #!/bin/sh
 
-## Build given script from recipe
-##
 ## {
-##   "namespace": "app",
+##   "namespace": "recipes/entrypoint/app",
+##   "summary": "Build given script from recipe",
 ##   "requires": [
+##     "chmod",
+##     "rm",
+##     "sh",
 ##     "shoemaker.sh",
-##     "chmod"
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/documentation/generate_doc",
+##     "src/shell/make/generate_makefile"
 ##   ]
 ## }
 build() {

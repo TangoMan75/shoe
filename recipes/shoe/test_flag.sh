@@ -1,8 +1,12 @@
 #!/bin/sh
 
-## Prints flag status
-##
 ## {
+##   "namespace": "recipes/shoe",
+##   "summary": "Prints flag status",
+##   "requires": [
+##     "echo",
+##     "true"
+##   ],
 ##   "parameters": [
 ##     {
 ##       "name": "flag",
