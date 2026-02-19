@@ -1,0 +1,272 @@
+../../src/shell/header.sh
+
+## Rick and Morty
+##
+## This is the main entrypoint for RickAndMortyApi project
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 1.0.0
+## @license MIT
+## @link    https://github.com/TangoMan75/rick-and-morty
+
+#--------------------------------------------------
+# Place your constants after this line
+#--------------------------------------------------
+./constants.sh
+
+#--------------------------------------------------
+# Place your options after this line
+#--------------------------------------------------
+./options.sh
+
+#--------------------------------------------------
+# Place your flags after this line
+#--------------------------------------------------
+./flags.sh
+
+#--------------------------------------------------
+# Place your global variables after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+
+##################################################
+### App
+##################################################
+./app/export_data.sh
+./app/import_data.sh
+./app/scrape.sh
+
+##################################################
+### Install
+##################################################
+./install/install.sh
+./install/uninstall.sh
+./install/requirements.sh
+./install/rm_env.sh
+./install/set_env.sh
+
+##################################################
+### CI CD
+##################################################
+./ci_cd/lint.sh
+./ci_cd/lint_fix.sh
+./ci_cd/tests.sh
+./ci_cd/tests_functional.sh
+./ci_cd/tests_integration.sh
+./ci_cd/tests_unit.sh
+./ci_cd/coverage.sh
+./ci_cd/security.sh
+
+##################################################
+### Database
+##################################################
+./database/reset_db.sh
+./database/_get_database_type.sh
+./database/_is_database_installed.sh
+
+##################################################
+### Doctrine
+##################################################
+./doctrine/create_db.sh
+./doctrine/drop.sh
+./doctrine/fixtures.sh
+./doctrine/migrate.sh
+./doctrine/migration_diff.sh
+./doctrine/schema.sh
+
+##################################################
+### Development
+##################################################
+./development/generate_schema.sh
+./development/_are_vendors_installed.sh
+./development/_dotenv.sh
+./development/serve.sh
+./development/version.sh
+
+##################################################
+### Docker
+##################################################
+./docker/build.sh
+./docker/network.sh
+./docker/network_remove.sh
+./docker/open.sh
+./docker/start.sh
+./docker/stop.sh
+./docker/up.sh
+
+##################################################
+### Symfony
+##################################################
+./symfony/cache.sh
+./symfony/generate_app_secret.sh
+
+##################################################
+### Self Install
+##################################################
+../../src/shell/install/self_install.sh
+../../src/shell/install/self_uninstall.sh
+
+##################################################
+### Help
+##################################################
+../../src/shell/help/help.sh
+
+#--------------------------------------------------
+#_ Hooks
+#--------------------------------------------------
+../../src/shell/hooks/_default.sh
+./_before.sh
+../../src/shell/hooks/_after.sh
+
+###################################################
+# TangoMan Shoe Shell Microframework
+###################################################
+
+#--------------------------------------------------
+# Generated code : Do not edit below this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+#_ Colors
+#--------------------------------------------------
+../../src/shell/colors/constants_echo_colors.sh
+../../src/shell/colors/constants_alert_colors.sh
+../../src/shell/colors/colors.sh
+
+#--------------------------------------------------
+#_ Compatibility
+#--------------------------------------------------
+../../src/shell/compatibility/_open.sh
+../../src/shell/compatibility/_sed_i.sh
+
+#--------------------------------------------------
+#_ Docker
+#--------------------------------------------------
+../../src/shell/docker/_docker_compose_build.sh
+../../src/shell/docker/_docker_compose_start.sh
+../../src/shell/docker/_docker_compose_stop.sh
+../../src/shell/docker/_docker_exec.sh
+../../src/shell/docker/_docker_kill_all.sh
+../../src/shell/docker/_docker_rm.sh
+../../src/shell/docker/_docker_run_atmoz_sftp.sh
+../../src/shell/docker/_docker_run.sh
+../../src/shell/docker/_docker_run_whoami.sh
+../../src/shell/docker/_docker_status.sh
+../../src/shell/docker/_find_container_name.sh
+../../src/shell/docker/_get_container_id.sh
+../../src/shell/docker/_get_container_ip.sh
+../../src/shell/docker/_get_container_name.sh
+../../src/shell/docker/_get_docker_compose.sh
+../../src/shell/docker/_is_container_running.sh
+../../src/shell/docker/_wait_for_postgres.sh
+../../src/shell/docker/_wait_for_rabbit.sh
+
+#--------------------------------------------------
+#_ Help
+#--------------------------------------------------
+../../src/shell/help/_help.sh
+../../src/shell/help/_print_commands.sh
+../../src/shell/help/_print_constants.sh
+../../src/shell/help/_print_description.sh
+../../src/shell/help/_print_flags.sh
+../../src/shell/help/_print_infos.sh
+../../src/shell/help/_print_options.sh
+../../src/shell/help/_print_usage.sh
+
+#--------------------------------------------------
+#_ Install
+#--------------------------------------------------
+../../src/shell/install/_copy_install.sh
+../../src/shell/install/_generate_autocomplete.sh
+../../src/shell/install/_generate_global_autocomplete.sh
+../../src/shell/install/_get_comspec.sh
+../../src/shell/install/_install.sh
+../../src/shell/install/_remove_completion_autoload.sh
+../../src/shell/install/_set_completion_autoload.sh
+../../src/shell/install/_symlink_install.sh
+../../src/shell/install/_uninstall.sh
+../../src/shell/install/_update.sh
+
+#--------------------------------------------------
+#_ Network
+#--------------------------------------------------
+../../src/shell/network/_open_in_default_browser.sh
+../../src/shell/network/_php_serve.sh
+../../src/shell/network/_py_serve.sh
+../../src/shell/network/_remove_host.sh
+../../src/shell/network/_set_host.sh
+
+#--------------------------------------------------
+#_ Reflexion
+#--------------------------------------------------
+../../src/shell/reflexion/_get_constants.sh
+../../src/shell/reflexion/_get_constraint.sh
+../../src/shell/reflexion/_get_flags.sh
+../../src/shell/reflexion/_get_function.sh
+../../src/shell/reflexion/_get_functions_names.sh
+../../src/shell/reflexion/_get_options.sh
+../../src/shell/reflexion/_get_padding.sh
+../../src/shell/reflexion/_get_parameter.sh
+../../src/shell/reflexion/_print_synopsis.sh
+../../src/shell/reflexion/_set_parameter.sh
+
+#--------------------------------------------------
+#_ Shoedoc
+#--------------------------------------------------
+../../src/shell/shoedoc/_get_function_shoedoc.sh
+../../src/shell/shoedoc/_get_script_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc.sh
+../../src/shell/shoedoc/_get_shoedoc_description.sh
+../../src/shell/shoedoc/_get_shoedoc_tag.sh
+../../src/shell/shoedoc/_get_shoedoc_title.sh
+../../src/shell/shoedoc/_parse_shoedoc.sh
+
+#--------------------------------------------------
+#_ Strings
+#--------------------------------------------------
+../../src/shell/strings/_collapse_blank_lines.sh
+../../src/shell/strings/_generate_key.sh
+
+#--------------------------------------------------
+#_ Symfony
+#--------------------------------------------------
+../../src/shell/symfony/_composer_install.sh
+../../src/shell/symfony/_console.sh
+../../src/shell/symfony/_db_create.sh
+../../src/shell/symfony/_db_drop.sh
+../../src/shell/symfony/_db_query.sh
+../../src/shell/symfony/_db_schema.sh
+../../src/shell/symfony/_phpunit.sh
+../../src/shell/symfony/_sf_cache.sh
+../../src/shell/symfony/_sf_lint.sh
+../../src/shell/symfony/_sf_security.sh
+../../src/shell/symfony/_sf_serve.sh
+
+#--------------------------------------------------
+#_ System
+#--------------------------------------------------
+../../src/shell/system/_check_installed.sh
+../../src/shell/system/_get_package_name.sh
+../../src/shell/system/_is_checksum_valid.sh
+../../src/shell/system/_is_gnome.sh
+../../src/shell/system/_is_installed.sh
+../../src/shell/system/_is_root.sh
+../../src/shell/system/_pwd.sh
+../../src/shell/system/_require.sh
+../../src/shell/system/_spin.sh
+../../src/shell/system/_user_exists.sh
+
+#--------------------------------------------------
+#_ Validation
+#--------------------------------------------------
+../../src/shell/validation/_is_valid.sh
+../../src/shell/validation/_validate.sh
+
+#--------------------------------------------------
+#_ Kernel
+#--------------------------------------------------
+../../src/shell/kernel/_kernel.sh
+

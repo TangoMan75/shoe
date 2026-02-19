@@ -18,7 +18,7 @@
 ##     },
 ##     {
 ##       "position": 1,
-##       "name": "DESTINATION_FOLDER",
+##       "name": "DESTINATION",
 ##       "type": "folder",
 ##       "description": "The path to the destination folder.",
 ##       "nullable": false
@@ -26,9 +26,9 @@
 ##   ]
 ## }
 _move() {
-    # Synopsis: _move <SOURCE> <DESTINATION_FOLDER>
-    #   SOURCE:             The path to the input file or folder.
-    #   DESTINATION_FOLDER: The path to the destination folder.
+    # Synopsis: _move <SOURCE> <DESTINATION>
+    #   SOURCE:      The path to the input file or folder.
+    #   DESTINATION: The path to the destination folder.
 
     if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_move: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_move: too many arguments ($#)\n"; return 1; fi

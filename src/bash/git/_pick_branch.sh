@@ -54,7 +54,7 @@ function _pick_branch() {
     local verbose=false
 
     #--------------------------------------------------
-    # Parse parameters
+    # Parse arguments
     #--------------------------------------------------
 
     local arguments=()
@@ -122,7 +122,7 @@ function _pick_branch() {
     #--------------------------------------------------
 
     # main branch and current branch always first options
-    if [ "${current_branch}" != "${main_branch}" ] && [ "${list_main}" = true ]; then
+    if [ -n "${main_branch}" ] && [ "${current_branch}" != "${main_branch}" ] && [ "${list_main}" = true ]; then
         branches+=("${main_branch}")
     fi
 
