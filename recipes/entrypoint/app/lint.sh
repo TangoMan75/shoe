@@ -1,15 +1,16 @@
 #!/bin/sh
 
-## Sniff errors with linter
-##
 ## {
-##   "namespace": "app",
+##   "namespace": "recipes/entrypoint/app",
+##   "summary": "Sniff errors with linter",
 ##   "requires": [
-##     "shellcheck"
+##     "find",
+##     "shellcheck",
+##     "sort"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 lint() {

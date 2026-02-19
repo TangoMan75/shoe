@@ -2488,56 +2488,56 @@ _ALERT_DARK      = ${_ALERT_DARK}
 ##################################################
 
 define _echo_primary
-    @printf "\${_PRIMARY}%b\${_EOL}" \$(1)
+	@printf "\${_PRIMARY}%b\${_EOL}" \$(1)
 endef
 define _echo_secondary
-    @printf "\${_SECONDARY}%b\${_EOL}" \$(1)
+	@printf "\${_SECONDARY}%b\${_EOL}" \$(1)
 endef
 define _echo_success
-    @printf "\${_SUCCESS}%b\${_EOL}" \$(1)
+	@printf "\${_SUCCESS}%b\${_EOL}" \$(1)
 endef
 define _echo_danger
-    @printf "\${_DANGER}%b\${_EOL}" \$(1)
+	@printf "\${_DANGER}%b\${_EOL}" \$(1)
 endef
 define _echo_warning
-    @printf "\${_WARNING}%b\${_EOL}" \$(1)
+	@printf "\${_WARNING}%b\${_EOL}" \$(1)
 endef
 define _echo_info
-    @printf "\${_INFO}%b\${_EOL}" \$(1)
+	@printf "\${_INFO}%b\${_EOL}" \$(1)
 endef
 define _echo_light
-    @printf "\${_LIGHT}%b\${_EOL}" \$(1)
+	@printf "\${_LIGHT}%b\${_EOL}" \$(1)
 endef
 define _echo_dark
-    @printf "\${_DARK}%b\${_EOL}" \$(1)
+	@printf "\${_DARK}%b\${_EOL}" \$(1)
 endef
 define _echo_error
-    @printf "\${_DANGER}error: %b\${_EOL}" \$(1)
+	@printf "\${_DANGER}error: %b\${_EOL}" \$(1)
 endef
 
 define _alert_primary
-    @printf "\${_EOL}\${_ALERT_PRIMARY}%64s\${_EOL}\${_ALERT_PRIMARY} %-63s\${_EOL}\${_ALERT_PRIMARY}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_PRIMARY}%64s\${_EOL}\${_ALERT_PRIMARY} %-63s\${_EOL}\${_ALERT_PRIMARY}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_secondary
-    @printf "\${_EOL}\${_ALERT_SECONDARY}%64s\${_EOL}\${_ALERT_SECONDARY} %-63s\${_EOL}\${_ALERT_SECONDARY}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_SECONDARY}%64s\${_EOL}\${_ALERT_SECONDARY} %-63s\${_EOL}\${_ALERT_SECONDARY}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_success
-    @printf "\${_EOL}\${_ALERT_SUCCESS}%64s\${_EOL}\${_ALERT_SUCCESS} %-63s\${_EOL}\${_ALERT_SUCCESS}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_SUCCESS}%64s\${_EOL}\${_ALERT_SUCCESS} %-63s\${_EOL}\${_ALERT_SUCCESS}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_danger
-    @printf "\${_EOL}\${_ALERT_DANGER}%64s\${_EOL}\${_ALERT_DANGER} %-63s\${_EOL}\${_ALERT_DANGER}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_DANGER}%64s\${_EOL}\${_ALERT_DANGER} %-63s\${_EOL}\${_ALERT_DANGER}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_warning
-    @printf "\${_EOL}\${_ALERT_WARNING}%64s\${_EOL}\${_ALERT_WARNING} %-63s\${_EOL}\${_ALERT_WARNING}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_WARNING}%64s\${_EOL}\${_ALERT_WARNING} %-63s\${_EOL}\${_ALERT_WARNING}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_info
-    @printf "\${_EOL}\${_ALERT_INFO}%64s\${_EOL}\${_ALERT_INFO} %-63s\${_EOL}\${_ALERT_INFO}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_INFO}%64s\${_EOL}\${_ALERT_INFO} %-63s\${_EOL}\${_ALERT_INFO}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_light
-    @printf "\${_EOL}\${_ALERT_LIGHT}%64s\${_EOL}\${_ALERT_LIGHT} %-63s\${_EOL}\${_ALERT_LIGHT}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_LIGHT}%64s\${_EOL}\${_ALERT_LIGHT} %-63s\${_EOL}\${_ALERT_LIGHT}%64s\${_EOL}\n" "" \$(1) ""
 endef
 define _alert_dark
-    @printf "\${_EOL}\${_ALERT_DARK}%64s\${_EOL}\${_ALERT_DARK} %-63s\${_EOL}\${_ALERT_DARK}%64s\${_EOL}\n" "" \$(1) ""
+	@printf "\${_EOL}\${_ALERT_DARK}%64s\${_EOL}\${_ALERT_DARK} %-63s\${_EOL}\${_ALERT_DARK}%64s\${_EOL}\n" "" \$(1) ""
 endef
 
 ##################################################
@@ -2546,19 +2546,19 @@ endef
 
 ## Print this help
 help:
-    \$(call _alert_primary, "$(_get_shoedoc_title "${__annotations__}")")
+	\$(call _alert_primary, "$(_get_shoedoc_title "${__annotations__}")")
 
-    @printf "\${_WARNING}Description:\${_EOL}"
-    @printf "\${_PRIMARY}  $(_get_shoedoc_description "${__annotations__}" | tr '\n' ' ')\${_EOL}\n"
+	@printf "\${_WARNING}Description:\${_EOL}"
+	@printf "\${_PRIMARY}  $(_get_shoedoc_description "${__annotations__}" | tr '\n' ' ')\${_EOL}\n"
 
-    @printf "\${_WARNING}Usage:\${_EOL}"
-    @printf "\${_PRIMARY}  make [command]\${_EOL}\n"
+	@printf "\${_WARNING}Usage:\${_EOL}"
+	@printf "\${_PRIMARY}  make [command]\${_EOL}\n"
 
-    @printf "\${_WARNING}Commands:\${_EOL}"
-    @awk '/^### /{printf"\n\${_WARNING}%s\${_EOL}",substr(\$\$0,5)} \\
-    /^[a-zA-Z0-9_-]+:/{HELP="";if( match(PREV,/^## /))HELP=substr(PREV,4); \\
-        printf "\${_SUCCESS}  %-12s  \${_PRIMARY}%s\${_EOL}",substr(\$\$1,0,index(\$\$1,":")-1),HELP \\
-    }{PREV=\$\$0}' \${MAKEFILE_LIST}
+	@printf "\${_WARNING}Commands:\${_EOL}"
+	@awk '/^### /{printf"\n\${_WARNING}%s\${_EOL}",substr(\$\$0,5)} \\
+	/^[a-zA-Z0-9_-]+:/{HELP="";if( match(PREV,/^## /))HELP=substr(PREV,4); \\
+		printf "\${_SUCCESS}  %-12s  \${_PRIMARY}%s\${_EOL}",substr(\$\$1,0,index(\$\$1,":")-1),HELP \\
+	}{PREV=\$\$0}' \${MAKEFILE_LIST}
 
 EOT
 

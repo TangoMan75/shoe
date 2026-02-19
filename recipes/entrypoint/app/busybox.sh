@@ -1,15 +1,16 @@
 #!/bin/sh
 
-## Run script in Busybox Docker container
-##
 ## {
-##   "namespace": "app",
+##   "namespace": "recipes/entrypoint/app",
+##   "summary": "Run script in Busybox Docker container",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "pwd",
+##     "sh"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 busybox() {

@@ -1,12 +1,16 @@
 #!/bin/sh
 
-## Build from given "build.shoe" file
-##
 ## {
+##   "namespace": "recipes/shoemaker",
+##   "summary": "Build from given \"build.shoe\" file",
+##   "requires": [
+##     "mkdir",
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_build",
-##     "_pwd",
-##     "_echo_error"
+##     "recipes/shoemaker/_build",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_pwd"
 ##   ]
 ## }
 build() {
