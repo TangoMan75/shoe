@@ -87,7 +87,7 @@ function _get_main_branch() {
     # Build command
     #--------------------------------------------------
 
-    command="git show-ref --heads --quiet main && echo main || echo master"
+    command="{ git show-ref --heads --quiet main && echo main; } || { git show-ref --quiet refs/remotes/origin/main && echo main; } || { git show-ref --heads --quiet master && echo master; } || { git show-ref --quiet refs/remotes/origin/master && echo master; }"
 
     #--------------------------------------------------
     # Execute command

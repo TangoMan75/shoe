@@ -17,11 +17,6 @@
 /dump/*
 !/dump/.gitignore
 
-/recipes/*
-!/recipes/.gitignore
-!/recipes/entrypoint
-!/recipes/shoe
-!/recipes/shoemaker
-
 shoemaker-completion.sh
 .grepai/
+__pycache__/

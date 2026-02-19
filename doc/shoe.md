@@ -889,9 +889,9 @@ Generate Markdown documentation for provided shoe script
 Extract file based on its extension
 
 > Synopsis:
-> _extract &lt;FILE_PATH&gt; [DESTINATION_FOLDER]
+> _extract &lt;FILE_PATH&gt; [DESTINATION]
 - `FILE_PATH`: _(type: "file")_ The path to the input file.
-- `DESTINATION_FOLDER`: _(type: "folder")_ (optional) The path to the destination folder. Defaults to file parent.
+- `DESTINATION`: _(type: "folder")_ (optional) The path to the destination folder. Defaults to file parent.
 
 - ⚠️ Requires: `realpath`, `tar`, `unzip`
 - 🔗 Depends: `_check_installed`, `_echo_error`, `_echo_info`
@@ -911,9 +911,9 @@ Get file extension
 Move file or folder to destination (creates folder when missing)
 
 > Synopsis:
-> _move &lt;SOURCE&gt; &lt;DESTINATION_FOLDER&gt;
+> _move &lt;SOURCE&gt; &lt;DESTINATION&gt;
 - `SOURCE`: _(type: "path")_ The path to the input file or folder.
-- `DESTINATION_FOLDER`: _(type: "folder")_ The path to the destination folder.
+- `DESTINATION`: _(type: "folder")_ The path to the destination folder.
 
 - 🔗 Depends: `_echo_error`, `_echo_info`
 
@@ -939,6 +939,19 @@ Initialise git submodules
 
 - ⚠️ Requires: `git`
 - 🔗 Depends: `_echo_error`, `_echo_info`
+
+### ⚡ GITHUB
+
+#### ⌨️ 1. `_deploy` (private)
+
+Deploy source folder to "gh-pages"
+
+> Synopsis:
+> _deploy &lt;SOURCE&gt;
+- `SOURCE`: _(type: "folder")_ The source directory.
+
+- ⚠️ Requires: `git`
+- 🔗 Depends: `_echo_info`
 
 ### ⚡ HELP
 
@@ -1496,6 +1509,16 @@ Generate random 32 bit string
 - ⚠️ Requires: `openssl`
 - 🔗 Depends: `_echo_info`
 
+#### ⌨️ 3. `_trim` (private)
+
+Squeezes repeated whitespaces and trim leading and trailing whitespaces from a string.
+
+> Synopsis:
+> _trim &lt;STRING&gt;
+- `STRING`: _(type: "str")_ The string to trim.
+
+- ⚠️ Requires: `printf`, `sed`, `tr`
+
 ### ⚡ SYMFONY
 
 #### ⌨️ 1. `_composer_install` (private)
@@ -1701,14 +1724,21 @@ Check current user is root
 
 - ⚠️ Requires: `awk`, `id`
 
-#### ⌨️ 8. `_pwd` (private)
+#### ⌨️ 8. `_is_termux` (private)
+
+Check current environment is Termux
+
+> Synopsis:
+> _is_termux
+
+#### ⌨️ 9. `_pwd` (private)
 
 Return current project directory realpath, or "pwd" when installed globally
 
 > Synopsis:
 > _pwd
 
-#### ⌨️ 9. `_remove` (private)
+#### ⌨️ 10. `_remove` (private)
 
 Remove given package from system
 
@@ -1720,7 +1750,7 @@ Remove given package from system
 - ⚠️ Requires: `apt`
 - 🔗 Depends: `_get_package_manager`, `_get_package_name`, `_is_installed`, `_echo_error`, `_echo_info`
 
-#### ⌨️ 10. `_require` (private)
+#### ⌨️ 11. `_require` (private)
 
 Install required package globally
 
@@ -1732,7 +1762,7 @@ Install required package globally
 - ⚠️ Requires: `apt`
 - 🔗 Depends: `_get_package_manager`, `_get_package_name`, `_is_installed`, `_echo_error`, `_echo_info`
 
-#### ⌨️ 11. `_spin` (private)
+#### ⌨️ 12. `_spin` (private)
 
 Animate a spinner in the terminal for a given amout of time
 
@@ -1742,7 +1772,7 @@ Animate a spinner in the terminal for a given amout of time
 
 - ⚠️ Requires: `awk`
 
-#### ⌨️ 12. `_user_exists` (private)
+#### ⌨️ 13. `_user_exists` (private)
 
 Check provided user exists
 
