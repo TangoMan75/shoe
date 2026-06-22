@@ -24,3 +24,5 @@
 !/recipes/shoemaker
 
 shoemaker-completion.sh
+.grepai/
+__pycache__/
