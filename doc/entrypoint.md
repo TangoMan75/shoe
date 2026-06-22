@@ -1,12 +1,10 @@
-TangoMan Entrypoint
-===
+# TangoMan Entrypoint
 
 ## ℹ️ Infos
 
 - author:  "Matthias Morin" <mat@tangoman.io>
-- version: 0.1.0
-- link:    https://github.com/TangoMan75/shoe
-
+- version:  0.1.0
+- link:  https://github.com/TangoMan75/shoe
 
 ## 📑 Description
 
@@ -19,138 +17,125 @@ Execute Development and Continuous Integration tasks.
 ## ⚙️ Options
 
 1. **`--recipe`**
-> Recipe name to build 
-  - 🧩 Constraint: `/^~?[a-zA-Z0-9.\/_-]+$/`
+> Recipe name to build /^~?[a-zA-Z0-9.\/_-]+$/
   - 🚩 Default: _''_
 
 2. **`--lint_folder`**
-> Lint directory 
-  - 🧩 Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
+> Lint directory /^~?[a-zA-Z0-9/._-]+$/
   - 🚩 Default: _'./build'_
 
 3. **`--test_folder`**
-> Test directory 
-  - 🧩 Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
+> Test directory /^~?[a-zA-Z0-9/._-]+$/
   - 🚩 Default: _'./tests'_
 
 ## 🤖 Commands
 
-### ⚡ APP
+### ⚡ RECIPES/ENTRYPOINT/APP
 
 #### ⌨️ 1. `build` (public)
 
 Build given script from recipe
 
 > Synopsis:
-> build
+> `build`
 
-- ⚠️ Requires: `shoemaker.sh`, `chmod`
-- 🔗 Depends: `_echo_error`, `_echo_info`
+- ⚠️ Requires: `chmod`, `python3`, `rm`, `true`
+
+- 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`
 
 #### ⌨️ 2. `build_all` (public)
 
 Build all scripts in recipes folder
 
 > Synopsis:
-> build_all
+> `build_all`
 
-- ⚠️ Requires: `shoemaker.sh`, `chmod`
-- 🔗 Depends: `_echo_info`
+- ⚠️ Requires: `chmod`, `find`, `python3`, `rm`, `sh`, `true`
 
-#### ⌨️ 3. `replace` (public)
+- 🔗 Depends: `src/shell/colors/_alert_info`, `src/shell/colors/_echo_info`, `src/shell/system/_pwd`
 
-Replace shoemaker, entrypoint and Makefile in root directory
-
-> Synopsis:
-> replace
-
-- ⚠️ Requires: `cp`
-- 🔗 Depends: `_echo_info`
-
-#### ⌨️ 4. `lint` (public)
+#### ⌨️ 3. `lint` (public)
 
 Sniff errors with linter
 
 > Synopsis:
-> lint
+> `lint`
 
-- ⚠️ Requires: `shellcheck`
-- 🔗 Depends: `_check_installed`, `_echo_info`
+- ⚠️ Requires: `find`, `shellcheck`, `sort`
 
-#### ⌨️ 5. `tests` (public)
+- 🔗 Depends: `src/shell/colors/_echo_info`, `src/shell/system/_check_installed`
+
+#### ⌨️ 4. `tests` (public)
 
 Run tests
 
 > Synopsis:
-> tests
+> `tests`
 
-- ⚠️ Requires: `bash_unit`
-- 🔗 Depends: `_echo_info`
+- ⚠️ Requires: `bash_unit`, `find`, `sort`
 
-#### ⌨️ 6. `git_hooks` (public)
+- 🔗 Depends: `src/shell/colors/_echo_info`
+
+#### ⌨️ 5. `git_hooks` (public)
 
 Install git hooks
 
 > Synopsis:
-> git_hooks
+> `git_hooks`
 
-- 🔗 Depends: `_git_hooks`
+- 🔗 Depends: `src/shell/git/_git_hooks`
 
-#### ⌨️ 7. `bash_unit` (public)
+#### ⌨️ 6. `bash_unit` (public)
 
 Install bash_unit framework
 
 > Synopsis:
-> bash_unit
+> `bash_unit`
 
-- ⚠️ Requires: `curl`
-- 🔗 Depends: `_check_installed`, `_echo_error`, `_echo_info`
+- ⚠️ Requires: `cat`, `chmod`, `curl`, `mkdir`, `wget`
 
-#### ⌨️ 8. `test_can_fail` (public)
+- 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`
 
-
-
-> Synopsis:
-> test_can_fail
-
-#### ⌨️ 9. `alpine` (public)
+#### ⌨️ 7. `alpine` (public)
 
 Run script in Alpine Docker container
 
 > Synopsis:
-> alpine
+> `alpine`
 
-- ⚠️ Requires: `docker`
-- 🔗 Depends: `_check_installed`, `_echo_info`
+- ⚠️ Requires: `docker`, `pwd`, `sh`
 
-#### ⌨️ 10. `busybox` (public)
+- 🔗 Depends: `src/shell/colors/_echo_info`, `src/shell/system/_check_installed`
+
+#### ⌨️ 8. `busybox` (public)
 
 Run script in Busybox Docker container
 
 > Synopsis:
-> busybox
+> `busybox`
 
-- ⚠️ Requires: `docker`
-- 🔗 Depends: `_check_installed`, `_echo_info`
+- ⚠️ Requires: `docker`, `pwd`, `sh`
 
-#### ⌨️ 11. `ubuntu` (public)
+- 🔗 Depends: `src/shell/colors/_echo_info`, `src/shell/system/_check_installed`
+
+#### ⌨️ 9. `ubuntu` (public)
 
 Run script in Ubuntu Docker container
 
 > Synopsis:
-> ubuntu
+> `ubuntu`
 
-- ⚠️ Requires: `docker`
-- 🔗 Depends: `_check_installed`, `_echo_info`
+- ⚠️ Requires: `docker`, `pwd`, `sh`
 
-### ⚡ HELP
+- 🔗 Depends: `src/shell/colors/_echo_info`, `src/shell/system/_check_installed`
 
-#### ⌨️ 1. `help` (public)
+### ⚡ Help
+
+#### ⌨️ 10. `help` (public)
 
 Print this help
 
 > Synopsis:
-> help
+> `help`
 
-- 🔗 Depends: `_help`
-
+- 🔗 Depends: `src/shell/help/_help`

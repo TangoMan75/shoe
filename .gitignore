@@ -17,6 +17,7 @@
 /dump/*
 !/dump/.gitignore
 
-shoemaker-completion.sh
 .grepai/
+.pytest_cache/
 __pycache__/
+shoemaker-completion.sh
