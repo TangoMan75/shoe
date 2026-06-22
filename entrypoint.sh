@@ -71,7 +71,7 @@ test_folder='./tests'
 ## {
 ##   "namespace": "app",
 ##   "requires": [
-##     "shoemaker.sh",
+##     "python3",
 ##     "chmod"
 ##   ],
 ##   "depends": [
@@ -88,8 +88,8 @@ build() {
     _echo_info "rm \"build/${recipe}.sh\" || true\n"
     rm "build/${recipe}.sh" || true
 
-    _echo_info "sh shoemaker.sh build -f \"recipes/${recipe}/${recipe}.shoe\"\n"
-    sh shoemaker.sh build -f "recipes/${recipe}/${recipe}.shoe"
+    _echo_info "python3 shoemaker.py build --file \"recipes/${recipe}/${recipe}.shoe\"\n"
+    python3 shoemaker.py build --file "recipes/${recipe}/${recipe}.shoe"
 
     _echo_info "chmod 775 \"build/${recipe}.sh\"\n"
     chmod 775 "build/${recipe}.sh"
@@ -97,11 +97,11 @@ build() {
     _echo_info "rm \"doc/${recipe}.md\" || true\n"
     rm "doc/${recipe}.md" || true
 
-    _echo_info "sh shoemaker.sh generate_doc -f \"build/${recipe}.sh\" -d doc\n"
-    sh shoemaker.sh generate_doc -f "build/${recipe}.sh" -d doc
+    _echo_info "python3 shoemaker.py generate_doc --file \"build/${recipe}.sh\" --destination doc\n"
+    python3 shoemaker.py generate_doc --file "build/${recipe}.sh" --destination doc
 
-    _echo_info "sh shoemaker.sh generate_makefile -f \"build/${recipe}.sh\"\n"
-    sh shoemaker.sh generate_makefile -f "build/${recipe}.sh"
+    _echo_info "python3 shoemaker.py generate_makefile --file \"build/${recipe}.sh\"\n"
+    python3 shoemaker.py generate_makefile --file "build/${recipe}.sh"
 }
 
 ## Build all scripts in recipes folder
@@ -109,8 +109,9 @@ build() {
 ## {
 ##   "namespace": "app",
 ##   "requires": [
-##     "shoemaker.sh",
-##     "chmod"
+##     "python3",
+##     "chmod",
+##     "find"
 ##   ],
 ##   "depends": [
 ##     "_echo_info"
@@ -119,33 +120,23 @@ build() {
 build_all() {
     _echo_info 'rm -rf build || true\n'
     rm -rf build || true
+    mkdir -p build
 
-    _echo_info 'sh shoemaker.sh build_all\n'
-    sh shoemaker.sh build_all
+    _echo_info 'find ./recipes -type f -name "*.shoe"\n'
+    find ./recipes -type f -name '*.shoe' | sort | while read -r RECIPE_FILE
+    do
+        recipe="$(basename "${RECIPE_FILE}" .shoe)"
+        build
+    done
 
     find ./build -type f | while read -r FILE
     do
         _echo_info "chmod 775 \"${FILE}\"\n"
         chmod 775 "${FILE}"
     done
-
-    _echo_info 'rm -f doc/*.md || true\n'
-    rm -f doc/*.md || true
-
-    _echo_info 'sh shoemaker.sh generate_doc_all\n'
-    sh shoemaker.sh generate_doc_all
-
-    _echo_info 'sh shoemaker.sh generate_doc -p -f build/shoemaker.sh -d doc\n'
-    sh shoemaker.sh generate_doc -p -f build/shoemaker.sh -d doc
-
-    _echo_info 'sh shoemaker.sh generate_doc -p -f build/shoe.sh -d doc\n'
-    sh shoemaker.sh generate_doc -p -f build/shoe.sh -d doc
-
-    _echo_info 'sh shoemaker.sh generate_makefile_all\n'
-    sh shoemaker.sh generate_makefile_all
 }
 
-## Replace shoemaker, entrypoint and Makefile in root directory
+## Replace entrypoint and Makefile in root directory
 ##
 ## {
 ##   "namespace": "app",
@@ -157,14 +148,8 @@ build_all() {
 ##   ]
 ## }
 replace() {
-    _echo_info 'cp build/shoemaker.sh .\n'
-    cp build/shoemaker.sh .
-
-    _echo_info 'cp build/entrypoint.sh .\n'
-    cp build/entrypoint.sh .
-
-    _echo_info 'cp build/shoemaker.makefile Makefile\n'
-    cp build/shoemaker.makefile Makefile
+    _echo_info 'cp build/shoe.makefile Makefile\n'
+    cp build/shoe.makefile Makefile
 }
 
 ## Sniff errors with linter
@@ -1112,7 +1097,7 @@ _git_hooks() {
 ##       "position": 2,
 ##       "name": "FUNCTION_NAME",
 ##       "type": "str",
-##       "description": "The function name to get help for.",
+##       "description": "The function name to get help for."
 ##     }
 ##   ]
 ## }

@@ -94,7 +94,7 @@ Prefix a comment with three pound signs (`###`) to organize related commands int
 
 18. **⚡ Shoemaker Developement Tool:**
 
-Use `shoemaker.sh` tool to split a script file into its components, build a script from a _"build.shoe"_ file, generate _Makefile_ or _Markdown_ documentation from a shoe script.
+Use `shoemaker.py` tool to lint and migrate Shoedoc annotations, convert between classic `@` tags and JSON envelopes, split a script file into its components, build a script from a _".shoe"_ recipe file, generate _Makefile_ or _Markdown_ documentation from a shoe script.
 
 19. **⚡ Code Snippets:**
 
@@ -104,7 +104,7 @@ In addition, **TangoMan Shoe Shell Microframework** includes a library of reusab
 ----------------
 
 1. Full Shoe documentation can be found here: [./doc/shoe.md](./doc/shoe.md)
-2. Documentation for `shoemaker.sh` can be found here: [./doc/shoemaker.md](./doc/shoemaker.md)
+2. Documentation for `shoemaker.py` can be found here: [./doc/shoemaker.md](./doc/shoemaker.md)
 3. Documentation for `entrypoint.sh` can be found here: [./doc/entrypoint.md](./doc/entrypoint.md)
 
 ### 📝 Annotations

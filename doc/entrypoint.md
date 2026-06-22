@@ -1,16 +1,13 @@
-TangoMan Entrypoint
+## entrypoint
+
 ===
 
 ## ℹ️ Infos
 
-- author:  "Matthias Morin" <mat@tangoman.io>
-- version: 0.1.0
-- link:    https://github.com/TangoMan75/shoe
-
 
 ## 📑 Description
 
-Execute Development and Continuous Integration tasks.
+
 
 ## 🔥 Usage
 
@@ -19,18 +16,15 @@ Execute Development and Continuous Integration tasks.
 ## ⚙️ Options
 
 1. **`--recipe`**
-> Recipe name to build 
-  - 🧩 Constraint: `/^~?[a-zA-Z0-9.\/_-]+$/`
+> Recipe name to build /^~?[a-zA-Z0-9.\/_-]+$/
   - 🚩 Default: _''_
 
 2. **`--lint_folder`**
-> Lint directory 
-  - 🧩 Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
+> Lint directory /^~?[a-zA-Z0-9/._-]+$/
   - 🚩 Default: _'./build'_
 
 3. **`--test_folder`**
-> Test directory 
-  - 🧩 Constraint: `/^~?[a-zA-Z0-9/._-]+$/`
+> Test directory /^~?[a-zA-Z0-9/._-]+$/
   - 🚩 Default: _'./tests'_
 
 ## 🤖 Commands
@@ -42,9 +36,10 @@ Execute Development and Continuous Integration tasks.
 Build given script from recipe
 
 > Synopsis:
-> build
+> `build`
 
-- ⚠️ Requires: `shoemaker.sh`, `chmod`
+- ⚠️ Requires: `python3`, `chmod`
+
 - 🔗 Depends: `_echo_error`, `_echo_info`
 
 #### ⌨️ 2. `build_all` (public)
@@ -52,19 +47,21 @@ Build given script from recipe
 Build all scripts in recipes folder
 
 > Synopsis:
-> build_all
+> `build_all`
 
-- ⚠️ Requires: `shoemaker.sh`, `chmod`
+- ⚠️ Requires: `python3`, `chmod`, `find`
+
 - 🔗 Depends: `_echo_info`
 
 #### ⌨️ 3. `replace` (public)
 
-Replace shoemaker, entrypoint and Makefile in root directory
+Replace entrypoint and Makefile in root directory
 
 > Synopsis:
-> replace
+> `replace`
 
 - ⚠️ Requires: `cp`
+
 - 🔗 Depends: `_echo_info`
 
 #### ⌨️ 4. `lint` (public)
@@ -72,9 +69,10 @@ Replace shoemaker, entrypoint and Makefile in root directory
 Sniff errors with linter
 
 > Synopsis:
-> lint
+> `lint`
 
 - ⚠️ Requires: `shellcheck`
+
 - 🔗 Depends: `_check_installed`, `_echo_info`
 
 #### ⌨️ 5. `tests` (public)
@@ -82,9 +80,10 @@ Sniff errors with linter
 Run tests
 
 > Synopsis:
-> tests
+> `tests`
 
 - ⚠️ Requires: `bash_unit`
+
 - 🔗 Depends: `_echo_info`
 
 #### ⌨️ 6. `git_hooks` (public)
@@ -92,7 +91,7 @@ Run tests
 Install git hooks
 
 > Synopsis:
-> git_hooks
+> `git_hooks`
 
 - 🔗 Depends: `_git_hooks`
 
@@ -101,56 +100,55 @@ Install git hooks
 Install bash_unit framework
 
 > Synopsis:
-> bash_unit
+> `bash_unit`
 
 - ⚠️ Requires: `curl`
+
 - 🔗 Depends: `_check_installed`, `_echo_error`, `_echo_info`
 
-#### ⌨️ 8. `test_can_fail` (public)
-
-
-
-> Synopsis:
-> test_can_fail
-
-#### ⌨️ 9. `alpine` (public)
+#### ⌨️ 8. `alpine` (public)
 
 Run script in Alpine Docker container
 
 > Synopsis:
-> alpine
+> `alpine`
 
 - ⚠️ Requires: `docker`
+
 - 🔗 Depends: `_check_installed`, `_echo_info`
 
-#### ⌨️ 10. `busybox` (public)
+#### ⌨️ 9. `busybox` (public)
 
 Run script in Busybox Docker container
 
 > Synopsis:
-> busybox
+> `busybox`
 
 - ⚠️ Requires: `docker`
+
 - 🔗 Depends: `_check_installed`, `_echo_info`
 
-#### ⌨️ 11. `ubuntu` (public)
+#### ⌨️ 10. `ubuntu` (public)
 
 Run script in Ubuntu Docker container
 
 > Synopsis:
-> ubuntu
+> `ubuntu`
 
 - ⚠️ Requires: `docker`
+
 - 🔗 Depends: `_check_installed`, `_echo_info`
 
 ### ⚡ HELP
 
-#### ⌨️ 1. `help` (public)
+#### ⌨️ 11. `help` (public)
 
+################################################
+# Help
+################################################
 Print this help
 
 > Synopsis:
-> help
+> `help`
 
 - 🔗 Depends: `_help`
-
