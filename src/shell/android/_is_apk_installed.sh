@@ -1,30 +1,26 @@
 #!/bin/sh
 
-## Check if package is installed on connected device
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Check if package is installed on connected device",
 ##   "requires": [
 ##     "adb"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_adb",
-##     "_echo_error"
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "PACKAGE_NAME",
-##       "type": "str",
 ##       "description": "The apk package name. eg: \"org.fdroid.fdroid\"",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _is_apk_installed() {
-    # Synopsis: _is_apk_installed <PACKAGE_NAME>
-    #   PACKAGE_NAME: The apk package name. eg: "org.fdroid.fdroid"
-
     if ! _is_device_connected_with_adb; then
         _echo_error 'device not found\n'
 

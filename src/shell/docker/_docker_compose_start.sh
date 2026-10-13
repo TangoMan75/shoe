@@ -1,34 +1,32 @@
 #!/bin/sh
 
-## Build and start container stack with docker compose
-##
 ## {
-##   "namespace": "docker",
-##   "depends": [
-##     "_get_docker_compose",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/docker",
+##   "summary": "Build and start container stack with docker compose",
+##   "requires": [
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/docker/_get_docker_compose"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
-##       "description": "The path to the compose.yaml file."
+##       "description": "The path to the compose.yaml file.",
+##       "type": "file"
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "ENV_FILE",
-##       "type": "file",
-##       "description": "The path to the env file."
+##       "description": "The path to the env file.",
+##       "type": "file"
 ##     }
 ##   ]
 ## }
 _docker_compose_start() {
-    # Synopsis: _docker_compose_start [FILE_PATH] [ENV_FILE]
-    #   FILE_PATH: (optional) The path to the compose.yaml file.
-    #   ENV_FILE:  (optional) The path to the env file.
-
     if [ $# -gt 2 ]; then _echo_error "_docker_compose_start: too many arguments ($#)\n"; return 1; fi
 
     if [ $# -eq 2 ]; then

@@ -1,20 +1,22 @@
 #!/bin/sh
 
-## Clear Symfony cache
-##
 ## {
-##   "namespace": "symfony",
-##   "depends": [
-##     "_console",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/symfony",
+##   "summary": "Clear Symfony cache",
+##   "requires": [
+##     "clear"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/symfony/_console"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "ENV",
-##       "type": "str",
 ##       "description": "Environment.",
+##       "type": "str",
 ##       "constraint": "/^(dev|prod|test)$/"
 ##     }
 ##   ]

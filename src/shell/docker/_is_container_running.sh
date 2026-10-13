@@ -1,31 +1,27 @@
 #!/bin/sh
 
-## Checks if given container is running
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Checks if given container is running",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "CONTAINER_NAME|CONTAINER_ID",
-##       "type": "str",
 ##       "description": "The name or the id of the docker container.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _is_container_running() {
-    # Synopsis: _is_container_running <CONTAINER_NAME|CONTAINER_ID>
-    #   CONTAINER_NAME: The name of the docker container.
-    #   CONTAINER_ID:   The id of the docker container.
-
     _check_installed docker
 
     if [ -z "$1" ]; then _echo_error '_is_container_running: some mandatory parameter is missing\n'; return 1; fi

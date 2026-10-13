@@ -1,22 +1,21 @@
 #!/bin/sh
 
-## Format a ticket identifier
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Formats a ticket identifier to uppercase, trims whitespace, and removes special characters and spaces while preserving dashes and underscores.",
+##   "namespace": "src/bash/git",
+##   "summary": "Format a ticket identifier",
+##   "description": "Formats a ticket identifier to uppercase, trims whitespace, and removes special characters and spaces while preserving dashes and underscores.",
 ##   "requires": [
-##     "tr",
-##     "sed"
+##     "echo",
+##     "sed",
+##     "tr"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "TICKET",
-##       "type": "str",
 ##       "description": "The ticket identifier to format.",
-##       "default": "",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }

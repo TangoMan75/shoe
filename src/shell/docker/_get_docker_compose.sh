@@ -1,20 +1,20 @@
 #!/bin/sh
 
-## Return docker compose command
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Return docker compose command",
 ##   "requires": [
+##     "basename",
 ##     "command",
-##     "docker"
+##     "docker",
+##     "docker-compose",
+##     "echo"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ]
 ## }
 _get_docker_compose() {
-    # Synopsis: _get_docker_compose
-
     if [ "$(docker compose >/dev/null 2>&1)" ]; then
         echo 'docker compose'
 

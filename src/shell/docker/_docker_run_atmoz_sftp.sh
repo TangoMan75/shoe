@@ -1,54 +1,49 @@
 #!/bin/sh
 
-## Run local atmoz_sftp server
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Run local atmoz_sftp server",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "USERNAME",
-##       "type": "str",
 ##       "description": "The name of the container to run.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "PASSWORD",
-##       "type": "str",
 ##       "description": "The password for the sftp server access.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "NETWORK_MODE",
-##       "type": "str",
 ##       "description": "The user name.",
+##       "type": "str",
 ##       "constraint": "/^(bridge|host)$/"
 ##     },
 ##     {
 ##       "position": 4,
 ##       "name": "FOLDER_PATH",
-##       "type": "folder",
-##       "description": "The path to the volume folder."
+##       "description": "The path to the volume folder.",
+##       "type": "folder"
 ##     }
 ##   ]
 ## }
 _docker_run_atmoz_sftp() {
-    # Synopsis: _docker_run_atmoz_sftp <USERNAME> <PASSWORD> [NETWORK_MODE] [FOLDER_PATH]
-    #   USERNAME:     The username for the sftp server access.
-    #   PASSWORD:     The password for the sftp server access.
-    #   NETWORK_MODE: (optional) Set network mode (bridge|host). Defaults to "bridge".
-    #   FOLDER_PATH:  (optional) The path to the volume folder.
-    #   note:         atmoz_sftp documentation: https://github.com/atmoz/sftp
+    # note: atmoz_sftp documentation: https://github.com/atmoz/sftp
 
     _check_installed docker
 

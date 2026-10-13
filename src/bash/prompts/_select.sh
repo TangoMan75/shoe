@@ -1,27 +1,26 @@
 #!/bin/bash
 
-## Present user with a list of choices and prompt them to select one
-##
 ## {
-##   "namespace": "prompts",
-##   "depends": [
-##     "_echo_danger",
-##     "_echo_success"
+##   "namespace": "src/bash/prompts",
+##   "summary": "Present user with a list of choices and prompt them to select one.",
+##   "requires": [
+##     "echo"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_danger",
+##     "src/shell/colors/_echo_success"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "CHOICES",
-##       "type": "array",
 ##       "description": "Array containing choices.",
-##       "nullable": false
+##       "type": "array",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _select() {
-    # Synopsis: _select <CHOICES>
-    #   CHOICES:  Array containing choices
-
     if [ -z "$1" ]; then _echo_danger 'error: _select: some mandatory parameter is missing\n'; return 1; fi
 
     PS3=$(_echo_success 'Please select your choice : ')

@@ -1,47 +1,50 @@
 #!/bin/sh
 
-## Install script and enable autocompletion
-##
 ## {
-##   "namespace": "install",
-##   "depends": [
-##     "_copy_install",
-##     "_generate_autocomplete",
-##     "_generate_global_autocomplete",
-##     "_is_installed",
-##     "_set_completion_autoload",
-##     "_symlink_install",
-##     "_echo_error"
+##   "namespace": "src/shell/install",
+##   "summary": "Install script and enable autocompletion",
+##   "requires": [
+##     "basename",
+##     "bash",
+##     "realpath",
+##     "touch",
+##     "true",
+##     "uname",
+##     "zsh"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/install/_copy_install",
+##     "src/shell/install/_generate_autocomplete",
+##     "src/shell/install/_generate_global_autocomplete",
+##     "src/shell/install/_set_completion_autoload",
+##     "src/shell/install/_symlink_install",
+##     "src/shell/system/_is_installed"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "ALIAS",
-##       "type": "str",
-##       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+##       "description": "The alias of the script to install. Defaults to the basename of the provided file.",
+##       "type": "str"
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "GLOBAL",
-##       "type": "bool",
 ##       "description": "Install globally.",
+##       "type": "bool",
 ##       "default": false
 ##     }
 ##   ]
 ## }
 _install() {
-    # Synopsis: _install <FILE_PATH> [ALIAS] [GLOBAL]
-    #   FILE_PATH: The path to the input file.
-    #   ALIAS:     (optional) The alias of the script to install. Defaults to the basename of the provided script.
-    #   GLOBAL:    (optional) Install globally. Defaults to "false".
-
     if [ -z "$1" ]; then _echo_error '_install: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 3 ]; then _echo_error "_install: too many arguments ($#)\n"; return 1; fi
 

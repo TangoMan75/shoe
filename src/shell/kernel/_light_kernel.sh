@@ -1,23 +1,25 @@
 #!/bin/sh
 
-## Shoe Light Kernel
-##
 ## {
-##   "namespace": "kernel",
-##   "assumes": [
-##     "DANGER"
-##   ],
+##   "namespace": "src/shell/kernel",
+##   "summary": "Shoe Light Kernel",
 ##   "requires": [
 ##     "awk",
+##     "false",
 ##     "grep",
-##     "printf"
+##     "printf",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_default",
-##     "_get_functions_names"
+##     "src/shell/help/help",
+##     "src/shell/hooks/_default",
+##     "src/shell/reflexion/_get_functions_names"
+##   ],
+##   "assumes": [
+##     "DANGER"
 ##   ]
 ## }
-_kernel() {
+_light_kernel() {
     # Check for duplicate function definitions
     __functions_names__=$(_get_functions_names "$0" true)
     for __function__ in ${__functions_names__}; do
@@ -55,4 +57,4 @@ _kernel() {
     done
 }
 
-_kernel "$@"
+_light_kernel "$@"

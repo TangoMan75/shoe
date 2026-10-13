@@ -1,30 +1,31 @@
 #!/bin/sh
 
-## Find container name from string
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Find container name from string",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "grep",
+##     "head",
+##     "printf",
+##     "ps",
+##     "sed"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "STRING",
-##       "type": "str",
 ##       "description": "The string to find among running containers.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _find_container_name() {
-    # Synopsis: _find_container_name <STRING>
-    #   STRING: The string to find among running containers.
-
     _check_installed docker
 
     if [ -z "$1" ]; then _echo_error '_find_container_name: some mandatory parameter is missing\n'; return 1; fi

@@ -1,31 +1,28 @@
 #!/bin/sh
 
-## Get running container ip
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Get running container ip",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "printf",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "CONTAINER_NAME|CONTAINER_ID",
-##       "type": "str",
 ##       "description": "The name or the id of the docker container.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_container_ip() {
-    # Synopsis: _get_container_ip <CONTAINER_NAME|CONTAINER_ID>
-    #   CONTAINER_NAME: The name of the docker container.
-    #   CONTAINER_ID:   The id of the docker container.
-
     _check_installed docker
 
     if [ -z "$1" ]; then _echo_error '_get_container_ip: some mandatory parameter is missing\n'; return 1; fi

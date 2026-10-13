@@ -1,30 +1,30 @@
 #!/bin/sh
 
-## Update .git/hooks folder
-##
 ## {
-##   "namespace": "git",
+##   "namespace": "src/shell/git",
+##   "summary": "Update .git/hooks folder",
 ##   "requires": [
-##     "git"
+##     "chmod",
+##     "cp",
+##     "git",
+##     "realpath",
+##     "rm"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SOURCE",
-##       "type": "folder",
 ##       "description": "The source directory.",
-##       "nullable": false
+##       "type": "folder",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _git_hooks() {
-    # Synopsis: _git_hooks <SOURCE>
-    #   SOURCE: The source directory.
-
     if [ -z "$(git rev-parse --show-toplevel 2>/dev/null)" ]; then _echo_error 'not a git repository (or any of the parent directories)\n'; return 1; fi
     if [ -z "$1" ]; then _echo_error '_git_hooks: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_git_hooks: too many arguments ($#)\n"; return 1; fi

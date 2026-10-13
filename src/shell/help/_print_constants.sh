@@ -1,15 +1,15 @@
 #!/bin/sh
 
-## List constants of the provided shoe script (used by "help" command)
-##
 ## {
-##   "namespace": "help",
+##   "namespace": "src/shell/help",
+##   "summary": "List constants of the provided shoe script (used by \"help\" command)",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "assumes": [
 ##     "EOL",
@@ -18,28 +18,25 @@
 ##     "SUCCESS",
 ##     "WARNING"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "PADDING",
-##       "type": "int",
 ##       "description": "Padding length.",
+##       "type": "int",
 ##       "default": 12
 ##     }
 ##   ]
 ## }
 _print_constants() {
-    # Synopsis: _print_constants <FILE_PATH> [PADDING]
-    #   FILE_PATH: The path to the input file.
-    #   PADDING:   (optional) Padding length (default: 12)
-    #   note:      "awk: %*x formats are not supported"
+    # note: "awk: %*x formats are not supported"
 
     if [ -z "$1" ]; then _echo_error '_print_constants: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_print_constants: too many arguments ($#)\n"; return 1; fi

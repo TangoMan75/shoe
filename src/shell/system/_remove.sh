@@ -1,43 +1,40 @@
 #!/bin/sh
 
-## Remove given package from system
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Remove given package from system",
+##   "description": "eg: `_remove curl` will remove \"curl\" with \"sudo apt remove --yes curl\".\neg: `_remove adb android-tools-adb` will remove \"android-tools-adb\" package.",
 ##   "requires": [
-##     "apt"
+##     "apt",
+##     "apt-get",
+##     "snap",
+##     "sudo"
 ##   ],
 ##   "depends": [
-##     "_get_package_manager",
-##     "_get_package_name",
-##     "_is_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_get_package_manager",
+##     "src/shell/system/_get_package_name",
+##     "src/shell/system/_is_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "PACKAGE",
-##       "type": "str",
 ##       "description": "The command/package to remove.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "PACKAGE_MANAGER",
-##       "type": "str",
 ##       "description": "The package manager required to remove the package with.",
+##       "type": "str",
 ##       "default": "apt"
 ##     }
 ##   ]
 ## }
 _remove() {
-    # Synopsis: _remove <PACKAGE> [PACKAGE_MANAGER]
-    #   PACKAGE:         The command/package to remove.
-    #   PACKAGE_MANAGER: (optional) The package manager required to remove the package with. Defaults to "apt".
-    #   note:            eg: `_remove curl` will remove "curl" with "sudo apt remove --yes curl".
-    #                    eg: `_remove adb android-tools-adb` will remove "android-tools-adb" package.
-
     if [ -z "$1" ]; then _echo_error '_remove: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_remove: too many arguments ($#)\n"; return 1; fi
 

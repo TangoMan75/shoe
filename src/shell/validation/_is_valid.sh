@@ -1,38 +1,34 @@
 #!/bin/sh
 
-## Checks if variable is valid given regex constraint
-##
 ## {
-##   "namespace": "validation",
+##   "namespace": "src/shell/validation",
+##   "summary": "Checks if variable is valid given regex constraint",
 ##   "requires": [
 ##     "grep",
+##     "printf",
 ##     "sed"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "VALUE",
-##       "type": "str",
 ##       "description": "The string to be compared to regex pattern.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "PATTERN",
-##       "type": "str",
 ##       "description": "The regex parttern to apply.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _is_valid() {
-    # Synopsis: _is_valid <VALUE> <PATTERN>
-    #   VALUE:   The string to be compared to regex pattern.
-    #   PATTERN: The regex parttern to apply.
-
     if [ $# -lt 2 ]; then _echo_error '_is_valid: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_is_valid: too many arguments ($#)\n"; return 1; fi
 

@@ -1,28 +1,27 @@
 #!/bin/sh
 
-## Print error message if provided command is missing
-##
 ## {
-##   "namespace": "system",
-##   "depends": [
-##     "_get_package_name",
-##     "_is_installed",
-##     "_echo_error"
+##   "namespace": "src/shell/system",
+##   "summary": "Print error message if provided command is missing",
+##   "requires": [
+##     "basename"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_get_package_name",
+##     "src/shell/system/_is_installed"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "COMMAND",
-##       "type": "str",
 ##       "description": "A string containing the command name to find.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _check_installed() {
-    # Synopsis: _check_installed <COMMAND>
-    #   COMMAND: A string containing the command name to find.
-
     if [ -z "$1" ]; then _echo_error '_check_installed: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_check_installed: too many arguments ($#)\n"; return 1; fi
 

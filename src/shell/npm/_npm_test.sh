@@ -1,15 +1,15 @@
 #!/bin/sh
 
-## Run tests
-##
 ## {
-##   "namespace": "npm",
+##   "namespace": "src/shell/npm",
+##   "summary": "Run tests",
 ##   "requires": [
-##     "npm"
+##     "npm",
+##     "test"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _npm_test() {

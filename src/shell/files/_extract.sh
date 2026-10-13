@@ -1,40 +1,37 @@
 #!/bin/sh
 
-## Extract file based on its extension
-##
 ## {
-##   "namespace": "files",
+##   "namespace": "src/shell/files",
+##   "summary": "Extract file based on its extension",
 ##   "requires": [
+##     "dirname",
 ##     "realpath",
 ##     "tar",
-##     "unzip"
+##     "unzip",
+##     "zip"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
-##       "position": 1,
+##       "position": 2,
 ##       "name": "DESTINATION",
-##       "type": "folder",
-##       "description": "The path to the destination folder. Defaults to file parent."
+##       "description": "The path to the destination folder. Defaults to file parent.",
+##       "type": "folder"
 ##     }
 ##   ]
 ## }
 _extract() {
-    # Synopsis: _extract <FILE_PATH> [DESTINATION]
-    #   FILE_PATH:   The path to the input file.
-    #   DESTINATION: (optional) The path to the destination folder. Defaults to file parent.
-
     if [ -z "$1" ]; then _echo_error '_extract: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_extract: too many arguments ($#)\n"; return 1; fi
 

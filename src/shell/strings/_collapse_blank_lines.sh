@@ -1,28 +1,27 @@
 #!/bin/sh
 
-## Collapse blank lines with "sed"
-##
 ## {
-##   "namespace": "strings",
-##   "depends": [
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/strings",
+##   "summary": "Collapse blank lines with \"sed\"",
+##   "requires": [
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _collapse_blank_lines() {
-    # Synopsis: _collapse_blank_lines <FILE_PATH>
-    #   FILE_PATH: The path to the input file.
-
     if [ -z "$1" ]; then _echo_error '_collapse_blank_lines: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_collapse_blank_lines: too many arguments ($#)\n"; return 1; fi
     if [ ! -f "$1" ]; then _echo_error "_collapse_blank_lines: \"$1\" file not found\n"; return 1; fi

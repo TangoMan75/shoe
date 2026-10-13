@@ -1,31 +1,28 @@
 #!/bin/sh
 
-## Boot connected device with given image temporarily
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Boot connected device with given image temporarily",
 ##   "requires": [
-##     "fastboot"
+##     "fastboot",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_fastboot",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/android/_is_device_connected_with_fastboot",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _reboot_with_img() {
-    # Synopsis: _reboot_with_img <FILE_PATH>
-    #   FILE_PATH: The path to the input file.
-
     if ! _is_device_connected_with_fastboot; then
         _echo_error 'please reboot to bootloader\n'
 

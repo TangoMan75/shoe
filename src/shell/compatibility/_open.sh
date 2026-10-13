@@ -1,16 +1,14 @@
 #!/bin/sh
 
-## Open with default system handler
-##
 ## {
-##   "namespace": "compatibility",
+##   "namespace": "src/shell/compatibility",
+##   "summary": "Open with default system handler",
 ##   "requires": [
+##     "echo",
 ##     "uname"
 ##   ]
 ## }
 _open() {
-    # Synopsis: _open
-
     if [ "$(uname)" = 'Darwin' ]; then
         echo 'open'
 

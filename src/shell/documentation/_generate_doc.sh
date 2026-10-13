@@ -1,58 +1,57 @@
 #!/bin/sh
 
-## Generate Markdown documentation for provided shoe script
-##
 ## {
-##   "namespace": "documentation",
+##   "namespace": "src/shell/documentation",
+##   "summary": "Generate Markdown documentation for provided shoe script",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "basename",
+##     "dirname",
+##     "grep",
+##     "printf",
+##     "realpath",
+##     "sed"
 ##   ],
 ##   "depends": [
-##     "_alert_primary",
-##     "_echo_error",
-##     "_echo_success",
-##     "_get_script_shoedoc",
-##     "_get_shoedoc_description",
-##     "_get_shoedoc_tag",
-##     "_get_shoedoc_title",
-##     "_print_synopsis"
+##     "src/shell/colors/_alert_primary",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/reflexion/_print_synopsis",
+##     "src/shell/shoedoc/_get_script_shoedoc",
+##     "src/shell/shoedoc/_get_shoedoc_description",
+##     "src/shell/shoedoc/_get_shoedoc_tag",
+##     "src/shell/shoedoc/_get_shoedoc_title"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
-##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "DESTINATION",
-##       "type": "folder",
-##       "description": "The path to the destination folder. Defaults to file parent."
+##       "description": "The path to the destination folder. Defaults to file parent.",
+##       "type": "folder"
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "OUTPUT_FILE_NAME",
-##       "type": "str",
-##       "description": "The name for the documentation file. Defaults to \"<BASENAME>.md\"."
+##       "description": "The name for the documentation file. Defaults to \"<BASENAME>.md\".",
+##       "type": "str"
 ##     },
 ##     {
 ##       "position": 4,
 ##       "name": "GET_PRIVATE",
-##       "type": "bool",
 ##       "description": "If set to \"true\", documents private constants, options, flags, and commands as well.",
+##       "type": "bool",
 ##       "default": false
 ##     }
 ##   ]
 ## }
 _generate_doc() {
-    # Synopsis: _generate_doc <SCRIPT_PATH> [DESTINATION] [OUTPUT_FILE_NAME] [GET_PRIVATE]
-    #   SCRIPT_PATH:      The path to the input file.
-    #   DESTINATION:      (optional) The path to the destination folder. Defaults to file parent.
-    #   OUTPUT_FILE_NAME: (optional) The name for the documentation file. Defaults to "<BASENAME>.md".
-    #   GET_PRIVATE:      (Optional) If set to 'true', documents private constants, options, flags, and commands as well. Defaults to "false".
-
     if [ -z "$1" ]; then _echo_error '_generate_doc: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 4 ]; then _echo_error "_generate_doc: too many arguments ($#)\n"; return 1; fi
 

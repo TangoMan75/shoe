@@ -1,29 +1,25 @@
 #!/bin/sh
 
-## Check provided user exists
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Check provided user exists",
 ##   "requires": [
-##     "awk"
+##     "id"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "USERNAME",
-##       "type": "str",
 ##       "description": "The username to check.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _user_exists() {
-    # Synopsis: _user_exists [USERNAME]
-    #   USERNAME: The username to check.
-
     if [ -z "$1" ]; then _echo_error '_user_exists: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_user_exists: too many arguments ($#)\n"; return 1; fi
 

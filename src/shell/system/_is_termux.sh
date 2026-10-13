@@ -1,13 +1,10 @@
 #!/bin/sh
 
-## Check current environment is Termux
-##
 ## {
-##   "namespace": "system"
+##   "namespace": "src/shell/system",
+##   "summary": "Check current environment is Termux"
 ## }
 _is_termux() {
-    # Synopsis: _is_termux
-
     if [ ! -d '/data/data/com.termux' ]; then
 
         return 1

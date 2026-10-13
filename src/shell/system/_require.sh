@@ -1,43 +1,41 @@
 #!/bin/sh
 
-## Install required package globally
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Install required package globally",
+##   "description": "eg: `_require curl` will install \"curl\" with \"sudo apt install --yes curl\".\neg: `_require adb` will install \"android-tools-adb\" package.",
 ##   "requires": [
-##     "apt"
+##     "apt",
+##     "apt-get",
+##     "install",
+##     "snap",
+##     "sudo"
 ##   ],
 ##   "depends": [
-##     "_get_package_manager",
-##     "_get_package_name",
-##     "_is_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_get_package_manager",
+##     "src/shell/system/_get_package_name",
+##     "src/shell/system/_is_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "PACKAGE",
-##       "type": "str",
 ##       "description": "The command/package to remove.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "PACKAGE_MANAGER",
-##       "type": "str",
 ##       "description": "The package manager required to remove the package with.",
+##       "type": "str",
 ##       "default": "apt"
 ##     }
 ##   ]
 ## }
 _require() {
-    # Synopsis: _require <PACKAGE> [PACKAGE_MANAGER]
-    #   PACKAGE:         The command/package to install.
-    #   PACKAGE_MANAGER: (optional) The package manager required to install the package with.
-    #   note:            eg: `_require curl` will install "curl" with "sudo apt install --yes curl".
-    #                    eg: `_require adb` will install "android-tools-adb" package.
-
     if [ -z "$1" ]; then _echo_error '_require: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_require: too many arguments ($#)\n"; return 1; fi
 

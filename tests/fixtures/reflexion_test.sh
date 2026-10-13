@@ -41,7 +41,10 @@ _private_flag=false
 ## Public function
 ##
 ## {
-##   "namespace": "test",
+##   "namespace": "tests/fixtures",
+##   "requires": [
+##     "echo"
+##   ],
 ##   "summary": "A test function.",
 ##   "parameters": [
 ##     {
@@ -58,6 +61,13 @@ public_function() {
 }
 
 ## Another public function
+##
+## {
+##   "namespace": "tests/fixtures",
+##   "requires": [
+##     "echo"
+##   ]
+## }
 another_public() {
     echo "another"
 }

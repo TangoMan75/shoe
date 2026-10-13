@@ -1,42 +1,39 @@
 #!/bin/sh
 
-## Downloads file with either curl or wget
-##
 ## {
-##   "namespace": "network",
+##   "namespace": "src/shell/network",
+##   "summary": "Downloads file with either curl or wget",
 ##   "requires": [
 ##     "curl",
+##     "dirname",
 ##     "grep",
 ##     "head",
+##     "mkdir",
 ##     "wget"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info",
-##     "_is_installed"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_is_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "URL",
-##       "type": "str",
 ##       "description": "The URL of the file to download.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the output file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _download() {
-    # Synopsis: _download <URL> <FILE_PATH>
-    #   URL:        The URL of the file to download.
-    #   FILE_PATH:  The path to the output file.
-
     if [ -z "$1" ]; then _echo_error '_download: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_download: too many arguments ($#)\n"; return 1; fi
 

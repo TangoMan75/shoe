@@ -1,35 +1,37 @@
 #!/bin/sh
 
-## Uninstall script from system
-##
 ## {
-##   "namespace": "install",
-##   "depends": [
-##     "_remove_completion_autoload",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/install",
+##   "summary": "Uninstall script from system",
+##   "requires": [
+##     "basename",
+##     "dirname",
+##     "realpath",
+##     "rm",
+##     "sudo"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/install/_remove_completion_autoload"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "ALIAS",
-##       "type": "str",
-##       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+##       "description": "The alias of the script to install. Defaults to the basename of the provided file.",
+##       "type": "str"
 ##     }
 ##   ]
 ## }
 _uninstall() {
-    # Synopsis: _uninstall <FILE_PATH> [ALIAS]
-    #   FILE_PATH: The path to the input file.
-    #   ALIAS:     (optional) The alias of the script to uninstall. Defaults to the basename of the provided script.
-
     if [ -z "$1" ]; then _echo_error '_uninstall: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_uninstall: too many arguments ($#)\n"; return 1; fi
     if [ ! -f "$1" ]; then _echo_error "_uninstall: \"$1\" file not found\n"; return 1; fi

@@ -1,35 +1,37 @@
 #!/bin/sh
 
-## Move file or folder to destination (creates folder when missing)
-##
 ## {
-##   "namespace": "files",
-##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/files",
+##   "summary": "Move file or folder to destination (creates folder when missing)",
+##   "requires": [
+##     "cp",
+##     "mkdir",
+##     "mv",
+##     "realpath",
+##     "rm"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SOURCE",
-##       "type": "path",
 ##       "description": "The path to the input file or folder.",
-##       "nullable": false
+##       "type": "path",
+##       "required": true
 ##     },
 ##     {
-##       "position": 1,
+##       "position": 2,
 ##       "name": "DESTINATION",
-##       "type": "folder",
 ##       "description": "The path to the destination folder.",
-##       "nullable": false
+##       "type": "folder",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _move() {
-    # Synopsis: _move <SOURCE> <DESTINATION>
-    #   SOURCE:      The path to the input file or folder.
-    #   DESTINATION: The path to the destination folder.
-
     if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_move: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_move: too many arguments ($#)\n"; return 1; fi
 

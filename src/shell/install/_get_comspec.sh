@@ -1,29 +1,26 @@
 #!/bin/sh
 
-## Generate comspec string for the provided file
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Generate comspec string for the provided file",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_comspec() {
-    # Synopsis: _get_comspec <FILE_PATH>
-    #   FILE_PATH: The path to the input file.
-
     if [ -z "$1" ]; then _echo_error '_get_comspec: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_get_comspec: too many arguments ($#)\n"; return 1; fi
 

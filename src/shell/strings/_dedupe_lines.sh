@@ -1,36 +1,34 @@
 #!/bin/sh
 
-## Remove every line in target file that contains substrings from source file
-##
 ## {
-##   "namespace": "strings",
-##   "depends": [
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/strings",
+##   "summary": "Remove every line in target file that contains substrings from source file",
+##   "requires": [
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SOURCE_PATH",
-##       "type": "file",
 ##       "description": "The path to the file containing the substrings to remove.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "TARGET_PATH",
-##       "type": "file",
 ##       "description": "The path to the target file to deduplicate.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _dedupe_lines() {
-    # Synopsis: _dedupe_lines <SOURCE_PATH> <TARGET_PATH>
-    #   SOURCE_PATH: The path to the file containing the substrings to remove.
-    #   TARGET_PATH: The path to the target file to deduplicate.
-
     if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_dedupe_lines: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_dedupe_lines: too many arguments ($#)\n"; return 1; fi
     set -- "$(realpath "$1")" "$(realpath "$2")"

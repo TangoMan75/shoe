@@ -1,39 +1,37 @@
 #!/bin/sh
 
-## Install APK on connected device
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Install APK on connected device",
 ##   "requires": [
-##     "adb"
+##     "adb",
+##     "install",
+##     "realpath",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_adb",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "FORCE",
-##       "type": "bool",
 ##       "description": "Force install.",
+##       "type": "bool",
 ##       "default": false
 ##     }
 ##   ]
 ## }
 _install_apk() {
-    # Synopsis: _install_apk <FILE_PATH> [FORCE]
-    #   FILE_PATH: The path to the input file.
-    #   FORCE:     (optional) Force install. Defaults to "false".
-
     if ! _is_device_connected_with_adb; then
         _echo_error 'device not found\n'
 

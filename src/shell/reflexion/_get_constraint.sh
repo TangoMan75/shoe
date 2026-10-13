@@ -1,37 +1,33 @@
 #!/bin/sh
 
-## Get constaint for given variable from provided shoe script
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "Get constaint for given variable from provided shoe script",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
-##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "VARIABLE_NAME",
-##       "type": "str",
 ##       "description": "The variable to validate.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_constraint() {
-    # Synopsis: _get_constraint <SCRIPT_PATH> <VARIABLE_NAME>
-    #   SCRIPT_PATH:   The path to the input script.
-    #   VARIABLE_NAME: The variable to validate.
-
     if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_get_constraint: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_get_constraint: too many arguments ($#)\n"; return 1; fi
 

@@ -1,41 +1,36 @@
 #!/bin/sh
 
-## Wait for postgresql container to start with docker
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Wait for postgresql container to start with docker",
 ##   "requires": [
 ##     "docker"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_spin",
-##     "_echo_error",
-##     "_echo_success",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning",
+##     "src/shell/system/_check_installed",
+##     "src/shell/system/_spin"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "CONTAINER_NAME",
-##       "type": "str",
 ##       "description": "The name of the docker container.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "USERNAME",
-##       "type": "str",
 ##       "description": "The psql username.",
+##       "type": "str",
 ##       "default": ""
 ##     }
 ##   ]
 ## }
 _wait_for_postgres() {
-    # Synopsis: _wait_for_postgres <CONTAINER_NAME> [USERNAME]
-    #   CONTAINER_NAME: The name of the postgresql docker container.
-    #   USERNAME:       (optional) The psql username. Defaults to "".
-
     _check_installed docker
 
     if [ -z "$1" ]; then _echo_error '_wait_for_postgres: some mandatory parameter is missing\n'; return 1; fi

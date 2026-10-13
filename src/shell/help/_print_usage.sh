@@ -1,17 +1,18 @@
 #!/bin/sh
 
-## Print usage of the provided shoe script (used by "help" command)
-##
 ## {
-##   "namespace": "help",
+##   "namespace": "src/shell/help",
+##   "summary": "Print usage of the provided shoe script (used by \"help\" command)",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "basename",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info",
-##     "_echo_success",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "assumes": [
 ##     "DEFAULT",
@@ -19,20 +20,17 @@
 ##     "SUCCESS",
 ##     "WARNING"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _print_usage() {
-    # Synopsis: _print_usage <FILE_PATH>
-    #   FILE_PATH: The path to the input file.
-
     if [ -z "$1" ]; then _echo_error '_print_usage: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_print_usage: too many arguments ($#)\n"; return 1; fi
 

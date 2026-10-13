@@ -1,11 +1,14 @@
 #!/bin/sh
 
-## Get correct PHPUnit binary path
-##
 ## {
-##   "namespace": "ci_cd",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Get correct PHPUnit binary path",
+##   "requires": [
+##     "basename",
+##     "echo"
+##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ]
 ## }
 _phpunit() {

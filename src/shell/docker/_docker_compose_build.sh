@@ -1,27 +1,26 @@
 #!/bin/sh
 
-## Build container stack with docker compose
-##
 ## {
-##   "namespace": "docker",
-##   "depends": [
-##     "_get_docker_compose",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/docker",
+##   "summary": "Build container stack with docker compose",
+##   "requires": [
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/docker/_get_docker_compose"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
-##       "description": "The path to the compose.yaml file."
+##       "description": "The path to the compose.yaml file.",
+##       "type": "file"
 ##     }
 ##   ]
 ## }
 _docker_compose_build() {
-    # Synopsis: _docker_compose_build [FILE_PATH]
-    #   FILE_PATH: (optional) The path to the compose.yaml file.
-
     if [ $# -gt 1 ]; then _echo_error "_docker_compose_build: too many arguments ($#)\n"; return 1; fi
 
     if [ -z "$1" ]; then

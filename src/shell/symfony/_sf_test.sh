@@ -1,23 +1,23 @@
 #!/bin/sh
 
-## Run test with PHPUnit
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Run test with PHPUnit",
 ##   "requires": [
-##     "php"
+##     "php",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_phpunit",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/symfony/_phpunit"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
-##       "description": "The path to the input file."
+##       "description": "The path to the input file.",
+##       "type": "file"
 ##     }
 ##   ]
 ## }

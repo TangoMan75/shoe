@@ -1,45 +1,42 @@
 #!/bin/sh
 
-## Open in default browser
-##
 ## {
-##   "namespace": "network",
-##   "depends": [
-##     "_open",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/network",
+##   "summary": "Open in default browser",
+##   "requires": [
+##     "nohup"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_open"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "IP",
-##       "type": "str",
 ##       "description": "Target IP address or domain.",
+##       "type": "str",
 ##       "default": "127.0.0.1"
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "PORT",
-##       "type": "int",
 ##       "description": "Destination port.",
-##       "default": "8080",
-##       "constraint": "/^[0-9]{1,5}$/"
+##       "type": "int",
+##       "constraint": "/^[0-9]{1,5}$/",
+##       "default": "8080"
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "SCHEME",
-##       "type": "str",
 ##       "description": "scheme - e.g. http.",
+##       "type": "str",
 ##       "default": "http"
 ##     }
 ##   ]
 ## }
 _open_in_default_browser() {
-    # Synopsis: _open_in_default_browser [IP] [PORT] [SCHEME]
-    #   IP:     (optional) Target IP address or domain. (default=127.0.0.1)
-    #   PORT:   (optional) Destination port. (default=8080)
-    #   SCHEME: (optional) scheme - e.g. http. (default=http)
-
     if [ $# -gt 3 ]; then _echo_error "_open_in_default_browser: too many arguments ($#)\n"; return 1; fi
 
     # set default values

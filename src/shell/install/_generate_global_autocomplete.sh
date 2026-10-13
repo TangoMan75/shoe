@@ -1,38 +1,38 @@
 #!/bin/sh
 
-## Creates a system-wide autocomplete script for the provided file
-##
 ## {
-##   "namespace": "install",
-##   "depends": [
-##     "_get_comspec",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/install",
+##   "summary": "Creates a system-wide autocomplete script for the provided file",
+##   "description": "This function creates a completion script named \"<ALIAS>\" (where \"<ALIAS>\" is the basename of the provided file)\nin the /etc/bash_completion.d/ directory, enabling autocompletion for all users on the system.\nIt uses sudo for file creation in a system directory, requiring root privileges.",
+##   "requires": [
+##     "basename",
+##     "printf",
+##     "realpath",
+##     "sudo",
+##     "tee"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/install/_get_comspec"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "ALIAS",
-##       "type": "str",
-##       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+##       "description": "The alias of the script to install. Defaults to the basename of the provided file.",
+##       "type": "str"
 ##     }
 ##   ]
 ## }
 _generate_global_autocomplete() {
-    # Synopsis: _generate_global_autocomplete <FILE_PATH> [ALIAS]
-    #   FILE_PATH: The path to the input file.
-    #   ALIAS:     (optional) The alias of the script to autocomplete. Defaults to the basename of the provided file
-    #   note:      This function creates a completion script named "<ALIAS>" (where "<ALIAS>" is the basename of the provided file)
-    #              in the /etc/bash_completion.d/ directory, enabling autocompletion for all users on the system.
-    #              It uses sudo for file creation in a system directory, requiring root privileges.
-
     if [ -z "$1" ]; then _echo_error '_generate_global_autocomplete: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_generate_global_autocomplete: too many arguments ($#)\n"; return 1; fi
 

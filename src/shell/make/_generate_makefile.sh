@@ -1,20 +1,26 @@
 #!/bin/sh
 
-## Generate Makefile for provided shoe script
-##
 ## {
-##   "namespace": "make",
+##   "namespace": "src/shell/make",
+##   "summary": "Generate Makefile for provided shoe script",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "basename",
+##     "cat",
+##     "dirname",
+##     "grep",
+##     "printf",
+##     "realpath",
+##     "tr"
 ##   ],
 ##   "depends": [
-##     "_get_script_shoedoc",
-##     "_get_shoedoc_description",
-##     "_get_shoedoc_tag",
-##     "_get_shoedoc_title",
-##     "_alert_primary",
-##     "_echo_error",
-##     "_echo_success"
+##     "src/shell/colors/_alert_primary",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/shoedoc/_get_script_shoedoc",
+##     "src/shell/shoedoc/_get_shoedoc_description",
+##     "src/shell/shoedoc/_get_shoedoc_tag",
+##     "src/shell/shoedoc/_get_shoedoc_title"
 ##   ],
 ##   "assumes": [
 ##     "_ALERT_DANGER",
@@ -32,34 +38,29 @@
 ##     "_SUCCESS",
 ##     "_WARNING"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
-##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "DESTINATION",
-##       "type": "folder",
-##       "description": "The path to the destination folder. Defaults to file parent."
+##       "description": "The path to the destination folder. Defaults to file parent.",
+##       "type": "folder"
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "OUTPUT_FILE_NAME",
-##       "type": "str",
-##       "description": "The name for the generated Makefile. Defaults to \"<BASENAME>.makefile\"."
+##       "description": "The name for the generated Makefile. Defaults to \"<BASENAME>.makefile\".",
+##       "type": "str"
 ##     }
 ##   ]
 ## }
 _generate_makefile() {
-    # Synopsis: _generate_makefile <SCRIPT_PATH> [DESTINATION] [OUTPUT_FILE_NAME]
-    #   SCRIPT_PATH:      The path to the input script.
-    #   DESTINATION:      (optional) The path to the destination folder. Defaults to file parent.
-    #   OUTPUT_FILE_NAME: (optional) The name for the generated Makefile. Defaults to "<BASENAME>.makefile".
-
     if [ -z "$1" ]; then _echo_error '_generate_makefile: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 3 ]; then _echo_error "_generate_makefile: too many arguments ($#)\n"; return 1; fi
 

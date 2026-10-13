@@ -1,30 +1,27 @@
 #!/bin/sh
 
-## Get shoedoc title
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Get shoedoc title",
+##   "description": "Returns the first line that does not contain a tag",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "printf"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "TEXT",
-##       "type": "str",
 ##       "description": "The input shoedoc annotation bloc.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_shoedoc_title() {
-    # Synopsis: _get_shoedoc_title <TEXT>
-    #   TEXT: The input shoedoc annotation bloc.
-    #   note: Returns the first line that does not contain a tag
-
     if [ -z "$1" ]; then _echo_error '_get_shoedoc_title: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_get_shoedoc_title: too many arguments ($#)\n"; return 1; fi
 

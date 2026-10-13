@@ -1,30 +1,28 @@
 #!/bin/sh
 
-## Get APK version
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Get APK version",
 ##   "requires": [
-##     "aapt"
+##     "aapt",
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_apk_version() {
-    # Synopsis: _get_apk_version <FILE_PATH>
-    #   FILE_PATH: The path to the input file.
-
     _check_installed aapt
 
     if [ -z "$1" ]; then _echo_error '_get_apk_version: some mandatory parameter is missing\n'; return 1; fi

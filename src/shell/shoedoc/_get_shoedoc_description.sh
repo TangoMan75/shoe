@@ -1,29 +1,26 @@
 #!/bin/sh
 
-## Get shoedoc description
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Get shoedoc description",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "printf"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "TEXT",
-##       "type": "str",
 ##       "description": "The input shoedoc annotation bloc.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_shoedoc_description() {
-    # Synopsis: _get_shoedoc_description <TEXT>
-    #   TEXT: The input shoedoc annotation bloc.
-
     if [ -z "$1" ]; then _echo_error '_get_shoedoc_description: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_get_shoedoc_description: too many arguments ($#)\n"; return 1; fi
 

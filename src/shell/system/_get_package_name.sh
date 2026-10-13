@@ -1,26 +1,26 @@
 #!/bin/sh
 
-## Find package name for given command
-##
 ## {
-##   "namespace": "system",
-##   "depends": [
-##     "_echo_error"
+##   "namespace": "src/shell/system",
+##   "summary": "Find package name for given command",
+##   "requires": [
+##     "echo",
+##     "snap"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "COMMAND",
-##       "type": "str",
 ##       "description": "A string containing the command name to find.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_package_name() {
-    # Synopsis: _get_package_name <COMMAND>
-    #   COMMAND: A string containing the command name to find.
-
     if [ -z "$1" ]; then _echo_error '_get_package_name: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_get_package_name: too many arguments ($#)\n"; return 1; fi
 

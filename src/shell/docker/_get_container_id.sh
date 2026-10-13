@@ -1,38 +1,34 @@
 #!/bin/sh
 
-## Get container id from name
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Get container id from name",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "false"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "CONTAINER_NAME",
-##       "type": "str",
 ##       "description": "The name of the container to run.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "TRUNCATE",
-##       "type": "bool",
 ##       "description": "Truncate id to 12 characters long.",
+##       "type": "bool",
 ##       "default": true
 ##     }
 ##   ]
 ## }
 _get_container_id() {
-    # Synopsis: _get_container_id <CONTAINER_NAME> [TRUNCATE]
-    #   CONTAINER_NAME: The container name.
-    #   TRUNCATE:       Truncate id to 12 characters long. Defaults to "true".
-
     _check_installed docker
 
     if [ -z "$1" ]; then _echo_error '_get_container_id: some mandatory parameter is missing\n'; return 1; fi

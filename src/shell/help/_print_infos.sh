@@ -1,31 +1,31 @@
 #!/bin/sh
 
-## Print infos of the provided shoe script (used by "help" command)
-##
 ## {
-##   "namespace": "help",
-##   "depends": [
-##     "_get_script_shoedoc",
-##     "_get_shoedoc_tag",
-##     "_echo_error",
-##     "_echo_primary",
-##     "_echo_success",
-##     "_echo_warning"
+##   "namespace": "src/shell/help",
+##   "summary": "Print infos of the provided shoe script (used by \"help\" command)",
+##   "requires": [
+##     "printf",
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning",
+##     "src/shell/shoedoc/_get_script_shoedoc",
+##     "src/shell/shoedoc/_get_shoedoc_tag"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _print_infos() {
-    # Synopsis: _print_infos <FILE_PATH>
-    #   FILE_PATH: The path to the input file.
-
     if [ -z "$1" ]; then _echo_error '_print_infos: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_print_infos: too many arguments ($#)\n"; return 1; fi
 

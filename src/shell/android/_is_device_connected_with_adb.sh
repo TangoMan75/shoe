@@ -1,19 +1,17 @@
 #!/bin/sh
 
-## Check device is connected with adb
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Check device is connected with adb",
 ##   "requires": [
-##     "adb"
+##     "adb",
+##     "tail"
 ##   ],
 ##   "depends": [
-##     "_check_installed"
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _is_device_connected_with_adb() {
-    # Synopsis: _is_device_connected_with_adb
-
     _check_installed adb
 
     if [ "$(adb devices | tail -n2)" = 'List of devices attached' ]; then

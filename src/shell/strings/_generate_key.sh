@@ -1,19 +1,17 @@
 #!/bin/sh
 
-## Generate random 32 bit string
-##
 ## {
-##   "namespace": "strings",
+##   "namespace": "src/shell/strings",
+##   "summary": "Generate random 32 bit string",
 ##   "requires": [
 ##     "openssl"
 ##   ],
 ##   "depends": [
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _generate_key() {
-    # Synopsis: _generate_key
-
     _check_installed openssl
 
     _echo_info 'openssl rand -hex 16\n'

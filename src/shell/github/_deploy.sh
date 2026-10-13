@@ -1,22 +1,24 @@
 #!/bin/sh
 
-## Deploy source folder to "gh-pages"
-##
 ## {
-##   "namespace": "github",
+##   "namespace": "src/shell/github",
+##   "summary": "Deploy source folder to \"gh-pages\"",
 ##   "requires": [
-##     "git"
+##     "HEAD",
+##     "git",
+##     "split"
 ##   ],
 ##   "depends": [
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SOURCE",
-##       "type": "folder",
 ##       "description": "The source directory.",
-##       "nullable": false
+##       "type": "folder",
+##       "required": true
 ##     }
 ##   ]
 ## }

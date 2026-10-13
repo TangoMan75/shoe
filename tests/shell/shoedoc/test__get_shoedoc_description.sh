@@ -61,7 +61,7 @@ fixture_no_description='## Get shoedoc description
 ##     "awk"
 ##   ],
 ##   "depends": [
-##     "_echo_danger"
+##     "src/shell/colors/_echo_danger"
 ##   ],
 ##   "parameters": [
 ##     {

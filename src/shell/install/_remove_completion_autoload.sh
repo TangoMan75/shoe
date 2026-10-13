@@ -1,36 +1,35 @@
 #!/bin/sh
 
-## Remove completion script autoload
-##
 ## {
-##   "namespace": "install",
-##   "depends": [
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/install",
+##   "summary": "Remove completion script autoload",
+##   "description": "Removes an autoload line for a completion script from a shell rc configuration file",
+##   "requires": [
+##     "basename",
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SHELL_CONFIG_FILE",
-##       "type": "file",
 ##       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "ALIAS",
-##       "type": "str",
-##       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+##       "description": "The alias of the script to install. Defaults to the basename of the provided file.",
+##       "type": "str"
 ##     }
 ##   ]
 ## }
 _remove_completion_autoload() {
-    # Synopsis: _remove_completion_autoload <SHELL_CONFIG_FILE> [ALIAS]
-    # Removes an autoload line for a completion script from a shell configuration file.
-    #   SHELL_CONFIG_FILE: The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).
-    #   ALIAS:             (optional) The alias of the script to remove. Defaults to the basename of the provided file
-
     if [ $# -lt 1 ]; then _echo_error '_remove_completion_autoload: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_remove_completion_autoload: too many arguments ($#)\n"; return 1; fi
 

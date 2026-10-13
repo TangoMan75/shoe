@@ -1,29 +1,26 @@
 #!/bin/sh
 
-## Get top-level shoedoc annotation of the provided shoe script file
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Get top-level shoedoc annotation of the provided shoe script file",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
-##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_script_shoedoc() {
-    # Synopsis: _get_script_shoedoc <SCRIPT_PATH>
-    #   SCRIPT_PATH: The path to the input script.
-
     if [ -z "$1" ]; then _echo_error '_get_script_shoedoc: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_get_script_shoedoc: too many arguments ($#)\n"; return 1; fi
 

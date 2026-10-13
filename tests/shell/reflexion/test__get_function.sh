@@ -55,7 +55,7 @@ test_script_execution_should_return_expected_status_code() {
 
 test_get_function_returns_function_with_annotations() {
     actual="$(_get_function "../../../tests/fixtures/reflexion_test.sh" "public_function")"
-    expected=$'## Public function\n##\n## {\n##   "namespace": "test",\n##   "summary": "A test function.",\n##   "parameters": [\n##     {\n##       "position": 1,\n##       "name": "ARG",\n##       "type": "str",\n##       "description": "An argument.",\n##       "nullable": false\n##     }\n##   ]\n## }\npublic_function() {\n    echo "public $1"'
+    expected=$'## Public function\n##\n## {\n##   "namespace": "tests/fixtures",\n##   "summary": "A test function.",\n##   "parameters": [\n##     {\n##       "position": 1,\n##       "name": "ARG",\n##       "type": "str",\n##       "description": "An argument.",\n##       "nullable": false\n##     }\n##   ]\n## }\npublic_function() {\n    echo "public $1"'
     assert_equals "${expected}" "${actual}"
 }
 

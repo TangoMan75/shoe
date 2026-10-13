@@ -1,39 +1,38 @@
 #!/bin/sh
 
-## Return function shoedoc as json
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Return function shoedoc as json",
 ##   "requires": [
+##     "cut",
+##     "head",
 ##     "jq",
+##     "printf",
+##     "realpath",
 ##     "sed"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_get_function_shoedoc"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/shoedoc/_get_function_shoedoc"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
-##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "FUNCTION_NAME",
-##       "type": "str",
 ##       "description": "The name of the function to retrieve.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _parse_shoedoc() {
-    # Synopsis: _parse_shoedoc <SCRIPT_PATH> <FUNCTION_NAME>
-    #   SCRIPT_PATH:   The path to the input file.
-    #   FUNCTION_NAME: The name of the function to retrieve.
-
     if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_parse_shoedoc: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_parse_shoedoc: too many arguments ($#)\n"; return 1; fi
 

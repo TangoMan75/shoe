@@ -1,31 +1,27 @@
 #!/bin/sh
 
-## Get shoedoc annotation
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Get shoedoc annotation",
+##   "description": "Removes every line that does not start with a pound character or contains a tag\nReturns string without leading pound characters",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "printf"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "TEXT",
-##       "type": "str",
 ##       "description": "The input shoedoc annotation bloc.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_shoedoc() {
-    # Synopsis: _get_shoedoc <TEXT>
-    #   TEXT: The input shoedoc annotation bloc.
-    #   note: Remove every line that does not start with a pound character or contains a tag
-    #         Returns string without leading pound characters
-
     if [ -z "$1" ]; then _echo_error '_get_shoedoc: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_get_shoedoc: too many arguments ($#)\n"; return 1; fi
 

@@ -1,37 +1,33 @@
 #!/bin/sh
 
-## Get function by name
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "Get function by name",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
-##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "FUNCTION_NAME",
-##       "type": "str",
 ##       "description": "The name of the function to retrieve.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _get_function() {
-    # Synopsis: _get_function <SCRIPT_PATH> <FUNCTION_NAME>
-    #   SCRIPT_PATH:   The path to the input file.
-    #   FUNCTION_NAME: The name of the function to retrieve.
-
     if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_get_function: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_get_function: too many arguments ($#)\n"; return 1; fi
 

@@ -1,20 +1,19 @@
 #!/bin/sh
 
-## Check security issues in project dependencies (symfony-cli)
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Check security issues in project dependencies (symfony-cli)",
 ##   "requires": [
 ##     "composer",
 ##     "symfony"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_is_installed"
 ##   ]
 ## }
-_security() {
+_sf_security() {
     if "$(_is_installed symfony)"; then
         _echo_info 'symfony security:check\n'
         symfony security:check

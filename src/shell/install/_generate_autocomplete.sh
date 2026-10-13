@@ -1,38 +1,37 @@
 #!/bin/sh
 
-## Generates an autocomplete script for the provided file
-##
 ## {
-##   "namespace": "install",
-##   "depends": [
-##     "_get_comspec",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/install",
+##   "summary": "Generates an autocomplete script for the provided file",
+##   "description": "This function creates a completion script named \"<ALIAS>-completion.sh\" in the same directory as the script itself.\nRefer to https://iridakos.com/programming/2018/03/01/bash-programmable-completion-tutorial for details on how to configure shell autocompletions.\nOr read the official docmentation for \"complete\" https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html#Programmable-Completion-Builtins",
+##   "requires": [
+##     "basename",
+##     "dirname",
+##     "printf",
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/install/_get_comspec"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "ALIAS",
-##       "type": "str",
-##       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+##       "description": "The alias of the script to install. Defaults to the basename of the provided file.",
+##       "type": "str"
 ##     }
 ##   ]
 ## }
 _generate_autocomplete() {
-    # Synopsis: _generate_autocomplete <FILE_PATH> [ALIAS]
-    #   FILE_PATH: The path to the input file.
-    #   ALIAS:     (optional) The alias of the script to autocomplete. Defaults to the basename of the provided file
-    #   note:      This function creates a completion script named "<ALIAS>-completion.sh" in the same directory as the script itself.
-    #              Refer to https://iridakos.com/programming/2018/03/01/bash-programmable-completion-tutorial for details on how to configure shell autocompletions.
-    #              Or read the official docmentation for "complete" https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html#Programmable-Completion-Builtins
-
     if [ -z "$1" ]; then _echo_error '_generate_autocomplete: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_generate_autocomplete: too many arguments ($#)\n"; return 1; fi
 

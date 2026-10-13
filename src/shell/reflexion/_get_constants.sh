@@ -1,37 +1,33 @@
 #!/bin/sh
 
-## List constants from provided shoe script
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "List constants from provided shoe script",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
-##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "GET_PRIVATE",
-##       "type": "bool",
 ##       "description": "If set to \"true\", retrieves private constants as well.",
+##       "type": "bool",
 ##       "default": false
 ##     }
 ##   ]
 ## }
 _get_constants() {
-    # Synopsis: _get_constants <SCRIPT_PATH> [GET_PRIVATE]
-    #   SCRIPT_PATH: The path to the input script.
-    #   GET_PRIVATE: (Optional) If set to 'true', retrieves private constants as well. (default=false)
-
     if [ -z "$1" ]; then _echo_error '_get_constants: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_get_constants: too many arguments ($#)\n"; return 1; fi
 

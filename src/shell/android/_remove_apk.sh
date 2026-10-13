@@ -1,39 +1,35 @@
 #!/bin/sh
 
-## Remove APK from connected device
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Remove APK from connected device",
 ##   "requires": [
-##     "adb"
+##     "adb",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_adb",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "PACKAGE_NAME",
-##       "type": "str",
 ##       "description": "The apk package name. eg: \"org.fdroid.fdroid\"",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "FORCE",
-##       "type": "bool",
 ##       "description": "Force install.",
+##       "type": "bool",
 ##       "default": false
 ##     }
 ##   ]
 ## }
 _remove_apk() {
-    # Synopsis: _remove_apk <PACKAGE_NAME> [FORCE]
-    #   PACKAGE_NAME: The apk package name. eg: "org.fdroid.fdroid"
-    #   FORCE:        (optional) Force install. Defaults to "false".
-
     if ! _is_device_connected_with_adb; then
         _echo_error 'device not found\n'
 

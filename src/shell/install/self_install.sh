@@ -1,11 +1,13 @@
 #!/bin/sh
 
-## Install script and enable autocompletion
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Install script and enable autocompletion",
+##   "requires": [
+##     "basename"
+##   ],
 ##   "depends": [
-##     "_install"
+##     "src/shell/install/_install"
 ##   ],
 ##   "assumes": [
 ##     "ALIAS",

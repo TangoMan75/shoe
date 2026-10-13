@@ -1,44 +1,44 @@
 #!/bin/sh
 
-## Adds an autoload line for completion script to a shell configuration file
-##
 ## {
-##   "namespace": "install",
-##   "depends": [
-##     "_collapse_blank_lines",
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/install",
+##   "summary": "Adds an autoload line for completion script to a shell configuration file",
+##   "requires": [
+##     "basename",
+##     "dirname",
+##     "printf",
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i",
+##     "src/shell/strings/_collapse_blank_lines"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SHELL_CONFIG_FILE",
-##       "type": "file",
 ##       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "SCRIPT_FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "ALIAS",
-##       "type": "str",
-##       "description": "The alias of the script to install. Defaults to the basename of the provided file."
+##       "description": "The alias of the script to install. Defaults to the basename of the provided file.",
+##       "type": "str"
 ##     }
 ##   ]
 ## }
 _set_completion_autoload() {
-    # Synopsis: _set_completion_autoload <SHELL_CONFIG_FILE_PATH> <SCRIPT_FILE_PATH> [ALIAS]
-    #   SHELL_CONFIG_FILE_PATH: The path to the shell configuration file to be modified (e.g., ~/.bashrc, ~/.zshrc).
-    #   SCRIPT_FILE_PATH:       The path to the input file.
-    #   ALIAS:                  (optional) The alias of the input script. Defaults to the basename of the provided file
-
     if [ -z "$1" ]  || [ -z "$2" ]; then _echo_error '_set_completion_autoload: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 3 ]; then _echo_error "_set_completion_autoload: too many arguments ($#)\n"; return 1; fi
 

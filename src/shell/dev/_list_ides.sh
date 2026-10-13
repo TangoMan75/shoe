@@ -1,12 +1,16 @@
 #!/bin/sh
 
-## List installed ides
-##
 ## {
-##   "namespace": "dev",
+##   "namespace": "src/shell/dev",
+##   "summary": "List installed ides",
 ##   "requires": [
+##     "code",
 ##     "command",
-##     "printf"
+##     "nano",
+##     "phpstorm",
+##     "printf",
+##     "subl",
+##     "vim"
 ##   ]
 ## }
 _list_ides() {

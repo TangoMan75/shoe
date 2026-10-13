@@ -1,26 +1,24 @@
 #!/bin/sh
 
-## Animate a spinner in the terminal for a given amout of time
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Animate a spinner in the terminal for a given amout of time",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "printf",
+##     "sleep"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "DURATION",
-##       "type": "int",
 ##       "description": "Animation duration in miliseconds.",
+##       "type": "int",
 ##       "default": 0
 ##     }
 ##   ]
 ## }
 _spin() {
-    # Synopsis: _spin [DURATION]
-    #   DURATION: Animation duration in miliseconds
-
     set -- "$((${1:-0}/10))" 0 0
 
     while [ "$1" -gt "$2" ]; do

@@ -1,54 +1,48 @@
 #!/bin/sh
 
-## Spawn a new container with given image, name, command and volume
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Spawn a new container with given image, name, command and volume",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "IMAGE",
-##       "type": "str",
 ##       "description": "The name of the container image to run.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "NAME",
-##       "type": "str",
 ##       "description": "Assign a name to the container.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "COMMAND",
-##       "type": "str",
 ##       "description": "The command to run inside provided container.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 4,
 ##       "name": "FOLDER_PATH",
-##       "type": "folder",
-##       "description": "The path to the volume folder."
+##       "description": "The path to the volume folder.",
+##       "type": "folder"
 ##     }
 ##   ]
 ## }
 _docker_run() {
-    # Synopsis: _docker_run <IMAGE> <NAME> <COMMAND> [FOLDER_PATH]
-    #   IMAGE:       The name of the container image to run.
-    #   NAME:        Assign a name to the container.
-    #   COMMAND:     The command to run inside provided container.
-    #   FOLDER_PATH: (optional) The path to the volume folder.
-
     _check_installed docker
 
     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then _echo_error '_docker_run: some mandatory parameter is missing\n'; return 1; fi

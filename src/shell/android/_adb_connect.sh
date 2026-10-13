@@ -1,41 +1,36 @@
 #!/bin/sh
 
-## Connect to device with adb via wifi (not recommended when flashing images)
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Connect to device with adb via wifi (not recommended when flashing images)",
 ##   "requires": [
 ##     "adb"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "IP",
-##       "type": "str",
 ##       "description": "Device IP address.",
-##       "nullable": false,
-##       "constraint": "/^([0-9]{1,3}\\.){3}[0-9]{1,3}$/"
+##       "type": "str",
+##       "constraint": "/^([0-9]{1,3}\\.){3}[0-9]{1,3}$/",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "PORT",
-##       "type": "int",
-##       "default": 5555,
 ##       "description": "Destination port.",
-##       "constraint": "/^[0-9]{1,5}$/"
+##       "type": "int",
+##       "constraint": "/^[0-9]{1,5}$/",
+##       "default": 5555
 ##     }
 ##   ]
 ## }
 _adb_connect() {
-    # Synopsis: _adb_connect <IP> [PORT]
-    #   IP:   Device IP address.
-    #   PORT: (optional) Destination port. (default=5555)
-
     _check_installed adb
 
     if [ -z "$1" ]; then _echo_error '_adb_connect: some mandatory parameter is missing\n'; return 1; fi

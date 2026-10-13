@@ -1,31 +1,28 @@
 #!/bin/sh
 
-## Sideload given full OTA package to connected device
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Sideload given full OTA package to connected device",
 ##   "requires": [
-##     "adb"
+##     "adb",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     }
 ##   ]
 ## }
 _adb_sideload() {
-    # Synopsis: _adb_sideload <FILE_PATH>
-    #   FILE_PATH: The path to the input file.
-
     if ! _is_device_connected_with_adb; then
         _echo_error 'device not found\n'
 

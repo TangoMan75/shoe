@@ -1,47 +1,43 @@
 #!/bin/sh
 
-## Flash img file to connected device provided partition
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Flash img file to connected device provided partition",
 ##   "requires": [
-##     "fastboot"
+##     "fastboot",
+##     "realpath",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_fastboot",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/android/_is_device_connected_with_fastboot",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
-##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "type": "file",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "PARTITION",
-##       "type": "str",
 ##       "description": "The name of the target partition.",
-##       "nullable": false
+##       "type": "str",
+##       "required": true
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "FORCE",
-##       "type": "bool",
 ##       "description": "Force install.",
+##       "type": "bool",
 ##       "default": false
 ##     }
 ##   ]
 ## }
 _flash_img() {
-    # Synopsis: _flash_img <FILE_PATH> <PARTITION> [FORCE]
-    #   FILE_PATH: The path to the image file.
-    #   PARTITION: The name of the target partition.
-    #   FORCE:     (optional) Force install. Defaults to "false".
-
     if ! _is_device_connected_with_fastboot; then
         _echo_error 'please reboot to bootloader\n'
 

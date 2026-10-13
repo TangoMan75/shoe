@@ -1,17 +1,17 @@
 #!/bin/sh
 
-## Run linter (sniff)
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Run linter (sniff)",
 ##   "requires": [
 ##     "composer",
+##     "find",
 ##     "php"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_console",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/symfony/_console",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _sf_lint() {
