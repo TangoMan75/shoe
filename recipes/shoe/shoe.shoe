@@ -246,6 +246,7 @@
 #_ Strings
 #--------------------------------------------------
 ../../src/shell/strings/_collapse_blank_lines.sh
+../../src/shell/strings/_dedupe_lines.sh
 ../../src/shell/strings/_generate_key.sh
 ../../src/shell/strings/_trim.sh
 
