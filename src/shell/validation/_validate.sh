@@ -1,24 +1,24 @@
 #!/bin/sh
 
-## Find constraints and validates a variable
-##
 ## {
-##   "namespace": "validation",
+##   "namespace": "src/shell/validation",
+##   "summary": "Find constraints and validates a variable",
 ##   "requires": [
-##     "sed"
+##     "cut",
+##     "printf"
 ##   ],
 ##   "depends": [
-##     "_get_constraint",
-##     "_is_valid",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/reflexion/_get_constraint",
+##     "src/shell/validation/_is_valid"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "VARIABLE",
 ##       "type": "str",
 ##       "description": "The variable to validate in the followling format : variable_name=value.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

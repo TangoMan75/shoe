@@ -1,20 +1,26 @@
 #!/bin/sh
 
-## Generate Makefile for provided shoe script
-##
 ## {
-##   "namespace": "make",
+##   "namespace": "src/shell/make",
+##   "summary": "Generate Makefile for provided shoe script",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "basename",
+##     "cat",
+##     "dirname",
+##     "grep",
+##     "printf",
+##     "realpath",
+##     "tr"
 ##   ],
 ##   "depends": [
-##     "_get_script_shoedoc",
-##     "_get_shoedoc_description",
-##     "_get_shoedoc_tag",
-##     "_get_shoedoc_title",
-##     "_alert_primary",
-##     "_echo_error",
-##     "_echo_success"
+##     "src/shell/colors/_alert_primary",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/shoedoc/_get_script_shoedoc",
+##     "src/shell/shoedoc/_get_shoedoc_description",
+##     "src/shell/shoedoc/_get_shoedoc_tag",
+##     "src/shell/shoedoc/_get_shoedoc_title"
 ##   ],
 ##   "assumes": [
 ##     "_ALERT_DANGER",
@@ -32,13 +38,13 @@
 ##     "_SUCCESS",
 ##     "_WARNING"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,

@@ -1,24 +1,23 @@
 #!/bin/sh
 
-## Connect to device with adb via wifi (not recommended when flashing images)
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Connect to device with adb via wifi (not recommended when flashing images)",
 ##   "requires": [
 ##     "adb"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "IP",
 ##       "type": "str",
 ##       "description": "Device IP address.",
-##       "nullable": false,
+##       "required": true,
 ##       "constraint": "/^([0-9]{1,3}\\.){3}[0-9]{1,3}$/"
 ##     },
 ##     {

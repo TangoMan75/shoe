@@ -1,29 +1,29 @@
 #!/bin/sh
 
-## Return given tag values from shoedoc annotation
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Return given tag values from shoedoc annotation",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "printf"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "TEXT",
 ##       "type": "str",
 ##       "description": "The input shoedoc annotation bloc.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "TAG_NAME",
 ##       "type": "str",
 ##       "description": "The name of tag to return.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

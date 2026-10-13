@@ -1,21 +1,27 @@
 #!/bin/sh
 
-## Uninstall script from system
-##
 ## {
-##   "namespace": "install",
-##   "depends": [
-##     "_remove_completion_autoload",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/install",
+##   "summary": "Uninstall script from system",
+##   "requires": [
+##     "basename",
+##     "dirname",
+##     "realpath",
+##     "rm",
+##     "sudo"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/install/_remove_completion_autoload"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,

@@ -1,21 +1,24 @@
 #!/bin/sh
 
-## Remove completion script autoload
-##
 ## {
-##   "namespace": "install",
-##   "depends": [
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/install",
+##   "summary": "Remove completion script autoload",
+##   "requires": [
+##     "basename",
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SHELL_CONFIG_FILE",
 ##       "type": "file",
 ##       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,

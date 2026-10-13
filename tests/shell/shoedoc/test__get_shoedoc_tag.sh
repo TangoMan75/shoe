@@ -56,7 +56,7 @@ test_script_execution_should_return_expected_status_code() {
 sample_shoedoc_with_tags='## Sample function
 ##
 ## {
-##   "namespace": "test"
+##   "namespace": "tests/shell/shoedoc"
 ## }
 ## @param input The input parameter
 ## @return output The output value

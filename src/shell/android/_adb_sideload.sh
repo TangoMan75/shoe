@@ -1,24 +1,24 @@
 #!/bin/sh
 
-## Sideload given full OTA package to connected device
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Sideload given full OTA package to connected device",
 ##   "requires": [
-##     "adb"
+##     "adb",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

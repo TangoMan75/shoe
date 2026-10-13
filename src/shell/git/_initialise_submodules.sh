@@ -1,15 +1,15 @@
 #!/bin/sh
 
-## Initialise git submodules
-##
 ## {
-##   "namespace": "git",
+##   "namespace": "src/shell/git",
+##   "summary": "Initialise git submodules",
 ##   "requires": [
 ##     "git"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _initialise_submodules() {

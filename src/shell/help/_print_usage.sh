@@ -1,17 +1,18 @@
 #!/bin/sh
 
-## Print usage of the provided shoe script (used by "help" command)
-##
 ## {
-##   "namespace": "help",
+##   "namespace": "src/shell/help",
+##   "summary": "Print usage of the provided shoe script (used by \"help\" command)",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "basename",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info",
-##     "_echo_success",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "assumes": [
 ##     "DEFAULT",
@@ -19,13 +20,13 @@
 ##     "SUCCESS",
 ##     "WARNING"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

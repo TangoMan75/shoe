@@ -1,29 +1,29 @@
 #!/bin/sh
 
-## Get function shedoc annotation by name
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Get function shedoc annotation by name",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "FUNCTION_NAME",
 ##       "type": "str",
 ##       "description": "The name of the function to retrieve.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

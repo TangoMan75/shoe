@@ -1,40 +1,40 @@
 #!/bin/sh
 
-## Set value for given parameter into provided file ".env" or ".sh" file
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "Set value for given parameter into provided file \".env\" or \".sh\" file",
 ##   "requires": [
-##     "sed"
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info",
-##     "_echo_warning",
-##     "_has_parameter",
-##     "_sed_i"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_warning",
+##     "src/shell/compatibility/_sed_i",
+##     "src/shell/reflexion/_get_parameter",
+##     "src/shell/reflexion/_has_parameter"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "KEY",
 ##       "type": "str",
 ##       "description": "The variable name to get from provided file.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "VALUE",
 ##       "type": "str",
 ##       "description": "The value to be set to provided file.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

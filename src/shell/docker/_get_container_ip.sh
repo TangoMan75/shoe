@@ -1,23 +1,24 @@
 #!/bin/sh
 
-## Get running container ip
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Get running container ip",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "printf",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "CONTAINER_NAME|CONTAINER_ID",
 ##       "type": "str",
 ##       "description": "The name or the id of the docker container.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

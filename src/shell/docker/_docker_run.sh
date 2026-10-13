@@ -1,38 +1,38 @@
 #!/bin/sh
 
-## Spawn a new container with given image, name, command and volume
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Spawn a new container with given image, name, command and volume",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "IMAGE",
 ##       "type": "str",
 ##       "description": "The name of the container image to run.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "NAME",
 ##       "type": "str",
 ##       "description": "Assign a name to the container.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 3,
 ##       "name": "COMMAND",
 ##       "type": "str",
 ##       "description": "The command to run inside provided container.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 4,

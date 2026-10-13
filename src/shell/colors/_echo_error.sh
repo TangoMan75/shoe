@@ -1,0 +1,28 @@
+#!/bin/sh
+
+## {
+##   "namespace": "src/shell/colors",
+##   "summary": "Print error message to STDERR, prefixed with \"error: \"",
+##   "requires": [
+##     "printf"
+##   ],
+##   "assumes": [
+##     "_DANGER",
+##     "_DEFAULT"
+##   ],
+##   "params": [
+##     {
+##       "position": 1,
+##       "name": "MESSAGE",
+##       "type": "str",
+##       "description": "Error message to display.",
+##       "required": true
+##     }
+##   ]
+## }
+_echo_error() {
+    # Synopsis: _echo_error <MESSAGE>
+    #   MESSAGE: Error message to display.
+
+    printf "${_DANGER}error: %b${_DEFAULT}" "$1" >&2
+}

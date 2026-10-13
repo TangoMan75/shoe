@@ -1,29 +1,34 @@
 #!/bin/sh
 
-## Adds an autoload line for completion script to a shell configuration file
-##
 ## {
-##   "namespace": "install",
-##   "depends": [
-##     "_collapse_blank_lines",
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/install",
+##   "summary": "Adds an autoload line for completion script to a shell configuration file",
+##   "requires": [
+##     "basename",
+##     "dirname",
+##     "printf",
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i",
+##     "src/shell/strings/_collapse_blank_lines"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SHELL_CONFIG_FILE",
 ##       "type": "file",
 ##       "description": "The path to the shell configuration file to update (e.g., ~/.bashrc, ~/.zshrc).",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "SCRIPT_FILE_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 3,

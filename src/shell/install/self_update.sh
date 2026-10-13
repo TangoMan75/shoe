@@ -1,13 +1,16 @@
 #!/bin/sh
 
-## Update script from @update
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Update script from @update",
+##   "requires": [
+##     "basename"
+##   ],
 ##   "depends": [
-##     "_get_annotation_tags",
-##     "_get_script_shoedoc",
-##     "_update"
+##     "src/shell/colors/_echo_danger",
+##     "src/shell/install/_update",
+##     "src/shell/shoedoc/_get_script_shoedoc",
+##     "src/shell/shoedoc/_get_shoedoc_tag"
 ##   ],
 ##   "assumes": [
 ##     "ALIAS",
@@ -16,7 +19,7 @@
 ## }
 self_update() {
     _annotations="$(_get_script_shoedoc "$0")"
-    _update_link="$(_get_annotation_tags "${_annotations}" 'update')"
+    _update_link="$(_get_shoedoc_tag "${_annotations}" 'update')"
     if [ -z "${_update_link}" ]; then
         _echo_danger 'cannot update: "@update" missing\n'
 

@@ -1,11 +1,10 @@
 #!/bin/sh
 
-## Generate Markdown documentation for current shoe script
-##
 ## {
-##   "namespace": "documentation",
+##   "namespace": "src/shell/documentation",
+##   "summary": "Generate Markdown documentation for current shoe script",
 ##   "depends": [
-##     "_generate_doc"
+##     "src/shell/documentation/_generate_doc"
 ##   ]
 ## }
 generate_doc() {

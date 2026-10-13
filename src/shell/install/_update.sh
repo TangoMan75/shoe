@@ -1,38 +1,35 @@
 #!/bin/sh
 
-## Updates given script from the provided URL
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Updates given script from the provided URL",
 ##   "requires": [
+##     "basename",
 ##     "curl",
+##     "realpath",
 ##     "wget"
 ##   ],
 ##   "depends": [
-##     "_copy_install",
-##     "_generate_autocomplete",
-##     "_generate_global_autocomplete",
-##     "_install",
-##     "_is_installed",
-##     "_set_completion_autoload",
-##     "_symlink_install",
-##     "_uninstall",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/install/_install",
+##     "src/shell/install/_uninstall",
+##     "src/shell/system/_is_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "URL",
 ##       "type": "str",
 ##       "description": "The URL of the script to download and install.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 3,

@@ -1,15 +1,15 @@
 #!/bin/sh
 
-## Watch source folder for changes
-##
 ## {
-##   "namespace": "npm",
+##   "namespace": "src/shell/npm",
+##   "summary": "Watch source folder for changes",
 ##   "requires": [
-##     "npm"
+##     "npm",
+##     "watch"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _npm_watch() {

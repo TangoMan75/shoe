@@ -1,23 +1,25 @@
 #!/bin/sh
 
-## Build app to destination folder
-##
 ## {
-##   "namespace": "npm",
+##   "namespace": "src/shell/npm",
+##   "summary": "Build app to destination folder",
 ##   "requires": [
-##     "npm"
+##     "npm",
+##     "realpath",
+##     "rm"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "DESTINATION",
 ##       "type": "folder",
 ##       "description": "The path to the destination folder.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

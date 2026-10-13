@@ -1,15 +1,17 @@
 #!/bin/sh
 
-## Open in default browser
-##
 ## {
-##   "namespace": "network",
-##   "depends": [
-##     "_open",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/network",
+##   "summary": "Open in default browser",
+##   "requires": [
+##     "nohup"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_open"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "IP",

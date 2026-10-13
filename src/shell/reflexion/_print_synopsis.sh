@@ -1,22 +1,22 @@
 #!/bin/sh
 
-## Print function synopsis from a JSON string.
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "Print function synopsis from a JSON string.",
 ##   "requires": [
-##     "jq"
+##     "jq",
+##     "printf"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "JSON",
 ##       "type": "json",
 ##       "description": "The input string containing raw JSON.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,

@@ -3,19 +3,19 @@
 ## Sanitize string for safe eval
 ##
 ## {
-##   "namespace": "strings",
+##   "namespace": "src/shell/strings",
 ##   "summary": "Sanitizes a string for safe eval by escaping backticks.",
 ##   "requires": [
 ##     "printf",
 ##     "sed"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "STRING",
 ##       "type": "str",
 ##       "description": "The string to sanitize.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

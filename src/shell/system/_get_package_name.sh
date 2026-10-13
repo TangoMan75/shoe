@@ -1,19 +1,22 @@
 #!/bin/sh
 
-## Find package name for given command
-##
 ## {
-##   "namespace": "system",
-##   "depends": [
-##     "_echo_error"
+##   "namespace": "src/shell/system",
+##   "summary": "Find package name for given command",
+##   "requires": [
+##     "echo",
+##     "snap"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "COMMAND",
 ##       "type": "str",
 ##       "description": "A string containing the command name to find.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

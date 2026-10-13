@@ -1,32 +1,31 @@
 #!/bin/bash
 
-## Check if a git commit exists in the repository
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Check if a git commit exists in the repository.",
+##   "namespace": "src/bash/git",
+##   "summary": "Check if a git commit exists in the repository",
 ##   "requires": [
+##     "command",
+##     "false",
 ##     "git",
-##     "command"
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_echo_success",
-##     "_echo_primary",
-##     "_echo_warning",
-##     "_echo_danger",
-##     "_echo_info"
+##     "src/shell/colors/_echo_danger",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "assumes": [
 ##     "LBOUND"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "arguments",
 ##       "type": "str",
 ##       "description": "Commit hash and optional flags (-v: verbose, -h: help)",
-##       "default": null,
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

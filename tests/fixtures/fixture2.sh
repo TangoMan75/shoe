@@ -29,24 +29,73 @@ set -e
 # Source code is available here: https://github.com/TangoMan75/shoe
 
 ## Print primary text (bright white text)
+##
+## {
+##   "namespace": "tests/fixtures",
+##   "requires": [
+##     "printf"
+##   ]
+## }
 _echo_primary() { printf '\033[97m%b\033[0m' "$1"; }
 
 ## Print secondary text (bright blue text)
+##
+## {
+##   "namespace": "tests/fixtures",
+##   "requires": [
+##     "printf"
+##   ]
+## }
 _echo_secondary() { printf '\033[94m%b\033[0m' "$1"; }
 
 ## Print success text (bright green text)
+##
+## {
+##   "namespace": "tests/fixtures",
+##   "requires": [
+##     "printf"
+##   ]
+## }
 _echo_success() { printf '\033[32m%b\033[0m' "$1"; }
 
 ## Print danger text (red text)
+##
+## {
+##   "namespace": "tests/fixtures",
+##   "requires": [
+##     "printf"
+##   ]
+## }
 _echo_danger() { printf '\033[31m%b\033[0m' "$1"; }
 
 ## Print warning text (orange text)
+##
+## {
+##   "namespace": "tests/fixtures",
+##   "requires": [
+##     "printf"
+##   ]
+## }
 _echo_warning() { printf '\033[33m%b\033[0m' "$1"; }
 
 ## Print info text (bright purple text)
+##
+## {
+##   "namespace": "tests/fixtures",
+##   "requires": [
+##     "printf"
+##   ]
+## }
 _echo_info() { printf '\033[95m%b\033[0m' "$1"; }
 
 ## Print error message to STDERR, prefixed with "error: "
+##
+## {
+##   "namespace": "tests/fixtures",
+##   "requires": [
+##     "printf"
+##   ]
+## }
 _echo_error() { printf '\033[31merror: %b\033[0m' "$1" >&2; }
 
 _echo_info "Fixture"

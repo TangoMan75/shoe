@@ -1,12 +1,16 @@
 #!/bin/sh
 
-## Print default package manager
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Print default package manager",
+##   "requires": [
+##     "apt",
+##     "echo",
+##     "snap"
+##   ],
 ##   "depends": [
-##     "_is_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_is_installed"
 ##   ]
 ## }
 _get_package_manager() {

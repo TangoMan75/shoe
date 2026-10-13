@@ -1,28 +1,30 @@
 #!/bin/sh
 
-## Remove every line in target file that contains substrings from source file
-##
 ## {
-##   "namespace": "strings",
-##   "depends": [
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/strings",
+##   "summary": "Remove every line in target file that contains substrings from source file",
+##   "requires": [
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SOURCE_PATH",
 ##       "type": "file",
 ##       "description": "The path to the file containing the substrings to remove.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "TARGET_PATH",
 ##       "type": "file",
 ##       "description": "The path to the target file to deduplicate.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

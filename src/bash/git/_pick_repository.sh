@@ -1,32 +1,30 @@
 #!/bin/bash
 
-## Select a repository interactively from a GitHub user's repositories
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Select a repository interactively from a GitHub user's repositories.",
+##   "namespace": "src/bash/git",
+##   "summary": "Select a repository interactively from a GitHub user's repositories",
 ##   "requires": [
+##     "command",
 ##     "curl",
-##     "command"
+##     "echo"
 ##   ],
 ##   "depends": [
-##     "_echo_success",
-##     "_echo_primary",
-##     "_echo_warning",
-##     "_echo_danger",
-##     "list-github"
+##     "recipes/bash_aliases/git/list-github",
+##     "src/shell/colors/_echo_danger",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "assumes": [
 ##     "LBOUND"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "arguments",
 ##       "type": "str",
 ##       "description": "GitHub username and optional flags (-h: help)",
-##       "default": null,
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

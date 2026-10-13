@@ -1,20 +1,22 @@
 #!/bin/sh
 
-## Shoe Light Kernel
-##
 ## {
-##   "namespace": "kernel",
+##   "namespace": "src/shell/kernel",
+##   "summary": "Shoe Light Kernel",
 ##   "assumes": [
 ##     "DANGER"
 ##   ],
 ##   "requires": [
 ##     "awk",
+##     "false",
 ##     "grep",
-##     "printf"
+##     "printf",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_default",
-##     "_get_functions_names"
+##     "src/shell/help/help",
+##     "src/shell/hooks/_default",
+##     "src/shell/reflexion/_get_functions_names"
 ##   ]
 ## }
 _kernel() {

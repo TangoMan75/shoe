@@ -1,15 +1,14 @@
 #!/bin/sh
 
-## Update project dependencies with composer
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Update project dependencies with composer",
 ##   "requires": [
 ##     "composer"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _composer_update() {

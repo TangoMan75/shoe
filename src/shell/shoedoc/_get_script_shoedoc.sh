@@ -1,22 +1,22 @@
 #!/bin/sh
 
-## Get top-level shoedoc annotation of the provided shoe script file
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Get top-level shoedoc annotation of the provided shoe script file",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

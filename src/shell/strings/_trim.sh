@@ -3,20 +3,20 @@
 ## Squeezes repeated whitespaces and trim leading and trailing whitespaces from a string
 ##
 ## {
-##   "namespace": "strings",
+##   "namespace": "src/shell/strings",
 ##   "summary": "Squeezes repeated whitespaces and trim leading and trailing whitespaces from a string.",
 ##   "requires": [
 ##     "printf",
 ##     "sed",
 ##     "tr"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "STRING",
 ##       "type": "str",
 ##       "description": "The string to trim.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

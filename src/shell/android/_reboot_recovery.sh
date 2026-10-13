@@ -1,18 +1,18 @@
 #!/bin/sh
 
-## Reboot connected device to recovery
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Reboot connected device to recovery",
 ##   "requires": [
 ##     "adb",
-##     "fastboot"
+##     "fastboot",
+##     "reboot"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_adb",
-##     "_is_device_connected_with_fastboot",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/android/_is_device_connected_with_fastboot",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ]
 ## }
 _reboot_recovery() {

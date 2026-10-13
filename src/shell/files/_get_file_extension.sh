@@ -1,19 +1,22 @@
 #!/bin/sh
 
-## Get file extension
-##
 ## {
-##   "namespace": "files",
-##   "depends": [
-##     "_echo_error"
+##   "namespace": "src/shell/files",
+##   "summary": "Get file extension",
+##   "requires": [
+##     "grep",
+##     "printf"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

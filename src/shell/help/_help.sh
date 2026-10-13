@@ -1,42 +1,50 @@
 #!/bin/sh
 
-## Print help for provider shoe script
-##
 ## {
-##   "namespace": "help",
-##   "depends": [
-##     "_alert_primary",
-##     "_echo_error",
-##     "_get_constants",
-##     "_get_flags",
-##     "_get_function_shoedoc",
-##     "_get_options",
-##     "_get_padding",
-##     "_get_script_shoedoc",
-##     "_get_shoedoc_description",
-##     "_get_shoedoc_title",
-##     "_print_commands",
-##     "_print_constants",
-##     "_print_description",
-##     "_print_flags",
-##     "_print_infos",
-##     "_print_options",
-##     "_print_synopsis",
-##     "_print_usage"
+##   "namespace": "src/shell/help",
+##   "summary": "Print help for provider shoe script",
+##   "requires": [
+##     "jq",
+##     "printf",
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_alert_primary",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_secondary",
+##     "src/shell/help/_print_commands",
+##     "src/shell/help/_print_constants",
+##     "src/shell/help/_print_description",
+##     "src/shell/help/_print_flags",
+##     "src/shell/help/_print_infos",
+##     "src/shell/help/_print_options",
+##     "src/shell/help/_print_usage",
+##     "src/shell/reflexion/_get_constants",
+##     "src/shell/reflexion/_get_flags",
+##     "src/shell/reflexion/_get_options",
+##     "src/shell/reflexion/_get_padding",
+##     "src/shell/reflexion/_print_synopsis",
+##     "src/shell/shoedoc/_get_function_shoedoc",
+##     "src/shell/shoedoc/_get_script_shoedoc",
+##     "src/shell/shoedoc/_get_shoedoc_description",
+##     "src/shell/shoedoc/_get_shoedoc_title",
+##     "src/shell/shoedoc/_parse_shoedoc"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input file.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "FUNCTION_NAME",
 ##       "type": "str",
-##       "description": "The function name to get help for.",
+##       "description": "The function name to get help for."
 ##     }
 ##   ]
 ## }

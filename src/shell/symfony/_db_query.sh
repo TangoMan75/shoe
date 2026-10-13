@@ -1,15 +1,14 @@
 #!/bin/sh
 
-## Executes arbitrary SQL directly from the command line
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Executes arbitrary SQL directly from the command line",
 ##   "depends": [
-##     "_console",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/symfony/_console"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SQL",

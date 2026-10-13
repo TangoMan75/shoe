@@ -61,7 +61,7 @@ expected='## Get function shedoc annotation by name
 ##     "awk"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

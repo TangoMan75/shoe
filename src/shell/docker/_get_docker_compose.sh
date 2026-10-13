@@ -1,15 +1,16 @@
 #!/bin/sh
 
-## Return docker compose command
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Return docker compose command",
 ##   "requires": [
+##     "basename",
 ##     "command",
-##     "docker"
+##     "docker",
+##     "echo"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ]
 ## }
 _get_docker_compose() {

@@ -1,29 +1,29 @@
 #!/bin/sh
 
-## Get constaint for given variable from provided shoe script
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "Get constaint for given variable from provided shoe script",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "SCRIPT_PATH",
 ##       "type": "file",
 ##       "description": "The path to the input script.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,
 ##       "name": "VARIABLE_NAME",
 ##       "type": "str",
 ##       "description": "The variable to validate.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

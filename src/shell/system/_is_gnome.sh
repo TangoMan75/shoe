@@ -1,9 +1,8 @@
 #!/bin/sh
 
-## Check current desktop is gnome
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Check current desktop is gnome",
 ##   "assumes": [
 ##     "XDG_CURRENT_DESKTOP"
 ##   ]

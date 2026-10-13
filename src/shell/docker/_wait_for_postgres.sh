@@ -1,26 +1,25 @@
 #!/bin/sh
 
-## Wait for postgresql container to start with docker
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Wait for postgresql container to start with docker",
 ##   "requires": [
 ##     "docker"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_spin",
-##     "_echo_error",
-##     "_echo_success",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning",
+##     "src/shell/system/_check_installed",
+##     "src/shell/system/_spin"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "CONTAINER_NAME",
 ##       "type": "str",
 ##       "description": "The name of the docker container.",
-##       "nullable": false
+##       "required": true
 ##     },
 ##     {
 ##       "position": 2,

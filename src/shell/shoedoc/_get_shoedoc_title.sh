@@ -1,22 +1,22 @@
 #!/bin/sh
 
-## Get shoedoc title
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Get shoedoc title",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "printf"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "TEXT",
 ##       "type": "str",
 ##       "description": "The input shoedoc annotation bloc.",
-##       "nullable": false
+##       "required": true
 ##     }
 ##   ]
 ## }

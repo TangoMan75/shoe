@@ -1,15 +1,16 @@
 #!/bin/sh
 
-## Run local whoami server
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Run local whoami server",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "whoami"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _docker_run_whoami() {

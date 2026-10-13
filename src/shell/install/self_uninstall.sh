@@ -1,11 +1,13 @@
 #!/bin/sh
 
-## Uninstall script from system
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Uninstall script from system",
+##   "requires": [
+##     "basename"
+##   ],
 ##   "depends": [
-##     "_uninstall"
+##     "src/shell/install/_uninstall"
 ##   ],
 ##   "assumes": [
 ##     "ALIAS"

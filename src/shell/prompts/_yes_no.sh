@@ -1,17 +1,17 @@
 #!/bin/sh
 
-## Promt user for yes or no
-##
 ## {
-##   "namespace": "prompts",
+##   "namespace": "src/shell/prompts",
+##   "summary": "Promt user for yes or no",
 ##   "requires": [
+##     "echo",
 ##     "grep"
 ##   ],
 ##   "depends": [
-##     "_echo_success",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
-##   "parameters": [
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "QUESTION",

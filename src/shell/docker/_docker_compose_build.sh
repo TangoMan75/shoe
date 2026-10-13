@@ -1,15 +1,17 @@
 #!/bin/sh
 
-## Build container stack with docker compose
-##
 ## {
-##   "namespace": "docker",
-##   "depends": [
-##     "_get_docker_compose",
-##     "_echo_error",
-##     "_echo_info"
+##   "namespace": "src/shell/docker",
+##   "summary": "Build container stack with docker compose",
+##   "requires": [
+##     "realpath"
 ##   ],
-##   "parameters": [
+##   "depends": [
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/docker/_get_docker_compose"
+##   ],
+##   "params": [
 ##     {
 ##       "position": 1,
 ##       "name": "FILE_PATH",

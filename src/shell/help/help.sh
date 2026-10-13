@@ -1,11 +1,10 @@
 #!/bin/sh
 
-## Print this help
-##
 ## {
-##   "namespace": "help",
+##   "namespace": "src/shell/help",
+##   "summary": "Print this help",
 ##   "depends": [
-##     "_help"
+##     "src/shell/help/_help"
 ##   ]
 ## }
 help() {
