@@ -1,13 +1,16 @@
 #!/bin/sh
 
-## Present user with a list of choices and prompt them to select one
-##
 ## {
-##   "namespace": "prompts",
+##   "namespace": "src/shell/prompts",
+##   "summary": "Present user with a list of choices and prompt them to select one",
+##   "requires": [
+##     "cut",
+##     "echo"
+##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_success",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "parameters": [
 ##     {

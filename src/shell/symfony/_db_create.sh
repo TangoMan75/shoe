@@ -1,13 +1,15 @@
 #!/bin/sh
 
-## Create Symfony database with Doctrine
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Create Symfony database with Doctrine",
+##   "requires": [
+##     "true"
+##   ],
 ##   "depends": [
-##     "_console",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/symfony/_console"
 ##   ],
 ##   "parameters": [
 ##     {

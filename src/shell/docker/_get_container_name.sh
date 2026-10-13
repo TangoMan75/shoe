@@ -1,15 +1,14 @@
 #!/bin/sh
 
-## Get container name from id
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Get container name from id",
 ##   "requires": [
 ##     "docker"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
 ##   "parameters": [
 ##     {

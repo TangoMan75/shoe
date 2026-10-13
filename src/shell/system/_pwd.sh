@@ -1,9 +1,13 @@
 #!/bin/sh
 
-## Return current project directory realpath, or "pwd" when installed globally
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Return current project directory realpath, or \"pwd\" when installed globally",
+##   "requires": [
+##     "dirname",
+##     "pwd",
+##     "realpath"
+##   ],
 ##   "returns": "str"
 ## }
 _pwd() {

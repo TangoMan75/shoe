@@ -1,13 +1,16 @@
 #!/bin/sh
 
-## Remove completion script autoload
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Remove completion script autoload",
+##   "requires": [
+##     "basename",
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i"
 ##   ],
 ##   "parameters": [
 ##     {

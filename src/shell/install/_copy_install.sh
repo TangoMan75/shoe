@@ -1,12 +1,17 @@
 #!/bin/sh
 
-## Install script via copy
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Install script via copy",
+##   "requires": [
+##     "basename",
+##     "cp",
+##     "realpath",
+##     "sudo"
+##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
 ##   "parameters": [
 ##     {

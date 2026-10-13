@@ -1,12 +1,18 @@
 #!/bin/sh
 
-## Install script via symlink
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Install script via symlink",
+##   "requires": [
+##     "basename",
+##     "ln",
+##     "realpath",
+##     "sudo",
+##     "true"
+##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
 ##   "parameters": [
 ##     {

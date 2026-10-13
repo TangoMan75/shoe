@@ -1,21 +1,23 @@
 #!/bin/bash
 
-## Select a commit interactively from a list of git commits
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Select a commit interactively from a list of git commits.",
+##   "namespace": "src/bash/git",
+##   "summary": "Select a commit interactively from a list of git commits",
 ##   "requires": [
-##     "git",
 ##     "command",
-##     "cut"
+##     "cut",
+##     "echo",
+##     "false",
+##     "git",
+##     "head",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_echo_success",
-##     "_echo_primary",
-##     "_echo_warning",
-##     "_echo_danger",
-##     "_echo_info"
+##     "src/shell/colors/_echo_danger",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "assumes": [
 ##     "LBOUND"

@@ -1,15 +1,14 @@
 #!/bin/sh
 
-## Lint source files
-##
 ## {
-##   "namespace": "npm",
+##   "namespace": "src/shell/npm",
+##   "summary": "Lint source files",
 ##   "requires": [
 ##     "npm"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _npm_lint() {

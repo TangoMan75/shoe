@@ -1,13 +1,13 @@
 #!/bin/sh
 
-## Format a conventional commit type
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Formats a conventional commit type to lowercase, trims whitespace, replaces special characters and spaces with underscores, and removes trailing underscores.",
+##   "namespace": "src/bash/git",
+##   "summary": "Format a conventional commit type",
+##   "description": "Formats a conventional commit type to lowercase, trims whitespace, replaces special characters and spaces with underscores, and removes trailing underscores.",
 ##   "requires": [
-##     "tr",
-##     "sed"
+##     "echo",
+##     "sed",
+##     "tr"
 ##   ],
 ##   "parameters": [
 ##     {

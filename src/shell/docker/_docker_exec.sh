@@ -1,16 +1,15 @@
 #!/bin/sh
 
-## Execute command in the given docker container
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Execute command in the given docker container",
 ##   "requires": [
 ##     "docker"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
 ##   "parameters": [
 ##     {

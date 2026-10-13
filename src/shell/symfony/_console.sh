@@ -1,11 +1,14 @@
 #!/bin/sh
 
-## Get correct Symfony console binary path
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Get correct Symfony console binary path",
+##   "requires": [
+##     "basename",
+##     "echo"
+##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ]
 ## }
 _console() {

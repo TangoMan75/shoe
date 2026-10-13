@@ -1,14 +1,14 @@
 #!/bin/sh
 
-## Get function by name
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "Get function by name",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

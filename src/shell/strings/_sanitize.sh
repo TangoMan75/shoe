@@ -3,7 +3,7 @@
 ## Sanitize string for safe eval
 ##
 ## {
-##   "namespace": "strings",
+##   "namespace": "src/shell/strings",
 ##   "summary": "Sanitizes a string for safe eval by escaping backticks.",
 ##   "requires": [
 ##     "printf",

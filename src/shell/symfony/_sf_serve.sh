@@ -1,15 +1,14 @@
 #!/bin/sh
 
-## Run a local web server with Symfony CLI
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Run a local web server with Symfony CLI",
 ##   "requires": [
 ##     "symfony"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _sf_serve() {

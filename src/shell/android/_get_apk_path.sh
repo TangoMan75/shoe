@@ -1,15 +1,15 @@
 #!/bin/sh
 
-## Get installed APK path on connected device from package name
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Get installed APK path on connected device from package name",
 ##   "requires": [
-##     "adb"
+##     "adb",
+##     "awk"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_adb",
-##     "_echo_error"
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

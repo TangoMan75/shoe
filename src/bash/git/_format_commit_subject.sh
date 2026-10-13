@@ -1,13 +1,13 @@
 #!/bin/sh
 
-## Format a commit subject
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Formats a commit subject by removing type, scope, ticket, and PR number prefixes, then trimming whitespace.",
+##   "namespace": "src/bash/git",
+##   "summary": "Format a commit subject",
+##   "description": "Formats a commit subject by removing type, scope, ticket, and PR number prefixes, then trimming whitespace.",
 ##   "requires": [
-##     "tr",
-##     "sed"
+##     "echo",
+##     "sed",
+##     "tr"
 ##   ],
 ##   "parameters": [
 ##     {

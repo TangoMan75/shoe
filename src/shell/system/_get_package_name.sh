@@ -1,11 +1,14 @@
 #!/bin/sh
 
-## Find package name for given command
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Find package name for given command",
+##   "requires": [
+##     "echo",
+##     "snap"
+##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

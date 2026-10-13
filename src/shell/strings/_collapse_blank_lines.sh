@@ -1,13 +1,15 @@
 #!/bin/sh
 
-## Collapse blank lines with "sed"
-##
 ## {
-##   "namespace": "strings",
+##   "namespace": "src/shell/strings",
+##   "summary": "Collapse blank lines with \"sed\"",
+##   "requires": [
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i"
 ##   ],
 ##   "parameters": [
 ##     {

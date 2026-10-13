@@ -1,21 +1,26 @@
 #!/bin/sh
 
-## Generate Markdown documentation for provided shoe script
-##
 ## {
-##   "namespace": "documentation",
+##   "namespace": "src/shell/documentation",
+##   "summary": "Generate Markdown documentation for provided shoe script",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "basename",
+##     "dirname",
+##     "grep",
+##     "printf",
+##     "realpath",
+##     "sed"
 ##   ],
 ##   "depends": [
-##     "_alert_primary",
-##     "_echo_error",
-##     "_echo_success",
-##     "_get_script_shoedoc",
-##     "_get_shoedoc_description",
-##     "_get_shoedoc_tag",
-##     "_get_shoedoc_title",
-##     "_print_synopsis"
+##     "src/shell/colors/_alert_primary",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/reflexion/_print_synopsis",
+##     "src/shell/shoedoc/_get_script_shoedoc",
+##     "src/shell/shoedoc/_get_shoedoc_description",
+##     "src/shell/shoedoc/_get_shoedoc_tag",
+##     "src/shell/shoedoc/_get_shoedoc_title"
 ##   ],
 ##   "parameters": [
 ##     {

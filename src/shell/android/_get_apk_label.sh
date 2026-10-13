@@ -1,15 +1,16 @@
 #!/bin/sh
 
-## Get APK label
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Get APK label",
 ##   "requires": [
-##     "aapt"
+##     "aapt",
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
 ##   "parameters": [
 ##     {

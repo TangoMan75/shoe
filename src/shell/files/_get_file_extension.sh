@@ -1,11 +1,14 @@
 #!/bin/sh
 
-## Get file extension
-##
 ## {
-##   "namespace": "files",
+##   "namespace": "src/shell/files",
+##   "summary": "Get file extension",
+##   "requires": [
+##     "grep",
+##     "printf"
+##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

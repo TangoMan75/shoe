@@ -1,13 +1,15 @@
 #!/bin/sh
 
-## Set new host in /etc/hosts
-##
 ## {
-##   "namespace": "network",
+##   "namespace": "src/shell/network",
+##   "summary": "Set new host in /etc/hosts",
+##   "requires": [
+##     "sudo"
+##   ],
 ##   "depends": [
-##     "_remove_host",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/network/_remove_host"
 ##   ],
 ##   "parameters": [
 ##     {
@@ -30,4 +32,3 @@ _set_host() {
     _echo_info "sudo /bin/sh -c \"echo \\\"127.0.0.1    $1\\\" >> /etc/hosts\"\n"
     sudo /bin/sh -c "echo \"127.0.0.1    $1\" >> /etc/hosts"
 }
-

@@ -1,20 +1,21 @@
 #!/bin/bash
 
-## Check rebase is in progress
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Check if a git rebase is currently in progress.",
+##   "namespace": "src/bash/git",
+##   "summary": "Check if a git rebase is in progress",
 ##   "requires": [
+##     "command",
+##     "echo",
+##     "false",
 ##     "git",
-##     "command"
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_echo_success",
-##     "_echo_primary",
-##     "_echo_warning",
-##     "_echo_danger",
-##     "_echo_info"
+##     "src/shell/colors/_echo_danger",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "parameters": [
 ##     {

@@ -1,14 +1,19 @@
 #!/bin/sh
 
-## Adds an autoload line for completion script to a shell configuration file
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Adds an autoload line for completion script to a shell configuration file",
+##   "requires": [
+##     "basename",
+##     "dirname",
+##     "printf",
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_collapse_blank_lines",
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i",
+##     "src/shell/strings/_collapse_blank_lines"
 ##   ],
 ##   "parameters": [
 ##     {

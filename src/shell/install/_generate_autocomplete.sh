@@ -1,13 +1,18 @@
 #!/bin/sh
 
-## Generates an autocomplete script for the provided file
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Generates an autocomplete script for the provided file",
+##   "requires": [
+##     "basename",
+##     "dirname",
+##     "printf",
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_get_comspec",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/install/_get_comspec"
 ##   ],
 ##   "parameters": [
 ##     {

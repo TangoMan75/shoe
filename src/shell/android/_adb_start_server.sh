@@ -1,15 +1,14 @@
 #!/bin/sh
 
-## Start local adb server
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Start local adb server",
 ##   "requires": [
 ##     "adb"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_info"
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ]
 ## }
 _adb_start_server() {

@@ -1,13 +1,15 @@
 #!/bin/sh
 
-## Print error message if provided command is missing
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Print error message if provided command is missing",
+##   "requires": [
+##     "basename"
+##   ],
 ##   "depends": [
-##     "_get_package_name",
-##     "_is_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_get_package_name",
+##     "src/shell/system/_is_installed"
 ##   ],
 ##   "parameters": [
 ##     {

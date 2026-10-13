@@ -1,16 +1,17 @@
 #!/bin/sh
 
-## Copy APK from connected device to local folder
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Copy APK from connected device to local folder",
 ##   "requires": [
-##     "adb"
+##     "adb",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_adb",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/android/_get_apk_path",
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
 ##   "parameters": [
 ##     {

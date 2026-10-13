@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# Print Jira url
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Print the Jira URL for a given ticket identifier.",
+##   "namespace": "src/bash/git",
+##   "summary": "Print Jira URL",
+##   "description": "Print the Jira URL for a given ticket identifier.",
+##   "requires": [
+##     "echo"
+##   ],
 ##   "assumes": [
 ##     "JIRA_SERVER"
 ##   ],

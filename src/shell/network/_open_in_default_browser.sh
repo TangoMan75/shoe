@@ -1,13 +1,15 @@
 #!/bin/sh
 
-## Open in default browser
-##
 ## {
-##   "namespace": "network",
+##   "namespace": "src/shell/network",
+##   "summary": "Open in default browser",
+##   "requires": [
+##     "nohup"
+##   ],
 ##   "depends": [
-##     "_open",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_open"
 ##   ],
 ##   "parameters": [
 ##     {

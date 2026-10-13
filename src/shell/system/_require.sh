@@ -1,18 +1,20 @@
 #!/bin/sh
 
-## Install required package globally
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Install required package globally",
 ##   "requires": [
-##     "apt"
+##     "apt",
+##     "install",
+##     "snap",
+##     "sudo"
 ##   ],
 ##   "depends": [
-##     "_get_package_manager",
-##     "_get_package_name",
-##     "_is_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_get_package_manager",
+##     "src/shell/system/_get_package_name",
+##     "src/shell/system/_is_installed"
 ##   ],
 ##   "parameters": [
 ##     {

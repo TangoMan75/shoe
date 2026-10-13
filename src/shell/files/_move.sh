@@ -1,12 +1,18 @@
 #!/bin/sh
 
-## Move file or folder to destination (creates folder when missing)
-##
 ## {
-##   "namespace": "files",
+##   "namespace": "src/shell/files",
+##   "summary": "Move file or folder to destination (creates folder when missing)",
+##   "requires": [
+##     "cp",
+##     "mkdir",
+##     "mv",
+##     "realpath",
+##     "rm"
+##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
 ##   "parameters": [
 ##     {

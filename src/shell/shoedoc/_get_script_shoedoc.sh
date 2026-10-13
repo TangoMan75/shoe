@@ -1,14 +1,14 @@
 #!/bin/sh
 
-## Get top-level shoedoc annotation of the provided shoe script file
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Get top-level shoedoc annotation of the provided shoe script file",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

@@ -1,14 +1,14 @@
 #!/bin/sh
 
-## Get shoedoc title
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Get shoedoc title",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "printf"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

@@ -1,13 +1,13 @@
 #!/bin/sh
 
-## Format a branch subject
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Formats a branch subject by removing type prefix, removing ticket prefix, converting to lowercase, replacing special characters with underscores, and removing trailing underscores.",
+##   "namespace": "src/bash/git",
+##   "summary": "Format a branch subject",
+##   "description": "Formats a branch subject by removing type prefix, removing ticket prefix, converting to lowercase, replacing special characters with underscores, and removing trailing underscores.",
 ##   "requires": [
-##     "tr",
-##     "sed"
+##     "printf",
+##     "sed",
+##     "tr"
 ##   ],
 ##   "parameters": [
 ##     {

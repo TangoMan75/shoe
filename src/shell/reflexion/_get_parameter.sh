@@ -1,15 +1,14 @@
 #!/bin/sh
 
-## Get value for given parameter from provided ".env" or ".sh" file
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "Get value for given parameter from provided \".env\" or \".sh\" file",
 ##   "requires": [
+##     "realpath",
 ##     "sed"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

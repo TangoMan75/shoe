@@ -1,15 +1,14 @@
 #!/bin/sh
 
-## Check if package is installed on connected device
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Check if package is installed on connected device",
 ##   "requires": [
 ##     "adb"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_adb",
-##     "_echo_error"
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

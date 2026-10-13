@@ -1,14 +1,13 @@
 #!/bin/sh
 
-## Check provided user exists
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Check provided user exists",
 ##   "requires": [
-##     "awk"
+##     "id"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

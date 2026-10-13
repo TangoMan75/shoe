@@ -1,13 +1,15 @@
 #!/bin/sh
 
-## Stop container stack with docker compose
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Stop container stack with docker compose",
+##   "requires": [
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_get_docker_compose",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/docker/_get_docker_compose"
 ##   ],
 ##   "parameters": [
 ##     {

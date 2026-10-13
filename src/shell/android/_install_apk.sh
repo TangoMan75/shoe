@@ -1,16 +1,18 @@
 #!/bin/sh
 
-## Install APK on connected device
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Install APK on connected device",
 ##   "requires": [
-##     "adb"
+##     "adb",
+##     "install",
+##     "realpath",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_is_device_connected_with_adb",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/android/_is_device_connected_with_adb",
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
 ##   "parameters": [
 ##     {

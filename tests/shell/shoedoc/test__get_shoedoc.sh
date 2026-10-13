@@ -62,7 +62,7 @@ fixture='## Get shoedoc annotation
 ##     "awk"
 ##   ],
 ##   "depends": [
-##     "_echo_danger"
+##     "src/shell/colors/_echo_danger"
 ##   ],
 ##   "parameters": [
 ##     {

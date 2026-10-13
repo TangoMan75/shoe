@@ -1,15 +1,15 @@
 #!/bin/sh
 
-## List flags of the provided shoe script (used by "help" command)
-##
 ## {
-##   "namespace": "help",
+##   "namespace": "src/shell/help",
+##   "summary": "List flags of the provided shoe script (used by \"help\" command)",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "assumes": [
 ##     "PRIMARY",

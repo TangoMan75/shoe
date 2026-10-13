@@ -1,16 +1,19 @@
 #!/bin/sh
 
-## Print infos of the provided shoe script (used by "help" command)
-##
 ## {
-##   "namespace": "help",
+##   "namespace": "src/shell/help",
+##   "summary": "Print infos of the provided shoe script (used by \"help\" command)",
+##   "requires": [
+##     "printf",
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_get_script_shoedoc",
-##     "_get_shoedoc_tag",
-##     "_echo_error",
-##     "_echo_primary",
-##     "_echo_success",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning",
+##     "src/shell/shoedoc/_get_script_shoedoc",
+##     "src/shell/shoedoc/_get_shoedoc_tag"
 ##   ],
 ##   "parameters": [
 ##     {

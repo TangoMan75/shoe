@@ -1,15 +1,16 @@
 #!/bin/sh
 
-## Get APK version
-##
 ## {
-##   "namespace": "android",
+##   "namespace": "src/shell/android",
+##   "summary": "Get APK version",
 ##   "requires": [
-##     "aapt"
+##     "aapt",
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
 ##   "parameters": [
 ##     {

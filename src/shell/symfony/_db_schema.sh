@@ -1,13 +1,15 @@
 #!/bin/sh
 
-## Create schema with Doctrine
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Create schema with Doctrine",
+##   "requires": [
+##     "true"
+##   ],
 ##   "depends": [
-##     "_console",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/symfony/_console"
 ##   ],
 ##   "parameters": [
 ##     {

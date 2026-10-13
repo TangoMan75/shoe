@@ -1,18 +1,19 @@
 #!/bin/sh
 
-## Extract file based on its extension
-##
 ## {
-##   "namespace": "files",
+##   "namespace": "src/shell/files",
+##   "summary": "Extract file based on its extension",
 ##   "requires": [
+##     "dirname",
 ##     "realpath",
 ##     "tar",
-##     "unzip"
+##     "unzip",
+##     "zip"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
 ##   "parameters": [
 ##     {

@@ -1,15 +1,15 @@
 #!/bin/sh
 
-## Checks if variable is valid given regex constraint
-##
 ## {
-##   "namespace": "validation",
+##   "namespace": "src/shell/validation",
+##   "summary": "Checks if variable is valid given regex constraint",
 ##   "requires": [
 ##     "grep",
+##     "printf",
 ##     "sed"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

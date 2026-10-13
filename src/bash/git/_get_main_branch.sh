@@ -1,21 +1,21 @@
 #!/bin/bash
 
-## Get main branch name
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Get the main branch name (main or master).",
+##   "namespace": "src/bash/git",
+##   "summary": "Get main branch name",
 ##   "requires": [
-##     "git",
 ##     "command",
-##     "eval"
+##     "eval",
+##     "false",
+##     "git",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_echo_success",
-##     "_echo_primary",
-##     "_echo_warning",
-##     "_echo_danger",
-##     "_echo_info"
+##     "src/shell/colors/_echo_danger",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "parameters": [
 ##     {

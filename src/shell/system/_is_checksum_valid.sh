@@ -1,18 +1,18 @@
 #!/bin/sh
 
-## Validate a file checksum
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Validate a file checksum",
 ##   "requires": [
 ##     "awk",
+##     "grep",
 ##     "realpath",
 ##     "set",
 ##     "sha256sum"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
 ##   "parameters": [
 ##     {

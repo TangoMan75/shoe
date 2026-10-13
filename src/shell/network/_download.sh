@@ -1,19 +1,20 @@
 #!/bin/sh
 
-## Downloads file with either curl or wget
-##
 ## {
-##   "namespace": "network",
+##   "namespace": "src/shell/network",
+##   "summary": "Downloads file with either curl or wget",
 ##   "requires": [
 ##     "curl",
+##     "dirname",
 ##     "grep",
 ##     "head",
+##     "mkdir",
 ##     "wget"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info",
-##     "_is_installed"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_is_installed"
 ##   ],
 ##   "parameters": [
 ##     {

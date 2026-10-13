@@ -1,14 +1,14 @@
 #!/bin/sh
 
-## Check provided command is installed
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Check provided command is installed",
 ##   "requires": [
-##     "dpkg"
+##     "dpkg",
+##     "grep"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

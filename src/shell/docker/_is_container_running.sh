@@ -1,15 +1,15 @@
 #!/bin/sh
 
-## Checks if given container is running
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Checks if given container is running",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/system/_check_installed"
 ##   ],
 ##   "parameters": [
 ##     {

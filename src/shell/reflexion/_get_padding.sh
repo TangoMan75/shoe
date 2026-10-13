@@ -1,14 +1,14 @@
 #!/bin/sh
 
-## Guess padding length from longest constant, option, flag or command of the provided shoe script
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "Guess padding length from longest constant, option, flag or command of the provided shoe script",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

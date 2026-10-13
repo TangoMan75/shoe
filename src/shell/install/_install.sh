@@ -1,17 +1,24 @@
 #!/bin/sh
 
-## Install script and enable autocompletion
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Install script and enable autocompletion",
+##   "requires": [
+##     "basename",
+##     "bash",
+##     "realpath",
+##     "touch",
+##     "true",
+##     "zsh"
+##   ],
 ##   "depends": [
-##     "_copy_install",
-##     "_generate_autocomplete",
-##     "_generate_global_autocomplete",
-##     "_is_installed",
-##     "_set_completion_autoload",
-##     "_symlink_install",
-##     "_echo_error"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/install/_copy_install",
+##     "src/shell/install/_generate_autocomplete",
+##     "src/shell/install/_generate_global_autocomplete",
+##     "src/shell/install/_set_completion_autoload",
+##     "src/shell/install/_symlink_install",
+##     "src/shell/system/_is_installed"
 ##   ],
 ##   "parameters": [
 ##     {

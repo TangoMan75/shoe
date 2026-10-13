@@ -1,11 +1,10 @@
 #!/bin/sh
 
-## Generate Makefile for current shoe script
-##
 ## {
-##   "namespace": "make",
+##   "namespace": "src/shell/make",
+##   "summary": "Generate Makefile for current shoe script",
 ##   "depends": [
-##     "_generate_makefile"
+##     "src/shell/make/_generate_makefile"
 ##   ]
 ## }
 generate_makefile() {

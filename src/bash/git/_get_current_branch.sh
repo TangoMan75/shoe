@@ -1,20 +1,20 @@
 #!/bin/bash
 
-## Get the current git branch name
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Get the current git branch name.",
+##   "namespace": "src/bash/git",
+##   "summary": "Get the current git branch name",
 ##   "requires": [
+##     "command",
+##     "false",
 ##     "git",
-##     "command"
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_echo_success",
-##     "_echo_primary",
-##     "_echo_warning",
-##     "_echo_danger",
-##     "_echo_info"
+##     "src/shell/colors/_echo_danger",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "parameters": [
 ##     {

@@ -1,15 +1,18 @@
 #!/bin/sh
 
-## Update .git/hooks folder
-##
 ## {
-##   "namespace": "git",
+##   "namespace": "src/shell/git",
+##   "summary": "Update .git/hooks folder",
 ##   "requires": [
-##     "git"
+##     "chmod",
+##     "cp",
+##     "git",
+##     "realpath",
+##     "rm"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info"
 ##   ],
 ##   "parameters": [
 ##     {

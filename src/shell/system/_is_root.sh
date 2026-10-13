@@ -1,9 +1,8 @@
 #!/bin/sh
 
-## Check current user is root
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Check current user is root",
 ##   "requires": [
 ##     "awk",
 ##     "id"

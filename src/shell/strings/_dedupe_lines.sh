@@ -1,13 +1,15 @@
 #!/bin/sh
 
-## Remove every line in target file that contains substrings from source file
-##
 ## {
-##   "namespace": "strings",
+##   "namespace": "src/shell/strings",
+##   "summary": "Remove every line in target file that contains substrings from source file",
+##   "requires": [
+##     "realpath"
+##   ],
 ##   "depends": [
-##     "_sed_i",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/compatibility/_sed_i"
 ##   ],
 ##   "parameters": [
 ##     {

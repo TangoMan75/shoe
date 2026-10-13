@@ -1,20 +1,20 @@
 #!/bin/bash
 
-## Check if a git branch exists in the local or remote repository
-##
 ## {
-##   "namespace": "git",
-##   "summary": "Check if a git branch exists in the local or remote repository.",
+##   "namespace": "src/bash/git",
+##   "summary": "Check if a git branch exists in the local or remote repository",
 ##   "requires": [
+##     "command",
+##     "false",
 ##     "git",
-##     "command"
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_echo_success",
-##     "_echo_primary",
-##     "_echo_warning",
-##     "_echo_danger",
-##     "_echo_info"
+##     "src/shell/colors/_echo_danger",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "assumes": [
 ##     "LBOUND"

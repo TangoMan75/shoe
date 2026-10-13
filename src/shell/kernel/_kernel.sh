@@ -1,22 +1,25 @@
 #!/bin/sh
 
-## Shoe Kernel
-##
 ## {
-##   "namespace": "kernel",
+##   "namespace": "src/shell/kernel",
+##   "summary": "Shoe Kernel",
 ##   "requires": [
 ##     "awk",
-##     "grep"
+##     "false",
+##     "grep",
+##     "printf",
+##     "true"
 ##   ],
 ##   "depends": [
-##     "_after",
-##     "_before",
-##     "_default",
-##     "_echo_error",
-##     "_get_flags",
-##     "_get_functions_names",
-##     "_get_options",
-##     "_validate"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/help/_help",
+##     "src/shell/hooks/_after",
+##     "src/shell/hooks/_before",
+##     "src/shell/hooks/_default",
+##     "src/shell/reflexion/_get_flags",
+##     "src/shell/reflexion/_get_functions_names",
+##     "src/shell/reflexion/_get_options",
+##     "src/shell/validation/_validate"
 ##   ]
 ## }
 _kernel() {

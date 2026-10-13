@@ -1,16 +1,19 @@
 #!/bin/sh
 
-## Return function shoedoc as json
-##
 ## {
-##   "namespace": "shoedoc",
+##   "namespace": "src/shell/shoedoc",
+##   "summary": "Return function shoedoc as json",
 ##   "requires": [
+##     "cut",
+##     "head",
 ##     "jq",
+##     "printf",
+##     "realpath",
 ##     "sed"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_get_function_shoedoc"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/shoedoc/_get_function_shoedoc"
 ##   ],
 ##   "parameters": [
 ##     {

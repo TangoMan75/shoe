@@ -1,13 +1,19 @@
 #!/bin/sh
 
-## Creates a system-wide autocomplete script for the provided file
-##
 ## {
-##   "namespace": "install",
+##   "namespace": "src/shell/install",
+##   "summary": "Creates a system-wide autocomplete script for the provided file",
+##   "requires": [
+##     "basename",
+##     "printf",
+##     "realpath",
+##     "sudo",
+##     "tee"
+##   ],
 ##   "depends": [
-##     "_get_comspec",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/install/_get_comspec"
 ##   ],
 ##   "parameters": [
 ##     {

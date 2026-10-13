@@ -1,12 +1,15 @@
 #!/bin/sh
 
-## Print provided text formatted as a description (used by "help" command)
-##
 ## {
-##   "namespace": "help",
+##   "namespace": "src/shell/help",
+##   "summary": "Print provided text formatted as a description (used by \"help\" command)",
+##   "requires": [
+##     "fold",
+##     "printf"
+##   ],
 ##   "depends": [
-##     "_echo_primary",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_primary",
+##     "src/shell/colors/_echo_warning"
 ##   ],
 ##   "parameters": [
 ##     {

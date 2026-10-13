@@ -1,16 +1,16 @@
 #!/bin/sh
 
-## Serve given local directory with Python 3
-##
 ## {
-##   "namespace": "network",
+##   "namespace": "src/shell/network",
+##   "summary": "Serve given local directory with Python 3",
 ##   "requires": [
-##     "python3"
+##     "python3",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/system/_check_installed"
 ##   ],
 ##   "parameters": [
 ##     {

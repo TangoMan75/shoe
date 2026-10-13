@@ -1,11 +1,12 @@
 #!/bin/sh
 
-## Animate a spinner in the terminal for a given amout of time
-##
 ## {
-##   "namespace": "system",
+##   "namespace": "src/shell/system",
+##   "summary": "Animate a spinner in the terminal for a given amout of time",
 ##   "requires": [
-##     "awk"
+##     "awk",
+##     "printf",
+##     "sleep"
 ##   ],
 ##   "parameters": [
 ##     {

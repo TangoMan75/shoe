@@ -1,15 +1,14 @@
 #!/bin/sh
 
-## Tests if parameter exists in provided ".env" or ".sh" file
-##
 ## {
-##   "namespace": "reflexion",
+##   "namespace": "src/shell/reflexion",
+##   "summary": "Tests if parameter exists in provided \".env\" or \".sh\" file",
 ##   "requires": [
-##     "sed"
+##     "grep",
+##     "realpath"
 ##   ],
 ##   "depends": [
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error"
 ##   ],
 ##   "parameters": [
 ##     {

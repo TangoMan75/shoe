@@ -1,11 +1,11 @@
 #!/bin/sh
 
-## Return sed -i system flavour
-##
 ## {
-##   "namespace": "compatibility",
+##   "namespace": "src/shell/compatibility",
+##   "summary": "Return sed -i system flavour",
 ##   "requires": [
 ##     "command",
+##     "echo",
 ##     "sed",
 ##     "uname"
 ##   ]

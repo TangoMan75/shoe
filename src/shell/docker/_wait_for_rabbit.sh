@@ -1,18 +1,18 @@
 #!/bin/sh
 
-## Wait for rabbitmq container to start with docker
-##
 ## {
-##   "namespace": "docker",
+##   "namespace": "src/shell/docker",
+##   "summary": "Wait for rabbitmq container to start with docker",
 ##   "requires": [
-##     "docker"
+##     "docker",
+##     "grep"
 ##   ],
 ##   "depends": [
-##     "_check_installed",
-##     "_spin",
-##     "_echo_error",
-##     "_echo_success",
-##     "_echo_warning"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_success",
+##     "src/shell/colors/_echo_warning",
+##     "src/shell/system/_check_installed",
+##     "src/shell/system/_spin"
 ##   ],
 ##   "parameters": [
 ##     {

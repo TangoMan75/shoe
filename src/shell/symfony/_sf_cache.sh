@@ -1,13 +1,15 @@
 #!/bin/sh
 
-## Clear Symfony cache
-##
 ## {
-##   "namespace": "symfony",
+##   "namespace": "src/shell/symfony",
+##   "summary": "Clear Symfony cache",
+##   "requires": [
+##     "clear"
+##   ],
 ##   "depends": [
-##     "_console",
-##     "_echo_error",
-##     "_echo_info"
+##     "src/shell/colors/_echo_error",
+##     "src/shell/colors/_echo_info",
+##     "src/shell/symfony/_console"
 ##   ],
 ##   "parameters": [
 ##     {
