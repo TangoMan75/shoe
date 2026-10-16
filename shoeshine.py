@@ -18,8 +18,10 @@ The pipeline per annotated function is:
 The parsed block is validated:
 
   - the block must be valid JSON (a dangling comma before `## }` is invalid),
-  - every property must be known: namespace, summary, returns, requires,
-    depends, assumes, parameters,
+  - every property must be known: namespace, summary, description, author,
+    copyright, version, license, link, update, arguments, return, stdout,
+    stderr, stdin, returns, requires, depends, assumes, parameters,
+    options, flags,
   - "namespace": string, valid relative path (no leading/trailing slash,
     no drive letter, no backslashes, no "..", no "./"),
   - "requires": array of non-empty strings (external commands), sorted
@@ -41,17 +43,22 @@ The parsed block is validated:
     every "requires" / "depends" / "assumes" entry must be referenced in
     the file body (outside the annotation lines): "requires" by its command
     name, "depends" by its base function name, "assumes" by variable name,
-  - "parameters": array of objects, each with:
-      "position": optional positive int,
+  - "parameters", "options" and "flags": arrays of objects, each with:
+      "position": optional positive int (parameters only),
       "name": string (variable name: letters, digits, underscores),
       "flag": optional "-x" or "--alias" string,
       "type": optional one of str, dir, folder, file, path, int, bool,
        const, json, array, flag,
       "description": optional string,
+      "summary": optional string,
+      "required": optional bool,
       "default": optional string, int or bool,
       "nullable": optional bool,
       "constraint": optional regex string "/.../flags",
     at least "name" or "flag" must be present, not empty,
+  - the string properties (summary, description, author, copyright,
+    version, license, link, update, arguments, return, stdout, stderr,
+    stdin, returns) must be strings ("description" may be empty),
   - unknown properties are invalid.
 
 Annotated functions whose captured annotation lines form no balanced
@@ -134,6 +141,15 @@ CALL_RE = re.compile(
 )
 SANITIZE_DEPTH_LIMIT = 200
 ARRAY_KEYS = ("requires", "depends", "assumes")
+
+# Top-level string properties, validated as strings (may be empty).
+STRING_PROPERTIES = (
+    "summary", "description", "author", "copyright", "version", "license",
+    "link", "update", "arguments", "return", "stdout", "stderr", "stdin",
+)
+
+# Top-level entry-array properties, sharing the same object shape.
+ENTRY_ARRAY_KEYS = ("parameters", "options", "flags")
 
 
 def _strip_eol(line: str) -> str:
@@ -768,6 +784,12 @@ def check_object_of_named_keys(value, what, errors):
         description = object.get("description")
         if description is not None and not isinstance(description, str):
             errors.append(f"{what}: 'description' must be a string")
+        summary = object.get("summary")
+        if summary is not None and not isinstance(summary, str):
+            errors.append(f"{what}: 'summary' must be a string")
+        required = object.get("required")
+        if required is not None and not isinstance(required, bool):
+            errors.append(f"{what}: 'required' must be a boolean")
         if "default" in object and not isinstance(
             object["default"], (str, int, float, bool, type(None))
         ):
@@ -783,8 +805,8 @@ def check_object_of_named_keys(value, what, errors):
                 errors.append(f"{what}: invalid 'constraint': {constraint!r} "
                               f"(expected '/regex/flags')")
         unknown = set(object) - {
-            "position", "name", "flag", "type", "description", "default",
-            "nullable", "constraint",
+            "position", "name", "flag", "type", "description", "summary",
+            "required", "default", "nullable", "constraint",
         }
         if unknown:
             errors.append(f"{what}: unknown key(s): {', '.join(sorted(unknown))}")
@@ -873,13 +895,18 @@ def validate_property(key, value, errors):
     elif key == "returns":
         if not isinstance(value, str) or not VAR_NAME_RE.match(value):
             errors.append("'returns' must be a valid type name")
-    elif key == "parameters":
+    elif key in STRING_PROPERTIES:
+        if not isinstance(value, str):
+            errors.append(f"'{key}' must be a string")
+        elif not value.strip():
+            errors.append(f"'{key}' must not be empty")
+    elif key in ENTRY_ARRAY_KEYS:
         if not isinstance(value, list):
-            errors.append("'parameters' must be an array")
+            errors.append(f"'{key}' must be an array")
         elif not value:
-            errors.append("'parameters' must not be empty")
+            errors.append(f"'{key}' must not be empty")
         else:
-            check_object_of_named_keys(value, "'parameters'", errors)
+            check_object_of_named_keys(value, f"'{key}'", errors)
     else:
         errors.append(f"unknown property: '{key}'")
 
@@ -1084,8 +1111,10 @@ def fix_dictionary(parsed, body, adds, namespace_value, wrong_namespace):
             if cleaned != original:
                 fixes.append(f"sorted '{key}' entries")
             result[key] = cleaned
-        elif key == "parameters" and isinstance(value, list) and not value:
-            fixes.append("removed empty 'parameters' property")
+        elif key in ENTRY_ARRAY_KEYS and isinstance(value, list) and (
+            not value
+        ):
+            fixes.append(f"removed empty '{key}' property")
             continue
         else:
             result[key] = value

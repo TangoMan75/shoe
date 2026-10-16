@@ -8,7 +8,7 @@ Two conversion directions are supported:
       ## {
       ##   "namespace": "android",
       ##   "summary": "Summary line",
-      ##   "description": "Long description that can span multiple lines.\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+      ##   "author": "\"Name\" <email>",
       ##   "requires": ["adb"],
       ##   "parameters": [
       ##     {
@@ -22,14 +22,16 @@ Two conversion directions are supported:
 
       ## Summary line
       ##
-      ## Long description that can span multiple lines.
-      ## Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      ## tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      ## quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-      ##
+      ## @author: "Name" <email>
       ## @namespace: android
       ## @requires: adb
       ## @parameter: IP /^([0-9]{1,3}\\\\.){3}[0-9]{1,3}$/
+
+  Rich parameter, option and flag objects become:
+
+      ## @parameter {str} [WHO|who] <required> Summary - Long description
+      ## @option {int} [-o|option] <optional> Option summary
+      ## @flag [-f|flag] <optional> Flag summary
 
 - ``--json`` (default): classic @-tagged blocks like the one above are
   converted back into JSON shoedoc blocks. Blocks are located as maximal
@@ -41,15 +43,30 @@ Two conversion directions are supported:
   about and dropped, mirroring how the ``--tags`` direction drops unknown
   JSON keys.
 
+Recognized classic tags are: ``@namespace``, ``@summary``, ``@requires``,
+``@depends``, ``@assumes``, ``@author``, ``@copyright``, ``@version``,
+``@license``, ``@link``, ``@update``, ``@arguments``, ``@return``,
+``@stdout``, ``@stderr``, ``@stdin``, ``@parameter``/``@param``,
+``@option`` and ``@flag``. The ``@param``/``@option``/``@flag`` values
+follow the rich grammar
+
+    @parameter {type} [alias|name] <optional|required> Summary - Long value
+    @option   {type} [alias|name] <optional|required> Summary - Long value
+    @flag            [alias|name] <optional|required> Summary - Long value
+
+where ``{type}``, ``[alias|name]``, ``<optional|required>`` and the
+`` - `` separator are each optional; the legacy ``NAME`` and
+``NAME /regex/`` spellings are still accepted (``@parameter`` too).
+
 Both ``## @tag: value`` and ``## @tag value`` (no colon) spellings are
 accepted when parsing classic blocks.
 
 Usage:
-    python3 shoedoc_converter.py [--tags] [--dry-run] [-r] PATH...
+    python3 shoedoc_converter.py [--tags] [--dry-run] PATH...
 
 Positional arguments may be files or directories. Directories are expanded
-to their top-level ``*.sh`` files; pass ``-r`` / ``--recursive`` to walk
-subdirectories. Files and directories may be mixed freely.
+recursively to every ``*.sh`` file in the tree. Files and directories may
+be mixed freely.
 
 By default, files are edited in place. Use ``--dry-run`` to preview
 converted content on stdout without modifying files. In dry-run mode, each
@@ -63,6 +80,139 @@ import re
 import sys
 
 _TAG_RE = re.compile(r'^@([A-Za-z_][A-Za-z0-9_]*):?\s*(.*)$')
+
+# Classic tags rendered as comma-separated arrays.
+_ARRAY_KEYS = ('requires', 'depends', 'assumes')
+
+# Classic tags parsed as ``@tag: value`` lines.
+_STRING_KEYS = (
+    'namespace', 'summary', 'author', 'copyright', 'version', 'license',
+    'link', 'update', 'arguments', 'return', 'stdout', 'stderr', 'stdin',
+) + _ARRAY_KEYS
+
+# Classic tags rendered as ``@tag: value`` lines, in emission order.
+# ``summary`` is not included: it is rendered as the block title instead.
+_EMIT_KEYS = tuple(k for k in _STRING_KEYS if k != 'summary')
+
+# Entry array keys parsed from the rich @param/@option/@flag tags.
+_ENTRY_ARRAY_KEYS = ('parameters', 'options', 'flags')
+
+# Keys recognised inside a JSON shoedoc block, in emission order.
+_ORDERED_KEYS = _STRING_KEYS + _ENTRY_ARRAY_KEYS
+
+
+def _parse_entry_value(raw):
+    """Parse the value of a ``@param``/``@option``/``@flag`` tag.
+
+    Grammar, with ``{type}``, ``[alias|name]``, ``<optional|required>``
+    and the `` - `` separator each optional:
+
+        {type} [alias|name] <optional|required> Summary - Long description
+
+    The legacy ``NAME`` and ``NAME /regex/`` spellings are accepted too.
+    A single ``[a]`` bracket is a name unless it starts with a dash.
+
+    Returns the entry object for the ``parameters``/``options``/``flags``
+    arrays (``name``, ``flag``, ``type``, ``required``, ``summary``,
+    ``description``, ``constraint``).
+    """
+    entry = {}
+    value = raw.strip()
+
+    if value.startswith('{') and '}' in value:
+        head, _sep, tail = value.partition('}')
+        entry['type'] = head[1:].strip()
+        value = tail.strip()
+
+    if value.startswith('[') and ']' in value:
+        head, _sep, tail = value.partition(']')
+        parts = [p.strip() for p in head[1:].split('|') if p.strip()]
+        if len(parts) == 1 and parts[0].startswith('-'):
+            entry['flag'] = parts[0]
+        elif len(parts) == 1:
+            entry['name'] = parts[0]
+        elif len(parts) > 1:
+            entry['flag'] = parts[0]
+            entry['name'] = parts[-1]
+        value = tail.strip()
+
+    if value.startswith('<') and '>' in value:
+        head, _sep, tail = value.partition('>')
+        marker = head[1:].strip().lower()
+        if marker in ('optional', 'required'):
+            entry['required'] = marker == 'required'
+        value = tail.strip()
+
+    first, _sep, rest = value.partition(' ')
+    rest = rest.strip()
+    if entry.get('name') is None and entry.get('flag') is None:
+        # Legacy spelling: NAME [constraint]
+        if not first:
+            return entry
+        entry['name'] = first
+        if rest.startswith('/'):
+            entry['constraint'] = _decode_constraint(rest)
+            return entry
+        value = rest
+    elif first.startswith('/'):
+        entry['constraint'] = _decode_constraint(first)
+        value = rest
+
+    value = value.strip()
+    if value:
+        if ' - ' in value:
+            summary, _sep, description = value.partition(' - ')
+            entry['summary'] = summary.strip()
+            entry['description'] = description.strip()
+        else:
+            entry['description'] = value
+
+    return entry
+
+
+def _format_entry_tag(array_key, entry):
+    """Render a ``parameters``/``options``/``flags`` entry as a classic tag.
+
+    Legacy parameter entries (``name`` and optional ``constraint`` only)
+    keep the ``@parameter: NAME /regex/`` spelling; richer entries use the
+    ``@parameter``/``@option``/``@flag`` rich grammar.
+    """
+    legacy = set(entry) <= {'name', 'constraint'}
+    if array_key == 'parameters' and legacy:
+        name = entry.get('name', '')
+        constraint = entry.get('constraint')
+        if constraint is not None:
+            escaped = json.dumps(constraint)[1:-1]
+            return '## @parameter: %s %s' % (name, escaped)
+        return '## @parameter: %s' % name
+
+    kind = 'parameter' if array_key == 'parameters' else array_key.rstrip('s')
+    tag = '@%s' % kind
+    if entry.get('type') is not None:
+        tag += ' {%s}' % entry['type']
+    name = entry.get('name')
+    flag = entry.get('flag')
+    if name is not None and flag is not None:
+        tag += ' [%s|%s]' % (flag, name)
+    elif flag is not None:
+        tag += ' [%s]' % flag
+    elif name is not None:
+        tag += ' [%s]' % name
+    if entry.get('required') is True:
+        tag += ' <required>'
+    elif entry.get('required') is False:
+        tag += ' <optional>'
+    if entry.get('constraint') is not None:
+        tag += ' %s' % json.dumps(entry['constraint'])[1:-1]
+    summary = entry.get('summary')
+    description = entry.get('description')
+    if summary is not None and description is not None:
+        tag += ' %s - %s' % (summary, description)
+    elif summary is not None:
+        tag += ' %s' % summary
+    elif description is not None:
+        tag += ' %s' % description
+    return '## %s' % tag
 
 
 def _extract_json_block(lines, start_idx):
@@ -117,23 +267,16 @@ def _convert_shoedoc_json(json_str):
             out.append('## %s' % line)
     if 'summary' in data or 'description' in data:
         out.append('##')
-    if 'namespace' in data:
-        out.append('## @namespace: %s' % data['namespace'])
-    if 'requires' in data:
-        out.append('## @requires: %s' % ', '.join(data['requires']))
-    if 'depends' in data:
-        out.append('## @depends: %s' % ', '.join(data['depends']))
-    if 'assumes' in data:
-        out.append('## @assumes: %s' % ', '.join(data['assumes']))
 
-    for param in data.get('parameters', []):
-        name = param.get('name', '')
-        constraint = param.get('constraint')
-        if constraint is not None:
-            escaped = json.dumps(constraint)[1:-1]
-            out.append('## @parameter: %s %s' % (name, escaped))
-        else:
-            out.append('## @parameter: %s' % name)
+    for key in _ORDERED_KEYS:
+        if key in _ARRAY_KEYS:
+            if key in data:
+                out.append('## @%s: %s' % (key, ', '.join(data[key])))
+        elif key in ('parameters', 'options', 'flags'):
+            for entry in data.get(key, []):
+                out.append(_format_entry_tag(key, entry))
+        elif key in data and key != 'summary':
+            out.append('## @%s: %s' % (key, data[key]))
 
     return out
 
@@ -175,8 +318,11 @@ def _convert_shoedoc_tags(chunk_lines, base_idx):
     starting at ``base_idx`` (0-based; line numbers reported to the user
     are 1-based).
 
-    Recognized tags: ``@namespace``, ``@requires``, ``@depends``,
-    ``@assumes`` and ``@parameter``. Lines before the first empty ``##``
+    Recognized tags: ``@namespace``, ``@summary``, ``@requires``,
+    ``@depends``, ``@assumes``, ``@author``, ``@copyright``, ``@version``,
+    ``@license``, ``@link``, ``@update``, ``@arguments``, ``@return``,
+    ``@stdout``, ``@stderr``, ``@stdin``, ``@parameter``/``@param``,
+    ``@option`` and ``@flag``. Lines before the first empty ``##``
     line build the summary; lines between the first empty ``##`` line and
     the first tag build the multi-line description. The chunk is converted
     only when it holds at least one recognized tag; otherwise None is
@@ -188,7 +334,7 @@ def _convert_shoedoc_tags(chunk_lines, base_idx):
     holds no convertible content.
     """
     data = {}
-    parameters = []
+    entries = {'parameters': [], 'options': [], 'flags': []}
     summary_parts = []
     description_parts = []
     warnings = []
@@ -216,46 +362,50 @@ def _convert_shoedoc_tags(chunk_lines, base_idx):
         seen_tag = True
         tag = match.group(1)
         value = match.group(2).strip()
-        if tag == 'namespace':
-            data['namespace'] = value
-        elif tag in ('requires', 'depends', 'assumes'):
-            data[tag] = [v.strip() for v in value.split(',') if v.strip()]
-        elif tag == 'parameter':
+        if tag in ('param', 'parameter', 'option', 'flag'):
+            array_key = 'parameters' if tag in ('param', 'parameter') \
+                else '%ss' % tag
             if not value:
                 warnings.append(
-                    'warning: empty @parameter ignored at line %d\n' % lineno
+                    'warning: empty @%s ignored at line %d\n' % (tag, lineno)
                 )
                 continue
-            name, _sep, rest = value.partition(' ')
-            param = {'name': name}
-            rest = rest.strip()
-            if rest:
-                param['constraint'] = _decode_constraint(rest)
-            parameters.append(param)
+            entry = _parse_entry_value(value)
+            if 'name' not in entry and 'flag' not in entry:
+                warnings.append(
+                    'warning: empty @%s ignored at line %d\n' % (tag, lineno)
+                )
+                continue
+            entries[array_key].append(entry)
+        elif tag in _ARRAY_KEYS:
+            data[tag] = [v.strip() for v in value.split(',') if v.strip()]
+        elif tag in _STRING_KEYS:
+            data[tag] = value
         else:
             warnings.append(
                 'warning: unknown tag "@%s" ignored at line %d\n'
                 % (tag, lineno)
             )
 
-    if not data and not parameters:
+    if not data and not any(entries.values()):
         return None
 
     for warning in warnings:
         sys.stderr.write(warning)
 
     if summary_parts:
-        data['summary'] = ' '.join(summary_parts)
+        if 'summary' not in data:
+            data['summary'] = ' '.join(summary_parts)
     if description_parts:
         data['description'] = '\n'.join(description_parts)
 
     ordered = {}
-    for key in ('namespace', 'summary', 'description', 'requires', 'depends',
-                'assumes'):
-        if key in data:
+    for key in _ORDERED_KEYS:
+        if key in entries:
+            if entries[key]:
+                ordered[key] = entries[key]
+        elif key in data:
             ordered[key] = data[key]
-    if parameters:
-        ordered['parameters'] = parameters
 
     if not ordered:
         return None
@@ -263,15 +413,14 @@ def _convert_shoedoc_tags(chunk_lines, base_idx):
     return ['## ' + line for line in json_str.split('\n')]
 
 
-def _collect_files(path, recursive):
+def _collect_files(path):
     """Expand ``path`` into a list of shell script files to process.
 
     - Regular file: returned as-is (regardless of extension; explicit paths
       are honored so callers can target non-``.sh`` files when needed).
-    - Directory: returns top-level ``*.sh`` files, or every ``*.sh`` file in
-      the tree when ``recursive`` is True. Symlinked directories are not
-      followed. Errors listing a directory are reported to stderr and
-      treated as an empty result.
+    - Directory: returns every ``*.sh`` file in the tree, recursively.
+      Symlinked directories are not followed. Errors listing a directory are
+      reported to stderr and treated as an empty result.
     - Anything else: an error is logged to stderr and ``[]`` is returned.
     """
     if os.path.isfile(path):
@@ -279,21 +428,10 @@ def _collect_files(path, recursive):
 
     if os.path.isdir(path):
         matches = []
-        if recursive:
-            for root, _dirs, files in os.walk(path):
-                for name in files:
-                    if name.endswith('.sh'):
-                        matches.append(os.path.join(root, name))
-            return matches
-        try:
-            entries = os.listdir(path)
-        except OSError as e:
-            sys.stderr.write('error: cannot list %s: %s\n' % (path, e))
-            return []
-        for name in entries:
-            full = os.path.join(path, name)
-            if name.endswith('.sh') and os.path.isfile(full):
-                matches.append(full)
+        for root, _dirs, files in os.walk(path):
+            for name in files:
+                if name.endswith('.sh'):
+                    matches.append(os.path.join(root, name))
         return matches
 
     sys.stderr.write('error: not a file or directory: %s\n' % path)
@@ -380,8 +518,6 @@ def main():
                        help='Convert classic @-tags to JSON blocks (default)')
     parser.add_argument('--dry-run', action='store_true',
                         help='Print converted content to stdout instead of overwriting files')
-    parser.add_argument('--recursive', '-r', action='store_true',
-                        help='Recurse into subdirectories when a folder is given')
     args = parser.parse_args()
     direction = 'tags' if args.tags else 'json'
 
@@ -392,7 +528,7 @@ def main():
     for raw in args.files:
         if not os.path.exists(raw):
             exit_code = 1
-        for path in _collect_files(raw, args.recursive):
+        for path in _collect_files(raw):
             if path in seen:
                 continue
             seen.add(path)

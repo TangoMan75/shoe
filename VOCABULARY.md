@@ -125,7 +125,7 @@ template generator.
 
 ### `@version`
 
-Version string of the script. Recommended to follow [Semantic Versioning](https://semver.org/).
+Version string of the script. Recommended to follow [Semantic Versioning](https://semver.org/), eg `0.1.0` (major.minor.patch).
 
 ```bash
 ## @version 0.1.0
@@ -133,7 +133,7 @@ Version string of the script. Recommended to follow [Semantic Versioning](https:
 
 ### `@license`
 
-SPDX license identifier or short license name. Used in generated headers.
+SPDX license identifier or short license name, eg `MIT`, `GPLv3`. Used in generated headers.
 
 ```bash
 ## @license MIT
@@ -146,6 +146,15 @@ repository.
 
 ```bash
 ## @link    https://github.com/TangoMan75/shoe
+```
+
+### `@copyright`
+
+Identifies the copyright holder of the script or function. Same value
+convention as `@author`.
+
+```bash
+## @copyright  "Matthias Morin" <mat@tangoman.io>
 ```
 
 ### `@update`
@@ -228,21 +237,109 @@ defined. Distinct from `depends` because those are other functions, not data.
 
 ### `@parameter` / `@param`
 
-Documents a single function parameter in the classic form. The value is the
-parameter name followed by an optional constraint regex and an optional
-description.
+Documents a single function parameter in the classic form. Two spellings
+are accepted.
+
+The rich spelling follows this grammar, where `{type}`, `[alias|name]`,
+`<optional|required>` and the ` - ` separator are each optional:
+
+```bash
+## @parameter {type} [alias|name] <optional|required> Parameter summary - Parameter long description
+## @option {type} [alias|name] <optional|required> Option summary    - Option long description
+## @flag          [alias|name] <optional|required> Flag summary      - Flag long description
+```
+
+A separate `{type}` (see [Recognized `type` values](#recognized-type-values))
+declares the expected data type. The bracketed token holds the shorthand
+alias and the long name, separated by a pipe: `[p|param]` makes the value
+available as `-p` and `param`. A single bracketed token is treated as a
+shorthand when it starts with a dash (`[-f]`), as a name otherwise.
+`<optional|required>` states whether the parameter may be omitted.
+The summary and the long description are separated by ` - `, so a short
+one-liner can grow into a paragraph. In JSON form this becomes the
+matching `summary` and `description` fields.
+
+For example:
+
+```bash
+## @parameter {str} [W|who] <optional> Greeting recipient - The recipient's name.
+## @option {int} [-o|count] <required> Repetition count - How many times to greet.
+## @flag   [-f|force] <optional> Force - Overwrite without asking.
+```
+
+The legacy spelling is still accepted: the parameter name followed by an
+optional constraint regex, with `@param` accepted as a synonym of
+`@parameter` (it is used in the `_get_shoedoc_tag` test fixtures).
 
 ```bash
 ## @parameter IP /^([0-9]{1,3}\.){3}[0-9]{1,3}$/
 ## @param    WHO
 ```
 
-The `@param` spelling is accepted as a synonym and is used in the
-`_get_shoedoc_tag` test fixtures.
+### `@option`
+
+Documents a named option that expects a value (`--name` or its `-a`
+alias). Shares the rich grammar with `@parameter`, see above, but marks the
+parameter as passed by name rather than positionally.
+
+```bash
+## @option {file} [-i|input] <required> Input file - Path to the input file.
+```
+
+### `@flag`
+
+Documents a boolean switch (`--name` or its `-f` alias). Shares the rich
+grammar with `@parameter`, see above, minus the `{type}` field since a flag
+carries no value; at runtime it sets its variable to `"true"` or
+`"false"`.
+
+```bash
+## @flag [-f|force] <optional> Force - Overwrite without asking.
+```
+
+### `@arguments`
+
+Documents the positional arguments of a function when their order is
+unimportant, instead of listing each positional parameter with
+`@parameter`.
+
+```bash
+## @arguments: recipients when order is unimportant
+```
+
+### `@stdout`
+
+Documents what is dumped to stdout by this function.
+
+```bash
+## @stdout: the greeting lines
+```
+
+### `@stderr`
+
+Documents what is dumped to stderr by this function.
+
+```bash
+## @stderr: error messages and diagnostics
+```
+
+### `@stdin`
+
+Documents what is expected from stdin by this function.
+
+```bash
+## @stdin: nothing expected
+```
 
 ### `@return`
 
-Documents the value a function returns. Used in the classic form only.
+Documents what the return values mean.
+
+```bash
+## @return: 0 on success, 1 on failure
+```
+
+Or with a label:
 
 ```bash
 ## @return output The output value
@@ -253,7 +350,32 @@ Documents the value a function returns. Used in the classic form only.
 ## Parameter object fields
 
 When the function metadata is written in JSON form, each entry in the
-`parameters` array is an object with the following fields.
+`parameters` array (and likewise in the `options` and `flags` arrays,
+see below) is an object with the following fields.
+
+### `summary`
+
+Short one-line description of the parameter, rendered before the long
+description in the classic form. Initializes the summary part of the
+`@parameter`/`@option`/`@flag` value, before the ` - ` separator.
+
+```json
+{
+  "summary": "Greeting recipient"
+}
+```
+
+### `required`
+
+Boolean indicating whether the parameter is mandatory (`true`) or
+optional (`false`). Maps to the `<required|optional>` marker in the
+classic form. Distinct from `nullable`, which is about empty values.
+
+```json
+{
+  "required": true
+}
+```
 
 ### `position`
 
@@ -353,6 +475,41 @@ during conversion. See `shoedoc_converter.py` for the canonical handling.
 
 ---
 
+## Options and flags arrays
+
+When function metadata is written in JSON form, the `parameters` array
+holds positional parameters. The `options` and `flags` arrays carry the
+entries parsed from the classic `@option` and `@flag` tags, using the
+exact same object shape as [Parameter object fields](#parameter-object-fields),
+minus the `position` field: options and flags are addressed by name, not
+by position.
+
+```json
+{
+  "options": [
+    {
+      "type": "file",
+      "flag": "-i",
+      "name": "in",
+      "required": true,
+      "summary": "Input file",
+      "description": "Path to the input file."
+    }
+  ],
+  "flags": [
+    {
+      "flag": "-f",
+      "name": "force",
+      "required": false,
+      "summary": "Force",
+      "description": "Overwrite without asking."
+    }
+  ]
+}
+```
+
+---
+
 ## Recognized `type` values
 
 The `type` field is a string. The framework recognises the following values,
@@ -377,6 +534,7 @@ it is not enforced by the runtime.
 | Tag            | Script header | Function | Variable |
 | -------------- | :-----------: | :------: | :------: |
 | `@author`      | yes           | yes      | no       |
+| `@copyright`   | yes           | yes      | no       |
 | `@version`     | yes           | yes      | no       |
 | `@license`     | yes           | no       | no       |
 | `@link`        | yes           | yes      | no       |
@@ -388,6 +546,12 @@ it is not enforced by the runtime.
 | `@assumes`     | no            | yes      | no       |
 | `@parameter`   | no            | yes      | no       |
 | `@param`       | no            | yes      | no       |
+| `@option`      | no            | yes      | no       |
+| `@flag`        | no            | yes      | no       |
+| `@arguments`   | no            | yes      | no       |
+| `@stdout`      | no            | yes      | no       |
+| `@stderr`      | no            | yes      | no       |
+| `@stdin`       | no            | yes      | no       |
 | `@return`      | no            | yes      | no       |
 
 Variables (constants, options, flags) get a single `## ` line as their
@@ -405,18 +569,27 @@ analogue of the `constraint` field on function parameters.
 
 ## Format conversion
 
-`shoedoc_converter.py` converts JSON Shoedoc blocks to classic `@`-prefixed
-form, in place, across one or more files.
+`shoedoc_converter.py` converts Shoedoc blocks between the JSON form and
+the classic `@`-prefixed form, in place, across one or more files. The
+default direction is classic to JSON; pass `--tags` for the reverse.
 
 ```sh
 python3 shoedoc_converter.py path/to/script.sh
 python3 shoedoc_converter.py --dry-run --recursive recipes/
+python3 shoedoc_converter.py --tags path/to/script.sh
 ```
 
-The converter handles the following JSON keys: `namespace`, `summary`,
-`requires`, `depends`, `assumes`, and `parameters` (with `name` and
-`constraint`). Anything else is left untouched. The classic form is the
-canonical form, the JSON form is the human-editable source.
+The converter handles the following JSON keys, in each direction:
+`namespace`, `summary`, `description`, `author`, `copyright`, `version`,
+`license`, `link`, `update`, `arguments`, `return`, `stdout`, `stderr`,
+`stdin`, `requires`, `depends`, `assumes`, `parameters`, `options` and
+`flags`. Entry objects handle the fields `position`, `name`, `flag`,
+`type`, `required`, `summary`, `description`, `default`, `nullable` and
+`constraint`; legacy entries carrying only `name` (and optionally
+`constraint`) render as the classic `@parameter: NAME /regex/` line,
+richer entries render as `@parameter`/`@option`/`@flag` rich lines.
+Anything else is left untouched. The classic form is the canonical form,
+the JSON form is the human-editable source.
 
 ---
 
