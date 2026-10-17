@@ -6,7 +6,7 @@
 ![Shellcheck CI](https://github.com/TangoMan75/shoe/workflows/Shellcheck%20CI/badge.svg)
 ![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FTangoMan75%2Fshoe&labelColor=%23697689&countColor=%2337d67a&style=flat)
 
-👠 TangoMan Shoe Shell Microframework
+👞 TangoMan Shoe Shell Microframework
 =====================================
 
 A Lightweight script boilerplate for Posix Systems
