@@ -8,9 +8,11 @@ This document lists every tag the framework understands, what it is for, where i
 
 - [Shoedoc at a glance](#shoedoc-at-a-glance)
 - [Script](#script)
-- [Constants and variables](#constants-and-variables)
-- [Options and flags](#options-and-flags)
+- [Script level constants](#script-level-constants)
+- [Script level variables](#script-level-variables)
+- [Source comments](#source-comments)
 - [Function](#function)
+- [Options and flags](#options-and-flags)
 - [Entry object fields](#entry-object-fields)
 - [Tags reference](#tags-reference)
 - [Recognized `type` values](#recognized-type-values)
@@ -20,9 +22,9 @@ This document lists every tag the framework understands, what it is for, where i
 
 ## Shoedoc at a glance
 
-A Shoedoc block is a run of consecutive `##` comment lines placed directly above the declaration it documents: a script file, a function, or a value assignment. It opens with a title (a one-line summary), optionally followed by a blank `##` line and a longer description, then the metadata tags, one per line.
+A Shoedoc block is a run of consecutive `##` comment lines placed directly above the declaration it documents, or just below the shebang for a script file. It opens with a title (a one-line summary), optionally followed by a blank `##` line and a longer description, then the metadata.
 
-The same metadata can be written in two interchangeable formats:
+Block and entry metadata can be written in two formats, with a few classic-only limitations noted below:
 
 - The **classic** `@`-prefixed form: one tag per line, easy to hand-write.
 - The **JSON** form: the same data carried by a single object, describing each parameter, option and flag precisely.
@@ -32,11 +34,23 @@ Shoedoc documents six kinds of elements:
 |                Element                |                        What it describes                         |
 |---------------------------------------|------------------------------------------------------------------|
 | [Script](#script)                     | File-level metadata (authors, version, license, links…).         |
-| [Constants](#constants-and-variables) | Immutable value declarations.                                    |
-| [Variables](#constants-and-variables) | Mutable value declarations.                                      |
+| [Constants](#script-level-constants) | Immutable value declarations.                                    |
+| [Variables](#script-level-variables) | Mutable value declarations.                                      |
+| [Function](#function)                 | Functions that take parameters, options and flags.               |
 | [Options](#options-and-flags)         | Named values passed to a function (`--name` or its short alias). |
 | [Flags](#options-and-flags)           | Boolean switches passed to a function.                           |
-| [Function](#function)                 | Functions that take parameters, options and flags.               |
+
+### What this document describes
+
+Shoedoc distinguishes three layers:
+
+| Layer | What it is | Where it is documented |
+|-------|------------|------------------------|
+| Block metadata | Properties of a script or function block. | [Script](#script), [Function](#function) |
+| Entry objects | Objects in the `params`, `options`, `flags`, `constants` and `variables` arrays. | [Entry object fields](#entry-object-fields) |
+| Source comments | Bare `##` lines above assignments, read by `generate_doc`. | [Source comments](#source-comments) |
+
+The JSON and classic forms describe the first two layers. Source comments are a separate documentation convention and are not Shoedoc tags. The JSON Schemas below describe the recommended shape; the linter validates the properties that are present and is more lenient about missing optional metadata.
 
 ---
 
@@ -101,6 +115,10 @@ The Script block documents a shell file. It sits right below the shebang (or at 
         "sh"
       ]
     },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
     "summary": {
       "type": "string"
     },
@@ -114,7 +132,6 @@ The Script block documents a shell file. It sits right below the shebang (or at 
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
@@ -129,10 +146,6 @@ The Script block documents a shell file. It sits right below the shebang (or at 
             "type": "string",
             "description": "Homepage URL for the author.",
             "format": "uri"
-          },
-          "role": {
-            "type": "string",
-            "description": "Author's role in the project."
           }
         },
         "anyOf": [
@@ -147,20 +160,126 @@ The Script block documents a shell file. It sits right below the shebang (or at 
     },
     "version": {
       "type": "string",
-      "description": "Package version (strict \"MAJOR.MINOR.PATCH\" syntax).",
-      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+      "description": "Version string. Recommended to follow Semantic Versioning (MAJOR.MINOR.PATCH)."
     },
     "license": {
       "type": "string"
     },
     "links": {
       "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
       "items": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "update": {
       "type": "string"
+    },
+    "depends": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Shoedoc modules the script calls, sorted alphabetically, as relative paths without extension.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "overrides": {
+      "type": "string",
+      "description": "The single core module the script deliberately replaces.",
+      "pattern": "^src/([a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)?/)*[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)?$"
+    },
+    "assumes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Environment variables or constants the script expects to be defined, sorted alphabetically.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "str",
+        "int",
+        "number",
+        "bool",
+        "array",
+        "url",
+        "path",
+        "file",
+        "folder",
+        "json",
+        "regex"
+      ]
+    },
+    "constants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "summary": {"type": "string"},
+          "description": {"type": "string"},
+          "private": {"type": "boolean"},
+          "type": {
+            "type": "string",
+            "enum": [
+              "str",
+              "int",
+              "number",
+              "bool",
+              "array",
+              "url",
+              "path",
+              "file",
+              "folder",
+              "json",
+              "regex"
+            ]
+          },
+          "deprecated": {"type": "string"}
+        }
+      }
+    },
+    "variables": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "summary": {"type": "string"},
+          "description": {"type": "string"},
+          "private": {"type": "boolean"},
+          "type": {
+            "type": "string",
+            "enum": [
+              "str",
+              "int",
+              "number",
+              "bool",
+              "array",
+              "url",
+              "path",
+              "file",
+              "folder",
+              "json",
+              "regex"
+            ]
+          },
+          "constraint": {"type": "string"},
+          "deprecated": {"type": "string"}
+        }
+      }
     },
     "examples": {
       "type": "array",
@@ -189,7 +308,8 @@ The Script block documents a shell file. It sits right below the shebang (or at 
 |                Field                |                Classic tag                 |
 |-------------------------------------|--------------------------------------------|
 | `shell` or file's shebang directive | `@shell`                                   |
-| `summary`                           | block title (first non-empty `##` line)    |
+| `name`                              | — (JSON only)                              |
+| `summary`                           | block title (`##` lines before first blank separator) |
 | `description`                       | `##` lines after the first blank separator |
 | `authors`                           | `@author` (one per line)                   |
 | `copyright`                         | `@copyright`                               |
@@ -197,19 +317,24 @@ The Script block documents a shell file. It sits right below the shebang (or at 
 | `license`                           | `@license`                                 |
 | `links`                             | `@link` (repeatable: one entry per tag)    |
 | `update`                            | `@update`                                  |
+| `depends`                           | `@depends`                                 |
+| `overrides`                         | `@overrides`                               |
+| `assumes`                           | `@assumes`                                 |
+| `type`                              | `@type`                                    |
 | `examples`                          | `@example` (one per line)                  |
+| `deprecated`                        | `@deprecated`                              |
 
-A script block cannot own a `namespace`, `requires`, `stdout`, `stderr` or `stdin` property: these are function-level concerns. It may own a `copyright` property.
+A script block cannot own function-only properties: `namespace`, `requires`, `params`, `options`, `flags`, `stdout`, `stderr` and `stdin`. It may own `depends`, `overrides` and `assumes` at script scope, where they describe the script as a whole. `copyright` is part of the script metadata.
 
 ---
 
 ## Script level constants
 
-Constants document immutable value declarations, variables document mutable ones.
+Constants document immutable value declarations. They are entry objects in the `constants` array of a script block; the classic form uses the `@constant` tag.
 
 ### Classic Syntax
 
-The name is not repeated in the tag; it comes from the declaration below.
+The name may be omitted from the tag. Include `name` in JSON when the entry must be identified.
 
 ```bash
 ## @constant {str} Script alias - Used to execute the script when installed on host machine.
@@ -218,22 +343,30 @@ SCRIPT_ALIAS="shoemaker"
 
 ### JSON Syntax
 
+A constants entry lives in the `constants` array of a script block. The example shows only that array; combine it with the script metadata from [Script](#script).
+
 ```bash
 ## {
-##     "name": "SCRIPT_ALIAS",
-##     "summary": "Alias for this script",
-##     "description": "Used to execute the script when installed on host machine.",
-##     "type": "str",
+##   "constants": [
+##     {
+##       "name": "SCRIPT_ALIAS",
+##       "summary": "Alias for this script",
+##       "description": "Used to execute the script when installed on host machine.",
+##       "type": "str",
+##       "private": false
+##     }
+##   ]
 ## }
 SCRIPT_ALIAS="shoemaker"
 ```
 
-### JSON Schema
+### Entry JSON Schema
 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
+  "description": "Constants entry. The linter accepts any subset of these fields; name and type are recommended.",
   "properties": {
     "name": {
       "type": "string"
@@ -267,7 +400,6 @@ SCRIPT_ALIAS="shoemaker"
       "type": "string"
     }
   },
-  "required": ["name", "summary", "private", "type"],
   "additionalProperties": false
 }
 ```
@@ -276,50 +408,44 @@ SCRIPT_ALIAS="shoemaker"
 
 ## Script level variables
 
-### Classic Syntax — Compact
+Variables document mutable value declarations. They are entry objects in the `variables` array of a script block; the classic form uses the `@variable` tag.
+
+### Classic Syntax
+
+The name may be omitted from the tag. The `{type}` and optional `/constraint/` tokens belong to the entry value.
 
 ```bash
-## Default recipient name {str} /^[a-zA-Z-]+$/
+## @variable {str} /^[a-zA-Z-]+$/ Default recipient name - The name to greet.
 default_name="World"
 ```
-
-### Classic Syntax — Verbose
-
-```bash
-## Default recipient name
-##
-## The name to greet.
-## Used when no name is supplied.
-##
-## @type str
-## @constraint /^[a-zA-Z-]+$/
-default_name="World"
-```
-
-The name is not repeated in the tag; it comes from the declaration above.
-A variable **can** own a `constraint` property: it declares the regular expression the runtime validates the variable against.
 
 ### JSON Syntax
 
+A variables entry lives in the `variables` array of a script block. The example shows only that array; combine it with the script metadata from [Script](#script).
+
 ```bash
 ## {
-##     "name": "default_name",
-##     "summary": "Default recipient name",
-##     "description": "The name to greet. Used when no name is supplied.",
-##     "type": "str",
-##     "private": false,
-##     "constraint": "/^[a-zA-Z-]+$/",
-##     "default": "World"
+##   "variables": [
+##     {
+##       "name": "default_name",
+##       "summary": "Default recipient name",
+##       "description": "The name to greet.",
+##       "type": "str",
+##       "private": false,
+##       "constraint": "/^[a-zA-Z-]+$/"
+##     }
+##   ]
 ## }
 default_name="World"
 ```
 
-### JSON Schema
+### Entry JSON Schema
 
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
+  "description": "Variables entry. The linter accepts any subset of these fields; name and type are recommended.",
   "properties": {
     "name": {
       "type": "string"
@@ -356,10 +482,29 @@ default_name="World"
       "type": "string"
     }
   },
-  "required": ["name", "summary", "private", "type", "constraint"],
   "additionalProperties": false
 }
 ```
+
+---
+
+## Source comments
+
+`generate_doc` also documents script-level assignments from a bare `##` line immediately above the assignment. This is a separate convention, not a Shoedoc block: it carries no `{type}`, `@constraint` or `@variable` tag.
+
+```bash
+## Default recipient name
+default_name="World"
+```
+
+The shell generator also recognises a trailing `/regex/` on an option description:
+
+```bash
+## Greeting recipient name /^[a-zA-Z-]+$/
+who="World"
+```
+
+The Python generator currently uses the whole line as the description. Keep constraints in Shoedoc entries when you need them validated by the linter.
 
 ---
 
@@ -383,14 +528,14 @@ The Function block documents a shell function. It sits directly above the functi
 ## @link https://github.com/TangoMan75/shoe
 ##
 ## @shell bash
-## @requires getopt echo
+## @requires echo getopt
 ## @param {str} <who> /^[a-zA-Z-]+$/ (default:"World") The recipient's name.
 ## @option {int} <count> [-c|--count] (default:1) The repetition count.
 ## @flag <prefix> [-p|--prefix] Prefix output with a line number.
 hello() {
     local who=World
     local count=1
-    local prefix=0
+    local prefix='false'
 
     local options
     if ! options=$(getopt -o c:p --long count:,prefix -- "$@"); then
@@ -407,7 +552,7 @@ hello() {
                 shift 2
                 ;;
             -p | --prefix)
-                prefix=1
+                prefix='true'
                 shift 1
                 ;;
             --)
@@ -423,7 +568,7 @@ hello() {
 
     local loop=0
     while [ "${loop}" -lt "${count}" ]; do
-        if [ "${prefix}" -eq 1 ]; then
+        if [ "${prefix}" = 'true' ]; then
             echo "$((loop + 1)): Hello, ${who} !"
         else
             echo "Hello, ${who} !"
@@ -457,8 +602,7 @@ hello() {
 ##   "shell": "bash",
 ##   "requires": [
 ##     "echo",
-##     "getopt",
-##     "who"
+##     "getopt"
 ##   ],
 ##   "params": [
 ##     {
@@ -552,8 +696,7 @@ hello() {
     },
     "version": {
       "type": "string",
-      "description": "Function version (strict \"MAJOR.MINOR.PATCH\" syntax).",
-      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+      "description": "Function version. Recommended to follow Semantic Versioning (MAJOR.MINOR.PATCH)."
     },
     "license": {
       "type": "string"
@@ -614,6 +757,22 @@ hello() {
     },
     "private": {
       "type": "boolean"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "str",
+        "int",
+        "number",
+        "bool",
+        "array",
+        "url",
+        "path",
+        "file",
+        "folder",
+        "json",
+        "regex"
+      ]
     },
     "deprecated": {
       "type": "string"
@@ -795,7 +954,7 @@ hello() {
 }
 ```
 
-The Function block also accepts the `@copyright`, `@depends`, `@assumes`, `@stdout`, `@stderr` and `@stdin` tags; each maps to the JSON key of the same name.
+The Function block also accepts the generic block tags listed in [Where each tag goes](#where-each-tag-goes); each maps to the JSON key of the same name.
 
 A `.sh` module under `recipes/` that deliberately defines a function with the same name as a core module under `src/` should record the replaced core module in `overrides`. The property names a single module as a relative path without the `.sh` extension; see [`@overrides`](#overrides).
 
@@ -875,9 +1034,24 @@ Apart from `<name>`, every token in these lines is optional. For example:
 
 Each entry in the `params`, `options` and `flags` arrays of a function block — and in the `constants` and `variables` arrays of a script block — is an object with the following fields.
 
+| Field | Params | Options | Flags | Constants | Variables |
+|-------|--------|---------|-------|-----------|-----------|
+| `name` | required | required | required | optional | optional |
+| `summary` | optional | optional | optional | optional | optional |
+| `description` | optional | optional | optional | optional | optional |
+| `type` | optional | optional | forbidden | optional | optional |
+| `constraint` | optional | optional | forbidden | forbidden | optional |
+| `required` | optional | forbidden | forbidden | forbidden | forbidden |
+| `default` | optional | optional | forbidden | forbidden | forbidden |
+| `short` | forbidden | optional | optional | forbidden | forbidden |
+| `long` | forbidden | optional | optional | forbidden | forbidden |
+| `position` | optional | forbidden | forbidden | forbidden | forbidden |
+| `private` | forbidden | forbidden | forbidden | optional | optional |
+| `deprecated` | forbidden | forbidden | forbidden | optional | optional |
+
 ### `name`
 
-The entry name; authoritative, since entries annotate no declaration. By TangoMan Shoe convention, parameter names written in uppercase indicate values that will be treated as positional parameters inside the function body (`set -- "$1" "$2" "$3"`). A `params` entry may include several pipe-separated aliases. Every alias refers to the same argument position. `options`, `flags`, `constants` and `variables` take one identifier.
+The entry name; authoritative, since entries annotate no declaration. A `params` entry may include several pipe-separated aliases. Every alias refers to the same argument position. `options`, `flags`, `constants` and `variables` take one identifier. The linter accepts a missing `name` for `constants` and `variables`; include it when the entry must be identified.
 
 ```json
 {
@@ -899,11 +1073,11 @@ form uses the same spelling:
 ## @param {str} <CONTAINER_NAME|CONTAINER_ID> The container name or id.
 ```
 
-When a `constants` or `variables` entry omits `name`, the name comes from the declaration the block annotates.
+When a `constants` or `variables` entry omits `name`, it simply has no `name` field. The generated documentation derives script-level assignment names from the declarations, not from the entry.
 
 ### `position`
 
-1-based index of a positional parameter in the `params` array. In the classic form it is implied by the order of the `@param` lines; the JSON form carries it explicitly, and it must match the entry's rank in the array — the order is the source of truth, `position` is checked redundancy. Params only: options, flags, constants and variables are addressed by name, not by position.
+1-based index of a positional parameter in the `params` array. In the classic form it is implied by the order of the `@param` lines. In JSON form it is optional: when omitted, the entry's rank in the array supplies it; when present, it must match that rank. Params only: options, flags, constants and variables are addressed by name, not by position.
 
 ```json
 {
@@ -916,7 +1090,7 @@ For optional parameters, the position is still the slot the argument occupies wh
 
 ### `summary`
 
-Short one-line description of the entry, rendered before the long description in the classic form. Initializes the summary part of the `@param`/`@option`/`@flag` value, before the ` - ` separator.
+Short one-line description of the entry, rendered before the long description in the classic form. Initializes the summary part of the `@param`/`@option`/`@flag` value, before the ` - ` separator. A summary without a description does not round-trip through the classic form: without the separator, the text is parsed as the description.
 
 ```json
 {
@@ -946,7 +1120,7 @@ Expected data type. Constrains how the caller should pass the value and how the 
 
 ### `constraint`
 
-Regular expression the entry value must match. Used to validate input at the boundary. Maps to the `/regex/` token in the classic form. A variable **should** own a `constraint` property so the runtime can validate its value.
+Regular expression the entry value must match. Used to validate input at the boundary. Maps to the `/regex/` token in the classic form. A variable **can** own a `constraint` property so the runtime can validate its value; include it when validation is required.
 
 ```json
 {
@@ -976,7 +1150,7 @@ Long name of an option or flag, without the leading dashes, eg `"count"` for `--
 
 ### `required`
 
-Boolean indicating whether the entry is mandatory (`true`) or optional (`false`). Maps to the `(required)` token in the classic form. When omitted, `optional` is the default. Params only: an option cannot own a `required` property, and a `required` parameter cannot own a `default` value.
+Boolean indicating whether the entry is mandatory (`true`) or optional (`false`). Maps to the `(required)` token in the classic form. When omitted, `optional` is the default. Params only: an option cannot own a `required` property, and `required: true` cannot coexist with a `default` value. `required: false` may coexist with a default.
 
 ```json
 {
@@ -986,7 +1160,7 @@ Boolean indicating whether the entry is mandatory (`true`) or optional (`false`)
 
 ### `default`
 
-Default value used when the caller does not pass the entry. An entry that owns a `default` value is implicitly `optional`; a `required` entry cannot own one. Maps to the `(default:value)` token in the classic form.
+Default value used when the caller does not pass the entry. Params and options only: flags cannot own a default. An entry that owns a `default` value is implicitly `optional`; a `required: true` entry cannot own one. Maps to the `(default:value)` token in the classic form.
 
 ```json
 {
@@ -994,9 +1168,19 @@ Default value used when the caller does not pass the entry. An entry that owns a
 }
 ```
 
+### `private`
+
+Boolean marking a `constants` or `variables` entry as private. JSON only for individual entries: the classic `@private` tag applies to the whole block, not to one entry.
+
+```json
+{
+  "private": true
+}
+```
+
 ### `deprecated`
 
-Free-form string marking the entry as deprecated. Only `constants` and `variables` entries (and whole blocks) may be deprecated: `params`, `options` and `flags` entries cannot own a `deprecated` property. Maps to the `@deprecated` tag in the classic form.
+Free-form string marking the entry as deprecated. Only `constants` and `variables` entries (and whole blocks) may be deprecated: `params`, `options` and `flags` entries cannot own a `deprecated` property. In classic form, `@deprecated` applies to the whole block; entry-level deprecation is JSON-only.
 
 ```json
 {
@@ -1058,7 +1242,7 @@ SPDX license identifier or short license name, eg `MIT`, `GPLv3`. Used in genera
 
 ### `@link`
 
-Canonical URL pointing to the project, the documentation, or the source repository. A script may own several links: repeat the tag, one entry per occurrence. The tag maps to the `"links"` array in JSON form.
+Canonical URL pointing to the project, the documentation, or the source repository. A script or function may own several links: repeat the tag, one entry per occurrence. The tag maps to the `"links"` array in JSON form.
 
 ```bash
 ## @link    https://github.com/TangoMan75/shoe
@@ -1078,7 +1262,7 @@ In JSON form the one-liner above maps to:
 
 ### `@update`
 
-Raw URL pointing to the latest version of the script.
+Raw URL pointing to the latest version of the script or function.
 
 ```bash
 ## @update  https://raw.githubusercontent.com/TangoMan75/shoe/refs/heads/main/shoemaker.py
@@ -1148,13 +1332,15 @@ Array of external commands the element calls. The documentation generator emits 
 Entries are either space-separated on a single line or listed one per line; a comma is not a separator. Both spellings below yield the same two entries.
 
 ```bash
-## @requires  getopt echo
+## @requires  echo getopt
 ```
 
 ```bash
-## @requires  getopt
 ## @requires  echo
+## @requires  getopt
 ```
+
+The classic form splits on whitespace, so a grouped command with arguments (for example `git status`) can only be represented in JSON.
 
 Or in JSON form:
 
@@ -1166,7 +1352,7 @@ Or in JSON form:
 
 ### `@depends`
 
-Array of other functions this function calls. Used by the documentation generator to build the "Depends" graph and by callers who want to know what to import.
+Array of other functions this block calls. Used by the documentation generator to build the "Depends" graph and by callers who want to know what to import. A script or function may own this property.
 
 ```bash
 ## @depends  _echo_error
@@ -1182,7 +1368,7 @@ Or:
 
 ### `@overrides`
 
-The core module a function deliberately replaces. A function can override one module only, so the value is a single relative path. A `.sh` module under `recipes/` **should** own this property when it defines a function with the same name as a core module under `src/`: the build leaves the superseded core module out when another component reaches it through its transitive `depends`, so the overriding module is the only definition in the built script.
+The core module a script or function deliberately replaces. A block can override one module only, so the value is a single relative path. A `.sh` module under `recipes/` **should** own this property when it defines a function with the same name as a core module under `src/`: the build leaves the superseded core module out when another component reaches it through its transitive `depends`, so the overriding module is the only definition in the built script.
 
 The path points to a module under `src/`, written without the `.sh` extension, and the target must exist. The linter also verifies that the overridden function's name appears in the file body.
 
@@ -1223,7 +1409,7 @@ Array of environment variables or constants the element expects to be defined. D
 
 ### `@private`
 
-Marks a function or value as private, ie not part of the public API. The documentation generator may hide private entries from the generated markdown.
+Marks a function or value as private, ie not part of the public API. The documentation generator may hide private entries from the generated markdown. In classic form the tag applies to the whole block; JSON `constants` and `variables` entries may carry `private` individually.
 
 ```bash
 ## @private
@@ -1239,7 +1425,7 @@ In JSON form the tag maps to the `"private": true` property:
 
 ### `@public`
 
-Marks a function or value as public, ie part of the exposed API. This is the default when neither `@private` nor `@public` is present.
+Marks a function or value as public, ie part of the exposed API. This is the default when neither `@private` nor `@public` is present. In classic form the tag applies to the whole block; JSON `constants` and `variables` entries may carry `private: false` individually.
 
 ```bash
 ## @public
@@ -1255,7 +1441,7 @@ In JSON form the tag maps to the `"private": false` property:
 
 ### `@deprecated`
 
-Marks a script, function, value, constant or variable as deprecated. The value is a free-form string, typically the reason for deprecation or the version that superseded the element. `params`, `options` and `flags` entries cannot be deprecated.
+Marks a script, function, value, constant or variable as deprecated. The value is a free-form string, typically the reason for deprecation or the version that superseded the element. `params`, `options` and `flags` entries cannot be deprecated. In classic form the tag applies to the whole block; entry-level deprecation of a constant or variable is JSON-only.
 
 ```bash
 ## @deprecated Use bar instead.
@@ -1271,7 +1457,7 @@ In JSON form the tag maps to the `"deprecated"` property:
 
 ### `@type`
 
-Expected data type of a value or entry. See [Recognized `type` values](#recognized-type-values) for the list.
+Block-level type metadata. The tag is written with braces and maps to the top-level `"type"` property of a script or function block. See [Recognized `type` values](#recognized-type-values) for the list.
 
 ```bash
 ## @type {file}
@@ -1285,24 +1471,28 @@ In JSON form the tag maps to the `"type"` property:
 }
 ```
 
+Entry types are written with the `{type}` token inside `@param`, `@option`, `@constant` and `@variable`, not with a standalone `@type` tag; see [Entry object fields](#entry-object-fields).
+
 ### `@constant`
 
-Documents a constant declaration. The name is not repeated in the tag; it comes from the declaration the block annotates.
+Documents a constant declaration. In classic form the name may be omitted from the tag; in JSON form include `name` when the entry must be identified.
 
 ```bash
 ## @constant {str} Default recipient name - Used when no name is supplied.
 DEFAULT_NAME="World"
 ```
 
-In JSON form the tag maps to a `constants` entry of the script block:
+In JSON form the tag maps to a `constants` entry of the script block. Only the array is shown; combine it with the script metadata from [Script](#script).
 
 ```json
 {
   "constants": [
     {
+      "name": "DEFAULT_NAME",
       "type": "str",
       "summary": "Default recipient name",
-      "description": "Used when no name is supplied."
+      "description": "Used when no name is supplied.",
+      "private": false
     }
   ]
 }
@@ -1310,31 +1500,33 @@ In JSON form the tag maps to a `constants` entry of the script block:
 
 ### `@variable`
 
-Documents a variable declaration. The name is not repeated in the tag; it comes from the declaration the block annotates. A variable **should** carry a `/constraint/` so the runtime can validate its value.
+Documents a variable declaration. In classic form the name may be omitted from the tag; in JSON form include `name` when the entry must be identified. A variable **can** carry a `/constraint/` so the runtime can validate its value.
 
 ```bash
 ## @variable {str} /^[a-zA-Z-]+$/ Greeting recipient name - The name to greet.
 who="World"
 ```
 
-In JSON form the tag maps to a `variables` entry of the script block:
+In JSON form the tag maps to a `variables` entry of the script block. Only the array is shown; combine it with the script metadata from [Script](#script).
 
 ```json
 {
   "variables": [
     {
+      "name": "who",
       "type": "str",
       "constraint": "/^[a-zA-Z-]+$/",
       "summary": "Greeting recipient name",
-      "description": "The name to greet."
+      "description": "The name to greet.",
+      "private": false
     }
   ]
 }
 ```
 
-### `@required`
+### `@required` / `(required)`
 
-Entry-scoped: marks a `@param` entry as mandatory. In the classic entry grammar it is written as the `(required)` token. It is mutually exclusive with `optional` and with `default`, and only `params` entries can own it: an option cannot own a `required` property, and a flag owns no value at all.
+Entry-scoped token, not a standalone tag. In classic entry grammar it is written as the `(required)` token inside a `@param` value. Only `params` entries can own it: an option cannot own a `required` property, and a flag owns no value at all. `required: true` is mutually exclusive with `default`; `required: false` may coexist with a default.
 
 ```bash
 ## @param {file} <input> (required) Path to the input file.
@@ -1348,9 +1540,9 @@ In JSON form it maps to the `"required": true` property:
 }
 ```
 
-### `@constraint`
+### `@constraint` / `/regex/`
 
-Entry-scoped: regular expression an entry value must match. In the classic entry grammar it is written as a bare `/regex/` token.
+Entry-scoped token, not a standalone tag. In classic entry grammar it is written as a bare `/regex/` token inside a `@param`, `@option` or `@variable` value.
 
 ```bash
 ## @param {str} <who> /^[a-zA-Z-]+$/ (default:"World") The recipient's name.
@@ -1382,7 +1574,7 @@ Documents a named option that expects a value (`--name` or its short alias). Sha
 
 ### `@flag`
 
-Documents a boolean switch (`--name` or its short alias). Shares the rich grammar with `@param`, minus the `{type}` field since a flag carries no value; at runtime it sets its variable to `"true"` or `"false"`. A flag cannot own `(default:value)` either: switches default to `false`.
+Documents a boolean switch (`--name` or its short alias). Shares the rich grammar with `@param`, minus the `{type}` field since a flag carries no value; at runtime it sets its variable to `"true"` or `"false"`. A flag cannot own `(default:value)` either: switches default to `"false"`.
 
 ```bash
 ## @flag <force> [-f|--force] Overwrite without asking.
@@ -1421,14 +1613,14 @@ The `type` field is a string. The framework recognises the following values:
 - `str`: A free-form string. The default for anything textual.
 - `int`: An integer count or identifier.
 - `number`: A numeric value that may carry a decimal part.
-- `bool`: A boolean flag, rendered as `"true"` or `"false"` per the Shoe boolean convention.
+- `bool`: A boolean value, rendered as `"true"` or `"false"` per the Shoe boolean convention.
 - `array`: A list of values.
 - `url`: A URL.
-- `regex`: A regular expression.
 - `path`: A filesystem path, file or folder.
 - `file`: A path to a file. The caller is expected to pass a real file.
 - `folder`: A path to a directory. The caller is expected to pass a real folder.
 - `json`: A JSON document, passed as a string and parsed at use site.
+- `regex`: A regular expression.
 
 Any other value is rejected by the Shoedoc linter. Type is documentation-first: it is not enforced by the shell runtime.
 
@@ -1436,35 +1628,47 @@ Any other value is rejected by the Shoedoc linter. Type is documentation-first: 
 
 ## Where each tag goes
 
-|      Tag      | Script | Constant | Variable | Function | Entry |
-|---------------|--------|----------|----------|----------|-------|
-| `@author`     | yes    | no       | no       | yes      | no    |
-| `@copyright`  | yes    | no       | no       | yes      | no    |
-| `@version`    | yes    | no       | no       | yes      | no    |
-| `@license`    | yes    | no       | no       | yes      | no    |
-| `@link`       | yes    | no       | no       | yes      | no    |
-| `@update`     | yes    | no       | no       | no       | no    |
-| `@shell`      | yes    | no       | no       | yes      | no    |
-| `@namespace`  | no     | no       | no       | yes      | no    |
-| `@summary`    | yes    | no       | no       | yes      | no    |
-| `@example`    | yes    | no       | no       | yes      | no    |
-| `@requires`   | no     | no       | no       | yes      | no    |
-| `@depends`    | no     | no       | no       | yes      | no    |
-| `@overrides`  | yes    | no       | no       | yes      | no    |
-| `@assumes`    | no     | no       | no       | yes      | no    |
-| `@private`    | no     | yes      | yes      | yes      | no    |
-| `@public`     | no     | yes      | yes      | yes      | no    |
-| `@deprecated` | yes    | yes      | yes      | yes      | no    |
-| `@type`       | no     | yes      | yes      | no       | yes   |
-| `@constant`   | no     | yes      | no       | no       | no    |
-| `@variable`   | no     | no       | yes      | no       | no    |
-| `@required`   | no     | no       | no       | no       | yes   |
-| `@constraint` | no     | no       | yes      | no       | yes   |
-| `@param`      | no     | no       | no       | yes      | no    |
-| `@option`     | no     | no       | no       | yes      | no    |
-| `@flag`       | no     | no       | no       | yes      | no    |
-| `@stdout`     | no     | no       | no       | yes      | no    |
-| `@stderr`     | no     | no       | no       | yes      | no    |
-| `@stdin`      | no     | no       | no       | yes      | no    |
+### Block tags
 
-"Entry" covers the objects held by the `params`, `options` and `flags` arrays of a function block. Constants and variables additionally accept a bare `##` description line instead of tags; `@summary` and `@description` are then written as free text rather than tags.
+| Tag | Script | Function | Notes |
+|-----|--------|----------|-------|
+| `@author` | yes | yes | |
+| `@copyright` | yes | yes | |
+| `@version` | yes | yes | |
+| `@license` | yes | yes | |
+| `@link` | yes | yes | Repeatable. |
+| `@update` | yes | yes | |
+| `@shell` | yes | yes | |
+| `@namespace` | no | yes | Function-only. |
+| `@summary` | yes | yes | |
+| `@example` | yes | yes | Repeatable. |
+| `@requires` | no | yes | Function-only. |
+| `@depends` | yes | yes | Script-level entries describe the script as a whole. |
+| `@overrides` | yes | yes | Script-level entries describe the script as a whole. |
+| `@assumes` | yes | yes | |
+| `@private` | no* | yes | *The linter accepts it on script blocks but it has no documented effect. |
+| `@public` | no* | yes | Same caveat as `@private`. |
+| `@deprecated` | yes | yes | |
+| `@type` | yes | yes | Block-level type metadata. |
+| `@stdout` | no | yes | Function-only. |
+| `@stderr` | no | yes | Function-only. |
+| `@stdin` | no | yes | Function-only. |
+
+### Entry tags and tokens
+
+| Tag or token | Params | Options | Flags | Constants | Variables |
+|--------------|--------|---------|-------|-----------|-----------|
+| `@param` | yes | no | no | no | no |
+| `@option` | no | yes | no | no | no |
+| `@flag` | no | no | yes | no | no |
+| `@constant` | no | no | no | yes | no |
+| `@variable` | no | no | no | no | yes |
+| `{type}` | yes | yes | no | yes | yes |
+| `/constraint/` | yes | yes | no | no | yes |
+| `(required)` | yes | no | no | no | no |
+| `short` / `long` | no | yes | yes | no | no |
+| `(default:value)` | yes | yes | no | no | no |
+
+`@private` and `@deprecated` are block tags. JSON entries for constants and variables may also carry `private` and `deprecated`, but classic `@private` and `@deprecated` apply to the whole block.
+
+`@constant` and `@variable` create entries in a block's `constants` and `variables` arrays. They are documented at script scope; the parser also accepts them in function blocks, where they have no function-level effect. `@param`, `@option` and `@flag` are documented at function scope; the parser also accepts them in script blocks, where they have no script-level effect. A bare `##` description line above an assignment is a `generate_doc` source-comment convention, not a Shoedoc tag; see [Source comments](#source-comments).
