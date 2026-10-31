@@ -17,6 +17,7 @@
 ##     "src/shell/colors/_echo_error",
 ##     "src/shell/colors/_echo_success",
 ##     "src/shell/reflexion/_print_synopsis",
+##     "src/shell/shoedoc/_get_function_shoedoc",
 ##     "src/shell/shoedoc/_get_script_shoedoc",
 ##     "src/shell/shoedoc/_get_shoedoc_description",
 ##     "src/shell/shoedoc/_get_shoedoc_tag",
@@ -144,7 +145,8 @@ _generate_doc() {
             _echo_info "${__function_name__}\n"
 
             __json__="$(_parse_shoedoc "$1" "${__function_name__}")"
-            if [ -z "${__json__}" ]; then
+            __annotations__="$(_get_function_shoedoc "$1" "${__function_name__}")"
+            if [ -z "${__json__}" ] || [ -z "${__annotations__}" ]; then
                 _echo_error "_generate_doc: no annotation found for function \"${__function_name__}\"\n"
                 continue
             fi
@@ -154,7 +156,10 @@ _generate_doc() {
             fi
 
             __namespace__="$(printf '%s' "${__json__}" | jq -r '.namespace')"
-            if [ "${__namespace__}" != "${__current_namespace__}" ] && [ "${__namespace__}" != null ]; then
+            if [ -z "${__namespace__}" ] || [ "${__namespace__}" = null ]; then
+                __namespace__="$(_get_shoedoc_tag "${__annotations__}" 'namespace')"
+            fi
+            if [ "${__namespace__}" != "${__current_namespace__}" ] && [ -n "${__namespace__}" ]; then
                 __index__=0
                 __current_namespace__="${__namespace__}"
                 (
@@ -168,7 +173,7 @@ _generate_doc() {
                 printf '#### ⌨️ %d. `%s` %s\n\n' ${__index__} "${__function_name__}" "($(printf '%s\n' "${__json__}" | jq -r '.scope'))"
                 printf '%s\n\n' "$(printf '%s\n' "${__json__}" | jq -r '.summary')"
                 # shellcheck disable=SC2016
-                printf '%s\n\n' "$(_print_synopsis "${__json__}" true)"
+                printf '%s\n\n' "$(_print_synopsis "${__function_name__}" "${__annotations__}" true)"
             ) >> "$2/$3"
         done
 

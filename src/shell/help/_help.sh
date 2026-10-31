@@ -4,8 +4,6 @@
 ##   "namespace": "src/shell/help",
 ##   "summary": "Print help for provider shoe script",
 ##   "requires": [
-##     "jq",
-##     "printf",
 ##     "realpath"
 ##   ],
 ##   "depends": [
@@ -29,8 +27,7 @@
 ##     "src/shell/shoedoc/_get_function_shoedoc",
 ##     "src/shell/shoedoc/_get_script_shoedoc",
 ##     "src/shell/shoedoc/_get_shoedoc_description",
-##     "src/shell/shoedoc/_get_shoedoc_title",
-##     "src/shell/shoedoc/_parse_shoedoc"
+##     "src/shell/shoedoc/_get_shoedoc_title"
 ##   ],
 ##   "params": [
 ##     {
@@ -82,13 +79,11 @@ _help() {
     fi
 
     _alert_primary "$2"
-    if [ -x "$(command -v jq)" ]; then
-        __json__="$(_parse_shoedoc "$1" "$2")"
-        if [ -n "${__json__}" ]; then
-            _echo_primary "$(printf '%s' "${__json__}" | jq -r '.summary')\n\n"
-            _echo_secondary "$(_print_synopsis "${__json__}")\n"
-            exit 0
-        fi
+    __annotations__="$(_get_function_shoedoc "$1" "$2")"
+    if [ -n "${__annotations__}" ]; then
+        _echo_primary "$(_get_shoedoc_title "${__annotations__}")\n\n"
+        _echo_secondary "$(_print_synopsis "$2" "${__annotations__}")\n"
+        exit 0
     fi
     _echo_info "$(_get_function_shoedoc "$0" "$2")\n"
 }

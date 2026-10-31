@@ -58,10 +58,52 @@ test_print_synopsis_fails_with_missing_arguments() {
     assert_equals "_print_synopsis: some mandatory parameter is missing\n" "$(_print_synopsis)"
 }
 
-fixture='{
-    "name": "_foobar",
+classic_fixture='## A function to test _print_synopsis.
+##
+## @namespace reflexion
+## @requires baz foobar
+## @depends _echo_danger _echo_info
+## @param {str} <FOO> (required) The input string containing foo.
+## @param {bool} <BAR> (default:false) If set to "true", returns bar.'
+
+expected='Synopsis: _foobar (private) <FOO> [BAR]
+    FOO: (str) The input string containing foo.
+    BAR: (bool) (optional) If set to "true", returns bar. Defaults to "false".
+    Requires: baz, foobar
+    Depends: _echo_danger, _echo_info'
+
+test_classic_annotations_should_return_expected_string() {
+    assert_equals "${expected}" "$(_print_synopsis _foobar "${classic_fixture}")"
+}
+
+test_print_synopsis_fails_with_missing_annotations() {
+    assert_fails "$(_print_synopsis _foobar)"
+    assert_equals "_print_synopsis: some mandatory parameter is missing\n" "$(_print_synopsis _foobar)"
+}
+
+test_print_synopsis_fails_with_too_many_arguments() {
+    assert_fails "$(_print_synopsis _foobar "${classic_fixture}" true extra)"
+    assert_equals "_print_synopsis: too many arguments (4)\n" "$(_print_synopsis _foobar "${classic_fixture}" true extra)"
+}
+
+#--------------------------------------------------
+
+expected_markdown='> Synopsis:
+> `_foobar <FOO> [BAR]`
+- `FOO`: _(type: "str")_ The input string containing foo.
+- `BAR`: _(type: "bool")_ (optional) If set to "true", returns bar. _Defaults to "false"._
+
+- ⚠️ Requires: `baz`, `foobar`
+- 🔗 Depends: `_echo_danger`, `_echo_info`'
+
+test_classic_annotations_should_return_expected_markdown_string() {
+    assert_equals "${expected_markdown}" "$(_print_synopsis _foobar "${classic_fixture}" true)"
+}
+
+#--------------------------------------------------
+
+json_fixture='{
     "summary": "A function to test _print_synopsis.",
-    "scope": "private",
     "namespace": "reflexion",
     "requires": [
         "baz",
@@ -89,26 +131,56 @@ fixture='{
     ]
 }'
 
-expected='Synopsis: _foobar (private) <FOO> [BAR]
-    FOO: (str) The input string containing foo.
-    BAR: (bool) (optional) If set to "true", returns bar. Defaults to "false".
-    Requires: baz, foobar
-    Depends: _echo_danger, _echo_info'
+test_json_annotations_should_still_return_expected_string() {
+    assert_equals "${expected}" "$(_print_synopsis _foobar "${json_fixture}")"
+}
 
-test_should_return_expected_string() {
-    assert_equals "${expected}" "$(_print_synopsis "${fixture}")"
+test_json_annotations_should_still_return_expected_markdown_string() {
+    assert_equals "${expected_markdown}" "$(_print_synopsis _foobar "${json_fixture}" true)"
+}
+
+test_print_synopsis_fails_with_invalid_json() {
+    assert_fails "$(_print_synopsis _foobar '## {')"
+    assert_equals "_print_synopsis: invalid JSON input\n" "$(_print_synopsis _foobar '## {')"
 }
 
 #--------------------------------------------------
 
-expected_markdown='> Synopsis:
-> _foobar &lt;FOO&gt; [BAR]
-- `FOO`: _(type: "str")_ The input string containing foo.
-- `BAR`: _(type: "bool")_ (optional) If set to "true", returns bar. _Defaults to "false"._
+entries_fixture='## @option {int} <count> [-c|--count] (default:1) Repetition count - How many times the greeting is printed.
+## @flag <prefix> [-p|--prefix] Prefix output - Prefix each line with its line number.'
 
-- ⚠️ Requires: `baz`, `foobar`
-- 🔗 Depends: `_echo_danger`, `_echo_info`'
+expected_entries='Synopsis: _hello (private) [-c|--count VALUE] [-p|--prefix]
+    -c|--count: (int) Repetition count - How many times the greeting is printed. Defaults to "1".
+    -p|--prefix: Prefix output - Prefix each line with its line number.'
 
-test_should_return_expected_markdown_string() {
-    assert_equals "${expected_markdown}" "$(_print_synopsis "${fixture}" true)"
+test_classic_annotations_should_render_options_and_flags() {
+    assert_equals "${expected_entries}" "$(_print_synopsis _hello "${entries_fixture}")"
+}
+
+expected_entries_markdown='> Synopsis:
+> `_hello [-c|--count VALUE] [-p|--prefix]`
+- `-c`, `--count`: _(type: "int")_ Repetition count - How many times the greeting is printed. _Defaults to "1"._
+- `-p`, `--prefix`: Prefix output - Prefix each line with its line number.'
+
+test_classic_annotations_should_render_options_and_flags_as_markdown() {
+    assert_equals "${expected_entries_markdown}" "$(_print_synopsis _hello "${entries_fixture}" true)"
+}
+
+#--------------------------------------------------
+
+constraint_fixture='## @param {str} <who> /^[a-zA-Z-]+$/ (required) The recipient name.'
+
+expected_constraint='Synopsis: hello (public) <who>
+    who: (str) The recipient name. Constraint: /^[a-zA-Z-]+$/.'
+
+test_classic_annotations_should_render_constraints() {
+    assert_equals "${expected_constraint}" "$(_print_synopsis hello "${constraint_fixture}")"
+}
+
+expected_constraint_markdown='> Synopsis:
+> `hello <who>`
+- `who`: _(type: "str")_ The recipient name. _Constraint: `/^[a-zA-Z-]+$/`._'
+
+test_classic_annotations_should_render_constraints_as_markdown() {
+    assert_equals "${expected_constraint_markdown}" "$(_print_synopsis hello "${constraint_fixture}" true)"
 }
