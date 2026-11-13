@@ -1,0 +1,25 @@
+#!/bin/sh
+
+## Backup gpg
+##
+## @namespace recipes/ssh_manager/backup
+## @requires cp find
+## @depends recipes/ssh_manager/_create_backup_dir src/shell/colors/_alert_primary src/shell/colors/_echo_info src/shell/colors/_echo_warning
+## @assumes HOME
+backup_gpg() {
+    _alert_primary 'backup gpg'
+
+    if [ ! -d "${HOME}/.gnupg" ]; then
+        _echo_warning "error: \"${HOME}/.gnupg/\" folder not found\n"
+
+        return 0
+    fi
+
+    set -- "$(_create_backup_dir .gnupg)"
+
+    _echo_info "cp -RfvT \"${HOME}/.gnupg/\" \"$1\"\n"
+    cp -RfvT "${HOME}/.gnupg/" "$1"
+
+    find "$1" -type s -delete
+}
+

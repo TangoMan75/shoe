@@ -16,11 +16,5 @@
 /dump/*
 !/dump/.gitignore
 
-/recipes/*
-!/recipes/.gitignore
-!/recipes/entrypoint
-!/recipes/hello
-!/recipes/shoe
-
 .pytest_cache/
 __pycache__/
