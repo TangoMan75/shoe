@@ -1,0 +1,20 @@
+#!/bin/sh
+
+## Get APK label
+##
+## @namespace src/shell/android
+## @requires aapt awk realpath
+## @depends src/shell/colors/_echo_error src/shell/system/_check_installed
+## @param {file} <FILE_PATH> (required) The path to the input file.
+_get_apk_label() {
+    _check_installed aapt
+
+    if [ -z "$1" ]; then _echo_error '_get_apk_label: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 1 ]; then _echo_error "_get_apk_label: too many arguments ($#)\n"; return 1; fi
+
+    set -- "$(realpath "$1")"
+    if [ ! -f "$1" ]; then _echo_error "_get_apk_label: \"$1\" file not found\n"; return 1; fi
+
+    aapt dump badging "$1" 2>/dev/null | awk -F "'" '/application-label:/{print $2}'
+}
+

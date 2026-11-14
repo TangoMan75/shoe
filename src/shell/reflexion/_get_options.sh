@@ -1,0 +1,26 @@
+#!/bin/sh
+
+## List options from provided shoe script
+##
+## @namespace src/shell/reflexion
+## @requires awk realpath
+## @depends src/shell/colors/_echo_error
+## @param {file} <SCRIPT_PATH> (required) The path to the input script.
+## @param {bool} <GET_PRIVATE_ONLY> (default:false) If set to "true", retrieves private options only.
+_get_options() {
+    if [ -z "$1" ]; then _echo_error '_get_options: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then _echo_error "_get_options: too many arguments ($#)\n"; return 1; fi
+
+    set -- "$(realpath "$1")" "${2:-false}"
+    if [ ! -f "$1" ]; then _echo_error "_get_options: \"$1\" file not found\n"; return 1; fi
+
+    awk -F '=' -v GET_PRIVATE_ONLY="$2" \
+    '/^[a-zA-Z0-9_]+=.+$/ {
+        if (GET_PRIVATE_ONLY == "true") {
+            if ($1 != toupper($1) && $2 != "false" && substr($1,1,1) == "_") print $1
+        } else {
+            if (substr(PREV,1,3) == "## " && $1 != toupper($1) && $2 != "false" && substr($1,1,1) != "_") print $1
+        }
+    } {PREV = $0}' "$1"
+}
+

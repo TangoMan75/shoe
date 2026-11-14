@@ -1,0 +1,34 @@
+#!/bin/sh
+
+## Set value for given parameter into provided file ".env" or ".sh" file
+##
+## @namespace src/shell/reflexion
+## @requires realpath
+## @depends src/shell/colors/_echo_error src/shell/colors/_echo_info src/shell/colors/_echo_warning src/shell/compatibility/_sed_i src/shell/reflexion/_get_parameter src/shell/reflexion/_has_parameter
+## @param {file} <FILE_PATH> (required) The path to the input file.
+## @param {str} <KEY> (required) The variable name to get from provided file.
+## @param {str} <VALUE> (required) The value to be set to provided file.
+_set_parameter() {
+    if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then _echo_error '_set_parameter: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 3 ]; then _echo_error "_set_parameter: too many arguments ($#)\n"; return 1; fi
+    if [ ! -f "$1" ]; then _echo_error "_set_parameter: \"$1\" file not found\n"; return 1; fi
+
+    # set default values
+    set -- "$(realpath "$1")" "$2" "$3"
+
+    if ! _has_parameter "$1" "$2"; then
+        _echo_error "_set_parameter: \"$2\" parameter not found\n"
+
+        return 1
+    fi
+
+    if [ "$(_get_parameter "$1" "$2")" = "$3" ]; then
+        _echo_warning "warning: _set_parameter: \"$2\" parameter unchanged\n"
+
+        return 0
+    fi
+
+    _echo_info "$(_sed_i) -E \"s/^$2=.*/$2=$3/\" \"$1\"\n"
+    $(_sed_i) -E "s/^$2=.*/$2=$3/" "$1"
+}
+

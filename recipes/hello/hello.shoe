@@ -1,0 +1,81 @@
+../../src/shell/header.sh
+
+## TangoMan Hello World!
+##
+## Greets or says goodbye to a specified user a given number of times.
+## Accepts a recipient name, repetition count, ending and output flags.
+## Useful as a smoke test for new installations.
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 0.1.0
+## @license MIT
+## @link    https://github.com/TangoMan75/shoe
+
+#--------------------------------------------------
+# Place your constants after this line
+#--------------------------------------------------
+./constants.sh
+
+#--------------------------------------------------
+# Place your options after this line
+#--------------------------------------------------
+./options.sh
+
+#--------------------------------------------------
+# Place your flags after this line
+#--------------------------------------------------
+./flags.sh
+
+#--------------------------------------------------
+# Place your global variables after this line
+#--------------------------------------------------
+./global_variables.sh
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+
+##################################################
+### App
+##################################################
+./_say.sh
+./hello.sh
+./goodbye.sh
+
+##################################################
+### Self Install
+##################################################
+../../src/shell/install/self_install.sh
+../../src/shell/install/self_uninstall.sh
+
+##################################################
+### Help
+##################################################
+../../src/shell/help/help.sh
+
+#--------------------------------------------------
+#_ Hooks
+#--------------------------------------------------
+_default.sh
+../../src/shell/hooks/_before.sh
+../../src/shell/hooks/_after.sh
+
+###################################################
+# TangoMan Shoe Shell Microframework
+###################################################
+
+#--------------------------------------------------
+# Generated code : Do not edit below this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+#_ Colors
+#--------------------------------------------------
+../../src/shell/colors/constants_echo_colors.sh
+../../src/shell/colors/constants_alert_colors.sh
+
+#--------------------------------------------------
+#_ Kernel
+#--------------------------------------------------
+../../src/shell/kernel/_kernel.sh
+

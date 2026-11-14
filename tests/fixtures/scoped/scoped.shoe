@@ -1,0 +1,47 @@
+../../../src/shell/header.sh
+
+## Scoped Parameters Test Fixture
+##
+## Exercises global and command-level options and flags.
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 0.1.0
+## @license MIT
+## @link    https://github.com/TangoMan75/shoe
+
+#--------------------------------------------------
+# Place your options after this line
+#--------------------------------------------------
+./options.sh
+
+#--------------------------------------------------
+# Place your flags after this line
+#--------------------------------------------------
+./flags.sh
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+./add.sh
+./search.sh
+./list.sh
+
+##################################################
+### Help
+##################################################
+../../../src/shell/help/help.sh
+
+###################################################
+# TangoMan Shoe Shell Microframework
+###################################################
+
+#--------------------------------------------------
+#_ Colors
+#--------------------------------------------------
+../../../src/shell/colors/constants_echo_colors.sh
+../../../src/shell/colors/constants_alert_colors.sh
+
+#--------------------------------------------------
+#_ Kernel
+#--------------------------------------------------
+../../../src/shell/kernel/_large_kernel.sh

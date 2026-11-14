@@ -1,0 +1,25 @@
+#!/bin/sh
+
+## Boot connected device with given image temporarily
+##
+## @namespace src/shell/android
+## @requires fastboot realpath
+## @depends src/shell/android/_is_device_connected_with_fastboot src/shell/colors/_echo_error src/shell/colors/_echo_info
+## @param {file} <FILE_PATH> (required) The path to the input file.
+_reboot_with_img() {
+    if ! _is_device_connected_with_fastboot; then
+        _echo_error 'please reboot to bootloader\n'
+
+        return 1
+    fi
+
+    if [ -z "$1" ]; then _echo_error '_reboot_with_img: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 1 ]; then _echo_error "_reboot_with_img: too many arguments ($#)\n"; return 1; fi
+
+    set -- "$(realpath "$1")"
+    if [ ! -f "$1" ]; then _echo_error "_reboot_with_img: \"$1\" file not found\n"; return 1; fi
+
+    _echo_info "fastboot --verbose boot \"$1\"\n"
+    fastboot --verbose boot "$1"
+}
+
