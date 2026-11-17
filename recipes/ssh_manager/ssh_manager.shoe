@@ -1,0 +1,126 @@
+../../src/shell/header.sh
+
+## TangoMan SSH Manager
+##
+## Backup and restore debian config
+##
+## @author  "Matthias Morin" <mat@tangoman.io>
+## @version 1.0.0
+## @license MIT
+## @link    https://github.com/TangoMan75/ssh-manager
+
+#--------------------------------------------------
+# Place your constants after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your options after this line
+#--------------------------------------------------
+./options.sh
+
+#--------------------------------------------------
+# Place your flags after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your global variables after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+
+##################################################
+### App
+##################################################
+./app/backup.sh
+./app/restore.sh
+
+##################################################
+### Backup
+##################################################
+./backup/backup_gh_cli.sh
+./backup/backup_git_user.sh
+./backup/backup_gnome_dconf.sh
+./backup/backup_gpg.sh
+./backup/backup_gws.sh
+./backup/backup_opencode.sh
+./backup/backup_opencode_telegram_bot.sh
+./backup/backup_remmina.sh
+./backup/backup_ssh.sh
+
+##################################################
+### Restore
+##################################################
+./restore/restore_gh_cli.sh
+./restore/restore_git_user.sh
+./restore/restore_gnome_dconf.sh
+./restore/restore_gpg.sh
+./restore/restore_gws.sh
+./restore/restore_opencode.sh
+./restore/restore_opencode_telegram_bot.sh
+./restore/restore_remmina.sh
+./restore/restore_ssh.sh
+
+##################################################
+### SSH
+##################################################
+./ssh/config_known_ssh_hosts.sh
+./ssh/config_ssh_file_permissions.sh
+./ssh/list_ssh_identities.sh
+./ssh/remove_ssh_files.sh
+./ssh/remove_ssh_identities.sh
+./ssh/reset_known_ssh_hosts.sh
+./ssh/restart_ssh_agent.sh
+./ssh/restore_ssh_files.sh
+./ssh/ssh_add_all_identities.sh
+./ssh/ssh_diagnosis.sh
+./ssh/start_ssh.sh
+./ssh/stop_ssh_agent.sh
+
+#--------------------------------------------------
+# Place your private functions after this line
+#--------------------------------------------------
+./_create_backup_dir.sh
+./_get_latest_backup_dir.sh
+./_is_gcr_ssh_agent.sh
+./_is_ssh_agent_running.sh
+./_start_gcr_ssh_agent.sh
+
+##################################################
+### Self Install
+##################################################
+../../src/shell/install/self_install.sh
+../../src/shell/install/self_uninstall.sh
+
+##################################################
+### Help
+##################################################
+../../src/shell/help/help.sh
+
+#--------------------------------------------------
+#_ Hooks
+#--------------------------------------------------
+../../src/shell/hooks/_default.sh
+../../src/shell/hooks/_before.sh
+../../src/shell/hooks/_after.sh
+
+###################################################
+# TangoMan Shoe Shell Microframework
+###################################################
+
+#--------------------------------------------------
+# Generated code : Do not edit below this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+#_ Colors
+#--------------------------------------------------
+../../src/shell/colors/constants_echo_colors.sh
+../../src/shell/colors/constants_alert_colors.sh
+
+#--------------------------------------------------
+#_ Kernel
+#--------------------------------------------------
+../../src/shell/kernel/_kernel.sh
+

@@ -1,0 +1,34 @@
+#!/bin/sh
+
+## Push file to sdcard
+##
+## @namespace recipes/android/system
+## @requires adb realpath
+## @depends src/shell/colors/_echo_error
+## @depends src/shell/colors/_echo_info
+## @assumes file remote
+push() {
+    if [ -z "${file}" ] && [ -z "$1" ]; then
+        _echo_error 'some mandatory parameter is missing\n'
+        return 1
+    fi
+
+    if [ -z "${file}" ]; then
+        file="$1"
+    fi
+
+    if [ -z "${remote}" ]; then
+        remote='/'
+    fi
+
+    if [ ! -f "${file}" ]; then
+        _echo_error "file not found: \"${file}\"\n"
+        return 1
+    fi
+
+    file="$(realpath "${file}")"
+
+    _echo_info "adb push \"${file}\" \"${remote}\"\n"
+    adb push "${file}" "${remote}"
+}
+

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+## Remove ssh files
+##
+## @namespace recipes/ssh_manager/ssh
+## @requires mkdir rm
+## @depends src/shell/colors/_alert_danger
+## @depends src/shell/colors/_echo_info
+## @depends src/shell/colors/_echo_warning
+## @depends src/shell/prompts/_yes_no
+## @assumes HOME
+remove_ssh_files() {
+    _alert_danger 'remove ssh files'
+
+    if [ -d "${HOME}/.ssh" ]; then
+        if ! _yes_no "Are you sure you want to remove \"${HOME}/.ssh\" folder?"; then
+            _echo_warning 'operation canceled\n'
+
+            return 1
+        fi
+    fi
+
+    _echo_info "rm -rf \"${HOME}/.ssh\"\n"
+    rm -rf "${HOME}/.ssh"
+
+    _echo_info "mkdir -p \"${HOME}/.ssh\"\n"
+    mkdir -p "${HOME}/.ssh"
+}
+
