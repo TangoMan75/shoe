@@ -1,10 +1,11 @@
 #!/bin/sh
 
-## List options and flags declared in a function shoedoc annotation
+## List parameters, options and flags declared in a function shoedoc annotation
 ##
 ## Outputs one record per entry with fields separated by the ASCII unit
 ## separator: kind, name, short alias, long alias, constraint, default
-## value and description.
+## value and description. Parameters are emitted in declaration order, so
+## their position is implied by the order of their records.
 ##
 ## @namespace src/shell/reflexion
 ## @requires awk printf realpath
@@ -79,7 +80,8 @@ _get_function_parameters() {
                 }
             }
 
-            if (kind == "option" && substr(value, 1, 1) == "/") {
+            if ((kind == "option" || kind == "param") \
+                && substr(value, 1, 1) == "/") {
                 position = index(value, " ")
                 if (position == 0) {
                     constraint = value
@@ -90,7 +92,8 @@ _get_function_parameters() {
                 }
             }
 
-            if (kind == "option" && substr(value, 1, 1) == "(") {
+            if ((kind == "option" || kind == "param") \
+                && substr(value, 1, 1) == "(") {
                 stop = index(value, ")")
                 if (stop > 0) {
                     token = trim(substr(value, 2, stop - 2))
@@ -109,7 +112,10 @@ _get_function_parameters() {
             line = $0
             sub(/^##[ \t]?/, "", line)
             line = trim(line)
-            if (line ~ /^@option[ \t]/) {
+            if (line ~ /^@param[ \t]/) {
+                sub(/^@param[ \t]+/, "", line)
+                emit("param", line)
+            } else if (line ~ /^@option[ \t]/) {
                 sub(/^@option[ \t]+/, "", line)
                 emit("option", line)
             } else if (line ~ /^@flag[ \t]/) {

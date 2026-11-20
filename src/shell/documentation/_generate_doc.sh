@@ -3,12 +3,15 @@
 ## Generate Markdown documentation for provided shoe script
 ##
 ## @namespace src/shell/documentation
-## @requires awk basename dirname grep printf realpath sed
+## @requires awk basename dirname printf realpath sed
 ## @depends src/shell/colors/_alert_primary
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
 ## @depends src/shell/colors/_echo_success
+## @depends src/shell/reflexion/_get_constants
+## @depends src/shell/reflexion/_get_flags
 ## @depends src/shell/reflexion/_get_functions_names
+## @depends src/shell/reflexion/_get_options
 ## @depends src/shell/reflexion/_print_synopsis
 ## @depends src/shell/shoedoc/_get_function_shoedoc
 ## @depends src/shell/shoedoc/_get_script_shoedoc
@@ -30,7 +33,10 @@ _generate_doc() {
     set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).md"}" "${4:-false}"
 
     # check valid input file type
-    if [ "$(printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$')" != .sh ]; then _echo_error '_generate_doc: file should be type ".sh"\n'; return 1; fi
+    case "$1" in
+        *.sh) ;;
+        *) _echo_error '_generate_doc: file should be type ".sh"\n'; return 1 ;;
+    esac
 
     _alert_primary "Generating $3"
 
@@ -208,6 +214,7 @@ _generate_doc() {
     printf '## 🤖 Commands\n\n' >> "$2/$3"
 
     __index__=0
+    __current_namespace__=''
 
     for __function_name__ in $(_get_functions_names "$1" true); do
         _echo_info "${__function_name__}\n"

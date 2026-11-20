@@ -87,17 +87,17 @@ A script block can own the following properties only: `summary`, `description`, 
 
 ### Field mapping
 
-|           Property          |                        Classic tag                        |
-|-----------------------------|-----------------------------------------------------------|
-| `summary`                   | block title (`##` lines before the first blank separator) |
-| `description`               | `##` lines after the first blank separator                |
-| `authors`                   | `@author` (one per line)                                  |
-| `copyright`                 | `@copyright`                                              |
-| `version`                   | `@version`                                                |
-| `license`                   | `@license`                                                |
-| `links`                     | `@link` (repeatable: one entry per tag)                   |
-| `update`                    | `@update`                                                 |
-| `deprecated`                | `@deprecated`                                             |
+|    Property   |                        Classic tag                        |
+|---------------|-----------------------------------------------------------|
+| `summary`     | block title (`##` lines before the first blank separator) |
+| `description` | `##` lines after the first blank separator                |
+| `authors`     | `@author` (one per line)                                  |
+| `copyright`   | `@copyright`                                              |
+| `version`     | `@version`                                                |
+| `license`     | `@license`                                                |
+| `links`       | `@link` (repeatable: one entry per tag)                   |
+| `update`      | `@update`                                                 |
+| `deprecated`  | `@deprecated`                                             |
 
 ---
 
@@ -553,6 +553,14 @@ Marks a script, function, value, constant or variable as deprecated. The value i
 ## @deprecated Use bar instead.
 ```
 
+### `@terminal`
+
+Marks a function that terminates the process on failure instead of returning a non-zero status. Callers cannot recover: a validation failure or a missing dependency stops the whole script. The tag applies to the whole block and is only valid on functions.
+
+```bash
+## @terminal
+```
+
 ### `@type`
 
 Block-level type metadata. The tag accepts the value with or without braces and follows the same value set as entry types. See [Recognized `type` values](#recognized-type-values).
@@ -671,56 +679,57 @@ Any other value is rejected by the Shoedoc linter. Type is documentation-first: 
 
 ### Block tags
 
-| Tag | Script | Function | Notes |
-|-----|--------|----------|-------|
-| `@author` | yes | yes | Repeatable. |
-| `@copyright` | yes | yes | |
-| `@version` | yes | yes | |
-| `@license` | yes | yes | |
-| `@link` | yes | yes | Repeatable. |
-| `@update` | yes | yes | |
-| `@shell` | yes | yes | |
-| `@namespace` | no | yes | Function-only. |
-| `@summary` | yes | yes | Usually the block title. |
-| `@example` | yes | yes | Repeatable. |
-| `@requires` | no | yes | Function-only. |
-| `@depends` | yes | yes | Script-level entries describe the script as a whole. |
-| `@overrides` | yes | yes | Script-level entries describe the script as a whole. |
-| `@assumes` | yes | yes | |
-| `@private` | no* | yes | *The linter accepts it on script blocks but it has no documented effect. |
-| `@public` | no* | yes | Same caveat as `@private`. |
-| `@deprecated` | yes | yes | |
-| `@type` | yes | yes | Block-level type metadata. |
-| `@stdout` | no | yes | Function-only. |
-| `@stderr` | no | yes | Function-only. |
-| `@stdin` | no | yes | Function-only. |
+|      Tag      | Script | Function |                                  Notes                                   |
+|---------------|--------|----------|--------------------------------------------------------------------------|
+| `@author`     | yes    | yes      | Repeatable.                                                              |
+| `@copyright`  | yes    | yes      |                                                                          |
+| `@version`    | yes    | yes      |                                                                          |
+| `@license`    | yes    | yes      |                                                                          |
+| `@link`       | yes    | yes      | Repeatable.                                                              |
+| `@update`     | yes    | yes      |                                                                          |
+| `@shell`      | yes    | yes      |                                                                          |
+| `@namespace`  | no     | yes      | Function-only.                                                           |
+| `@summary`    | yes    | yes      | Usually the block title.                                                 |
+| `@example`    | yes    | yes      | Repeatable.                                                              |
+| `@requires`   | no     | yes      | Function-only.                                                           |
+| `@depends`    | yes    | yes      | Script-level entries describe the script as a whole.                     |
+| `@overrides`  | yes    | yes      | Script-level entries describe the script as a whole.                     |
+| `@assumes`    | yes    | yes      |                                                                          |
+| `@private`    | no*    | yes      | *The linter accepts it on script blocks but it has no documented effect. |
+| `@public`     | no*    | yes      | Same caveat as `@private`.                                               |
+| `@deprecated` | yes    | yes      |                                                                          |
+| `@terminal`   | no     | yes      | The function exits the process on failure.                               |
+| `@type`       | yes    | yes      | Block-level type metadata.                                               |
+| `@stdout`     | no     | yes      | Function-only.                                                           |
+| `@stderr`     | no     | yes      | Function-only.                                                           |
+| `@stdin`      | no     | yes      | Function-only.                                                           |
 
 ### Assignment block tags
 
 A `##` block directly above a script-level constant, variable, option or flag declaration is an assignment block. It accepts the following tags in addition to its title and description:
 
-| Tag | Constants | Variables | Options | Flags | Notes |
-|-----|-----------|-----------|---------|-------|-------|
-| `@type` | yes | yes | yes | no | Same values as the `{type}` token. |
-| `@constraint` | no | yes | yes | no | Same syntax as the `/constraint/` token. |
-| `@private` | yes | yes | yes | yes | Hides the declaration from public documentation. |
-| `@public` | yes | yes | yes | yes | Default when neither `@private` nor `@public` is present. |
-| `@deprecated` | yes | yes | yes | yes | Free-form reason. |
-| `@summary` | yes | yes | yes | yes | Usually the block title. |
+|      Tag      | Constants | Variables | Options | Flags |                           Notes                           |
+|---------------|-----------|-----------|---------|-------|-----------------------------------------------------------|
+| `@type`       | yes       | yes       | yes     | no    | Same values as the `{type}` token.                        |
+| `@constraint` | no        | yes       | yes     | no    | Same syntax as the `/constraint/` token.                  |
+| `@private`    | yes       | yes       | yes     | yes   | Hides the declaration from public documentation.          |
+| `@public`     | yes       | yes       | yes     | yes   | Default when neither `@private` nor `@public` is present. |
+| `@deprecated` | yes       | yes       | yes     | yes   | Free-form reason.                                         |
+| `@summary`    | yes       | yes       | yes     | yes   | Usually the block title.                                  |
 
 ### Entry tags and tokens
 
-| Tag or token | Params | Options | Flags | Constants | Variables |
-|--------------|--------|---------|-------|-----------|-----------|
-| `@param` | yes | no | no | no | no |
-| `@option` | no | yes | no | no | no |
-| `@flag` | no | no | yes | no | no |
-| `@constant` | no | no | no | yes | no |
-| `@variable` | no | no | no | no | yes |
-| `{type}` | yes | yes | no | yes | yes |
-| `/constraint/` | yes | yes | no | no | yes |
-| `(required)` | yes | no | no | no | no |
-| `[short\|long]` | no | yes | yes | no | no |
-| `(default:value)` | yes | yes | no | no | no |
+|    Tag or token   | Params | Options | Flags | Constants | Variables |    |
+|-------------------|--------|---------|-------|-----------|-----------|----|
+| `@param`          | yes    | no      | no    | no        | no        |    |
+| `@option`         | no     | yes     | no    | no        | no        |    |
+| `@flag`           | no     | no      | yes   | no        | no        |    |
+| `@constant`       | no     | no      | no    | yes       | no        |    |
+| `@variable`       | no     | no      | no    | no        | yes       |    |
+| `{type}`          | yes    | yes     | no    | yes       | yes       |    |
+| `/constraint/`    | yes    | yes     | no    | no        | yes       |    |
+| `(required)`      | yes    | no      | no    | no        | no        |    |
+| `[short\          | long]` | no      | yes   | yes       | no        | no |
+| `(default:value)` | yes    | yes     | no    | no        | no        |    |
 
 `@private` and `@deprecated` are block tags, not entry tags. `@constant` and `@variable` are documented at script scope; the parser also accepts them in function blocks, where they have no function-level effect. `@param`, `@option` and `@flag` are documented at function scope; a script block cannot own them. Script-level assignments accept a bare source comment, a classic `@constant`/`@variable` entry tag, or an extended assignment block; see [Source comments](#source-comments).

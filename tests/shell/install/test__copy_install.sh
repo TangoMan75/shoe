@@ -65,13 +65,13 @@ test_script_execution_should_return_expected_status_code() {
 
 test_copy_install_should_copy_script_with_default_alias() {
     assert_equals \
-        "sudo cp --archive $(realpath "${__script__}") /usr/local/bin/myscript" \
+        "sudo cp -R -p $(realpath "${__script__}") /usr/local/bin/myscript" \
         "$(_copy_install "${__script__}")"
 }
 
 test_copy_install_should_copy_script_with_given_alias() {
     assert_equals \
-        "sudo cp --archive $(realpath "${__script__}") /usr/local/bin/my-alias" \
+        "sudo cp -R -p $(realpath "${__script__}") /usr/local/bin/my-alias" \
         "$(_copy_install "${__script__}" 'my-alias')"
 }
 

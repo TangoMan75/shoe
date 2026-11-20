@@ -88,11 +88,11 @@ build() {
     _echo_info "rm \"doc/${recipe}.md\" || true\n"
     rm "doc/${recipe}.md" || true
 
-    _echo_info "python3 shoemaker.py generate_doc -f \"build/${recipe}.sh\" --destination doc\n"
-    python3 shoemaker.py generate_doc -f "build/${recipe}.sh" --destination doc
+    _echo_info "python3 shoemaker.py generate_doc --file \"build/${recipe}.sh\" --destination doc\n"
+    python3 shoemaker.py generate_doc --file "build/${recipe}.sh" --destination doc
 
-    _echo_info "python3 shoemaker.py generate_makefile -f \"build/${recipe}.sh\"\n"
-    python3 shoemaker.py generate_makefile -f "build/${recipe}.sh"
+    _echo_info "python3 shoemaker.py generate_makefile --file \"build/${recipe}.sh\"\n"
+    python3 shoemaker.py generate_makefile --file "build/${recipe}.sh"
 }
 
 ## Build all scripts in recipes folder
@@ -156,20 +156,28 @@ build_all() {
 ## Sniff errors with linter
 ##
 ## @namespace recipes/entrypoint/app
-## @requires find python3 shellcheck sort
+## @requires find grep python3 shellcheck sort
+## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
 ## @depends src/shell/system/_check_installed
 lint() {
     _check_installed shellcheck
     _check_installed python3
 
-    find ./src ./recipes -type f -name '*.sh' | sort -t '\0' -n | while read -r FILE
+    # `;&`, `;;&` and `;|` are Bash/ksh extensions, not POSIX.
+    if grep -rn --include='*.sh' -- ';&\|;;&\|;|' ./src/shell; then
+        _echo_error 'error: non-POSIX case terminators are forbidden in src/shell\n'
+
+        return 1
+    fi
+
+    find ./src ./recipes -type f -name '*.sh' | LC_ALL=C sort | while read -r FILE
     do
         _echo_info "SHELLCHECK_OPTS='--exclude=SC2034,SC2154' shellcheck \"${FILE}\"\n"
         SHELLCHECK_OPTS='--exclude=SC2034,SC2154' shellcheck "${FILE}"
     done
 
-    find ./build -type f -name '*.sh' | sort -t '\0' -n | while read -r FILE
+    find ./build -type f -name '*.sh' | LC_ALL=C sort | while read -r FILE
     do
         _echo_info "shellcheck \"${FILE}\"\n"
         shellcheck "${FILE}"
@@ -186,7 +194,7 @@ lint() {
 ## @depends src/shell/colors/_echo_info
 ## @assumes test_folder
 tests() {
-    find "${test_folder}" -type f -name 'test_*.sh' | sort -t '\0' -n | while read -r FILE
+    find "${test_folder}" -type f -name 'test_*.sh' | LC_ALL=C sort | while read -r FILE
     do
         _echo_info "./tests/bash_unit -f tap \"${FILE}\"\n"
         ./tests/bash_unit -f tap "${FILE}"
@@ -976,6 +984,14 @@ _print_usage() {
                         continue
                         ;;
                 esac
+                if [ "${__kind__}" = 'param' ]; then
+                    _echo_info '<'
+                    _echo_success "${__name__}"
+                    _echo_info '> '
+
+                    continue
+                fi
+
                 __short__="${__short__:-${__name__%"${__name__#?}"}}"
                 __long__="${__long__:-${__name__}}"
 
@@ -1130,11 +1146,12 @@ _get_flags() {
     } {PREV = $0}' "$1"
 }
 
-## List options and flags declared in a function shoedoc annotation
+## List parameters, options and flags declared in a function shoedoc annotation
 ##
 ## Outputs one record per entry with fields separated by the ASCII unit
 ## separator: kind, name, short alias, long alias, constraint, default
-## value and description.
+## value and description. Parameters are emitted in declaration order, so
+## their position is implied by the order of their records.
 ##
 ## @namespace src/shell/reflexion
 ## @requires awk printf realpath
@@ -1209,7 +1226,8 @@ _get_function_parameters() {
                 }
             }
 
-            if (kind == "option" && substr(value, 1, 1) == "/") {
+            if ((kind == "option" || kind == "param") \
+                && substr(value, 1, 1) == "/") {
                 position = index(value, " ")
                 if (position == 0) {
                     constraint = value
@@ -1220,7 +1238,8 @@ _get_function_parameters() {
                 }
             }
 
-            if (kind == "option" && substr(value, 1, 1) == "(") {
+            if ((kind == "option" || kind == "param") \
+                && substr(value, 1, 1) == "(") {
                 stop = index(value, ")")
                 if (stop > 0) {
                     token = trim(substr(value, 2, stop - 2))
@@ -1239,7 +1258,10 @@ _get_function_parameters() {
             line = $0
             sub(/^##[ \t]?/, "", line)
             line = trim(line)
-            if (line ~ /^@option[ \t]/) {
+            if (line ~ /^@param[ \t]/) {
+                sub(/^@param[ \t]+/, "", line)
+                emit("param", line)
+            } else if (line ~ /^@option[ \t]/) {
                 sub(/^@option[ \t]+/, "", line)
                 emit("option", line)
             } else if (line ~ /^@flag[ \t]/) {
@@ -1450,6 +1472,7 @@ _get_shoedoc_title() {
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/system/_get_package_name
 ## @depends src/shell/system/_is_installed
+## @terminal
 ## @param {str} <COMMAND> (required) A string containing the command name to find.
 _check_installed() {
     if [ -z "$1" ]; then _echo_error '_check_installed: some mandatory parameter is missing\n'; return 1; fi
@@ -1611,8 +1634,12 @@ _check_duplicate_functions() {
 
 ## Checks if variable is valid given regex constraint
 ##
+## The pattern is applied with POSIX extended regular expressions, as
+## data (never as a command-line option), and every line of the value
+## must match it in full.
+##
 ## @namespace src/shell/validation
-## @requires grep printf sed
+## @requires awk printf sed
 ## @depends src/shell/colors/_echo_error
 ## @param {str} <VALUE> (required) The string to be compared to regex pattern.
 ## @param {str} <PATTERN> (required) The regex parttern to apply.
@@ -1626,11 +1653,14 @@ _is_valid() {
         return 0
     fi
 
-    # remove leading and ending forward slashes from regular expression
-    set -- "$1" "$(printf '%s' "$2" | sed 's@^/@@;s@/$@@')"
+    # remove leading and ending forward slashes from regular expression,
+    # including its optional trailing flags
+    set -- "$1" "$(printf '%s' "$2" | sed 's@^/@@;s@/[a-z]*$@@')"
 
-    # if [ "$1" != "$(printf '%s' "$1" | awk "$2 {print}")" ]; then
-    if [ "$1" != "$(printf '%s' "$1" | grep -E "$2")" ]; then
+    if ! printf '%s\n' "$1" | awk -v pattern="$2" '
+        $0 !~ ("^(" pattern ")$") { invalid = 1 }
+        END { exit invalid }
+    '; then
 
         return 1
     fi
@@ -1645,6 +1675,7 @@ _is_valid() {
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/reflexion/_get_constraint
 ## @depends src/shell/validation/_is_valid
+## @terminal
 ## @param {str} <VARIABLE> (required) The variable to validate in the followling format : variable_name=value.
 ## @param {str} <CONSTRAINT> Optional constraint, read from the script when omitted.
 _validate() {
@@ -1657,6 +1688,55 @@ _validate() {
         _echo_error "invalid \"$1\", expected \"$3\", \"$2\" given\n"
         exit 1
     fi
+}
+
+## Validate positional parameters against the function shoedoc
+##
+## Each positional value is matched with the parameter declared at the
+## same position. Parameters without a constraint accept any value.
+##
+## @namespace src/shell/validation
+## @requires awk printf
+## @depends src/shell/colors/_echo_error
+## @depends src/shell/reflexion/_get_function_parameters
+## @depends src/shell/validation/_validate
+## @param {file} <SCRIPT_PATH> (required) The path to the input script.
+## @param {str} <FUNCTION_NAME> (required) The command being executed.
+## @param {str} <POSITIONAL> The positional values to validate.
+_validate_positionals() {
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        _echo_error '_validate_positionals: some mandatory parameter is missing\n'
+
+        return 1
+    fi
+
+    __script__="$1"
+    __function__="$2"
+    shift 2
+
+    __index__=0
+    for __value__ in "$@"; do
+        __index__=$((__index__ + 1))
+        __record__=$(
+            _get_function_parameters "${__script__}" "${__function__}" \
+                | awk -F '\037' -v wanted="${__index__}" '
+                    $1 == "param" {
+                        count++
+                        if (count == wanted) {
+                            print $2 "\037" $5
+                            exit
+                        }
+                    }
+                '
+        )
+        if [ -z "${__record__}" ]; then continue; fi
+
+        __name__="${__record__%%"$(printf '\037')"*}"
+        __constraint__="${__record__#*"$(printf '\037')"}"
+        if [ -z "${__constraint__}" ]; then continue; fi
+
+        _validate "${__name__}=${__value__}" "${__constraint__}"
+    done
 }
 
 #--------------------------------------------------
@@ -1676,12 +1756,18 @@ _validate() {
 ## @depends src/shell/reflexion/_get_options
 ## @depends src/shell/validation/_check_duplicate_functions
 ## @depends src/shell/validation/_validate
+## @depends src/shell/validation/_validate_positionals
 _kernel() {
     _check_duplicate_functions "$0"
 
     if [ $# -lt 1 ]; then _default; exit 0; fi
 
     __execution_stack__=''
+    # Execution plan: one record per command, fields separated by the
+    # ASCII unit separator and records by the ASCII record separator.
+    __record_separator__=$(printf '\036')
+    __field_separator__=$(printf '\037')
+    __plan__=''
     __flags__="$(_get_flags "$0")"
     __options__="$(_get_options "$0")"
 
@@ -1727,16 +1813,22 @@ _kernel() {
                 ;;
         esac
 
-        # Every remaining argument must be a declared command.
+        # Every declared command starts a new execution record.
         for __function__ in $(_get_functions_names "$0"); do
             if [ "${__argument__}" = "${__function__}" ]; then
                 __execution_stack__="${__execution_stack__} ${__function__}"
+                __plan__="${__plan__}${__record_separator__}${__function__}"
                 continue 2
             fi
         done
 
-        _echo_error "\"${__argument__}\" is not a valid command\n"
-        exit 1
+        # Every other argument is a positional parameter of the command
+        # resolved last. A positional before any command is an error.
+        if [ -z "${__execution_stack__}" ]; then
+            _echo_error "\"${__argument__}\" is not a valid command\n"
+            exit 1
+        fi
+        __plan__="${__plan__}${__field_separator__}${__argument__}"
     done
 
     #--------------------------------------------------
@@ -1762,9 +1854,25 @@ _kernel() {
 
     if [ -z "${__execution_stack__}" ]; then _default; exit 0; fi
 
-    for __function__ in ${__execution_stack__}; do
-        eval "${__function__}"
+    # Dispatch each command with its positional parameters. Word
+    # splitting is intentional here, so pathname expansion is disabled.
+    __old_ifs__="${IFS}"
+    case "$-" in *f*) __noglob__='true' ;; *) __noglob__='false' ;; esac
+    IFS="${__record_separator__}"
+    for __record__ in ${__plan__}; do
+        if [ -z "${__record__}" ]; then continue; fi
+        IFS="${__field_separator__}"
+        set -f
+        # shellcheck disable=SC2086  # word splitting is intentional
+        set -- ${__record__}
+        [ "${__noglob__}" = 'true' ] || set +f
+        IFS="${__old_ifs__}"
+        __function__="$1"
+        shift
+        _validate_positionals "$0" "${__function__}" "$@"
+        eval "${__function__} \"\$@\""
     done
+    IFS="${__old_ifs__}"
 
     [ -n "$(command -v _after)" ] && _after
 }

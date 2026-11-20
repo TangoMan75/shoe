@@ -7,6 +7,7 @@
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/reflexion/_get_constraint
 ## @depends src/shell/validation/_is_valid
+## @terminal
 ## @param {str} <VARIABLE> (required) The variable to validate in the followling format : variable_name=value.
 ## @param {str} <CONSTRAINT> Optional constraint, read from the script when omitted.
 _validate() {

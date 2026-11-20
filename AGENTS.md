@@ -233,7 +233,7 @@ This chapter consolidates all rules that apply specifically to POSIX-compliant s
 ### 12.3. Bash builtins
 
 - The following builtins are not available in POSIX sh and are not allowed in POSIX scripts:
-  - `bind`, `builtin`, `caller`, `compgen`, `complete`, `compopt`, `declare`, `dirs`, `disown`, `enable`, `fc`, `help`, `history`, `let`, `local`, `logout`, `mapfile`, `popd`, `pushd`, `readarray`, `shopt`, `source`, `suspend`, `type`, `typeset`, `ulimit`
+  - `bind`, `builtin`, `caller`, `compgen`, `complete`, `compopt`, `declare`, `dirs`, `disown`, `enable`, `fc`, `help`, `history`, `let`, `local`, `logout`, `mapfile`, `popd`, `pushd`, `readarray`, `shopt`, `source`, `suspend`, `type`, `typeset`
 
 ### 12.4. Bash Extensions
 
@@ -245,7 +245,6 @@ This chapter consolidates all rules that apply specifically to POSIX-compliant s
   - Brace expansion (e.g., `{1..10}`)
   - Process substitution (e.g., `< <(command)`)
   - Here strings (e.g., `command <<< "input"`)
-  - `getopts` for option parsing.
 
 ### 12.5. Function Syntax
 
@@ -326,36 +325,33 @@ These rules apply **only** to the framework's POSIX shell modules: the
 `src/shell/**/*.sh` files that Shoemaker bundles into recipes. They do not
 apply to generated scripts, recipes, or third-party scripts.
 
-- **No `case ... esac`:** Do not use `case` statements, even though POSIX
-  allows them. Replace every `case` with plain `if`, `elif`, and `else`
-  branches built on `[ ... ]` tests.
-- **No shell variables:** Do not create, assign, or modify shell variables,
-  not even temporary or private ones. Pass every value as a positional
-  parameter with `set -- "$1" "$2" ...` (see section 12.6), and read it back
-  as `$1`, `$2`, etc. Reading constants and environment variables declared
-  through `@assumes` is unaffected.
+- **`case` is allowed, with POSIX syntax only:** `case ... esac` is fully
+  POSIX and portable. Use glob patterns and the `;;` terminator. The
+  Bash/ksh extensions `;&` (fall through), `;;&` (continue matching) and
+  `;|` (continue matching) are forbidden. A `case` block built from glob
+  patterns and `;;` is as portable as an `if`/`elif` chain, and often more
+  readable and less error-prone than repeated `[ ... ]` comparisons.
+- **Variables are allowed; `set --` is preferred:** Name a variable when it
+  improves readability or is reused, and prefix private temporaries with
+  `__` as described in section 12.6. Use `set --` for values that only flow
+  between positional parameters. Reading constants and environment
+  variables declared through `@assumes` is unaffected.
 
 ```shell
-# Bad: case statement and shell variables.
+# Good: portable case with glob patterns and ;; only.
 _get_extension() {
-    __file__="$1"
-    case "${__file__}" in
-        *.gz)  printf 'gzip\n' ;;
-        *.bz2) printf 'bzip2\n' ;;
-        *)     printf 'unknown\n' ;;
+    case "${1##*.}" in
+        gz)  printf 'gzip\n' ;;
+        bz2) printf 'bzip2\n' ;;
+        *)   printf 'unknown\n' ;;
     esac
 }
 
-# Good: plain if statements, values read from positional parameters.
-_get_extension() {
-    if [ "${1##*.}" = 'gz' ]; then
-        printf 'gzip\n'
-    elif [ "${1##*.}" = 'bz2' ]; then
-        printf 'bzip2\n'
-    else
-        printf 'unknown\n'
-    fi
-}
+# Bad: Bash/ksh-only terminators.
+case "$1" in
+    a) printf 'a' ;&
+    b) printf 'b' ;;&
+esac
 ```
 
 Use `set --` to keep intermediate values without naming them, and document

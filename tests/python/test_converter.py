@@ -67,7 +67,7 @@ class ConverterApiTest(unittest.TestCase):
         self.assertIn("## @param {str} <who> Recipient.", content)
         self.assertNotIn('## "', content)
 
-    def test_converter_does_not_import_shoemaker(self):
+    def test_converter_imports_shoemaker(self):
         result = subprocess.run(
             [
                 sys.executable,
@@ -81,7 +81,7 @@ class ConverterApiTest(unittest.TestCase):
         )
 
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.strip(), "False")
+        self.assertEqual(result.stdout.strip(), "True")
 
 
 class ConverterCliTest(unittest.TestCase):

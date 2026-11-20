@@ -52,6 +52,13 @@ test_get_function_parameters_returns_expected_records() {
     assert_equals "${expected}" "${actual}"
 }
 
+expected_params=$'param\037WHO\037\037\037/^[A-Za-z-]+$/\037"World"\037The recipient.\nparam\037COUNT\037\037\037\0371\037Repetition count.\noption\037prefix\037p\037prefix\037\037""\037Output prefix.\nflag\037loud\037l\037loud\037\037\037Uppercase the output.'
+
+test_get_function_parameters_returns_positional_parameter_records() {
+    actual="$(_get_function_parameters "../../../tests/fixtures/positional_parameters.sh" greet)"
+    assert_equals "${expected_params}" "${actual}"
+}
+
 test_get_function_parameters_returns_empty_for_function_without_parameters() {
     actual="$(_get_function_parameters "../../../tests/fixtures/function_parameters.sh" scoped_plain)"
     assert_equals "" "${actual}"

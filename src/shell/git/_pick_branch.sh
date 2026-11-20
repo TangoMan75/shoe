@@ -11,6 +11,7 @@
 ## @depends src/shell/colors/_echo_success
 ## @depends src/shell/colors/_echo_warning
 ## @depends src/shell/git/_get_main_branch
+## @assumes TMPDIR
 ## @option {str} <FILTER> [-F] Grep filter applied to the branch list.
 ## @flag <all> [-a] List all branches.
 ## @flag <current> [-c] Include the current branch.
@@ -141,7 +142,9 @@ _pick_branch() {
     #--------------------------------------------------
 
     # $6: branch file, $7: main branch, $8: current branch.
-    set -- "$1" "$2" "$3" "$4" "$5" "$(mktemp)" \
+    __branch_file__=$(mktemp "${TMPDIR:-/tmp}/pick_branch.XXXXXX") \
+        || return 1
+    set -- "$1" "$2" "$3" "$4" "$5" "$__branch_file__" \
         "$(_get_main_branch)" "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
     if [ -z "$6" ]; then
         _echo_error '_pick_branch: could not create temporary file\n'

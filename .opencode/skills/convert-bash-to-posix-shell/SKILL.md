@@ -15,7 +15,7 @@ Work collaboratively: the user names the target file and any acceptable portabil
   guess.
 - Read the target and `AGENTS.md` sections 3 through 12 before editing.
 - Classify the target:
-  - **Framework POSIX module** — under `src/shell/**/*.sh`, bundled by Shoemaker. Apply section 12.8: no `case`, no shell variables (use `set --`).
+  - **Framework POSIX module** — under `src/shell/**/*.sh`, bundled by Shoemaker. Apply section 12.8: `case` is allowed with glob patterns and `;;` only; variables are allowed, with `set --` preferred.
   - **Ordinary POSIX script** — recipes, generated scripts, standalone tools. Apply the general POSIX rules; `case` and variables are allowed, but prefer `set --` in private functions (section 12.6).
 - If the target is a test file or a Bash-only script that is not meant to run under `sh`, stop and confirm before converting it.
 
@@ -42,7 +42,7 @@ Check for:
 - `echo -e`, `echo -n`, `printf -v`
 - `&>`, `&>>`
 - `read -p`, `read -n`, `read -s`, `read -a`
-- `select`, `getopts`, `pushd`, `popd`
+- `select`, `pushd`, `popd`
 - `trap ... ERR`, `wait -n`, `disown`
 
 The project also forbids `grep -E`, `grep -P`, and `sed -E`; rewrite regexes
@@ -80,7 +80,7 @@ as POSIX BRE (AGENTS.md section 7).
 | `set -o pipefail`                    | no equivalent; use temp files and check each status                                                          |
 | `trap ... ERR`                       | no equivalent; check each command explicitly                                                                 |
 | `select`                             | `while` menu using `printf` and `read`                                                                       |
-| `getopts`                            | project forbids it in POSIX scripts: parse manually with `while [ "$#" -gt 0 ]`, `case` or `if`, and `shift` |
+| `getopts`                            | POSIX and allowed; the project's manual `while` / `case` parsing is a style preference, not a portability requirement |
 | `pushd` / `popd`                     | `cd` in a subshell, or save and restore the directory                                                        |
 | `${var,,}` / `${var^^}`              | `printf '%s' "$var" \| tr '[:upper:]' '[:lower:]'` and `tr '[:lower:]' '[:upper:]'`                          |
 | `${var:o:l}`                         | `printf '%s' "$var" \| cut -c "$((o + 1))-$((o + l))"`                                                       |
@@ -92,43 +92,36 @@ Notes:
 
 - A `while` loop fed by a pipeline runs in a subshell, so `set --` changes are lost. Use input redirection (`< file`) or a temp file to keep positional parameters in the current shell.
 - `mktemp` and `date +%s` are common but not guaranteed by POSIX. If strict portability is required, use a `$$`-based temp path and document the dependency.
-- POSIX `case` is allowed in ordinary scripts. It is forbidden in framework modules; emulate pattern checks with `${1#pattern}`, `${1##pattern}`, `${1%pattern}`, `${1%%pattern}`, and `[ ... ]` comparisons.
+- POSIX `case` is allowed in ordinary scripts and in framework modules, provided it uses glob patterns and the `;;` terminator only. The Bash/ksh extensions `;&`, `;;&`, and `;|` are forbidden.
 
 ## 4. Apply framework module rules (`src/shell/**` only)
 
 These rules apply if and only if the target is a framework POSIX module.
 They do not apply to recipes, generated scripts, or test files.
 
-- **No `case ... esac`.** Convert every branch to `if`, `elif`, and `else` using `[ ... ]` tests and parameter expansion.
-- **No shell variables.** Do not create, assign, or modify variables, not even temporary or private ones. Store state in positional parameters with `set --` and document each index in a comment. Reading constants and environment variables declared through `@assumes` is allowed.
-- Iterate by consuming positional parameters with `while [ "$#" -gt 0 ]; do ...; shift; done`, or delegate to a helper with `"$@"`. Do not use `for name in ...`, because the loop variable is an assignment.
-- `read` requires a destination variable, so it cannot be used in a framework module. Use stream tools such as `sed`, `awk`, or `grep`, or have the caller pass items as positional parameters.
+- **`case` is allowed, with POSIX syntax only.** Use glob patterns and the `;;` terminator. The Bash/ksh extensions `;&` (fall through), `;;&` (continue matching), and `;|` (continue matching) are forbidden.
+- **Variables are allowed; `set --` is preferred.** Name a variable when it improves readability or is reused, and prefix private temporaries with `__` as in section 12.6. Use `set --` for values that only flow between positional parameters.
+- Iteration with `for` and `while IFS= read -r` is allowed; the former restriction existed only to avoid variable assignments.
 - Keep the Shoedoc block complete: `@namespace`, `@requires`, `@depends`, `@assumes`, plus `@param`, `@option`, or `@flag` entries.
 - Use `_echo_*` and `_alert_*` for output, send errors to stderr with the function name, and return explicit status codes.
 - Follow the formatting rules: 2-space indent, 80 columns, brace-delimited variables, `"$@"`, and `printf` instead of `echo`.
-- Do not use `getopts`, `local`, `declare`, the `(( ))` command form, arrays, `[[ ]]`, or the `function` keyword.
+- Do not use `local`, `declare`, the `(( ))` command form, arrays, `[[ ]]`, or the `function` keyword. `getopts` is POSIX and may be used, though the framework generally parses manually.
 
 ```shell
-# Bad: case statement and a temporary variable.
-_get_ext() {
-    file="$1"
-    case "${file}" in
-        *.gz)  printf 'gzip\n' ;;
-        *.bz2) printf 'bzip2\n' ;;
-        *)     printf 'unknown\n' ;;
+# Good: portable case with glob patterns and ;;.
+_get_extension() {
+    case "${1##*.}" in
+        gz)  printf 'gzip\n' ;;
+        bz2) printf 'bzip2\n' ;;
+        *)   printf 'unknown\n' ;;
     esac
 }
 
-# Good: if/elif and positional parameters only.
-_get_ext() {
-    if [ "${1##*.}" = 'gz' ]; then
-        printf 'gzip\n'
-    elif [ "${1##*.}" = 'bz2' ]; then
-        printf 'bzip2\n'
-    else
-        printf 'unknown\n'
-    fi
-}
+# Bad: Bash-only terminators.
+case "$1" in
+    a) printf 'a' ;&
+    b) printf 'b' ;;&
+esac
 ```
 
 ```shell
@@ -158,7 +151,7 @@ _repeat() {
 - Framework modules: `python3 shoemaker.py lint src` or `make lint`.
 - Tests: `./entrypoint.sh tests` for the suite, or `./tests/bash_unit -f tap tests/path/test_file.sh` for one file.
 - Behavior: run the original Bash script and the converted script with the same inputs, then diff stdout, stderr, and exit codes.
-- Leftovers: grep for `[[`, `local`, `declare`, `function`, `<<<`, `&>`, `$'`, `mapfile`, `readarray`, and `pipefail`. Check for standalone `((` arithmetic commands separately. For framework modules, also grep for `case`, `esac`, and variable assignments.
+- Leftovers: grep for `[[`, `local`, `declare`, `function`, `<<<`, `&>`, `$'`, `mapfile`, `readarray`, and `pipefail`. Check for standalone `((` arithmetic commands separately. For framework modules, also grep for the non-portable `case` terminators `;&` and `;;&`.
 - Whitespace: `git diff --check`.
 
 ## Output
@@ -172,6 +165,6 @@ Report, in this order:
 
 ## Success and failure
 
-**Success:** The converted script runs under `sh` and `dash`, passes syntax checks, ShellCheck, project lint, and the relevant tests, preserves observable behavior, and any framework module contains no `case`, no variable assignments, and a complete Shoedoc block.
+**Success:** The converted script runs under `sh` and `dash`, passes syntax checks, ShellCheck, project lint, and the relevant tests, preserves observable behavior, and any framework module uses only portable `case` syntax (`;;`) and a complete Shoedoc block.
 
-**Failure:** Bashisms remain, observable behavior changes silently, a framework module still uses `case` or variables, or verification is claimed without being run.
+**Failure:** Bashisms remain, observable behavior changes silently, a framework module uses `;&` or `;;&`, or verification is claimed without being run.

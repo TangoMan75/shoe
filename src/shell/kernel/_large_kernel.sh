@@ -16,6 +16,7 @@
 ## @depends src/shell/reflexion/_get_options
 ## @depends src/shell/validation/_check_duplicate_functions
 ## @depends src/shell/validation/_validate
+## @depends src/shell/validation/_validate_positionals
 ## @assumes __default__
 _large_kernel() {
     _check_duplicate_functions "$0"
@@ -23,8 +24,10 @@ _large_kernel() {
     if [ $# -lt 1 ]; then _default; exit 0; fi
 
     __separator__="$(printf '\037')"
+    __record_separator__="$(printf '\036')"
     __functions_names__="$(_get_functions_names "$0")"
     __all_options__=''
+    __plan__=''
 
     #--------------------------------------------------
     # Collect every option spelling
@@ -83,16 +86,22 @@ EOF
             -*) continue;;
         esac
 
-        # Every remaining argument must be a declared command.
+        # Every declared command starts a new execution record.
         for __function__ in ${__functions_names__}; do
             if [ "${__argument__}" = "${__function__}" ]; then
                 __execution_stack__="${__execution_stack__} ${__function__}"
+                __plan__="${__plan__}${__record_separator__}${__function__}"
                 continue 2
             fi
         done
 
-        _echo_error "\"${__argument__}\" is not a valid command\n"
-        exit 1
+        # Every other argument is a positional parameter of the command
+        # resolved last. A positional before any command is an error.
+        if [ -z "${__execution_stack__}" ]; then
+            _echo_error "\"${__argument__}\" is not a valid command\n"
+            exit 1
+        fi
+        __plan__="${__plan__}${__separator__}${__argument__}"
     done
 
     #--------------------------------------------------
@@ -157,8 +166,13 @@ EOF
 
         while IFS="${__separator__}" read -r __kind__ __name__ __short__ \
               __long__ __constraint__ __default__ __description__; do
-            # Ignore the trailing empty line of the record block.
+            # Ignore the trailing empty line of the record block, and
+            # only options and flags are addressed by name on the command
+            # line: positionals are handled by the execution plan.
             if [ -z "${__kind__}" ]; then continue; fi
+            if [ "${__kind__}" != 'flag' ] && [ "${__kind__}" != 'option' ]; then
+                continue
+            fi
 
             if [ -z "${__short__}" ]; then
                 __short__="${__name__%"${__name__#?}"}"
@@ -211,9 +225,25 @@ EOF
 
     if [ -z "${__execution_stack__}" ]; then _default; exit 0; fi
 
-    for __function__ in ${__execution_stack__}; do
-        eval "${__function__}"
+    # Dispatch each command with its positional parameters. Word
+    # splitting is intentional here, so pathname expansion is disabled.
+    __old_ifs__="${IFS}"
+    case "$-" in *f*) __noglob__='true' ;; *) __noglob__='false' ;; esac
+    IFS="${__record_separator__}"
+    for __record__ in ${__plan__}; do
+        if [ -z "${__record__}" ]; then continue; fi
+        IFS="${__separator__}"
+        set -f
+        # shellcheck disable=SC2086  # word splitting is intentional
+        set -- ${__record__}
+        [ "${__noglob__}" = 'true' ] || set +f
+        IFS="${__old_ifs__}"
+        __function__="$1"
+        shift
+        _validate_positionals "$0" "${__function__}" "$@"
+        eval "${__function__} \"\$@\""
     done
+    IFS="${__old_ifs__}"
 
     [ -n "$(command -v _after)" ] && _after
 }

@@ -39,11 +39,13 @@ _help() { printf 'help:%s\n' "$2"; }
 _validate() { printf 'validate:%s\n' "$1"; }
 _before() { printf 'before\n'; }
 _after() { printf 'after\n'; }
+_validate_positionals() { :; }
 _get_flags() { printf '%s\n' "${__flags__:-}"; }
 _get_options() { printf '%s\n' "${__options__:-}"; }
 _get_functions_names() { printf '%s\n' ${__functions__:-hello}; }
 
 hello() { printf 'hello:%s:%s\n' "${name:-}" "${verbose:-}"; }
+greet() { printf 'greet:%s:%s\n' "${1:-}" "${2:-}"; }
 
 #--------------------------------------------------
 # Helpers
@@ -69,6 +71,50 @@ test_kernel_should_dispatch_known_command() {
     assert_equals "before
 hello::
 after" "$(_kernel 'hello')"
+}
+
+test_kernel_should_pass_positional_parameters_to_the_command() {
+    __functions__='greet'
+
+    assert_equals "before
+greet:World:42
+after" "$(_kernel 'greet' 'World' '42')"
+}
+
+test_kernel_should_pass_positionals_after_global_options() {
+    __functions__='greet'
+    __options__='name'
+
+    assert_equals "validate:name=World
+before
+greet:42:
+after" "$(_kernel '--name' 'World' 'greet' '42')"
+}
+
+test_kernel_should_validate_positional_parameters() {
+    __functions__='greet'
+    _validate_positionals() { printf 'positionals:%s:%s\n' "$2" "$3"; }
+
+    assert_equals "before
+positionals:greet:World
+greet:World:
+after" "$(_kernel 'greet' 'World')"
+}
+
+test_kernel_should_reject_a_positional_before_any_command() {
+    __functions__='greet'
+
+    assert_fails "_kernel 'World'"
+    assert_equals '"World" is not a valid command' "$(_kernel 'World' 2>&1)"
+}
+
+test_kernel_should_repeat_a_command_for_repeated_names() {
+    __functions__='greet'
+
+    assert_equals "before
+greet::
+greet::
+after" "$(_kernel 'greet' 'greet')"
 }
 
 test_kernel_should_reject_command_shorthand() {

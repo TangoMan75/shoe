@@ -65,6 +65,18 @@ test_is_valid_should_validate_email_like_pattern() {
     assert_fails "_is_valid 'user@example' '/^[a-z]+@[a-z]+\.[a-z]+$/'"
 }
 
+test_is_valid_should_treat_a_leading_dash_pattern_as_data() {
+    assert "_is_valid '-x' '/-x/'"
+    assert_fails "_is_valid 'x' '/-x/'"
+}
+
+test_is_valid_should_validate_every_line_of_a_multiline_value() {
+    assert "_is_valid 'foo
+bar' '/^[a-z]+$/'"
+    assert_fails "_is_valid 'foo
+bar1' '/^[a-z]+$/'"
+}
+
 test_is_valid_fails_with_missing_arguments() {
     assert_fails "_is_valid"
     assert_equals "_is_valid: some mandatory parameter is missing\n" "$(_is_valid 2>&1)"

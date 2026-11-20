@@ -26,9 +26,84 @@
 #
 # Source code is available here: https://github.com/TangoMan75/shoe
 
+kernel_src="../../../src/shell/kernel/_light_kernel.sh"
+
+#--------------------------------------------------
+# Mock functions
 #--------------------------------------------------
 
-# Sourcing _light_kernel.sh runs the kernel, so only its syntax is checked.
+_default() { printf 'default\n'; }
+_help() { printf 'help:%s\n' "$2"; }
+_before() { printf 'before\n'; }
+_after() { printf 'after\n'; }
+_check_duplicate_functions() { :; }
+_get_functions_names() { printf '%s\n' ${__functions__:-greet}; }
+
+greet() { printf 'greet:%s:%s\n' "${1:-}" "${2:-}"; }
+
+_DANGER=''
+_EOL=''
+
+#--------------------------------------------------
+# Helpers
+#--------------------------------------------------
+
+setup() {
+    __kernel_copy__="$(mktemp)"
+    sed '/^_light_kernel "\$@"$/d' "${kernel_src}" > "${__kernel_copy__}"
+    source "${__kernel_copy__}"
+}
+
+teardown() {
+    rm -f "${__kernel_copy__}"
+}
+
+#--------------------------------------------------
+
 test_light_kernel_should_have_valid_syntax() {
-    assert "bash -n '../../../src/shell/kernel/_light_kernel.sh'"
+    assert "bash -n '${kernel_src}'"
+}
+
+#--------------------------------------------------
+
+test_light_kernel_should_dispatch_known_command() {
+    __functions__='greet'
+
+    assert_equals "before
+greet::
+after" "$(_light_kernel 'greet')"
+}
+
+test_light_kernel_should_pass_positional_parameters_to_the_command() {
+    __functions__='greet'
+
+    assert_equals "before
+greet:World:42
+after" "$(_light_kernel 'greet' 'World' '42')"
+}
+
+test_light_kernel_should_reject_a_positional_before_any_command() {
+    __functions__='greet'
+
+    assert_fails "_light_kernel 'World'"
+    assert_equals 'error: "World" is not a valid command' "$(_light_kernel 'World' 2>&1)"
+}
+
+test_light_kernel_should_dispatch_help_before_the_command() {
+    __functions__='help greet'
+
+    assert_equals 'before
+help:greet' "$(_light_kernel 'help' 'greet')"
+}
+
+test_light_kernel_should_call_default_when_no_argument_is_given() {
+    assert_equals 'default' "$(_light_kernel)"
+}
+
+test_light_kernel_should_call_before_and_after_hooks() {
+    __functions__='greet'
+
+    assert_equals "before
+greet::
+after" "$(_light_kernel 'greet')"
 }

@@ -53,6 +53,14 @@ _print_usage() {
                         continue
                         ;;
                 esac
+                if [ "${__kind__}" = 'param' ]; then
+                    _echo_info '<'
+                    _echo_success "${__name__}"
+                    _echo_info '> '
+
+                    continue
+                fi
+
                 __short__="${__short__:-${__name__%"${__name__#?}"}}"
                 __long__="${__long__:-${__name__}}"
 

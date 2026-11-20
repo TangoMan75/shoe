@@ -907,9 +907,9 @@ Generate Markdown documentation for provided shoe script
 - `OUTPUT_FILE_NAME`: _(type: "str")_ (optional) The name for the documentation file. Defaults to "<BASENAME>.md".
 - `GET_PRIVATE`: _(type: "bool")_ (optional) If set to "true", documents private constants, options, flags, and commands as well. _Defaults to "false"._
 
-- ⚠️ Requires: `awk`, `basename`, `dirname`, `grep`, `printf`, `realpath`, `sed`
+- ⚠️ Requires: `awk`, `basename`, `dirname`, `printf`, `realpath`, `sed`
 
-- 🔗 Depends: `src/shell/colors/_alert_primary`, `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`, `src/shell/colors/_echo_success`, `src/shell/reflexion/_get_functions_names`, `src/shell/reflexion/_print_synopsis`, `src/shell/shoedoc/_get_function_shoedoc`, `src/shell/shoedoc/_get_script_shoedoc`, `src/shell/shoedoc/_get_shoedoc_description`, `src/shell/shoedoc/_get_shoedoc_tag`, `src/shell/shoedoc/_get_shoedoc_title`
+- 🔗 Depends: `src/shell/colors/_alert_primary`, `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`, `src/shell/colors/_echo_success`, `src/shell/reflexion/_get_constants`, `src/shell/reflexion/_get_flags`, `src/shell/reflexion/_get_functions_names`, `src/shell/reflexion/_get_options`, `src/shell/reflexion/_print_synopsis`, `src/shell/shoedoc/_get_function_shoedoc`, `src/shell/shoedoc/_get_script_shoedoc`, `src/shell/shoedoc/_get_shoedoc_description`, `src/shell/shoedoc/_get_shoedoc_tag`, `src/shell/shoedoc/_get_shoedoc_title`
 
 #### ⌨️ 79. `generate_doc` (public)
 
@@ -1016,7 +1016,7 @@ Get file extension
 > `_get_file_extension <FILE_PATH>`
 - `FILE_PATH`: _(type: "file")_ The path to the input file.
 
-- ⚠️ Requires: `grep`, `printf`
+- ⚠️ Requires: `printf`
 
 - 🔗 Depends: `src/shell/colors/_echo_error`
 
@@ -1794,7 +1794,7 @@ Install script via symlink
 - `FILE_PATH`: _(type: "file")_ The path to the input file.
 - `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 
-- ⚠️ Requires: `basename`, `ln`, `realpath`, `sudo`, `true`
+- ⚠️ Requires: `basename`, `ln`, `realpath`, `rm`, `sudo`
 
 - 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`
 
@@ -1822,7 +1822,7 @@ Updates given script from the provided URL
 - `ALIAS`: _(type: "str")_ (optional) The alias of the script to install. Defaults to the basename of the provided file.
 - `GLOBAL`: _(type: "bool")_ (optional) Install globally. _Defaults to "false"._
 
-- ⚠️ Requires: `basename`, `curl`, `realpath`, `wget`
+- ⚠️ Requires: `basename`, `chmod`, `curl`, `realpath`, `stat`, `wget`
 
 - 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`, `src/shell/install/_install`, `src/shell/install/_uninstall`, `src/shell/system/_is_installed`
 
@@ -1838,7 +1838,7 @@ Generate Makefile for provided shoe script
 - `DESTINATION`: _(type: "folder")_ (optional) The path to the destination folder. Defaults to file parent.
 - `OUTPUT_FILE_NAME`: _(type: "str")_ (optional) The name for the generated Makefile. Defaults to "<BASENAME>.makefile".
 
-- ⚠️ Requires: `awk`, `basename`, `cat`, `dirname`, `grep`, `printf`, `realpath`, `tr`
+- ⚠️ Requires: `awk`, `basename`, `cat`, `dirname`, `printf`, `realpath`, `tr`
 
 - 🔗 Depends: `src/shell/colors/_alert_primary`, `src/shell/colors/_echo_error`, `src/shell/colors/_echo_success`, `src/shell/shoedoc/_get_script_shoedoc`, `src/shell/shoedoc/_get_shoedoc_description`, `src/shell/shoedoc/_get_shoedoc_tag`, `src/shell/shoedoc/_get_shoedoc_title`
 
@@ -1946,23 +1946,25 @@ Serve given local directory with Python 3
 
 #### ⌨️ 165. `_remove_host` (private)
 
-Remove hostname from /etc/hosts
+Remove hostname from the local hosts file
 
 > Synopsis:
 > `_remove_host <HOSTNAME>`
-- `HOSTNAME`: _(type: "str")_ The hostame to unset locally.
+- `HOSTNAME`: _(type: "str")_ The hostname to unset locally.
 
-- 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`, `src/shell/compatibility/_sed_i`
+- ⚠️ Requires: `awk`, `cp`, `mktemp`, `rm`, `sudo`
+
+- 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`
 
 #### ⌨️ 166. `_set_host` (private)
 
-Set new host in /etc/hosts
+Set new host in the local hosts file
 
 > Synopsis:
 > `_set_host <HOSTNAME>`
-- `HOSTNAME`: _(type: "str")_ The hostame to set locally.
+- `HOSTNAME`: _(type: "str")_ The hostname to set locally.
 
-- ⚠️ Requires: `sudo`
+- ⚠️ Requires: `printf`, `sudo`, `tee`
 
 - 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`, `src/shell/network/_remove_host`
 
@@ -2088,7 +2090,7 @@ Get function by name
 
 #### ⌨️ 177. `_get_function_parameters` (private)
 
-List options and flags declared in a function shoedoc annotation
+List parameters, options and flags declared in a function shoedoc annotation
 
 > Synopsis:
 > `_get_function_parameters <SCRIPT_PATH> <FUNCTION_NAME>`
@@ -2188,7 +2190,7 @@ Set a variable in a ".env" or ".sh" file
 - `VALUE`: _(type: "str")_ The value to assign.
 - `FORCE`: _(type: "bool")_ (optional) Append the variable when missing. _Defaults to "false"._
 
-- ⚠️ Requires: `awk`, `cat`, `grep`, `mktemp`, `rm`
+- ⚠️ Requires: `awk`, `chmod`, `dirname`, `grep`, `mktemp`, `mv`, `rm`, `stat`
 
 - 🔗 Depends: `src/shell/colors/_echo_error`
 
@@ -2757,7 +2759,7 @@ Checks if variable is valid given regex constraint
 - `VALUE`: _(type: "str")_ The string to be compared to regex pattern.
 - `PATTERN`: _(type: "str")_ The regex parttern to apply.
 
-- ⚠️ Requires: `grep`, `printf`, `sed`
+- ⚠️ Requires: `awk`, `printf`, `sed`
 
 - 🔗 Depends: `src/shell/colors/_echo_error`
 
@@ -2774,7 +2776,21 @@ Find constraints and validates a variable
 
 - 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/reflexion/_get_constraint`, `src/shell/validation/_is_valid`
 
-#### ⌨️ 235. `_light_kernel` (private)
+#### ⌨️ 235. `_validate_positionals` (private)
+
+Validate positional parameters against the function shoedoc
+
+> Synopsis:
+> `_validate_positionals <SCRIPT_PATH> <FUNCTION_NAME> [POSITIONAL]`
+- `SCRIPT_PATH`: _(type: "file")_ The path to the input script.
+- `FUNCTION_NAME`: _(type: "str")_ The command being executed.
+- `POSITIONAL`: _(type: "str")_ (optional) The positional values to validate.
+
+- ⚠️ Requires: `awk`, `printf`
+
+- 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/reflexion/_get_function_parameters`, `src/shell/validation/_validate`
+
+#### ⌨️ 236. `_light_kernel` (private)
 
 Shoe Light Kernel
 
@@ -2783,4 +2799,4 @@ Shoe Light Kernel
 
 - ⚠️ Requires: `printf`
 
-- 🔗 Depends: `src/shell/hooks/_default`, `src/shell/reflexion/_get_functions_names`, `src/shell/validation/_check_duplicate_functions`
+- 🔗 Depends: `src/shell/help/_help`, `src/shell/hooks/_after`, `src/shell/hooks/_before`, `src/shell/hooks/_default`, `src/shell/reflexion/_get_functions_names`, `src/shell/validation/_check_duplicate_functions`

@@ -19,8 +19,8 @@ _git_hooks() {
     _echo_info "rm -rf \"$2\"\n"
     rm -rf "$2"
 
-    _echo_info "cp -r \"$1\" \"$2\"\n"
-    cp -r "$1" "$2"
+    _echo_info "cp -R \"$1\" \"$2\"\n"
+    cp -R "$1" "$2"
 
     _echo_info "chmod +x \"$2\"/*\n"
     chmod +x "$2"/*

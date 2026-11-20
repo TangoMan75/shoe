@@ -103,7 +103,7 @@ class ShoedocSchema:
     # function entries and the std streams are function concerns.
     SCRIPT_FORBIDDEN_PROPERTIES = (
         "namespace", "requires", "params", "options", "flags",
-        "stdout", "stderr", "stdin",
+        "stdout", "stderr", "stdin", "terminal",
     )
 
     # Properties emitted by a classic @-tag block.
@@ -124,8 +124,8 @@ class ShoedocSchema:
         "namespace", "name", "summary", "description", "authors", "copyright",
         "version", "license", "links", "update", "shell", "requires",
         "depends", "overrides", "assumes", "private", "type", "deprecated",
-        "examples", "stdout", "stderr", "stdin", "constants", "variables",
-        "params", "options", "flags",
+        "terminal", "examples", "stdout", "stderr", "stdin", "constants",
+        "variables", "params", "options", "flags",
     )
 
     AUTHOR_FIELDS = ("name", "email", "homepage")
@@ -155,6 +155,7 @@ class ShoedocValidator:
             "examples": self._validate_examples,
             "shell": self._validate_shell,
             "private": self._validate_private,
+            "terminal": self._validate_terminal,
             "summary": self._validate_summary,
             "type": self._validate_type,
         }
@@ -312,6 +313,11 @@ class ShoedocValidator:
     def _validate_private(value, errors) -> None:
         if not isinstance(value, bool):
             errors.append("'private' must be a boolean")
+
+    @staticmethod
+    def _validate_terminal(value, errors) -> None:
+        if not isinstance(value, bool):
+            errors.append("'terminal' must be a boolean")
 
     @staticmethod
     def _validate_summary(value, errors) -> None:
@@ -611,6 +617,8 @@ class _ClassicBlockBuilder:
             self.data["private"] = True
         elif tag == "public":
             self.data["private"] = False
+        elif tag == "terminal":
+            self.data["terminal"] = True
         elif tag == "type":
             self._add_type(value)
         elif tag in ShoedocSchema.ARRAY_KEYS:
@@ -1120,6 +1128,8 @@ class ShoedocSerializer:
                     out.extend("## @example %s" % example for example in examples)
             elif key == "private" and key in data:
                 out.append("## @private" if data[key] else "## @public")
+            elif key == "terminal" and data.get(key):
+                out.append("## @terminal")
             elif key == "type":
                 if data.get(key):
                     out.append("## @type {%s}" % data[key])
@@ -1837,7 +1847,7 @@ class StaticAnalyzer:
     LOOP_VARIABLE_RE = re.compile(
         r"\b(?:for|select)\s+([A-Za-z_][A-Za-z0-9_]*)\s+in\b"
     )
-    READ_RE = re.compile(r"\bread\b([^\n;|&]*)")
+    READ_RE = re.compile(r"\bread\b((?:\\\n|[^\n;|&])*)")
     MAPFILE_RE = re.compile(r"\b(?:mapfile|readarray)\b([^\n;|&]*)")
     GETOPTS_RE = re.compile(
         r"\bgetopts\s+\S+\s+([A-Za-z_][A-Za-z0-9_]*)"
@@ -2100,23 +2110,20 @@ class StaticAnalyzer:
             file_lines[index].rstrip("\n")
         ):
             return None
-        body = []
+        # braces inside quoted strings or comments are plain characters
+        # and must not affect depth; sanitize the remaining text as a
+        # whole so quote and heredoc state spans lines
+        remaining = "".join(file_lines[index:])
+        sanitized, _heredoc = self.sanitizer.sanitize(remaining)
         depth = 0
         started = False
-        heredoc = None
-        while index < total:
-            line = file_lines[index]
-            body.append(line)
-            # braces inside quoted strings or comments are plain
-            # characters and must not affect depth
-            counted, heredoc = self.sanitizer.sanitize(line, heredoc)
+        for offset, counted in enumerate(sanitized.splitlines()):
             depth += counted.count("{") - counted.count("}")
             if depth > 0:
                 started = True
             elif started and depth <= 0:
-                break
-            index += 1
-        return "".join(body)
+                return "".join(file_lines[index:index + offset + 1])
+        return "".join(file_lines[index:])
 
     def find_calls(self, function_body: str, defined: set) -> set:
         """Calls to registry entries, excluding locally defined functions.
@@ -2568,6 +2575,7 @@ class ShoedocLinter:
         "variable": "variables",
         "private": "private",
         "public": "private",
+        "terminal": "terminal",
     })
 
     def __init__(
@@ -2591,7 +2599,7 @@ class ShoedocLinter:
                 ShoedocRule(
                     (
                         "authors", "examples", "links", "overrides", "shell",
-                        "private", "summary",
+                        "private", "terminal", "summary",
                     ) + ShoedocSchema.STRING_PROPERTIES,
                     self.validator,
                 ),
@@ -3195,19 +3203,21 @@ class ShellFunctionParser:
     def _function_body_end(self, function_index: int) -> int:
         """Return the index of the line that closes the function, or the
         last file line when the function never closes."""
+        # Sanitize the remaining text as a whole: quote and heredoc state
+        # spans lines, and line-by-line sanitizing would count braces
+        # inside multi-line quoted awk programs.
+        remaining = "".join(self.lines[function_index:])
+        sanitized, _heredoc = self.sanitizer.sanitize(remaining)
         brace_depth = 0
         function_started = False
-        heredoc = None
-        for index in range(function_index, len(self.lines)):
-            line = self.lines[index]
-            sanitized, heredoc = self.sanitizer.sanitize(line, heredoc)
-            brace_depth += sanitized.count("{") - sanitized.count("}")
+        for offset, line in enumerate(sanitized.splitlines()):
+            brace_depth += line.count("{") - line.count("}")
             if brace_depth > 0:
                 function_started = True
-            elif index == function_index and "{" in sanitized:
+            elif offset == 0 and "{" in line:
                 function_started = True
             if function_started and brace_depth <= 0:
-                return index
+                return function_index + offset
         return len(self.lines) - 1
 
 
@@ -4756,8 +4766,23 @@ class MakefileGenerator:
         return [".PHONY: help%s" % (f" {names}" if names else "")]
 
     @staticmethod
+    def _escape_make_shell(value: str) -> str:
+        """Escape a value embedded in a double-quoted make/shell word.
+
+        Make expands ``$`` before the recipe reaches the shell, and the
+        shell interprets the remaining double-quote, backslash and
+        backtick characters."""
+        return (
+            value.replace("\\", "\\\\")
+            .replace("$", "\\$$")
+            .replace('"', '\\"')
+            .replace("`", "\\`")
+        )
+
+    @staticmethod
     def _render_targets(annotated: dict, script_ref: str) -> list:
         lines = []
+        escaped_ref = MakefileGenerator._escape_make_shell(script_ref)
         current_section = None
         for name, (_annotation, metadata, section) in annotated.items():
             if section and section != current_section:
@@ -4774,8 +4799,8 @@ class MakefileGenerator:
                 lines.append(f"## {summary}")
             lines.extend([
                 f"{name}:",
-                f'\t@printf "$(_INFO)sh {script_ref} {name}$(_EOL)\\n"',
-                f"\t@sh {shlex.quote(script_ref)} {name}",
+                f'\t@printf "$(_INFO)sh {escaped_ref} {name}$(_EOL)\\n"',
+                f"\t@sh {shlex.quote(script_ref).replace('$', '$$')} {name}",
                 "",
             ])
         return lines

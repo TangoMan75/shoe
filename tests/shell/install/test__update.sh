@@ -77,6 +77,39 @@ install:$(realpath "${__script__}"):myscript:false" \
     assert_equals 'new content' "$(cat "${__script__}")"
 }
 
+test_update_should_preserve_the_script_mode() {
+    _is_installed() { [ "$1" = 'curl' ]; }
+    _uninstall() { :; }
+    _install() { :; }
+    curl() { printf 'new content'; }
+    chmod 755 "${__script__}"
+
+    _update "${__script__}" 'https://example.com/myscript.sh'
+
+    assert_equals '755' \
+        "$(stat -c '%a' "${__script__}" 2>/dev/null || stat -f '%Lp' "${__script__}")"
+}
+
+test_update_should_keep_the_script_when_the_download_fails() {
+    _is_installed() { [ "$1" = 'curl' ]; }
+    _uninstall() { printf 'uninstall:%s:%s\n' "$1" "$2"; }
+    _install() { printf 'install:%s:%s:%s\n' "$1" "$2" "$3"; }
+    curl() { return 22; }
+
+    assert_fails "_update '${__script__}' 'https://example.com/myscript.sh'"
+    assert_equals '#!/bin/sh' "$(cat "${__script__}")"
+}
+
+test_update_should_keep_the_script_when_the_download_is_empty() {
+    _is_installed() { [ "$1" = 'curl' ]; }
+    _uninstall() { printf 'uninstall:%s:%s\n' "$1" "$2"; }
+    _install() { printf 'install:%s:%s:%s\n' "$1" "$2" "$3"; }
+    curl() { :; }
+
+    assert_fails "_update '${__script__}' 'https://example.com/myscript.sh'"
+    assert_equals '#!/bin/sh' "$(cat "${__script__}")"
+}
+
 test_update_fails_when_no_downloader_is_available() {
     assert_fails "_update '${__script__}' 'https://example.com/myscript.sh'"
     assert_equals "\"${0}\" requires curl, try: \"sudo apt-get install -y curl\"" "$(_update "${__script__}" 'https://example.com/myscript.sh' 2>&1)"

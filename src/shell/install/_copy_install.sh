@@ -19,7 +19,7 @@ _copy_install() {
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
 
     # -a, --archive    same as -dR --preserve=all
-    _echo_info "sudo cp --archive \"$1\" \"/usr/local/bin/$2\"\n"
-    sudo cp --archive "$1" "/usr/local/bin/$2"
+    _echo_info "sudo cp -R -p \"$1\" \"/usr/local/bin/$2\"\n"
+    sudo cp -R -p "$1" "/usr/local/bin/$2"
 }
 

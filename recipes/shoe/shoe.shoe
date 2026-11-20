@@ -16,7 +16,7 @@
 ## @version 0.1.0
 ## @license MIT
 ## @link    https://github.com/TangoMan75/shoe
-## @update  https://raw.githubusercontent.com/TangoMan75/shoe/refs/heads/main/shoe.sh
+## @update  https://raw.githubusercontent.com/TangoMan75/shoe/refs/heads/main/build/shoe.sh
 
 #--------------------------------------------------
 # Place your constants after this line
@@ -401,6 +401,7 @@
 ../../src/shell/validation/_check_duplicate_functions.sh
 ../../src/shell/validation/_is_valid.sh
 ../../src/shell/validation/_validate.sh
+../../src/shell/validation/_validate_positionals.sh
 
 #--------------------------------------------------
 #_ Kernel

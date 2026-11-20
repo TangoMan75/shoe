@@ -91,7 +91,7 @@ test_generate_makefile_should_write_command_rules() {
     _generate_makefile "${__fixture__}" "${__destination__}" 'output.makefile'
 
     assert "grep -q '^public_command:' '${__destination__}/output.makefile'"
-    assert "grep -q 'sh documentation_test.sh public_command' '${__destination__}/output.makefile'"
+    assert "grep -q 'sh .*documentation_test.sh public_command' '${__destination__}/output.makefile'"
 }
 
 test_generate_makefile_should_not_write_private_rules() {

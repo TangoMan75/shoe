@@ -25,10 +25,10 @@ build() {
     _echo_info "rm \"doc/${recipe}.md\" || true\n"
     rm "doc/${recipe}.md" || true
 
-    _echo_info "python3 shoemaker.py generate_doc -f \"build/${recipe}.sh\" --destination doc\n"
-    python3 shoemaker.py generate_doc -f "build/${recipe}.sh" --destination doc
+    _echo_info "python3 shoemaker.py generate_doc --file \"build/${recipe}.sh\" --destination doc\n"
+    python3 shoemaker.py generate_doc --file "build/${recipe}.sh" --destination doc
 
-    _echo_info "python3 shoemaker.py generate_makefile -f \"build/${recipe}.sh\"\n"
-    python3 shoemaker.py generate_makefile -f "build/${recipe}.sh"
+    _echo_info "python3 shoemaker.py generate_makefile --file \"build/${recipe}.sh\"\n"
+    python3 shoemaker.py generate_makefile --file "build/${recipe}.sh"
 }
 

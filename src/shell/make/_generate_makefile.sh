@@ -3,7 +3,7 @@
 ## Generate Makefile for provided shoe script
 ##
 ## @namespace src/shell/make
-## @requires awk basename cat dirname grep printf realpath tr
+## @requires awk basename cat dirname printf realpath tr
 ## @depends src/shell/colors/_alert_primary
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_success
@@ -25,7 +25,10 @@ _generate_makefile() {
     set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).makefile"}"
 
     # check valid input file type
-    if [ "$(printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$')" != .sh ]; then _echo_error '_generate_makefile: file should be type ".sh"\n'; return 1; fi
+    case "$1" in
+        *.sh) ;;
+        *) _echo_error '_generate_makefile: file should be type ".sh"\n'; return 1 ;;
+    esac
 
     _alert_primary "Generating $3"
 
@@ -165,8 +168,15 @@ help:
 
 EOT
 
+    # Reference the script by its path relative to the Makefile so the
+    # generated targets run from the folder that holds the Makefile.
+    case "$1" in
+        "$2"/*) __script_ref__="${1#"$2"/}" ;;
+        *)      __script_ref__="$1" ;;
+    esac
+
     # generate rules
-    awk -v SHELL_SCRIPT="$(basename "$1")" \
+    awk -v SHELL_SCRIPT="$__script_ref__" \
     'BEGIN {HR="##################################################\n"}
     /^### /{SECTION=substr($0,5); if (tolower(SECTION) != "help") printf"%s### %s\n%s\n",HR,SECTION,HR}
     /^## /{if (annotation=="") annotation=substr($0,4)}

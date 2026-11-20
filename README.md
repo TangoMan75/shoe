@@ -60,7 +60,7 @@ Short aliases for options and flags are automatically created from the first let
 
 10. **⚡ POSIX Shell Compatibility:**
 
-**TangoMan Shoe Shell Microframework** is 100% POSIX compliant, run your scripts in virtually any environment, including containers and android based systems.
+**TangoMan Shoe Shell Microframework** is POSIX-first: the framework and generated scripts target `#!/bin/sh`. A small set of documented, compatibility-checked exceptions (see [Portability](#-portability)) covers commands that POSIX does not specify, so your scripts run in virtually any environment, including containers and Android-based systems.
 
 11. **⚡ MacOS Compatibility Layer:**
 
@@ -103,7 +103,7 @@ In addition, **TangoMan Shoe Shell Microframework** includes a library of reusab
 ----------------
 
 1. Full Shoe documentation can be found here: [./doc/shoe.md](./doc/shoe.md)
-2. Documentation for `shoemaker.py` can be found here: [./doc/shoemaker.md](./doc/shoemaker.md)
+2. Documentation for `shoemaker.py` is available with `python3 shoemaker.py --help` and per command with `python3 shoemaker.py <command> --help`.
 3. Documentation for `entrypoint.sh` can be found here: [./doc/entrypoint.md](./doc/entrypoint.md)
 4. The complete Shoedoc tag vocabulary can be found here: [./VOCABULARY.md](./VOCABULARY.md)
 
@@ -294,6 +294,22 @@ Similarly, an invalid option will trigger an error message:
 Illegal arguments will also result in an error message:
 ![error_validation](./doc/images/error_validation.png)
 
+🔌 Portability
+--------------
+
+The framework and generated scripts target POSIX `sh`. The commands below are not specified by POSIX; each use is isolated and works on the listed platforms.
+
+|        Command        |                            Where                            |                          Platforms                          |
+|-----------------------|-------------------------------------------------------------|-------------------------------------------------------------|
+| `realpath`            | `src/shell/files`, `src/shell/install`, `src/shell/network` | GNU coreutils, BusyBox, macOS, POSIX.1-2024                 |
+| `mktemp`              | temporary files                                             | GNU coreutils, BusyBox (a template is always passed), macOS |
+| `sed -i`              | `compatibility/_sed_i.sh`                                   | GNU sed, BSD/macOS sed                                      |
+| `tar -z`              | `files/_compress.sh`, `files/_extract.sh`                   | GNU tar, BSD tar, BusyBox tar                               |
+| `setfacl`             | `system/_set_web_permissions.sh`                            | Linux with the `acl` package                                |
+| `stat -c` / `stat -f` | `reflexion/_set_parameter.sh`                               | GNU coreutils, BusyBox, macOS                               |
+
+Everything else (`find` with `-exec`, `cp -R -p`, `grep`, `awk`, `sed`, `printf`, `sort`) uses POSIX options and syntax.
+
 🐛 Limitations
 --------------
 
@@ -314,7 +330,7 @@ $ sh shoe.sh hello hello hello
 ⚠️ Last flag or option will overwrite variable value.
 
 ```bash
-$ sh shoe.sh hello --who=foo --who=bar
+$ sh shoe.sh hello --who foo --who bar
 ```
 The command above will return :
 ```

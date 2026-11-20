@@ -28,19 +28,19 @@ _clean_folder() {
     _echo_info "find \"$1\" -type d -name \"__pycache__\" -exec rm -rf '{}' +\n"
     find "$1" -type d -name "__pycache__" -exec rm -rf {} +
 
-    _echo_info "find \"$1\" -type f -iname desktop.ini -delete\n"
-    find "$1" -type f -iname desktop.ini -delete
+    _echo_info "find \"$1\" -type f -iname desktop.ini -exec rm -f {} +\n"
+    find "$1" -type f -iname desktop.ini -exec rm -f {} +
 
-    _echo_info "find \"$1\" -type f -iname thumbs.db -delete\n"
-    find "$1" -type f -iname thumbs.db -delete
+    _echo_info "find \"$1\" -type f -iname thumbs.db -exec rm -f {} +\n"
+    find "$1" -type f -iname thumbs.db -exec rm -f {} +
 
-    _echo_info "find \"$1\" -type f -name '*.log' -delete\n"
-    find "$1" -type f -name '*.log' -delete
+    _echo_info "find \"$1\" -type f -name '*.log' -exec rm -f {} +\n"
+    find "$1" -type f -name '*.log' -exec rm -f {} +
 
-    _echo_info "find \"$1\" -type f -name .DS_Store -delete\n"
-    find "$1" -type f -name .DS_Store -delete
+    _echo_info "find \"$1\" -type f -name .DS_Store -exec rm -f {} +\n"
+    find "$1" -type f -name .DS_Store -exec rm -f {} +
 
-    _echo_info "find \"$1\" -type f -name '*_undo.sh' -delete\n"
-    find "$1" -type f -name "*_undo.sh" -delete
+    _echo_info "find \"$1\" -type f -name '*_undo.sh' -exec rm -f {} +\n"
+    find "$1" -type f -name "*_undo.sh" -exec rm -f {} +
 }
 

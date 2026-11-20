@@ -69,6 +69,12 @@ test_get_parameter_fails_with_missing_key() {
     assert_equals "_get_parameter: some mandatory parameter is missing\n" "$(_get_parameter ../../../tests/fixtures/parameters.env)"
 }
 
+test_get_parameter_rejects_an_invalid_key() {
+    assert_fails "$(_get_parameter '../../../tests/fixtures/parameters.env' 'KEY1.*')"
+    assert_equals "_get_parameter: invalid parameter name \"KEY1.*\"\n" \
+        "$(_get_parameter '../../../tests/fixtures/parameters.env' 'KEY1.*' 2>&1)"
+}
+
 test_get_parameter_fails_with_nonexistent_file() {
     assert_fails "$(_get_parameter nonexistent.env KEY1)"
     assert_equals "_get_parameter: \"nonexistent.env\" file not found\n" "$(_get_parameter nonexistent.env KEY1)"

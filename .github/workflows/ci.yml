@@ -30,6 +30,11 @@ jobs:
     - name: Unit testing with bash_unit
       run: ./entrypoint.sh tests
 
+    - name: Test shoemaker and converter
+      run: |
+        python3 tests/python/test_converter.py
+        python3 tests/python/test_shoemaker.py
+
   macos:
     runs-on: macos-latest
     steps:

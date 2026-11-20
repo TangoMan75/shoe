@@ -3,7 +3,7 @@
 ## Updates given script from the provided URL
 ##
 ## @namespace src/shell/install
-## @requires basename curl realpath wget
+## @requires basename chmod curl realpath stat wget
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
 ## @depends src/shell/install/_install
@@ -18,19 +18,48 @@ _update() {
     if [ $# -gt 4 ]; then _echo_error "_update: too many arguments ($#)\n"; return 1; fi
     if [ ! -f "$1" ]; then _echo_error "_update: \"$1\" file not found\n"; return 1; fi
 
-    set -- "$(realpath "$1")" "$2" "${3:-"$(basename "$1" .sh)"}" "${4:-false}"
+    set -- "$(realpath "$1")" "$2" "${3:-"$(basename "$1" .sh)"}" "${4:-false}" "${1}.download.$$"
 
+    # Keep the mode of the installed script: the downloaded temporary is
+    # created with the default umask.
+    __mode__=$(stat -c '%a' "$1" 2>/dev/null || stat -f '%Lp' "$1" 2>/dev/null)
+
+    # Download to a temporary file first: a failed transfer (404, DNS
+    # error, interrupted connection) must never overwrite the installed
+    # script.
     if _is_installed curl; then
-        _echo_info "curl -sSL \"$2\" > \"$1\"\n"
-        curl -sSL "$2" > "$1"
+        _echo_info "curl -fsSL \"$2\" > \"$5\"\n"
+        if ! curl -fsSL "$2" > "$5"; then
+            rm -f "$5"
+            _echo_error "_update: could not download \"$2\"\n"
 
-    elif _is_installed  wget; then
-        _echo_info "wget -qO - \"$2\" > \"$1\"\n"
-        wget -qO - "$2" > "$1"
+            return 1
+        fi
+
+    elif _is_installed wget; then
+        _echo_info "wget -qO \"$5\" \"$2\"\n"
+        if ! wget -qO "$5" "$2"; then
+            rm -f "$5"
+            _echo_error "_update: could not download \"$2\"\n"
+
+            return 1
+        fi
 
     else
         _echo_error "\"$0\" requires curl, try: \"sudo apt-get install -y curl\"\n"
         return 1
+    fi
+
+    if [ ! -s "$5" ]; then
+        rm -f "$5"
+        _echo_error "_update: downloaded file is empty\n"
+
+        return 1
+    fi
+
+    mv "$5" "$1"
+    if [ -n "${__mode__}" ]; then
+        chmod "${__mode__}" "$1"
     fi
 
     _uninstall "$1" "$3"

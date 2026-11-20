@@ -10,6 +10,7 @@
 ## @depends src/shell/colors/_echo_success
 ## @depends src/shell/colors/_echo_warning
 ## @depends src/shell/git/_list_github
+## @assumes TMPDIR
 ## @param {str} <OWNER> (required) The GitHub user name.
 _pick_repository() {
     # $1..: command line arguments followed by an internal marker.
@@ -56,7 +57,8 @@ _pick_repository() {
     #--------------------------------------------------
 
     # $2: repository file.
-    set -- "$1" "$(mktemp)"
+    __repository_file__=$(mktemp "${TMPDIR:-/tmp}/pick_repository.XXXXXX") || return 1
+    set -- "$1" "$__repository_file__"
     if [ -z "$2" ]; then
         _echo_error '_pick_repository: could not create temporary file\n'
 

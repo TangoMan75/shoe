@@ -71,6 +71,12 @@ test_print_usage_should_print_command_name_instead_of_placeholder() {
     assert_equals "${expected}" "${actual}"
 }
 
+test_print_usage_should_print_positional_parameters() {
+    actual="$(_print_usage "../../../tests/fixtures/positional_parameters.sh" 'greet')"
+    expected="$(printf 'Usage:\n  sh positional_parameters.sh greet <WHO> <COUNT> [-p|--prefix ""] [-l|--loud] \n\n')"
+    assert_equals "${expected}" "${actual}"
+}
+
 test_print_usage_should_print_command_options() {
     actual="$(_print_usage "../../../tests/fixtures/scoped/search.sh" 'search')"
     expected="$(printf 'Usage:\n  sh search.sh search [-t|--term ""] \n\n')"

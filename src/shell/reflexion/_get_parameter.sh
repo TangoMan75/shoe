@@ -12,6 +12,16 @@ _get_parameter() {
     if [ $# -gt 2 ]; then _echo_error "_get_parameter: too many arguments ($#)\n"; return 1; fi
     if [ ! -f "$1" ]; then _echo_error "_get_parameter: \"$1\" file not found\n"; return 1; fi
 
+    # The key is interpolated into a sed pattern: reject anything that is
+    # not a shell identifier first.
+    if [ -z "$2" ] \
+        || [ "$2" != "${2#[!A-Za-z_]}" ] \
+        || [ "$2" != "${2#*[!A-Za-z0-9_]*}" ]; then
+        _echo_error "_get_parameter: invalid parameter name \"$2\"\n"
+
+        return 1
+    fi
+
     set -- "$(realpath "$1")" "$2"
     sed -n "s/^$2=\(.*\)/\1/p" "$1" | sed 's/^"//; s/"$//' # remove leading and trailing quotes
 }

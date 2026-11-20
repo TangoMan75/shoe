@@ -361,6 +361,14 @@ class FixPipelineTest(unittest.TestCase):
         })
         self.assertIn("test: options: unknown key(s): position", errors)
 
+    def test_terminal_must_be_a_boolean(self):
+        errors, _ = self.validate({"namespace": "ns", "terminal": "yes"})
+        self.assertIn("test: 'terminal' must be a boolean", errors)
+
+    def test_terminal_accepts_a_boolean(self):
+        errors, _ = self.validate({"namespace": "ns", "terminal": True})
+        self.assertEqual(errors, [])
+
     def test_param_entries_cannot_be_deprecated(self):
         errors, _ = self.validate({
             "namespace": "ns",
@@ -517,7 +525,7 @@ class FixPipelineTest(unittest.TestCase):
     def test_script_block_scope(self):
         for key in (
             "namespace", "requires", "params", "options", "flags",
-            "stdout", "stderr", "stdin",
+            "stdout", "stderr", "stdin", "terminal",
         ):
             with self.subTest(key=key):
                 linter = shoemaker.ShoedocLinter()
@@ -3021,10 +3029,37 @@ class ShoemakerCliTest(unittest.TestCase):
             '"first.sh:2", "first.sh:5"', result.stderr)
 
     def test_build_agnostic_companion_honors_overrides(self):
+        (self.root / "src" / "core").mkdir(parents=True)
+        (self.root / "src" / "core" / "_before.sh").write_text(
+            "#!/bin/sh\n"
+            "## Core before hook\n"
+            "##\n"
+            "## @namespace src/core\n"
+            "_before() {\n    :\n}\n",
+            encoding="utf-8",
+        )
+        (self.root / "ns" / "override.sh").write_text(
+            "#!/bin/sh\n"
+            "## Override before hook\n"
+            "##\n"
+            "## @namespace ns\n"
+            "## @overrides src/core/_before\n"
+            "_before() {\n    :\n}\n",
+            encoding="utf-8",
+        )
+        (self.root / "ns" / "consumer.sh").write_text(
+            "#!/bin/sh\n"
+            "## Consumer\n"
+            "##\n"
+            "## @namespace ns\n"
+            "## @depends src/core/_before\n"
+            "consumer() {\n    _before\n}\n",
+            encoding="utf-8",
+        )
         destination = self.root / "build"
-        recipe = (
-            ROOT / "recipes" / "agnostic-companion"
-            / "agnostic-companion.shoe"
+        recipe = self.root / "agnostic-companion.shoe"
+        recipe.write_text(
+            "ns/consumer.sh\nns/override.sh\n", encoding="utf-8"
         )
 
         result = self.run_shoemaker(

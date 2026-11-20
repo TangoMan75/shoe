@@ -24,11 +24,26 @@ _move() {
         return 0
     fi
 
-    # `cp -r SOURCE/. DESTINATION`
+    # Refuse a destination that is the source itself or one of its
+    # descendants: copying a folder into itself would recurse forever and
+    # the source is removed afterwards.
+    case "$(realpath "$2")" in
+        "$1"|"$1"/*)
+            _echo_error "_move: destination \"$2\" is inside source \"$1\"\n"
+
+            return 1
+            ;;
+    esac
+
+    # `cp -R SOURCE/. DESTINATION`
     # will effectively merge folders when destination exists without leaving dotfiles behind
     # (files in destination will overwriten)
-    _echo_info "cp -r \"$1/.\" \"$2\"\n"
-    cp -r "$1/." "$2"
+    _echo_info "cp -R \"$1/.\" \"$2\"\n"
+    if ! cp -R "$1/." "$2"; then
+        _echo_error "_move: could not copy \"$1\" to \"$2\"\n"
+
+        return 1
+    fi
 
     _echo_info "rm -rf \"$1\"\n"
     rm -rf "$1"

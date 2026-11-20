@@ -2,8 +2,12 @@
 
 ## Checks if variable is valid given regex constraint
 ##
+## The pattern is applied with POSIX extended regular expressions, as
+## data (never as a command-line option), and every line of the value
+## must match it in full.
+##
 ## @namespace src/shell/validation
-## @requires grep printf sed
+## @requires awk printf sed
 ## @depends src/shell/colors/_echo_error
 ## @param {str} <VALUE> (required) The string to be compared to regex pattern.
 ## @param {str} <PATTERN> (required) The regex parttern to apply.
@@ -17,11 +21,14 @@ _is_valid() {
         return 0
     fi
 
-    # remove leading and ending forward slashes from regular expression
-    set -- "$1" "$(printf '%s' "$2" | sed 's@^/@@;s@/$@@')"
+    # remove leading and ending forward slashes from regular expression,
+    # including its optional trailing flags
+    set -- "$1" "$(printf '%s' "$2" | sed 's@^/@@;s@/[a-z]*$@@')"
 
-    # if [ "$1" != "$(printf '%s' "$1" | awk "$2 {print}")" ]; then
-    if [ "$1" != "$(printf '%s' "$1" | grep -E "$2")" ]; then
+    if ! printf '%s\n' "$1" | awk -v pattern="$2" '
+        $0 !~ ("^(" pattern ")$") { invalid = 1 }
+        END { exit invalid }
+    '; then
 
         return 1
     fi

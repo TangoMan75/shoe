@@ -42,7 +42,7 @@ set -e
 ## @version 0.1.0
 ## @license MIT
 ## @link    https://github.com/TangoMan75/shoe
-## @update  https://raw.githubusercontent.com/TangoMan75/shoe/refs/heads/main/shoe.sh
+## @update  https://raw.githubusercontent.com/TangoMan75/shoe/refs/heads/main/build/shoe.sh
 
 #--------------------------------------------------
 # Place your constants after this line
@@ -1778,12 +1778,15 @@ _wait_for_rabbit() {
 ## Generate Markdown documentation for provided shoe script
 ##
 ## @namespace src/shell/documentation
-## @requires awk basename dirname grep printf realpath sed
+## @requires awk basename dirname printf realpath sed
 ## @depends src/shell/colors/_alert_primary
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
 ## @depends src/shell/colors/_echo_success
+## @depends src/shell/reflexion/_get_constants
+## @depends src/shell/reflexion/_get_flags
 ## @depends src/shell/reflexion/_get_functions_names
+## @depends src/shell/reflexion/_get_options
 ## @depends src/shell/reflexion/_print_synopsis
 ## @depends src/shell/shoedoc/_get_function_shoedoc
 ## @depends src/shell/shoedoc/_get_script_shoedoc
@@ -1805,7 +1808,10 @@ _generate_doc() {
     set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).md"}" "${4:-false}"
 
     # check valid input file type
-    if [ "$(printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$')" != .sh ]; then _echo_error '_generate_doc: file should be type ".sh"\n'; return 1; fi
+    case "$1" in
+        *.sh) ;;
+        *) _echo_error '_generate_doc: file should be type ".sh"\n'; return 1 ;;
+    esac
 
     _alert_primary "Generating $3"
 
@@ -1983,6 +1989,7 @@ _generate_doc() {
     printf '## 🤖 Commands\n\n' >> "$2/$3"
 
     __index__=0
+    __current_namespace__=''
 
     for __function_name__ in $(_get_functions_names "$1" true); do
         _echo_info "${__function_name__}\n"
@@ -2256,20 +2263,20 @@ _clean_folder() {
     _echo_info "find \"$1\" -type d -name \"__pycache__\" -exec rm -rf '{}' +\n"
     find "$1" -type d -name "__pycache__" -exec rm -rf {} +
 
-    _echo_info "find \"$1\" -type f -iname desktop.ini -delete\n"
-    find "$1" -type f -iname desktop.ini -delete
+    _echo_info "find \"$1\" -type f -iname desktop.ini -exec rm -f {} +\n"
+    find "$1" -type f -iname desktop.ini -exec rm -f {} +
 
-    _echo_info "find \"$1\" -type f -iname thumbs.db -delete\n"
-    find "$1" -type f -iname thumbs.db -delete
+    _echo_info "find \"$1\" -type f -iname thumbs.db -exec rm -f {} +\n"
+    find "$1" -type f -iname thumbs.db -exec rm -f {} +
 
-    _echo_info "find \"$1\" -type f -name '*.log' -delete\n"
-    find "$1" -type f -name '*.log' -delete
+    _echo_info "find \"$1\" -type f -name '*.log' -exec rm -f {} +\n"
+    find "$1" -type f -name '*.log' -exec rm -f {} +
 
-    _echo_info "find \"$1\" -type f -name .DS_Store -delete\n"
-    find "$1" -type f -name .DS_Store -delete
+    _echo_info "find \"$1\" -type f -name .DS_Store -exec rm -f {} +\n"
+    find "$1" -type f -name .DS_Store -exec rm -f {} +
 
-    _echo_info "find \"$1\" -type f -name '*_undo.sh' -delete\n"
-    find "$1" -type f -name "*_undo.sh" -delete
+    _echo_info "find \"$1\" -type f -name '*_undo.sh' -exec rm -f {} +\n"
+    find "$1" -type f -name "*_undo.sh" -exec rm -f {} +
 }
 
 ## Compress a file or folder into an archive
@@ -2465,14 +2472,20 @@ _extract() {
 ## Get file extension
 ##
 ## @namespace src/shell/files
-## @requires grep printf
+## @requires printf
 ## @depends src/shell/colors/_echo_error
 ## @param {file} <FILE_PATH> (required) The path to the input file.
 _get_file_extension() {
     if [ -z "$1" ]; then _echo_error '_get_file_extension: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 1 ]; then _echo_error "_get_file_extension: too many arguments ($#)\n"; return 1; fi
 
-    printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$'
+    # Only the basename takes part in the extension, and a dotfile such
+    # as ".bashrc" keeps its whole name.
+    set -- "${1##*/}"
+    case "$1" in
+        *.*) printf '.%s\n' "${1##*.}" ;;
+        *) return 1 ;;
+    esac
 }
 
 ## Print the human readable size of a file or folder
@@ -2520,11 +2533,26 @@ _move() {
         return 0
     fi
 
-    # `cp -r SOURCE/. DESTINATION`
+    # Refuse a destination that is the source itself or one of its
+    # descendants: copying a folder into itself would recurse forever and
+    # the source is removed afterwards.
+    case "$(realpath "$2")" in
+        "$1"|"$1"/*)
+            _echo_error "_move: destination \"$2\" is inside source \"$1\"\n"
+
+            return 1
+            ;;
+    esac
+
+    # `cp -R SOURCE/. DESTINATION`
     # will effectively merge folders when destination exists without leaving dotfiles behind
     # (files in destination will overwriten)
-    _echo_info "cp -r \"$1/.\" \"$2\"\n"
-    cp -r "$1/." "$2"
+    _echo_info "cp -R \"$1/.\" \"$2\"\n"
+    if ! cp -R "$1/." "$2"; then
+        _echo_error "_move: could not copy \"$1\" to \"$2\"\n"
+
+        return 1
+    fi
 
     _echo_info "rm -rf \"$1\"\n"
     rm -rf "$1"
@@ -3669,8 +3697,8 @@ _git_hooks() {
     _echo_info "rm -rf \"$2\"\n"
     rm -rf "$2"
 
-    _echo_info "cp -r \"$1\" \"$2\"\n"
-    cp -r "$1" "$2"
+    _echo_info "cp -R \"$1\" \"$2\"\n"
+    cp -R "$1" "$2"
 
     _echo_info "chmod +x \"$2\"/*\n"
     chmod +x "$2"/*
@@ -4162,6 +4190,7 @@ _parse_commit_type() {
 ## @depends src/shell/colors/_echo_success
 ## @depends src/shell/colors/_echo_warning
 ## @depends src/shell/git/_get_main_branch
+## @assumes TMPDIR
 ## @option {str} <FILTER> [-F] Grep filter applied to the branch list.
 ## @flag <all> [-a] List all branches.
 ## @flag <current> [-c] Include the current branch.
@@ -4292,7 +4321,9 @@ _pick_branch() {
     #--------------------------------------------------
 
     # $6: branch file, $7: main branch, $8: current branch.
-    set -- "$1" "$2" "$3" "$4" "$5" "$(mktemp)" \
+    __branch_file__=$(mktemp "${TMPDIR:-/tmp}/pick_branch.XXXXXX") \
+        || return 1
+    set -- "$1" "$2" "$3" "$4" "$5" "$__branch_file__" \
         "$(_get_main_branch)" "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
     if [ -z "$6" ]; then
         _echo_error '_pick_branch: could not create temporary file\n'
@@ -4385,6 +4416,7 @@ _pick_branch() {
 ## @depends src/shell/colors/_echo_primary
 ## @depends src/shell/colors/_echo_success
 ## @depends src/shell/colors/_echo_warning
+## @assumes TMPDIR
 ## @param {str} <BRANCH> The branch to list commits from.
 ## @option {int} <COUNT> [-n] (default:16) The number of commits to list.
 ## @flag <verbose> [-v] Print the command before execution.
@@ -4490,7 +4522,9 @@ _pick_commit() {
     #--------------------------------------------------
 
     # $4: commit file.
-    set -- "$1" "$2" "$3" "$(mktemp)"
+    __commit_file__=$(mktemp "${TMPDIR:-/tmp}/pick_commit.XXXXXX") \
+        || return 1
+    set -- "$1" "$2" "$3" "$__commit_file__"
     if [ -z "$4" ]; then
         _echo_error '_pick_commit: could not create temporary file\n'
 
@@ -4565,6 +4599,7 @@ _pick_commit() {
 ## @depends src/shell/colors/_echo_success
 ## @depends src/shell/colors/_echo_warning
 ## @depends src/shell/git/_list_github
+## @assumes TMPDIR
 ## @param {str} <OWNER> (required) The GitHub user name.
 _pick_repository() {
     # $1..: command line arguments followed by an internal marker.
@@ -4611,7 +4646,9 @@ _pick_repository() {
     #--------------------------------------------------
 
     # $2: repository file.
-    set -- "$1" "$(mktemp)"
+    __repository_file__=$(mktemp "${TMPDIR:-/tmp}/pick_repository.XXXXXX") \
+        || return 1
+    set -- "$1" "$__repository_file__"
     if [ -z "$2" ]; then
         _echo_error '_pick_repository: could not create temporary file\n'
 
@@ -5229,6 +5266,14 @@ _print_usage() {
                         continue
                         ;;
                 esac
+                if [ "${__kind__}" = 'param' ]; then
+                    _echo_info '<'
+                    _echo_success "${__name__}"
+                    _echo_info '> '
+
+                    continue
+                fi
+
                 __short__="${__short__:-${__name__%"${__name__#?}"}}"
                 __long__="${__long__:-${__name__}}"
 
@@ -5306,8 +5351,8 @@ _copy_install() {
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
 
     # -a, --archive    same as -dR --preserve=all
-    _echo_info "sudo cp --archive \"$1\" \"/usr/local/bin/$2\"\n"
-    sudo cp --archive "$1" "/usr/local/bin/$2"
+    _echo_info "sudo cp -R -p \"$1\" \"/usr/local/bin/$2\"\n"
+    sudo cp -R -p "$1" "/usr/local/bin/$2"
 }
 
 ## Generates an autocomplete script for the provided file
@@ -5552,7 +5597,7 @@ _set_completion_autoload() {
 ## Install script via symlink
 ##
 ## @namespace src/shell/install
-## @requires basename ln realpath sudo true
+## @requires basename ln realpath rm sudo
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
 ## @param {file} <FILE_PATH> (required) The path to the input file.
@@ -5564,8 +5609,21 @@ _symlink_install(){
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
 
-    _echo_info "sudo ln -s \"$1\" \"/usr/local/bin/$2\" || true\n"
-    sudo ln -s "$1" "/usr/local/bin/$2" || true
+    if [ -L "/usr/local/bin/$2" ]; then
+        _echo_info "sudo rm -f \"/usr/local/bin/$2\"\n"
+        if ! sudo rm -f "/usr/local/bin/$2"; then
+            _echo_error "_symlink_install: could not remove \"/usr/local/bin/$2\"\n"
+
+            return 1
+        fi
+    fi
+
+    _echo_info "sudo ln -s \"$1\" \"/usr/local/bin/$2\"\n"
+    if ! sudo ln -s "$1" "/usr/local/bin/$2"; then
+        _echo_error "_symlink_install: could not link \"$1\" to \"/usr/local/bin/$2\"\n"
+
+        return 1
+    fi
 }
 
 ## Uninstall script from system
@@ -5605,7 +5663,7 @@ _uninstall() {
 ## Updates given script from the provided URL
 ##
 ## @namespace src/shell/install
-## @requires basename curl realpath wget
+## @requires basename chmod curl realpath stat wget
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
 ## @depends src/shell/install/_install
@@ -5620,19 +5678,48 @@ _update() {
     if [ $# -gt 4 ]; then _echo_error "_update: too many arguments ($#)\n"; return 1; fi
     if [ ! -f "$1" ]; then _echo_error "_update: \"$1\" file not found\n"; return 1; fi
 
-    set -- "$(realpath "$1")" "$2" "${3:-"$(basename "$1" .sh)"}" "${4:-false}"
+    set -- "$(realpath "$1")" "$2" "${3:-"$(basename "$1" .sh)"}" "${4:-false}" "${1}.download.$$"
 
+    # Keep the mode of the installed script: the downloaded temporary is
+    # created with the default umask.
+    __mode__=$(stat -c '%a' "$1" 2>/dev/null || stat -f '%Lp' "$1" 2>/dev/null)
+
+    # Download to a temporary file first: a failed transfer (404, DNS
+    # error, interrupted connection) must never overwrite the installed
+    # script.
     if _is_installed curl; then
-        _echo_info "curl -sSL \"$2\" > \"$1\"\n"
-        curl -sSL "$2" > "$1"
+        _echo_info "curl -fsSL \"$2\" > \"$5\"\n"
+        if ! curl -fsSL "$2" > "$5"; then
+            rm -f "$5"
+            _echo_error "_update: could not download \"$2\"\n"
 
-    elif _is_installed  wget; then
-        _echo_info "wget -qO - \"$2\" > \"$1\"\n"
-        wget -qO - "$2" > "$1"
+            return 1
+        fi
+
+    elif _is_installed wget; then
+        _echo_info "wget -qO \"$5\" \"$2\"\n"
+        if ! wget -qO "$5" "$2"; then
+            rm -f "$5"
+            _echo_error "_update: could not download \"$2\"\n"
+
+            return 1
+        fi
 
     else
         _echo_error "\"$0\" requires curl, try: \"sudo apt-get install -y curl\"\n"
         return 1
+    fi
+
+    if [ ! -s "$5" ]; then
+        rm -f "$5"
+        _echo_error "_update: downloaded file is empty\n"
+
+        return 1
+    fi
+
+    mv "$5" "$1"
+    if [ -n "${__mode__}" ]; then
+        chmod "${__mode__}" "$1"
     fi
 
     _uninstall "$1" "$3"
@@ -5650,7 +5737,7 @@ _update() {
 ## Generate Makefile for provided shoe script
 ##
 ## @namespace src/shell/make
-## @requires awk basename cat dirname grep printf realpath tr
+## @requires awk basename cat dirname printf realpath tr
 ## @depends src/shell/colors/_alert_primary
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_success
@@ -5672,7 +5759,10 @@ _generate_makefile() {
     set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).makefile"}"
 
     # check valid input file type
-    if [ "$(printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$')" != .sh ]; then _echo_error '_generate_makefile: file should be type ".sh"\n'; return 1; fi
+    case "$1" in
+        *.sh) ;;
+        *) _echo_error '_generate_makefile: file should be type ".sh"\n'; return 1 ;;
+    esac
 
     _alert_primary "Generating $3"
 
@@ -5812,8 +5902,15 @@ help:
 
 EOT
 
+    # Reference the script by its path relative to the Makefile so the
+    # generated targets run from the folder that holds the Makefile.
+    case "$1" in
+        "$2"/*) __script_ref__="${1#"$2"/}" ;;
+        *)      __script_ref__="$1" ;;
+    esac
+
     # generate rules
-    awk -v SHELL_SCRIPT="$(basename "$1")" \
+    awk -v SHELL_SCRIPT="$__script_ref__" \
     'BEGIN {HR="##################################################\n"}
     /^### /{SECTION=substr($0,5); if (tolower(SECTION) != "help") printf"%s### %s\n%s\n",HR,SECTION,HR}
     /^## /{if (annotation=="") annotation=substr($0,4)}
@@ -6243,35 +6340,105 @@ _py_serve() {
     python3 -m http.server --directory "$1" --bind "$2" "$3"
 }
 
-## Remove hostname from /etc/hosts
+## Remove hostname from the local hosts file
+##
+## The hostname is matched against every alias of each entry, and the
+## hosts file is replaced atomically through a temporary copy.
 ##
 ## @namespace src/shell/network
+## @requires awk cp mktemp rm sudo
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
-## @depends src/shell/compatibility/_sed_i
-## @param {str} <HOSTNAME> (required) The hostame to unset locally.
+## @assumes HOSTS_FILE TMPDIR
+## @param {str} <HOSTNAME> (required) The hostname to unset locally.
 _remove_host() {
     if [ -z "$1" ]; then _echo_error '_remove_host: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 1 ]; then _echo_error "_remove_host: too many arguments ($#)\n"; return 1; fi
 
-    _echo_info "sudo $(_sed_i) \"/$1/d\" /etc/hosts\n"
-    eval "sudo $(_sed_i) \"/$1/d\" /etc/hosts"
+    # Reject characters that could be interpreted by the hosts file
+    # parsers or by the shell.
+    case "$1" in
+        *[!A-Za-z0-9.-]*)
+            _echo_error "_remove_host: invalid hostname \"$1\"\n"
+
+            return 1
+            ;;
+    esac
+
+    set -- "$1" "${HOSTS_FILE:-/etc/hosts}"
+
+    if [ ! -f "$2" ]; then
+        _echo_error "_remove_host: \"$2\" file not found\n"
+
+        return 1
+    fi
+
+    __tmp__=$(mktemp "${TMPDIR:-/tmp}/remove_host.XXXXXX") || {
+        _echo_error '_remove_host: could not create a temporary file\n'
+
+        return 1
+    }
+    set -- "$1" "$2" "$__tmp__"
+    if ! awk -v host="$1" '
+        {
+            keep = 1
+            for (field = 2; field <= NF; field++) {
+                if ($field == host) keep = 0
+            }
+            if (keep) print
+        }
+    ' "$2" > "$3"; then
+        rm -f "$3"
+        _echo_error "_remove_host: could not read \"$2\"\n"
+
+        return 1
+    fi
+
+    _echo_info "sudo cp \"$3\" \"$2\"\n"
+    if ! sudo cp "$3" "$2"; then
+        rm -f "$3"
+        _echo_error "_remove_host: could not update \"$2\"\n"
+
+        return 1
+    fi
+
+    rm -f "$3"
 }
 
-## Set new host in /etc/hosts
+## Set new host in the local hosts file
+##
+## The hostname is validated before use, and the entry is appended
+## without going through a nested shell.
 ##
 ## @namespace src/shell/network
-## @requires sudo
+## @requires printf sudo tee
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
 ## @depends src/shell/network/_remove_host
-## @param {str} <HOSTNAME> (required) The hostame to set locally.
+## @assumes HOSTS_FILE
+## @param {str} <HOSTNAME> (required) The hostname to set locally.
 _set_host() {
     if [ -z "$1" ]; then _echo_error '_set_host: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 1 ]; then _echo_error "_set_host: too many arguments ($#)\n"; return 1; fi
+
+    case "$1" in
+        *[!A-Za-z0-9.-]*)
+            _echo_error "_set_host: invalid hostname \"$1\"\n"
+
+            return 1
+            ;;
+    esac
 
     _remove_host "$1"
 
-    _echo_info "sudo /bin/sh -c \"echo \\\"127.0.0.1    $1\\\" >> /etc/hosts\"\n"
-    sudo /bin/sh -c "echo \"127.0.0.1    $1\" >> /etc/hosts"
+    set -- "$1" "${HOSTS_FILE:-/etc/hosts}"
+
+    _echo_info "printf '127.0.0.1    %s\\n' \"$1\" | sudo tee -a \"$2\"\n"
+    if ! printf '127.0.0.1    %s\n' "$1" | sudo tee -a "$2" >/dev/null; then
+        _echo_error "_set_host: could not update \"$2\"\n"
+
+        return 1
+    fi
 }
 
 #--------------------------------------------------
@@ -6551,11 +6718,12 @@ _get_function() {
     !/^#/ { annotation="" }' "$1"
 }
 
-## List options and flags declared in a function shoedoc annotation
+## List parameters, options and flags declared in a function shoedoc annotation
 ##
 ## Outputs one record per entry with fields separated by the ASCII unit
 ## separator: kind, name, short alias, long alias, constraint, default
-## value and description.
+## value and description. Parameters are emitted in declaration order, so
+## their position is implied by the order of their records.
 ##
 ## @namespace src/shell/reflexion
 ## @requires awk printf realpath
@@ -6630,7 +6798,8 @@ _get_function_parameters() {
                 }
             }
 
-            if (kind == "option" && substr(value, 1, 1) == "/") {
+            if ((kind == "option" || kind == "param") \
+                && substr(value, 1, 1) == "/") {
                 position = index(value, " ")
                 if (position == 0) {
                     constraint = value
@@ -6641,7 +6810,8 @@ _get_function_parameters() {
                 }
             }
 
-            if (kind == "option" && substr(value, 1, 1) == "(") {
+            if ((kind == "option" || kind == "param") \
+                && substr(value, 1, 1) == "(") {
                 stop = index(value, ")")
                 if (stop > 0) {
                     token = trim(substr(value, 2, stop - 2))
@@ -6660,7 +6830,10 @@ _get_function_parameters() {
             line = $0
             sub(/^##[ \t]?/, "", line)
             line = trim(line)
-            if (line ~ /^@option[ \t]/) {
+            if (line ~ /^@param[ \t]/) {
+                sub(/^@param[ \t]+/, "", line)
+                emit("param", line)
+            } else if (line ~ /^@option[ \t]/) {
                 sub(/^@option[ \t]+/, "", line)
                 emit("option", line)
             } else if (line ~ /^@flag[ \t]/) {
@@ -6761,6 +6934,16 @@ _get_parameter() {
     if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_get_parameter: some mandatory parameter is missing\n'; return 1; fi
     if [ $# -gt 2 ]; then _echo_error "_get_parameter: too many arguments ($#)\n"; return 1; fi
     if [ ! -f "$1" ]; then _echo_error "_get_parameter: \"$1\" file not found\n"; return 1; fi
+
+    # The key is interpolated into a sed pattern: reject anything that is
+    # not a shell identifier first.
+    if [ -z "$2" ] \
+        || [ "$2" != "${2#[!A-Za-z_]}" ] \
+        || [ "$2" != "${2#*[!A-Za-z0-9_]*}" ]; then
+        _echo_error "_get_parameter: invalid parameter name \"$2\"\n"
+
+        return 1
+    fi
 
     set -- "$(realpath "$1")" "$2"
     sed -n "s/^$2=\(.*\)/\1/p" "$1" | sed 's/^"//; s/"$//' # remove leading and trailing quotes
@@ -7111,7 +7294,7 @@ _print_synopsis() {
 ## appends a new assignment at the end of the file.
 ##
 ## @namespace src/shell/env
-## @requires awk cat grep mktemp rm
+## @requires awk chmod dirname grep mktemp mv rm stat
 ## @depends src/shell/colors/_echo_error
 ## @param {file} <FILE_PATH> (required) The ".env" file to update.
 ## @param {str} <KEY> (required) The variable name to set.
@@ -7147,24 +7330,35 @@ _set_parameter() {
     fi
 
     # Values are handed over through the environment because, unlike "-v",
-    # awk does not interpret backslash escapes in ENVIRON values
-    # Store the temporary file path in "$5" to leave the target untouched
-    # when the update fails
-    set -- "$1" "$2" "$3" "$4" "$(mktemp)"
+    # awk does not interpret backslash escapes in ENVIRON values.
+    # The template keeps mktemp portable to BusyBox.
+    __tmp__=$(mktemp "$(dirname "$1")/.set_parameter.XXXXXX") || return 1
     if ! __KEY__="$2" __VALUE__="$3" __FORCE__="$4" awk '
         BEGIN { key = ENVIRON["__KEY__"]; value = ENVIRON["__VALUE__"]; found = 0 }
         index($0, key "=") == 1 { print key "=" value; found = 1; next }
         { print }
         END { if (!found && ENVIRON["__FORCE__"] == "true") print key "=" value }
-    ' "$1" > "$5"; then
-        rm -f "$5"
+    ' "$1" > "$__tmp__"; then
+        rm -f "$__tmp__"
         _echo_error "_set_parameter: could not update \"$1\"\n"
 
         return 1
     fi
 
-    cat "$5" > "$1"
-    rm -f "$5"
+    # Replace the target atomically, restoring the original mode. The
+    # numeric form is accepted by both GNU and BSD stat.
+    if ! __mode__=$(stat -c '%a' "$1" 2>/dev/null); then
+        __mode__=$(stat -f '%Lp' "$1" 2>/dev/null)
+    fi
+    if ! mv "$__tmp__" "$1"; then
+        rm -f "$__tmp__"
+        _echo_error "_set_parameter: could not replace \"$1\"\n"
+
+        return 1
+    fi
+    if [ -n "${__mode__}" ]; then
+        chmod "$__mode__" "$1"
+    fi
 }
 
 #--------------------------------------------------
@@ -7990,6 +8184,7 @@ _sf_test() {
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/system/_get_package_name
 ## @depends src/shell/system/_is_installed
+## @terminal
 ## @param {str} <COMMAND> (required) A string containing the command name to find.
 _check_installed() {
     if [ -z "$1" ]; then _echo_error '_check_installed: some mandatory parameter is missing\n'; return 1; fi
@@ -8683,8 +8878,12 @@ _check_duplicate_functions() {
 
 ## Checks if variable is valid given regex constraint
 ##
+## The pattern is applied with POSIX extended regular expressions, as
+## data (never as a command-line option), and every line of the value
+## must match it in full.
+##
 ## @namespace src/shell/validation
-## @requires grep printf sed
+## @requires awk printf sed
 ## @depends src/shell/colors/_echo_error
 ## @param {str} <VALUE> (required) The string to be compared to regex pattern.
 ## @param {str} <PATTERN> (required) The regex parttern to apply.
@@ -8698,11 +8897,14 @@ _is_valid() {
         return 0
     fi
 
-    # remove leading and ending forward slashes from regular expression
-    set -- "$1" "$(printf '%s' "$2" | sed 's@^/@@;s@/$@@')"
+    # remove leading and ending forward slashes from regular expression,
+    # including its optional trailing flags
+    set -- "$1" "$(printf '%s' "$2" | sed 's@^/@@;s@/[a-z]*$@@')"
 
-    # if [ "$1" != "$(printf '%s' "$1" | awk "$2 {print}")" ]; then
-    if [ "$1" != "$(printf '%s' "$1" | grep -E "$2")" ]; then
+    if ! printf '%s\n' "$1" | awk -v pattern="$2" '
+        $0 !~ ("^(" pattern ")$") { invalid = 1 }
+        END { exit invalid }
+    '; then
 
         return 1
     fi
@@ -8717,6 +8919,7 @@ _is_valid() {
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/reflexion/_get_constraint
 ## @depends src/shell/validation/_is_valid
+## @terminal
 ## @param {str} <VARIABLE> (required) The variable to validate in the followling format : variable_name=value.
 ## @param {str} <CONSTRAINT> Optional constraint, read from the script when omitted.
 _validate() {
@@ -8731,6 +8934,55 @@ _validate() {
     fi
 }
 
+## Validate positional parameters against the function shoedoc
+##
+## Each positional value is matched with the parameter declared at the
+## same position. Parameters without a constraint accept any value.
+##
+## @namespace src/shell/validation
+## @requires awk printf
+## @depends src/shell/colors/_echo_error
+## @depends src/shell/reflexion/_get_function_parameters
+## @depends src/shell/validation/_validate
+## @param {file} <SCRIPT_PATH> (required) The path to the input script.
+## @param {str} <FUNCTION_NAME> (required) The command being executed.
+## @param {str} <POSITIONAL> The positional values to validate.
+_validate_positionals() {
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        _echo_error '_validate_positionals: some mandatory parameter is missing\n'
+
+        return 1
+    fi
+
+    __script__="$1"
+    __function__="$2"
+    shift 2
+
+    __index__=0
+    for __value__ in "$@"; do
+        __index__=$((__index__ + 1))
+        __record__=$(
+            _get_function_parameters "${__script__}" "${__function__}" \
+                | awk -F '\037' -v wanted="${__index__}" '
+                    $1 == "param" {
+                        count++
+                        if (count == wanted) {
+                            print $2 "\037" $5
+                            exit
+                        }
+                    }
+                '
+        )
+        if [ -z "${__record__}" ]; then continue; fi
+
+        __name__="${__record__%%"$(printf '\037')"*}"
+        __constraint__="${__record__#*"$(printf '\037')"}"
+        if [ -z "${__constraint__}" ]; then continue; fi
+
+        _validate "${__name__}=${__value__}" "${__constraint__}"
+    done
+}
+
 #--------------------------------------------------
 #_ Kernel
 #--------------------------------------------------
@@ -8739,6 +8991,9 @@ _validate() {
 ##
 ## @namespace src/shell/kernel
 ## @requires printf
+## @depends src/shell/help/_help
+## @depends src/shell/hooks/_after
+## @depends src/shell/hooks/_before
 ## @depends src/shell/hooks/_default
 ## @depends src/shell/reflexion/_get_functions_names
 ## @depends src/shell/validation/_check_duplicate_functions
@@ -8748,25 +9003,67 @@ _light_kernel() {
 
     if [ $# -lt 1 ]; then _default; exit 0; fi
 
+    __record_separator__=$(printf '\036')
+    __field_separator__=$(printf '\037')
     __execution_stack__=''
+    __plan__=''
 
     for __argument__ in "$@"; do
         # Append resolved commands to the execution stack.
         for __function__ in $(_get_functions_names "$0"); do
             if [ "${__argument__}" = "${__function__}" ]; then
                 __execution_stack__="${__execution_stack__} ${__function__}"
+                __plan__="${__plan__}${__record_separator__}${__function__}"
                 continue 2
             fi
         done
 
-        # Unknown arguments raise an error and print the help.
-        printf "${_DANGER}error: \"%s\" is not a valid command${_EOL}" "${__argument__}"
-        exit 1
+        # Every other argument is a positional parameter of the command
+        # resolved last. A positional before any command is an error.
+        if [ -z "${__execution_stack__}" ]; then
+            printf "${_DANGER}error: \"%s\" is not a valid command${_EOL}" "${__argument__}"
+            exit 1
+        fi
+        __plan__="${__plan__}${__field_separator__}${__argument__}"
     done
 
-    for __function__ in ${__execution_stack__}; do
-        eval "${__function__}"
+    [ -n "$(command -v _before)" ] && _before
+
+    # `help` takes precedence over every command around it.
+    __function__=''
+    for __argument__ in ${__execution_stack__}; do
+        if [ "${__function__}" = 'help' ]; then
+            _help "$0" "${__argument__}"
+            exit 0
+        fi
+        __function__="${__argument__}"
     done
+
+    if [ "${__function__}" = 'help' ]; then
+        _help "$0" ''
+        exit 0
+    fi
+
+    # Dispatch each command with its positional parameters. Word
+    # splitting is intentional here, so pathname expansion is disabled.
+    __old_ifs__="${IFS}"
+    case "$-" in *f*) __noglob__='true' ;; *) __noglob__='false' ;; esac
+    IFS="${__record_separator__}"
+    for __record__ in ${__plan__}; do
+        if [ -z "${__record__}" ]; then continue; fi
+        IFS="${__field_separator__}"
+        set -f
+        # shellcheck disable=SC2086  # word splitting is intentional
+        set -- ${__record__}
+        [ "${__noglob__}" = 'true' ] || set +f
+        IFS="${__old_ifs__}"
+        __function__="$1"
+        shift
+        eval "${__function__} \"\$@\""
+    done
+    IFS="${__old_ifs__}"
+
+    [ -n "$(command -v _after)" ] && _after
 }
 
 _light_kernel "$@"

@@ -601,12 +601,15 @@ _sed_i() {
 ## Generate Markdown documentation for provided shoe script
 ##
 ## @namespace src/shell/documentation
-## @requires awk basename dirname grep printf realpath sed
+## @requires awk basename dirname printf realpath sed
 ## @depends src/shell/colors/_alert_primary
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
 ## @depends src/shell/colors/_echo_success
+## @depends src/shell/reflexion/_get_constants
+## @depends src/shell/reflexion/_get_flags
 ## @depends src/shell/reflexion/_get_functions_names
+## @depends src/shell/reflexion/_get_options
 ## @depends src/shell/reflexion/_print_synopsis
 ## @depends src/shell/shoedoc/_get_function_shoedoc
 ## @depends src/shell/shoedoc/_get_script_shoedoc
@@ -628,7 +631,10 @@ _generate_doc() {
     set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).md"}" "${4:-false}"
 
     # check valid input file type
-    if [ "$(printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$')" != .sh ]; then _echo_error '_generate_doc: file should be type ".sh"\n'; return 1; fi
+    case "$1" in
+        *.sh) ;;
+        *) _echo_error '_generate_doc: file should be type ".sh"\n'; return 1 ;;
+    esac
 
     _alert_primary "Generating $3"
 
@@ -806,6 +812,7 @@ _generate_doc() {
     printf '## 🤖 Commands\n\n' >> "$2/$3"
 
     __index__=0
+    __current_namespace__=''
 
     for __function_name__ in $(_get_functions_names "$1" true); do
         _echo_info "${__function_name__}\n"
@@ -1385,6 +1392,14 @@ _print_usage() {
                         continue
                         ;;
                 esac
+                if [ "${__kind__}" = 'param' ]; then
+                    _echo_info '<'
+                    _echo_success "${__name__}"
+                    _echo_info '> '
+
+                    continue
+                fi
+
                 __short__="${__short__:-${__name__%"${__name__#?}"}}"
                 __long__="${__long__:-${__name__}}"
 
@@ -1459,8 +1474,8 @@ _copy_install() {
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
 
     # -a, --archive    same as -dR --preserve=all
-    _echo_info "sudo cp --archive \"$1\" \"/usr/local/bin/$2\"\n"
-    sudo cp --archive "$1" "/usr/local/bin/$2"
+    _echo_info "sudo cp -R -p \"$1\" \"/usr/local/bin/$2\"\n"
+    sudo cp -R -p "$1" "/usr/local/bin/$2"
 }
 
 ## Generates an autocomplete script for the provided file
@@ -1684,7 +1699,7 @@ _set_completion_autoload() {
 ## Install script via symlink
 ##
 ## @namespace src/shell/install
-## @requires basename ln realpath sudo true
+## @requires basename ln realpath rm sudo
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_info
 ## @param {file} <FILE_PATH> (required) The path to the input file.
@@ -1696,8 +1711,21 @@ _symlink_install(){
 
     set -- "$(realpath "$1")" "${2:-"$(basename "$1" .sh)"}"
 
-    _echo_info "sudo ln -s \"$1\" \"/usr/local/bin/$2\" || true\n"
-    sudo ln -s "$1" "/usr/local/bin/$2" || true
+    if [ -L "/usr/local/bin/$2" ]; then
+        _echo_info "sudo rm -f \"/usr/local/bin/$2\"\n"
+        if ! sudo rm -f "/usr/local/bin/$2"; then
+            _echo_error "_symlink_install: could not remove \"/usr/local/bin/$2\"\n"
+
+            return 1
+        fi
+    fi
+
+    _echo_info "sudo ln -s \"$1\" \"/usr/local/bin/$2\"\n"
+    if ! sudo ln -s "$1" "/usr/local/bin/$2"; then
+        _echo_error "_symlink_install: could not link \"$1\" to \"/usr/local/bin/$2\"\n"
+
+        return 1
+    fi
 }
 
 ## Uninstall script from system
@@ -1741,7 +1769,7 @@ _uninstall() {
 ## Generate Makefile for provided shoe script
 ##
 ## @namespace src/shell/make
-## @requires awk basename cat dirname grep printf realpath tr
+## @requires awk basename cat dirname printf realpath tr
 ## @depends src/shell/colors/_alert_primary
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/colors/_echo_success
@@ -1763,7 +1791,10 @@ _generate_makefile() {
     set -- "$(realpath "$1")" "${2:-"$(realpath "$(dirname "$1")")"}" "${3:-"$(basename "$1" .sh).makefile"}"
 
     # check valid input file type
-    if [ "$(printf '%s' "$1" | grep -oE '\.[a-zA-Z0-9]+$')" != .sh ]; then _echo_error '_generate_makefile: file should be type ".sh"\n'; return 1; fi
+    case "$1" in
+        *.sh) ;;
+        *) _echo_error '_generate_makefile: file should be type ".sh"\n'; return 1 ;;
+    esac
 
     _alert_primary "Generating $3"
 
@@ -1903,8 +1934,15 @@ help:
 
 EOT
 
+    # Reference the script by its path relative to the Makefile so the
+    # generated targets run from the folder that holds the Makefile.
+    case "$1" in
+        "$2"/*) __script_ref__="${1#"$2"/}" ;;
+        *)      __script_ref__="$1" ;;
+    esac
+
     # generate rules
-    awk -v SHELL_SCRIPT="$(basename "$1")" \
+    awk -v SHELL_SCRIPT="$__script_ref__" \
     'BEGIN {HR="##################################################\n"}
     /^### /{SECTION=substr($0,5); if (tolower(SECTION) != "help") printf"%s### %s\n%s\n",HR,SECTION,HR}
     /^## /{if (annotation=="") annotation=substr($0,4)}
@@ -2033,11 +2071,12 @@ _get_flags() {
     } {PREV = $0}' "$1"
 }
 
-## List options and flags declared in a function shoedoc annotation
+## List parameters, options and flags declared in a function shoedoc annotation
 ##
 ## Outputs one record per entry with fields separated by the ASCII unit
 ## separator: kind, name, short alias, long alias, constraint, default
-## value and description.
+## value and description. Parameters are emitted in declaration order, so
+## their position is implied by the order of their records.
 ##
 ## @namespace src/shell/reflexion
 ## @requires awk printf realpath
@@ -2112,7 +2151,8 @@ _get_function_parameters() {
                 }
             }
 
-            if (kind == "option" && substr(value, 1, 1) == "/") {
+            if ((kind == "option" || kind == "param") \
+                && substr(value, 1, 1) == "/") {
                 position = index(value, " ")
                 if (position == 0) {
                     constraint = value
@@ -2123,7 +2163,8 @@ _get_function_parameters() {
                 }
             }
 
-            if (kind == "option" && substr(value, 1, 1) == "(") {
+            if ((kind == "option" || kind == "param") \
+                && substr(value, 1, 1) == "(") {
                 stop = index(value, ")")
                 if (stop > 0) {
                     token = trim(substr(value, 2, stop - 2))
@@ -2142,7 +2183,10 @@ _get_function_parameters() {
             line = $0
             sub(/^##[ \t]?/, "", line)
             line = trim(line)
-            if (line ~ /^@option[ \t]/) {
+            if (line ~ /^@param[ \t]/) {
+                sub(/^@param[ \t]+/, "", line)
+                emit("param", line)
+            } else if (line ~ /^@option[ \t]/) {
                 sub(/^@option[ \t]+/, "", line)
                 emit("option", line)
             } else if (line ~ /^@flag[ \t]/) {
@@ -2695,6 +2739,7 @@ _collapse_blank_lines() {
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/system/_get_package_name
 ## @depends src/shell/system/_is_installed
+## @terminal
 ## @param {str} <COMMAND> (required) A string containing the command name to find.
 _check_installed() {
     if [ -z "$1" ]; then _echo_error '_check_installed: some mandatory parameter is missing\n'; return 1; fi
@@ -2841,8 +2886,12 @@ _check_duplicate_functions() {
 
 ## Checks if variable is valid given regex constraint
 ##
+## The pattern is applied with POSIX extended regular expressions, as
+## data (never as a command-line option), and every line of the value
+## must match it in full.
+##
 ## @namespace src/shell/validation
-## @requires grep printf sed
+## @requires awk printf sed
 ## @depends src/shell/colors/_echo_error
 ## @param {str} <VALUE> (required) The string to be compared to regex pattern.
 ## @param {str} <PATTERN> (required) The regex parttern to apply.
@@ -2856,11 +2905,14 @@ _is_valid() {
         return 0
     fi
 
-    # remove leading and ending forward slashes from regular expression
-    set -- "$1" "$(printf '%s' "$2" | sed 's@^/@@;s@/$@@')"
+    # remove leading and ending forward slashes from regular expression,
+    # including its optional trailing flags
+    set -- "$1" "$(printf '%s' "$2" | sed 's@^/@@;s@/[a-z]*$@@')"
 
-    # if [ "$1" != "$(printf '%s' "$1" | awk "$2 {print}")" ]; then
-    if [ "$1" != "$(printf '%s' "$1" | grep -E "$2")" ]; then
+    if ! printf '%s\n' "$1" | awk -v pattern="$2" '
+        $0 !~ ("^(" pattern ")$") { invalid = 1 }
+        END { exit invalid }
+    '; then
 
         return 1
     fi
@@ -2875,6 +2927,7 @@ _is_valid() {
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/reflexion/_get_constraint
 ## @depends src/shell/validation/_is_valid
+## @terminal
 ## @param {str} <VARIABLE> (required) The variable to validate in the followling format : variable_name=value.
 ## @param {str} <CONSTRAINT> Optional constraint, read from the script when omitted.
 _validate() {
@@ -2887,6 +2940,55 @@ _validate() {
         _echo_error "invalid \"$1\", expected \"$3\", \"$2\" given\n"
         exit 1
     fi
+}
+
+## Validate positional parameters against the function shoedoc
+##
+## Each positional value is matched with the parameter declared at the
+## same position. Parameters without a constraint accept any value.
+##
+## @namespace src/shell/validation
+## @requires awk printf
+## @depends src/shell/colors/_echo_error
+## @depends src/shell/reflexion/_get_function_parameters
+## @depends src/shell/validation/_validate
+## @param {file} <SCRIPT_PATH> (required) The path to the input script.
+## @param {str} <FUNCTION_NAME> (required) The command being executed.
+## @param {str} <POSITIONAL> The positional values to validate.
+_validate_positionals() {
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        _echo_error '_validate_positionals: some mandatory parameter is missing\n'
+
+        return 1
+    fi
+
+    __script__="$1"
+    __function__="$2"
+    shift 2
+
+    __index__=0
+    for __value__ in "$@"; do
+        __index__=$((__index__ + 1))
+        __record__=$(
+            _get_function_parameters "${__script__}" "${__function__}" \
+                | awk -F '\037' -v wanted="${__index__}" '
+                    $1 == "param" {
+                        count++
+                        if (count == wanted) {
+                            print $2 "\037" $5
+                            exit
+                        }
+                    }
+                '
+        )
+        if [ -z "${__record__}" ]; then continue; fi
+
+        __name__="${__record__%%"$(printf '\037')"*}"
+        __constraint__="${__record__#*"$(printf '\037')"}"
+        if [ -z "${__constraint__}" ]; then continue; fi
+
+        _validate "${__name__}=${__value__}" "${__constraint__}"
+    done
 }
 
 #--------------------------------------------------
@@ -2909,6 +3011,7 @@ _validate() {
 ## @depends src/shell/reflexion/_get_options
 ## @depends src/shell/validation/_check_duplicate_functions
 ## @depends src/shell/validation/_validate
+## @depends src/shell/validation/_validate_positionals
 ## @assumes __default__
 _large_kernel() {
     _check_duplicate_functions "$0"
@@ -2916,8 +3019,10 @@ _large_kernel() {
     if [ $# -lt 1 ]; then _default; exit 0; fi
 
     __separator__="$(printf '\037')"
+    __record_separator__="$(printf '\036')"
     __functions_names__="$(_get_functions_names "$0")"
     __all_options__=''
+    __plan__=''
 
     #--------------------------------------------------
     # Collect every option spelling
@@ -2976,16 +3081,22 @@ EOF
             -*) continue;;
         esac
 
-        # Every remaining argument must be a declared command.
+        # Every declared command starts a new execution record.
         for __function__ in ${__functions_names__}; do
             if [ "${__argument__}" = "${__function__}" ]; then
                 __execution_stack__="${__execution_stack__} ${__function__}"
+                __plan__="${__plan__}${__record_separator__}${__function__}"
                 continue 2
             fi
         done
 
-        _echo_error "\"${__argument__}\" is not a valid command\n"
-        exit 1
+        # Every other argument is a positional parameter of the command
+        # resolved last. A positional before any command is an error.
+        if [ -z "${__execution_stack__}" ]; then
+            _echo_error "\"${__argument__}\" is not a valid command\n"
+            exit 1
+        fi
+        __plan__="${__plan__}${__separator__}${__argument__}"
     done
 
     #--------------------------------------------------
@@ -3050,8 +3161,13 @@ EOF
 
         while IFS="${__separator__}" read -r __kind__ __name__ __short__ \
               __long__ __constraint__ __default__ __description__; do
-            # Ignore the trailing empty line of the record block.
+            # Ignore the trailing empty line of the record block, and
+            # only options and flags are addressed by name on the command
+            # line: positionals are handled by the execution plan.
             if [ -z "${__kind__}" ]; then continue; fi
+            if [ "${__kind__}" != 'flag' ] && [ "${__kind__}" != 'option' ]; then
+                continue
+            fi
 
             if [ -z "${__short__}" ]; then
                 __short__="${__name__%"${__name__#?}"}"
@@ -3104,9 +3220,25 @@ EOF
 
     if [ -z "${__execution_stack__}" ]; then _default; exit 0; fi
 
-    for __function__ in ${__execution_stack__}; do
-        eval "${__function__}"
+    # Dispatch each command with its positional parameters. Word
+    # splitting is intentional here, so pathname expansion is disabled.
+    __old_ifs__="${IFS}"
+    case "$-" in *f*) __noglob__='true' ;; *) __noglob__='false' ;; esac
+    IFS="${__record_separator__}"
+    for __record__ in ${__plan__}; do
+        if [ -z "${__record__}" ]; then continue; fi
+        IFS="${__separator__}"
+        set -f
+        # shellcheck disable=SC2086  # word splitting is intentional
+        set -- ${__record__}
+        [ "${__noglob__}" = 'true' ] || set +f
+        IFS="${__old_ifs__}"
+        __function__="$1"
+        shift
+        _validate_positionals "$0" "${__function__}" "$@"
+        eval "${__function__} \"\$@\""
     done
+    IFS="${__old_ifs__}"
 
     [ -n "$(command -v _after)" ] && _after
 }

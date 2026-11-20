@@ -57,9 +57,9 @@ Sniff errors with linter
 > Synopsis:
 > `lint`
 
-- ⚠️ Requires: `find`, `python3`, `shellcheck`, `sort`
+- ⚠️ Requires: `find`, `grep`, `python3`, `shellcheck`, `sort`
 
-- 🔗 Depends: `src/shell/colors/_echo_info`, `src/shell/system/_check_installed`
+- 🔗 Depends: `src/shell/colors/_echo_error`, `src/shell/colors/_echo_info`, `src/shell/system/_check_installed`
 
 #### ⌨️ 4. `tests` (public)
 

@@ -7,6 +7,7 @@
 ## @depends src/shell/colors/_echo_error
 ## @depends src/shell/system/_get_package_name
 ## @depends src/shell/system/_is_installed
+## @terminal
 ## @param {str} <COMMAND> (required) A string containing the command name to find.
 _check_installed() {
     if [ -z "$1" ]; then _echo_error '_check_installed: some mandatory parameter is missing\n'; return 1; fi

@@ -37,7 +37,39 @@ source "../../../src/shell/network/_remove_host.sh"
 
 _echo_error() { printf '%b' "$1"; }
 _echo_info() { :; }
-sudo() { printf 'sudo %s\n' "$*"; }
+sudo() {
+    if [ "$1" = 'cp' ]; then
+        cp "$2" "$3"
+
+        return $?
+    fi
+
+    if [ "$1" = 'tee' ]; then
+        shift
+        tee "$@"
+
+        return $?
+    fi
+
+    printf 'sudo %s\n' "$*"
+}
+
+#--------------------------------------------------
+# Helpers
+#--------------------------------------------------
+
+setup() {
+    __tmp_dir__="$(mktemp -d)"
+    HOSTS_FILE="${__tmp_dir__}/hosts"
+    printf '%s\n' \
+        '127.0.0.1    localhost' \
+        '127.0.0.1    example.test' \
+        '127.0.0.1    other.test' > "${HOSTS_FILE}"
+}
+
+teardown() {
+    rm -rf "${__tmp_dir__}"
+}
 
 #--------------------------------------------------
 
@@ -50,12 +82,19 @@ test_script_execution_should_return_expected_status_code() {
 #--------------------------------------------------
 
 test_set_host_should_remove_existing_entry_then_add_new_one() {
-    _remove_host() { printf 'remove:%s\n' "$1"; }
+    _set_host 'example.test'
 
-    assert_equals \
-        "remove:example.test
-sudo /bin/sh -c echo \"127.0.0.1    example.test\" >> /etc/hosts" \
-        "$(_set_host 'example.test')"
+    assert_equals '127.0.0.1    example.test' \
+        "$(grep 'example.test' "${HOSTS_FILE}")"
+    assert_equals '1' "$(grep -c 'example.test' "${HOSTS_FILE}")"
+    assert "grep -q 'other.test' '${HOSTS_FILE}'"
+}
+
+test_set_host_should_reject_a_hostile_hostname() {
+    assert_fails "_set_host 'example.test\"; echo PWNED'"
+    assert_equals '_set_host: invalid hostname "example.test"; echo PWNED"' \
+        "$(_set_host 'example.test"; echo PWNED' 2>&1)"
+    assert_fails "grep -q 'PWNED' '${HOSTS_FILE}'"
 }
 
 test_set_host_fails_with_missing_argument() {

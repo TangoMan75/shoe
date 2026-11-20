@@ -7,7 +7,7 @@
 ## appends a new assignment at the end of the file.
 ##
 ## @namespace src/shell/env
-## @requires awk cat grep mktemp rm
+## @requires awk chmod dirname grep mktemp mv rm stat
 ## @depends src/shell/colors/_echo_error
 ## @param {file} <FILE_PATH> (required) The ".env" file to update.
 ## @param {str} <KEY> (required) The variable name to set.
@@ -43,23 +43,34 @@ _set_parameter() {
     fi
 
     # Values are handed over through the environment because, unlike "-v",
-    # awk does not interpret backslash escapes in ENVIRON values
-    # Store the temporary file path in "$5" to leave the target untouched
-    # when the update fails
-    set -- "$1" "$2" "$3" "$4" "$(mktemp)"
+    # awk does not interpret backslash escapes in ENVIRON values.
+    # The template keeps mktemp portable to BusyBox.
+    __tmp__=$(mktemp "$(dirname "$1")/.set_parameter.XXXXXX") || return 1
     if ! __KEY__="$2" __VALUE__="$3" __FORCE__="$4" awk '
         BEGIN { key = ENVIRON["__KEY__"]; value = ENVIRON["__VALUE__"]; found = 0 }
         index($0, key "=") == 1 { print key "=" value; found = 1; next }
         { print }
         END { if (!found && ENVIRON["__FORCE__"] == "true") print key "=" value }
-    ' "$1" > "$5"; then
-        rm -f "$5"
+    ' "$1" > "$__tmp__"; then
+        rm -f "$__tmp__"
         _echo_error "_set_parameter: could not update \"$1\"\n"
 
         return 1
     fi
 
-    cat "$5" > "$1"
-    rm -f "$5"
+    # Replace the target atomically, restoring the original mode. The
+    # numeric form is accepted by both GNU and BSD stat.
+    if ! __mode__=$(stat -c '%a' "$1" 2>/dev/null); then
+        __mode__=$(stat -f '%Lp' "$1" 2>/dev/null)
+    fi
+    if ! mv "$__tmp__" "$1"; then
+        rm -f "$__tmp__"
+        _echo_error "_set_parameter: could not replace \"$1\"\n"
+
+        return 1
+    fi
+    if [ -n "${__mode__}" ]; then
+        chmod "$__mode__" "$1"
+    fi
 }
 

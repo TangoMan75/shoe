@@ -93,6 +93,25 @@ test_move_should_keep_dotfiles_when_merging_folders() {
     assert_equals 'hidden' "$(cat "${__destination__}/.hidden")"
 }
 
+test_move_should_refuse_to_move_a_folder_into_itself() {
+    __source__="${__tmp_dir__}/source"
+    mkdir -p "${__source__}"
+    printf 'precious' > "${__source__}/file.txt"
+
+    assert_fails "_move '${__source__}' '${__source__}'"
+    assert_equals 'precious' "$(cat "${__source__}/file.txt")"
+}
+
+test_move_should_refuse_to_move_a_folder_into_its_own_child() {
+    __source__="${__tmp_dir__}/source"
+    __destination__="${__source__}/nested"
+    mkdir -p "${__source__}"
+    printf 'precious' > "${__source__}/file.txt"
+
+    assert_fails "_move '${__source__}' '${__destination__}'"
+    assert_equals 'precious' "$(cat "${__source__}/file.txt")"
+}
+
 test_move_fails_with_missing_arguments() {
     assert_fails "_move"
     assert_equals "_move: some mandatory parameter is missing\n" "$(_move 2>&1)"

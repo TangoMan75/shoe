@@ -10,6 +10,7 @@
 ## @depends src/shell/colors/_echo_primary
 ## @depends src/shell/colors/_echo_success
 ## @depends src/shell/colors/_echo_warning
+## @assumes TMPDIR
 ## @param {str} <BRANCH> The branch to list commits from.
 ## @option {int} <COUNT> [-n] (default:16) The number of commits to list.
 ## @flag <verbose> [-v] Print the command before execution.
@@ -115,7 +116,8 @@ _pick_commit() {
     #--------------------------------------------------
 
     # $4: commit file.
-    set -- "$1" "$2" "$3" "$(mktemp)"
+    __commit_file__=$(mktemp "${TMPDIR:-/tmp}/pick_commit.XXXXXX") || return 1
+    set -- "$1" "$2" "$3" "$__commit_file__"
     if [ -z "$4" ]; then
         _echo_error '_pick_commit: could not create temporary file\n'
 
