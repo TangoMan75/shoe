@@ -1,0 +1,68 @@
+name: CI
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-slim
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Check for code quality errors
+      run: ./entrypoint.sh lint
+
+    - name: Build scripts, documentation and makefiles
+      run: ./entrypoint.sh build
+
+    - name: Check generated files are up to date
+      run: git diff --exit-code
+
+  # https://docs.github.com/en/actions/reference/runners/github-hosted-runners
+  ubuntu:
+    runs-on: ubuntu-slim
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: install Ubuntu dependencies with sudo apt install -y
+      run: sudo apt install -y gawk
+
+    - name: Unit testing with bash_unit
+      run: ./entrypoint.sh tests
+
+    - name: Test shoemaker and converter
+      run: |
+        python3 tests/python/test_converter.py
+        python3 tests/python/test_shoemaker.py
+
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Make test scripts executable
+      run: chmod +x entrypoint.sh tests/bash_unit
+
+    - name: Unit testing with bash_unit
+      run: ./entrypoint.sh tests
+
+  macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: install MacOS dependencies with brew install
+      run: brew install gawk
+
+    - name: Unit testing with bash_unit
+      run: ./entrypoint.sh tests

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+## Get function shedoc annotation by name
+##
+## @namespace src/shell/shoedoc
+## @requires awk realpath
+## @depends src/shell/colors/_echo_error.sh
+## @param {file} <SCRIPT_PATH> (required) The path to the input script.
+## @param {str} <FUNCTION_NAME> (required) The name of the function to retrieve.
+_get_function_shoedoc() {
+    if [ -z "$1" ] || [ -z "$2" ]; then _echo_error '_get_function_shoedoc: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 2 ]; then _echo_error "_get_function_shoedoc: too many arguments ($#)\n"; return 1; fi
+
+    if [ ! -f "$1" ]; then _echo_error "_get_function_shoedoc: \"$1\" file not found\n"; return 1; fi
+
+    set -- "$(realpath -- "$1")" "$2"
+
+    awk -v FUNCTION_NAME="$2" '
+        /^##/ { annotation=annotation$0"\n" }                   # concatenates annotations
+        /^(function +)?[a-zA-Z0-9_]+ *\(\)/ {                   # matches a function (ignoring curly braces)
+            function_name=substr($0,1,index($0,"(")-1);         # truncate string at opening round bracket
+            sub("^function ","",function_name);                 # remove leading "function " if present
+            gsub(" +","",function_name);                        # trim whitespaces
+            if (function_name==FUNCTION_NAME) print annotation; # print annotation
+        }
+        !/^##/ { annotation="" }
+    ' "$1"
+}
+

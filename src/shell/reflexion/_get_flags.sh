@@ -1,0 +1,21 @@
+#!/bin/sh
+
+## List flags from provided shoe script
+##
+## @namespace src/shell/reflexion
+## @requires awk realpath
+## @depends src/shell/colors/_echo_error.sh
+## @param {file} <SCRIPT_PATH> (required) The path to the input script.
+_get_flags() {
+    if [ -z "$1" ]; then _echo_error '_get_flags: some mandatory parameter is missing\n'; return 1; fi
+    if [ $# -gt 1 ]; then _echo_error "_get_flags: too many arguments ($#)\n"; return 1; fi
+
+    if [ ! -f "$1" ]; then _echo_error "_get_flags: \"$1\" file not found\n"; return 1; fi
+
+    set -- "$(realpath -- "$1")"
+
+    awk -F '=' '/^[a-zA-Z0-9_]+=false$/ {
+        if (substr(PREV,1,3) == "## " && $1 != toupper($1) && substr($0,1,1) != "_") print $1
+    } {PREV = $0}' "$1"
+}
+
