@@ -1,0 +1,27 @@
+#!/bin/sh
+
+## Open container in default browser
+##
+## @namespace recipes/rick_and_morty/docker
+## @depends src/shell/colors/_echo_error.sh
+## @depends src/shell/docker/_find_container_name.sh
+## @depends src/shell/docker/_get_container_ip.sh
+## @depends src/shell/network/_open_in_default_browser.sh
+open() {
+    _container_name="$(_find_container_name nginx)"
+    if [ -z "${_container_name}" ]; then
+        _echo_error 'nginx container not found\n'
+
+        return 1
+    fi
+
+    _container_ip="$(_get_container_ip "${_container_name}")"
+    if [ -z "${_container_ip}" ]; then
+        _echo_error 'container ip not found\n'
+
+        return 1
+    fi
+
+    _open_in_default_browser "${_container_ip}"
+}
+

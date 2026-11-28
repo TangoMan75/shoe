@@ -1,0 +1,30 @@
+#!/bin/sh
+
+## Remove ssh identities
+##
+## @namespace recipes/ssh_manager/ssh
+## @requires ssh-add
+## @depends recipes/ssh_manager/_is_ssh_agent_running.sh
+## @depends src/shell/colors/_alert_danger.sh
+## @depends src/shell/colors/_echo_info.sh
+## @depends src/shell/colors/_echo_warning.sh
+## @depends src/shell/prompts/_yes_no.sh
+remove_ssh_identities() {
+    _alert_danger 'remove ssh identities'
+
+    if ! _is_ssh_agent_running; then
+        _echo_warning 'no ssh agent running, nothing to remove\n'
+
+        return 0
+    fi
+
+    if ! _yes_no 'Are you sure you want to remove ssh identities?'; then
+        _echo_warning 'operation canceled\n'
+
+        return 1
+    fi
+
+    _echo_info 'ssh-add -D\n'
+    ssh-add -D
+}
+

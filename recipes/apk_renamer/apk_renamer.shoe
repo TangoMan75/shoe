@@ -1,0 +1,88 @@
+#!/usr/bin/env sh
+../../src/shell/header.sh
+
+## TangoMan APK Renamer
+##
+## Handy tools to rename Android APKs
+##
+## @author       "Matthias Morin" <mat@tangoman.io>
+## @version      0.1.0
+## @license      MIT
+## @link         https://github.com/TangoMan75/shoe
+## @update-link  https://gist.github.com/TangoMan75/eb114e50225a025b68bf7310f0f23503
+## @assumes NO_COLOR TERM
+
+#--------------------------------------------------
+# Place your constants after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your options after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your flags after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your global variables after this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+# Place your functions after this line
+#--------------------------------------------------
+
+##################################################
+### Apk Renamer
+##################################################
+./renamer/rename_apks.sh
+./renamer/rename_to_package_name.sh
+./renamer/rename_to_label.sh
+
+##################################################
+### Apk Organizer
+##################################################
+./organizer/organize.sh
+
+#--------------------------------------------------
+# Place your private functions after this line
+#--------------------------------------------------
+
+##################################################
+### Self Install
+##################################################
+../../src/shell/install/self_install.sh
+../../src/shell/install/self_uninstall.sh
+../../src/shell/install/self_update.sh
+
+##################################################
+### Help
+##################################################
+../../src/shell/help/help.sh
+
+#--------------------------------------------------
+#_ Hooks
+#--------------------------------------------------
+../../src/shell/hooks/_default.sh
+../../src/shell/hooks/_before.sh
+../../src/shell/hooks/_after.sh
+
+###################################################
+# TangoMan Shoe Shell Microframework
+###################################################
+
+#--------------------------------------------------
+# Generated code : Do not edit below this line
+#--------------------------------------------------
+
+#--------------------------------------------------
+#_ Colors
+#--------------------------------------------------
+../../src/shell/colors/constants_echo_colors.sh
+../../src/shell/colors/constants_alert_colors.sh
+
+#--------------------------------------------------
+#_ Kernel
+#--------------------------------------------------
+../../src/shell/kernel/_kernel.sh
+

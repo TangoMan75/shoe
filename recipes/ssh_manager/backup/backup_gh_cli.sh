@@ -1,0 +1,26 @@
+#!/bin/sh
+
+## Backup gh-cli
+##
+## @namespace recipes/ssh_manager/backup
+## @requires cp
+## @depends recipes/ssh_manager/_create_backup_dir.sh
+## @depends src/shell/colors/_alert_primary.sh
+## @depends src/shell/colors/_echo_info.sh
+## @depends src/shell/colors/_echo_warning.sh
+## @assumes HOME
+backup_gh_cli() {
+    _alert_primary 'backup gh-cli'
+
+    if [ ! -d "${HOME}/.config/gh" ]; then
+        _echo_warning "error: ${HOME}/.config/gh/ folder not found\n"
+
+        return 0
+    fi
+
+    set -- "$(_create_backup_dir .config/gh)"
+
+    _echo_info "cp -RfvT \"${HOME}/.config/gh/\" \"$1\"\n"
+    cp -RfvT "${HOME}/.config/gh/" "$1"
+}
+

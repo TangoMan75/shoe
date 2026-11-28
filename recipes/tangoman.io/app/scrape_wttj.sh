@@ -1,0 +1,13 @@
+#!/bin/sh
+
+## Scrape data from "Welcome to the Jungle" website
+##
+## @namespace recipes/tangoman.io/app
+## @depends src/shell/colors/_echo_info.sh
+## @depends src/shell/symfony/_console.sh
+## @assumes env
+scrape_wttj() {
+    _echo_info "$(_console) app:scrape:wttj --env \"${env}\"\n"
+    $(_console) app:scrape:wttj --env "${env}"
+}
+
